@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+     Hospital (hospital_cod, nombre, direccion, telefono, num_camas); 
+     Sala(hospital_cod, sala_cod, nombre, num_cama); 
+     Plantilla (hospital_cod, sala_cod,empleado_num, apellido, funcion, turno, salario ); 
+     Ocupacion (inscripcion,hospital_cod, sala_cod, cama); 
+     Doctor (hospital_cod, doctor_num, apellido,especialidad); 
+     enfermo (inscripcion,apellido,direccion,fecha_nac,s,nss); 
+-->
+<!-- 
+<!DOCTYPE BDhospital SYSTEM "BDhospital.dtd">
+<BDhospital>
+ -->
+
+<BDhospital  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+      xsi:noNamespaceSchemaLocation="BDhospital.xsd">
+
+	<Hospital hospital_cod="1" nombre="La Paz" direccion="C/ a,3"
+		telefono="954332211" num_camas="3" />
+	<Hospital hospital_cod="2" nombre="La Paz" direccion="C/ a,3"
+        telefono="954332211" num_camas="3" /> 
+	<Sala hospital_cod="1" sala_cod="1" nombre="Quirófano" num_cama="2"/>
+	<Plantilla hospital_cod="1" sala_cod="1" empleado_num="1" apellido="LÓPEZ" funcion="Administrativo" 
+	   turno="Mañana" salario="3000"/>
+	<Ocupacion inscripcion="122" hospital_cod="1" sala_cod="1" cama="3"/>   
+	<Ocupacion inscripcion="123" hospital_cod="2" sala_cod="1" cama="15"/>
+	<Doctor hospital_cod="7" doctor_num="087" apellido="PÉREZ" especialidad="Psiquiatra" />
+	<enfermo inscripcion="122" apellido="PÉREZ" direccion="akaka, 12" fecha_nac_dia="01" 
+	           fecha_nac_mes="11" fecha_nac_año="2222"
+	           s="M" ss="123456789012"/>
+</BDhospital>

@@ -1,0 +1,16 @@
+Proyecto VideoClub
+------------------
+
+Diagrama de Hitos
+1.- Requisitos Funcionales    |  18-03-09
+2.- DFD                       |  24-03-09
+3.- E/R                       |  Ya hecho
+4.- Entrada de Datos          |  13-04-09
+5.- Actualizaciones (Bor.Mod.)|  20-04-09
+6.- Informes                  |  04-05-09
+7.- Presentación
+
+
+
+
+

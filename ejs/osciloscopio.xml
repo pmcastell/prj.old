@@ -1,0 +1,357 @@
+<Osejs version="3.3">
+<Osejs.Description>
+<Osejs.Description.Page>
+<Type>HTML_EDITOR</Type>
+<Name>Figuras de Lissajous</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<![CDATA[
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <b>Las figuras de Lissajous se obtiene de la superposici&#243;n de dos 
+    movimientos arm&#243;nicos perpendiculares</b>
+  </body>
+</html>
+
+]]>
+
+</Content>
+</Osejs.Description.Page>
+<Osejs.Description.Page>
+<Type>HTML_EDITOR</Type>
+<Name>Autor</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<![CDATA[
+<html>
+  <head>
+    
+  </head>
+  <body>
+    Fran
+  </body>
+</html>
+
+]]>
+
+</Content>
+</Osejs.Description.Page>
+</Osejs.Description>
+<Osejs.Model>
+<Osejs.Model.FramesPerSecond>25</Osejs.Model.FramesPerSecond>
+<Osejs.Model.Autostart>true</Osejs.Model.Autostart>
+<Osejs.Model.Variables>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>Variables principales</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>tiempo</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>deltaTiempo</Name>
+<Value><![CDATA[0.05]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>amplitud</Name>
+<Value><![CDATA[30.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>frecuencia1</Name>
+<Value><![CDATA[1.05]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>frecuencia2</Name>
+<Value><![CDATA[1.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>desfase</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>x</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>y</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>Variables auxiliares</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>maximo</Name>
+<Value><![CDATA[1.2*amplitud]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>minimo</Name>
+<Value><![CDATA[-1.2*amplitud]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>n</Name>
+<Value><![CDATA[150]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name></Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+</Osejs.Model.Variables>
+<Osejs.Model.Initialization>
+</Osejs.Model.Initialization>
+<Osejs.Model.Evolution>
+<Osejs.Model.Evolution.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Evolución</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+tiempo=tiempo+deltaTiempo;
+]]></Code>
+
+</Content>
+</Osejs.Model.Evolution.Page>
+</Osejs.Model.Evolution>
+<Osejs.Model.Constraints>
+<Osejs.Model.Constraints.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Cálculo de la posición</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+x=amplitud*Math.cos(frecuencia1*tiempo);
+y=amplitud*Math.cos(frecuencia2*tiempo+desfase);
+]]></Code>
+
+</Content>
+</Osejs.Model.Constraints.Page>
+</Osejs.Model.Constraints>
+<Osejs.Model.Library>
+<Osejs.Model.Library.Page>
+<Type>LIBRARY_EDITOR</Type>
+<Name>A</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+public void a () {
+   frecuencia1=0.06981;
+   frecuencia2=0.08744;
+   deltaTiempo=1;
+   n=2000;
+   _resetView();
+}
+]]></Code>
+
+</Content>
+</Osejs.Model.Library.Page>
+<Osejs.Model.Library.Page>
+<Type>LIBRARY_EDITOR</Type>
+<Name>B</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+public void b () {
+   frecuencia1=0.19198;
+   frecuencia2=0.24443;
+   deltaTiempo=1;
+   n=2000;
+   _resetView();
+}
+]]></Code>
+
+</Content>
+</Osejs.Model.Library.Page>
+<Osejs.Model.Library.Page>
+<Type>LIBRARY_EDITOR</Type>
+<Name>C</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+public void c () {
+   frecuencia1=0.54105;
+   frecuencia2=0.38397;
+   deltaTiempo=1;
+   n=300;
+   _resetView();
+}
+]]></Code>
+
+</Content>
+</Osejs.Model.Library.Page>
+</Osejs.Model.Library>
+</Osejs.Model>
+<Osejs.View>
+<Osejs.View.Creation>
+<Osejs.View.Creation.Element>
+<Expanded>false</Expanded>
+<Type>Elements.Frame</Type>
+<Property name="name">ventanaPrincipal</Property>
+<Property name="_ejs_mainWindow">true</Property>
+<Property name="title"><![CDATA[ventanaPrincipal]]></Property>
+<Property name="layout"><![CDATA[border]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="size"><![CDATA[490,445]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>false</Expanded>
+<Type>Elements.DrawingPanel</Type>
+<Property name="name">pantalla</Property>
+<Property name="parent">ventanaPrincipal</Property>
+<Property name="position">center</Property>
+<Property name="autoscaleX"><![CDATA[false]]></Property>
+<Property name="autoscaleY"><![CDATA[false]]></Property>
+<Property name="minimumX"><![CDATA[minimo]]></Property>
+<Property name="maximumX"><![CDATA[maximo]]></Property>
+<Property name="minimumY"><![CDATA[minimo]]></Property>
+<Property name="maximumY"><![CDATA[maximo]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">representacionGrafica</Property>
+<Property name="parent">pantalla</Property>
+<Property name="x"><![CDATA[x]]></Property>
+<Property name="y"><![CDATA[y]]></Property>
+<Property name="maxpoints"><![CDATA[n]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[red]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>false</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">panelControles</Property>
+<Property name="parent">ventanaPrincipal</Property>
+<Property name="position">west</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>false</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">panelBotones</Property>
+<Property name="parent">panelControles</Property>
+<Property name="position">north</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">A</Property>
+<Property name="parent">panelBotones</Property>
+<Property name="position">north</Property>
+<Property name="text"><![CDATA[A]]></Property>
+<Property name="action"><![CDATA[a()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">B</Property>
+<Property name="parent">panelBotones</Property>
+<Property name="position">center</Property>
+<Property name="text"><![CDATA[B]]></Property>
+<Property name="action"><![CDATA[b()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">C</Property>
+<Property name="parent">panelBotones</Property>
+<Property name="position">south</Property>
+<Property name="text"><![CDATA[C]]></Property>
+<Property name="action"><![CDATA[c()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>false</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">panelCasillas</Property>
+<Property name="parent">panelControles</Property>
+<Property name="position">south</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">frecuencia1</Property>
+<Property name="parent">panelCasillas</Property>
+<Property name="position">north</Property>
+<Property name="variable"><![CDATA[frecuencia1]]></Property>
+<Property name="format"><![CDATA[w1 = 0.00000]]></Property>
+<Property name="action"><![CDATA[_resetView()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">frecuencia2</Property>
+<Property name="parent">panelCasillas</Property>
+<Property name="position">center</Property>
+<Property name="variable"><![CDATA[frecuencia2]]></Property>
+<Property name="format"><![CDATA[w2 = 0.00000]]></Property>
+<Property name="action"><![CDATA[_resetView()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">desfase</Property>
+<Property name="parent">panelCasillas</Property>
+<Property name="position">south</Property>
+<Property name="variable"><![CDATA[desfase]]></Property>
+<Property name="format"><![CDATA[d = 0.00000]]></Property>
+<Property name="action"><![CDATA[_resetView()]]></Property>
+</Osejs.View.Creation.Element>
+</Osejs.View.Creation>
+</Osejs.View>
+</Osejs>

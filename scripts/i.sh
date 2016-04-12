@@ -1,0 +1,1 @@
+make LOCALIZED_LANG=es -DFORCE_PKG_REGISTER install

@@ -1,0 +1,23 @@
+<SCRIPT>
+   function cambia(div1,div2) {
+       div1.visibility="visible";
+       div2.visibility="hidden";
+       alert("dentro de cambia, div1: "+div1.id+"visibility: "+div1.visibility+" div2: "+div2.id+"visibility: "+div2.visibility);
+   }
+</SCRIPT>
+     
+<SPAN id=prueba style="HEIGHT: 100px;  VISIBILITY: visible; WIDTH: 100px">
+   hola probando
+</SPAN>
+<SPAN id=prueba2 style="HEIGHT: 100px; VISIBILITY: visible; WIDTH: 100px">
+  adiós probando
+</SPAN>
+<BR>
+<a href="http://iescarmenlaffon.ath.cx" onmouseover="cambia(prueba,prueba2)";>
+   prueba
+</a>
+<br>
+<a href="http://iescarmenlaffon.ath.cx" onmouseover="cambia(prueba2,prueba);">
+   prueba2
+</a>
+

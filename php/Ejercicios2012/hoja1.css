@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+body {
+  background-color: #fff ;
+  color: green;
+  font-family: Arial;
+  font-size: 10pt;
+}
+input {
+	border: 1px solid #aaa;
+	border-top: 2px;
+	border-left: 2px ;
+}

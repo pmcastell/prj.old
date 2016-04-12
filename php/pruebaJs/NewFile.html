@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang ="es">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Tema1</title>
+      <!-- autor Francisco Criado 07/05/2012 -->
+   </head>
+   <body>
+      <div id="cabecera">
+         <h1>Tema 1</h1>
+      </div>
+      <div id="contenidos">
+	      <h2>1.1 Los Invertebrados</h2>
+	      <p>
+	         Los invertebrados son como los vertebrados pero sin vértebras y blablabla
+	      </p>
+	      <h2>1.2 Tabla de animales</h2>
+	      <table>
+	         <thead>
+	            <tr>
+	               <th>Nombre</th><th>Longitud Media</th>
+	            </tr>
+	         </thead>
+	         <tbody>
+	            <tr><td>Caracol</td><td>5cm</td></tr>
+	            <tr><td>Lombriz de tierra</td><td>20cm</td></tr>
+	         </tbody>
+	      </table>
+      </div>
+      <div id="contacto">
+         <h2>Puede enviar un email:</h2>
+         <form action="mailto:pepe@hotmail.com" method="post">
+            <fieldset>
+	            <label for="asunto">Asunto:</label>
+	            <input type="text" id="asunto" name="asunto"/>
+	            <br/>
+	            <label for="desplegable">Desplegable:</label>
+	            <select name="desplegable" id="desplegable">
+	                <option value="valor 1">Valor 1</option>
+	                <option value="valor 2">Valor 2</option>
+	                <option value="valor 3">Valor 3</option>
+	            </select>
+	            <br/><br/>
+	            <textarea name="contenido" id="contenido" rows="3" cols="20">Contenido</textarea>
+	            <br/><br/>
+                <input type="submit" value="Enviar"/>
+             </fieldset>
+         </form>
+      </div>
+   </body>
+</html>

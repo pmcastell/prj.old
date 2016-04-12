@@ -1,0 +1,38 @@
+eth0      Link encap:Ethernet  direcciónHW c8:3a:35:d0:f8:fc  
+          Direc. inet:10.2.1.254  Difus.:10.2.1.255  Másc:255.255.255.0
+          Dirección inet6: fe80::ca3a:35ff:fed0:f8fc/64 Alcance:Enlace
+          ACTIVO DIFUSIÓN FUNCIONANDO MULTICAST  MTU:1500  Métrica:1
+          Paquetes RX:0 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:107 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:1000 
+          Bytes RX:0 (0.0 B)  TX bytes:16991 (16.9 KB)
+
+eth1      Link encap:Ethernet  direcciónHW 00:19:99:88:6a:f8  
+          Direc. inet:172.18.161.149  Difus.:172.18.161.255  Másc:255.255.255.0
+          Dirección inet6: fe80::219:99ff:fe88:6af8/64 Alcance:Enlace
+          ACTIVO DIFUSIÓN FUNCIONANDO MULTICAST  MTU:1500  Métrica:1
+          Paquetes RX:253 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:268 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:1000 
+          Bytes RX:47880 (47.8 KB)  TX bytes:47703 (47.7 KB)
+          Interrupción:22 
+
+eth1:1    Link encap:Ethernet  direcciónHW 00:19:99:88:6a:f8  
+          Direc. inet:10.10.10.12  Difus.:10.10.10.255  Másc:255.255.255.0
+          ACTIVO DIFUSIÓN FUNCIONANDO MULTICAST  MTU:1500  Métrica:1
+          Interrupción:22 
+
+eth1:2    Link encap:Ethernet  direcciónHW 00:19:99:88:6a:f8  
+          Direc. inet:192.168.10.212  Difus.:192.168.10.255  Másc:255.255.255.0
+          ACTIVO DIFUSIÓN FUNCIONANDO MULTICAST  MTU:1500  Métrica:1
+          Interrupción:22 
+
+lo        Link encap:Bucle local  
+          Direc. inet:127.0.0.1  Másc:255.0.0.0
+          Dirección inet6: ::1/128 Alcance:Anfitrión
+          ACTIVO BUCLE FUNCIONANDO  MTU:65536  Métrica:1
+          Paquetes RX:10125 errores:0 perdidos:0 overruns:0 frame:0
+          Paquetes TX:10125 errores:0 perdidos:0 overruns:0 carrier:0
+          colisiones:0 long.colaTX:0 
+          Bytes RX:7014944 (7.0 MB)  TX bytes:7014944 (7.0 MB)
+

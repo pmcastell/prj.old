@@ -1,0 +1,7 @@
+if [ "$(mount | grep "/dev/sdc")" != "" ];
+then
+   umount /c
+else   
+   mount /c &>/dev/null 
+   nautilus /c 
+fi   

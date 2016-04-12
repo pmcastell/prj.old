@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ "$(whoami)" != "root" ]; then
+   sudo $0 $*
+   exit
+fi
+for s in bloquear hs encenderAula apagarAula; do
+   chmod +x $s.sh
+   sudo cp /home/franav/aula/$s.sh /usr/local/bin/
+   sudo ln -s /home/franav/aula/$s.sh /usr/local/bin/$s
+done
+   

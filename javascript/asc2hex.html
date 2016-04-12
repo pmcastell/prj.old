@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns ="http://www.w3.org/1999/xhtml" xml:lang="es" lang ="es">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+      <title>Convertidor A</title>
+      <script language="javascript">
+         function asc2hex() {
+            hexChars="01234567890ABCDEF";
+            ascii=document.getElementById("ascii").value;
+            res="";
+            for(i=0; i<ascii.length; i++) {
+               a=ascii.charCodeAt(i);
+               res+=hexChars[ Math.floor(a/16) ];
+               res+=hexChars[ a % 16 ];
+               //res+=":";
+            }
+            document.getElementById("hex").value=res;
+         }
+         function hex2asc() {
+            valores=new Array();
+            valores['0']=0;valores['1']=1;valores['2']=2;valores['3']=3;valores['4']=4;valores['5']=5;valores['6']=6;
+            valores['7']=7;valores['8']=8;valores['9']=9;valores['A']=10;valores['B']=11;valores['C']=12;valores['D']=13;
+            valores['E']=14;valores['F']=15;
+            hex=document.getElementById("hex").value;
+            res="";
+            for(i=0;i<hex.length;i+=2) {
+               res+=String.fromCharCode(valores[hex.charAt(i)]*16+valores[hex.charAt(i+1)]);
+            }
+            document.getElementById("ascii").value=res;
+         }
+      </script>
+   </head>
+   <body>
+      <form>
+         <table>
+            <tr>
+               <td><label for="ascii">ASCII:</label></td>
+               <td><input type="text" name="ascii" id="ascii" size="40" value="E001D20C01194" /></td>
+            </tr>
+            <tr>
+               <td><label for="hex">HEX:</label></td>
+               <td><input type="text" name="hex" id="hex" size="40" /></td>
+            </tr>
+            <tr>
+               <td><input type="button" value="Asc a Hex" OnClick="asc2hex();" /></td>
+               <td><input type="button" value="Hex a Asc" OnClick="hex2asc();" /></td>
+            </tr>
+         </table>
+      </form>
+      
+   </body>
+</html>

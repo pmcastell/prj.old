@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LIBROS xmlns="http://www.mipagina.com/pepeito/">
+	<libro>
+		<titulo>Programación en JAVA	</titulo>
+		<autores>Pepito</autores>
+		<editorial>ANAYA</editorial>
+		<fecha_publicacion>
+		   <dia>dkdk</dia>
+		   <mes></mes>
+		   <año></año>
+		</fecha_publicacion>
+		<isbn>KDKD-DKDKD-1234</isbn>
+	</libro>
+	<libro>
+		<titulo>
+		</titulo>
+		<autores></autores>
+		<editorial></editorial>
+		<fecha_publicacion></fecha_publicacion>
+		<isbn></isbn>
+	</libro>
+	<libro>
+		<titulo>
+		</titulo>
+		<autores></autores>
+		<editorial></editorial>
+		<fecha_publicacion></fecha_publicacion>
+		<isbn></isbn>
+	</libro>
+	<libro>
+		<titulo>
+		</titulo>
+		<autores></autores>
+		<editorial></editorial>
+		<fecha_publicacion></fecha_publicacion>
+		<isbn></isbn>
+	</libro>
+	<libro>
+		<titulo>
+		</titulo>
+		<autores></autores>
+		<editorial></editorial>
+		<fecha_publicacion></fecha_publicacion>
+		<isbn></isbn>
+	</libro>
+</LIBROS>

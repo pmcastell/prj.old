@@ -1,0 +1,23 @@
+@CHARSET "UTF-8";
+
+div {
+	border: 2px solid red;
+	height: 146px;
+	overflow: auto;
+}
+
+.izda {
+	float:left;
+	height: 450px;
+	width: 10%;
+}
+.dcha {
+	
+	
+	height: 450px;
+}
+.fotos {
+	float: left;
+	height: 142px;
+	width: 32.87%;
+}

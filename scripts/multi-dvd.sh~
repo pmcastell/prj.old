@@ -1,0 +1,60 @@
+ORIGEN=/mnt/m
+mkdir winXpLinux
+cd winXpLinux
+ln -s $ORIGEN/autorun.inf
+ln -s $ORIGEN/bckt4
+ln -s $ORIGEN/boot
+ln -s $ORIGEN/boot.cat
+ln -s $ORIGEN/BOOTFONT.BIN
+ln -s $ORIGEN/FreeBSD
+ln -s $ORIGEN/FreeBSD.icog
+ln -s $ORIGEN/grldr
+ln -s $ORIGEN/grub4dos-0.4.4
+ln -s $ORIGEN/MiniNt I386
+ln -s $ORIGEN/images
+ln -s $ORIGEN/imgs
+ln -s $ORIGEN/multi-dvd/winXpLinux/menu.lst
+ln -s $ORIGEN/NTDETECT.COM
+ln -s $ORIGEN/ntldr
+ln -s $ORIGEN/ntpasswd
+ln -s $ORIGEN/programs
+ln -s $ORIGEN/sysrcd
+ln -s $ORIGEN/trk3
+ln -s $ORIGEN/wifiway
+ln -s $ORIGEN/win51
+ln -s $ORIGEN/win51ip
+ln -s $ORIGEN/win51ip.sp1
+ln -s $ORIGEN/win51ip.sp2
+ln -s $ORIGEN/win51ip.sp3
+
+#ln -s $ORIGEN/gparted
+#ln -s $ORIGEN/riplinux
+#ln -s $ORIGEN/riplinux9
+
+#mkdir casper
+#cd casper 
+#ln -s $ORIGEN/casper/guadalinex
+#cd ..
+cd ..
+#mkdir winXpLinux-cd
+#cd winXpLinux-cd
+#ln -s $ORIGEN/FreeBSD.ico
+#ln -s $ORIGEN/MiniNt I386
+#ln -s $ORIGEN/boot.cat
+#ln -s $ORIGEN/bootfont.bin
+#ln -s $ORIGEN/grldr
+#ln -s $ORIGEN/grub4dos-0.4.4
+#ln -s $ORIGEN/imgs
+#ln -s $ORIGEN/multi-dvd/winXpLinux-cd/menu.lst
+#ln -s $ORIGEN/ntldr
+#ln -s $ORIGEN/multi-dvd/winXpLinux-cd/programs
+#ln -s $ORIGEN/win51
+#ln -s $ORIGEN/win51ip
+#ln -s $ORIGEN/win51ip.sp1
+#ln -s $ORIGEN/win51ip.sp2
+#ln -s $ORIGEN/win51ip.sp3
+#ln -s $ORIGEN/ntdetect.com
+cd ..
+ln -s $ORIGEN/Mios/prj/scripts/mcafee.sh
+#cp $ORIGEN/Mios/prj/scripts/limpia.sh .
+

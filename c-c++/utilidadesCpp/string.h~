@@ -1,0 +1,30 @@
+#ifndef __STRING_H__
+#define __STRING_H__
+
+class string {
+    private:
+       char *s;
+       long length;
+       long size;
+       static const bool ignorecase=false;
+
+    public:
+       string();
+       string(long tam);
+       string(char *p);
+       string(string& str);
+       string(char ch;
+       bool operator==(string& str);
+       bool operator!=(string& str);
+       bool operator<(string& str);
+       bool operator >(string& str);
+       bool operator <=(string& str);
+       bool operator >=(string& str);
+       string& operator=(string& str);
+       string& operator+(string str);
+       string& operator+=(string str);
+       char operator[](int i);
+       string& substr(int i);
+       string& substr(int i,int j);
+};
+#endif

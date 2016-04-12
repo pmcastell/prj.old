@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	elementFormDefault="qualified">
+	<xs:element name="videoclub">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="pelicula" minOccurs="0" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="titulo" type="xs:string" />
+							<xs:element name="nacionalidad" type="xs:string" />
+							<xs:element name="productor" type="xs:string" />
+							<xs:element name="director" type="xs:string" />
+							<xs:element name="año" type="tipoAño" />
+							<xs:element name="duracion" type="tipoDuracion" />
+							<xs:element name="genero" type="tipoGenero" minOccurs="1"
+								maxOccurs="unbounded" />
+							<xs:element name="sinopsis" type="xs:string" />
+							<xs:element name="foto" type="tipoFoto" />
+							<xs:element name="url" type="tipoUrl" />
+						</xs:sequence>
+						<xs:attribute name="id" type="xs:ID" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="tipoAño">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="(18[789][0-9]|19[0-9][0-9]|200[0-9]|201[012])" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoDuracion">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="[0-9]{1,3}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoGenero">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Drama|Romance|Crimen|Thriller|Comedia" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoFoto">
+		<xs:restriction base="xs:string">
+			<xs:pattern value=".*\.(jpg|png|gif)" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoUrl">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="http://www.imdb.com/.*" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

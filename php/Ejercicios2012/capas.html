@@ -1,0 +1,54 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang ="es">
+ <head>
+      <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+      <title>Ejemplo de Capas</title>
+      <link href="capas.css" rel="stylesheet" type="text/css" />
+      <script type="text/javascript">
+         function mostrarCapa(capa) {
+            document.getElementById("mercurio").style.visibility="hidden";
+            document.getElementById("venus").style.visibility="hidden";
+            document.getElementById("tierra").style.visibility="hidden";
+            document.getElementById("marte").style.visibility="hidden";
+            document.getElementById(capa).style.visibility="visible";
+         }
+      </script>
+   </head>
+   <body>
+      <div>
+         <div class="cabecera" id="cabecera">
+            <big>Cabecera</big>
+         </div>
+         <div class="izquierda" id="menu">
+            <a href="javascript:mostrarCapa('mercurio');">Mercurio</a><br />
+            <a href="javascript:mostrarCapa('venus');">Venus</a><br />
+            <a href="javascript:mostrarCapa('tierra');">La Tierra</a><br />
+            <a href="javascript:mostrarCapa('marte');">Marte</a><br />
+         </div>
+         <div class="derecha">
+            <div class="contenido" id="mercurio">
+               <big>Mercurio</big>
+            </div>
+            <div class="contenido" id="venus">
+               <big>Venus</big>
+            </div>
+            <div class="contenido visible" id="tierra">
+               <big>La Tierra</big><br />
+               <big>La Tierra</big><br />
+               <big>La Tierra</big><br />
+               <big>La Tierra</big><br />
+               <big>La Tierra</big><br />
+               <big>La Tierra</big><br />
+               <big>La Tierra</big><br />
+               <big>La Tierra</big><br />
+            </div>
+            <div class="contenido" id="marte">
+               <big>Marte</big>
+            </div>
+         </div>
+         <div class="pie" id="pie">
+            <big>Pie</big>
+         </div>
+      </div>
+   </body>
+</html>

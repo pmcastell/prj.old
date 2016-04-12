@@ -1,0 +1,29 @@
+<html>
+   <head>
+      <style>
+          th, td {
+            padding: 10px;
+            }
+         
+      </style>
+   </head>
+   <body>
+	   <table border="1">
+	   <caption>Variables POST: </caption>
+	   <tr><th>Variable</th><th>&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Valor</th>
+	   <?php
+	   foreach($_POST as $i=>$val) {
+		   echo "<tr><td>$i</td><td>==></td><td>$val</td>";
+	   }
+	   ?>
+	   </table>
+	   <br /><br />
+      <table border="1">
+	   <tr><th>Variable</th><th>&nbsp;&nbsp;&nbsp;&nbsp;</th><th>Valor</th>
+	   <?php
+	   foreach($_GET as $i=>$val) {
+		   echo "<tr><td>$i</td><td>==></td><td>$val</td>";
+	   }
+	   ?>
+	   </table>
+</html>

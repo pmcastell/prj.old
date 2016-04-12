@@ -1,0 +1,109 @@
+
+import java.math.BigInteger;
+import java.util.Random;
+public class granEntero  {
+   static Random r=new Random(System.currentTimeMillis());
+   static BigInteger UNO=new BigInteger("1");
+   static BigInteger DOS=new BigInteger("2");
+
+   private static double lg2(int n) {
+      return Math.log(n)/Math.log(2);
+   }
+
+   private static int regulariza(int n) {
+      if (n % 8!=0) {
+         n= (int)n/8;
+         n+=8;
+      }
+      return n;
+   }
+
+   public static BigInteger generaPrimo(int nBits) {
+      BigInteger res;
+      while (true) {
+         res=new BigInteger(nBits, new Random(System.currentTimeMillis()));
+         System.out.println("res: "+res);
+         if (!res.testBit(nBits-1)) {
+            res=res.setBit(nBits-1);
+//            res=res.add(DOS.pow(nBits-1));
+         }
+         System.out.println("res: "+res);
+         if (!res.testBit(0)) {
+            res=res.setBit(0);
+//            res=res.add(UNO);
+         }
+         System.out.println("res: "+res);
+         if (res.isProbablePrime(10)) {
+            return res;
+         }
+         System.out.println("res: "+res);
+      }
+   }
+   public static long euclidesExt(long a, long n)
+   {
+      long g[]={n,a,0};
+      long u[]={1,0,0};
+      long v[]={0,1,0};
+      long c;
+      while (g[1]!=0) {
+         c=g[0]/g[1];
+         g[2]=g[0]%g[1];
+         u[2]=u[0]-c*u[1];
+         v[2]=v[0]-c*v[1];
+         g[0]=g[1]; g[1]=g[2];
+         u[0]=u[1]; u[1]=u[2];
+         v[0]=v[1]; v[1]=v[2];
+      }
+      long r=v[0]%n;
+      if (r<0) {
+         return r+n;
+      }
+      return r;
+   }
+   public byte[] encripta(String texto, RSAKey k) {
+      return encripta(texto.getBytes(), k);
+   }
+   public byte[] encripta(byte[] texto, RSAKey k) {
+      int numBlques=texto.length/k.length();
+      if (texto.length % k.length()!=0) {
+         numBloques++;
+      }
+      public r= new byte[numBloques*k.length()];
+      long i=0;
+      byte [] bloque;
+      while (i<numBloques) {
+         
+
+
+
+
+   public static void main(String args[]) {
+      BigInteger n,p,q,e,d,fn;
+      p=new BigInteger("47");
+      System.out.println("p"+p);
+      q=new BigInteger("71");
+      System.out.println("q"+q);
+      n=p.multiply(q);
+      System.out.println("n"+n);
+      fn=p.subtract(UNO).multiply(q.subtract(UNO));
+      System.out.println("fn"+fn);
+      e=new BigInteger("79");
+      System.out.println("e"+e);
+      d=e.modInverse(fn);
+      System.out.println("d"+d);
+      BigInteger m=new BigInteger("688");
+      System.out.println("m"+m);
+      BigInteger c=m.modPow(e,n);
+      System.out.println("c"+c);
+      BigInteger t=c.modPow(d,n);
+      System.out.println("t"+t);
+      //      while (true) {
+//         BigInteger g=granEntero.generaPrimo(8);
+//         System.out.println("número generado: "+g);
+//      }
+   }
+
+
+
+
+}

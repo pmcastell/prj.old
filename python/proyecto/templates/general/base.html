@@ -1,0 +1,47 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es">
+	<head>
+		<meta name="Author" content="http://azorys.es" />
+	    <meta name="keywords" content="python, django, cep" />  
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta charset="utf-8" />				
+
+		<title> {% block titulo %}{% endblock %} - Trabajo del curso de Programación en Python y HTML5 </title>
+		<link rel="stylesheet" href="{{ STATIC_URL }}css/estilos.css" type="text/css" />
+		{% block head %}{% endblock %}
+	</head>
+	<body>
+			<header id="header">
+				<div id="logo">
+					<a href="http://www.djangoproject.com" title="Página oficial de Django"><img class="left"  src="{{ STATIC_URL }}images/hdr_logo.gif" alt="logotipo" style="height:40px;" /></a>
+					<p class="right">{% block titulo-ppal %}Trabajo del curso de Programación en Python y HTML5{% endblock %}</p>
+					<div class="clear"></div>
+				</div>
+				<div id="titulo">
+					<h1>{% block titulo-pag %}{% endblock %}</h1>
+				</div>
+			</header>
+			<div id="wrapper">
+				<section id="maincol">
+					<div id="contenido">
+						{% block contenido %}{% endblock %}
+					</div>
+				</section>
+				<nav id="leftcol">
+					<div id="menu">
+						<h2>Menú</h2>
+						<ul>
+							<li><a href="#">Inicio</a></li>
+							<li><a href="#">Servicios</a></li>
+							<li><a href="#">Productos</a></li>
+							<li><a href="#">Contacto</a></li>
+						</ul>
+					</div>
+				</nav>
+				<div class="clear"></div>
+			</div>
+			<footer id="footer">
+				<p>&copy;{% now "Y" %} <a href="http://www.juntadeandalucia.es/educacion/adistancia/profesorado/course/view.php?id=1097" title="Página del curso">Curso CEP</a></p>
+			</footer>
+	</body>
+</html>

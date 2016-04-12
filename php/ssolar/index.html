@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang ="es">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title></title>
+      <link href="ssolar.css" rel="stylesheet" type="text/css" />
+      <!-- autor Francisco Criado 02/11/2011 -->
+      <script type="text/javascript">
+               
+         function mostrarCapa(capaAmostrar) {
+     
+				divs=document.getElementsByTagName('div');
+        	   /*sol=document.getElementById('sol');
+        	   sol.style.visibility='hidden';
+        	   
+        	   mercurio=document.getElementById('mercurio');
+        	   mercurio.style.visibility='hidden';
+        	   
+        	   venus=document.getElementById('venus');
+        	   venus.style.visibility='hidden';
+        	   
+        	   tierra=document.getElementById('tierra');
+        	   tierra.style.visibility='hidden';
+        	   
+        	   marte=document.getElementById('marte');
+        	   marte.style.visibility='hidden';*/
+        	   for(i=0;i<divs.length;i++) {
+        		   clase=new String(divs[i].className);
+        		   if (clase.indexOf("contenido")>=0) {
+        			   divs[i].style.visibility='hidden';
+        		   }
+        	   }
+        	   
+        	   capa=document.getElementById(capaAmostrar);
+        	   capa.style.visibility='visible';
+        }
+        function submenu(capa,visibilidad) {
+        		divs=document.getElementsByTagName('div');
+        		j=-1;
+				for(i=0;i<divs.length;i++) {
+					clase=new String(divs[i].className);
+					if (clase.indexOf("submenu")>=0) {
+						divs[i].style.visibility='hidden';
+					}
+					if (divs[i].id==capa) {
+						j=i;
+					}
+				}
+        	   document.getElementById(capa).style.visibility=visibilidad;
+        	   if (j>-1) {
+        		   document.getElementById(capa).style.height=(j-1)*100+' px';
+        	   }
+        } 
+      </script>
+   </head>
+   <body>
+      <div class="cabecera">
+        <h1>El Sistema Solar</h1>
+      </div>
+      <div class="izda" >
+         <ul>
+         	<li><a href="javascript:mostrarCapa('sol');" onmouseover="submenu('submenuSol','visible');">
+         	<!--  onmouseout="submenu('submenuSol','visible');" >-->Sol</a></li>
+         	<li><a href="javascript:mostrarCapa('mercurio');" onmouseover="submenu('submenuMercurio','visible');">Mercurio</a></li>
+         	<li><a href="javascript:mostrarCapa('venus');" onmouseover="submenu('submenuVenus','visible');">Venus</a></li>
+         	<li><a href="javascript:mostrarCapa('tierra');" onmouseover="submenu('submenuTierra','visible');">La Tierra</a></li>
+         	<li><a href="javascript:mostrarCapa('marte');" onmouseover="submenu('submenuMarte','visible');">Marte</a></li>
+         </ul>
+      </div>
+		<div class="dcha">
+
+			<div class="contenido visible" id="sol">
+			   <h1>El Sol</h1><h1>El Sol</h1><h1>El Sol</h1><h1>El Sol</h1><h1>El Sol</h1><h1>El Sol</h1>
+			</div>
+			<div class="contenido" id="mercurio">
+			   <h1>Mercurio</h1>
+			</div>
+			<div class="contenido" id="venus">
+			   <h1>Venus</h1>
+			</div>
+			<div class="contenido" id="tierra">
+			   <h1>La Tierra</h1>
+			</div>
+			<div class="contenido" id="marte">
+			   <h1>Marte</h1>
+			</div>
+			<div class="izda submenu" id="submenuSol" onmouseover="submenu('submenuSol','visible');" onmouseout="submenu('submenuSol','hidden');">
+				<ul>
+	         	<li><a href="javascript:mostrarCapa('sol');">Sol1</a></li>
+	         	<li><a href="javascript:mostrarCapa('mercurio');">Sol2</a></li>
+	         	<li><a href="javascript:mostrarCapa('venus');">Sol3</a></li>
+	         	<li><a href="javascript:mostrarCapa('tierra');">Sol4</a></li>
+	         	<li><a href="javascript:mostrarCapa('marte');">Sol5</a></li>
+	         </ul>
+			
+			</div>
+			<div class="izda submenu top2" id="submenuMercurio" onmouseover="submenu('submenuMercurio','visible');" onmouseout="submenu('submenuSol','hidden');">
+				<ul>
+	         	<li><a href="javascript:mostrarCapa('sol');">Mercurio1</a></li>
+	         	<li><a href="javascript:mostrarCapa('mercurio');">Mercurio2</a></li>
+	         	<li><a href="javascript:mostrarCapa('venus');">Mercurio3</a></li>
+	         	<li><a href="javascript:mostrarCapa('tierra');">Mercurio4</a></li>
+	         	<li><a href="javascript:mostrarCapa('marte');">Mercurio5</a></li>
+	         </ul>
+			
+			</div>
+			<div class="izda submenu top3" id="submenuVenus" onmouseover="submenu('submenuVenus','visible');" onmouseout="submenu('submenuSol','hidden');">
+				<ul>
+	         	<li><a href="javascript:mostrarCapa('sol');">Venus1</a></li>
+	         	<li><a href="javascript:mostrarCapa('mercurio');">Venus2</a></li>
+	         	<li><a href="javascript:mostrarCapa('venus');">Venus3</a></li>
+	         	<li><a href="javascript:mostrarCapa('tierra');">Venus4</a></li>
+	         	<li><a href="javascript:mostrarCapa('marte');">Venus5</a></li>
+	         </ul>
+			
+			</div>
+			<div class="izda submenu top4" id="submenuTierra" onmouseover="submenu('submenuTierra','visible');" onmouseout="submenu('submenuToerra','hidden');">
+				<ul>
+	         	<li><a href="javascript:mostrarCapa('sol');">HTML</a></li>
+	         	<li><a href="javascript:mostrarCapa('mercurio');">Tierra2</a></li>
+	         	<li><a href="javascript:mostrarCapa('venus');">Tierra3</a></li>
+	         	<li><a href="javascript:mostrarCapa('tierra');">Tierra4</a></li>
+	         	<li><a href="javascript:mostrarCapa('marte');">Tierra5</a></li>
+	         </ul>
+			</div>
+			<div class="izda submenu top5" id="submenuMarte" onmouseover="submenu('submenuMarte','visible');" onmouseout="submenu('submenuMarte','hidden');">
+				<ul>
+	         	<li><a href="javascript:mostrarCapa('sol');">Marte1</a></li>
+	         	<li><a href="javascript:mostrarCapa('mercurio');">Marte2</a></li>
+	         	<li><a href="javascript:mostrarCapa('venus');">Marte3</a></li>
+	         	<li><a href="javascript:mostrarCapa('tierra');">Marte4</a></li>
+	         	<li><a href="javascript:mostrarCapa('marte');">Marte5</a></li>
+	         </ul>
+			</div>
+      </div>
+		<div class="pie">
+		  
+		   Pié
+      </div>
+
+      
+
+   </body>
+</html>

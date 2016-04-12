@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<!DOCTYPE BDsms
+[
+<!ELEMENT BDsms (sms*)>
+<!ELEMENT sms (telefono, fecha, hora, mensaje)>
+<!ELEMENT telefono (#PCDATA)>
+<!ELEMENT fecha (#PCDATA)>
+<!ELEMENT hora (#PCDATA)>
+<!ELEMENT mensaje ANY>
+
+<!ENTITY pi "3.141592">
+
+]> 
+<!-- 
+<!DOCTYPE BDsms SYSTEM "http://iesinclan.dyndns.org/franc/BDsms.dtd">
+ -->
+<BDsms>
+	<sms>
+		<telefono>955 55 66 55</telefono>
+		<fecha> 117/2011 </fecha>
+		<hora>23:55</hora>
+		<mensaje><telefono>kdkdk</telefono></mensaje>
+		
+	
+
+	</sms>
+	<sms>
+		<telefono>745 15 56 ll</telefono>
+		<fecha> 22/9/20 11 </fecha>
+		<hora> 15:05</hora>
+		<mensaje>Juego2: Arkanoid</mensaje>
+	</sms>
+	<sms>
+		<telefono>842 35 22 OO</telefono>
+		<fecha> 10/1112011 </fecha>
+		<hora>09:22</hora>
+		<mensaje>Juego3: Comecocos &pi;</mensaje>
+	</sms>
+
+</BDsms>
+

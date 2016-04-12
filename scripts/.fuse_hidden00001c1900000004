@@ -1,0 +1,45 @@
+mataSsh() {
+    PID="99999999"
+    while [ "$PID" != "" ];
+    do
+      PID=$(ps aux | grep ssh | grep 8080 | grep 443 | grep -v grep | awk '{print $2;}')
+      if [ "$PID" != "" ];
+      then
+         echo $CMD_LINE
+         eecho kill -TERM $PID 
+      fi
+    done
+}
+SSH_CMD="ssh -p 443 -C -L 8080:80.36.87.166:8080 -N usuario@$(digHost 8.8.8.8 shell.cjb.net) -o ServerAliveInterval=30"
+sudo vpn stop &> /dev/null
+mataSsh
+if [ "$1" = "stop" ];
+then   
+   echo $TUNEL_CJB
+   export TUNEL_CJB=0
+   exit 0
+fi   
+i=1
+sudo vpn 8080 localhost 
+while [ "$TUNEL_CJB" != "0" ]; 
+do 
+   echo iteracion $i
+   sshpass -p basura68 $SSH_CMD &
+   ERROR=0
+   CONT=0
+   while [ $ERROR -eq 0 -o $CONT -lt 3 ];
+   do 
+      sleep 10
+      ping -c 4 squid &> /dev/null
+      ERROR=$?
+      if [ "$ERROR" != "0" ];
+      then
+         CONT=$(($CONT + 1))
+      else
+         CONT=0
+      fi
+   done
+   mataSsh
+   i=$(($i + 1))
+done
+

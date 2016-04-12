@@ -1,0 +1,37 @@
+Manifest-Version: 1.0
+Created-By: com.tiobe.deploy.Deployer (http://www.tiobe.com)
+Main-Class: nat.irc.Principal
+
+Name: nat/irc/Principal.class
+Name: nat/irc/NickUsado.class
+Name: nat/irc/VentanaIrcCanal.class
+Name: symantec/itools/multimedia/ImageViewer.class
+Name: symantec/itools/beans/PropertyChangeSupport.class
+Name: symantec/itools/beans/VetoableChangeSupport.class
+Name: nat/irc/CajaGraficaScroll.class
+Name: nat/irc/CajaGrafica.class
+Name: nat/irc/Bola.class
+Name: nat/irc/BolaGrafica.class
+Name: nat/irc/BolaTexto.class
+Name: nat/irc/VentanaIrcPrivada.class
+Name: nat/irc/MarcoVentanaIrcPrivada.class
+Name: nat/irc/hiloRecibir.class
+Name: nat/irc/Contenido.class
+Name: nat/irc/Datos.class
+Name: nat/irc/ExcepcionNumerica.class
+Name: nat/irc/MarcoVentanaIrcCanal.class
+Name: nat/irc/CambiaNick.class
+Name: nat/irc/PropUsu.class
+Name: nat/irc/Busqueda.class
+Name: nat/irc/Registro.class
+Name: nat/irc/CreaCanal.class
+Name: nat/irc/Conexion.class
+Name: nat/irc/ConexionIrc.class
+Name: nat/irc/ListaCanales.class
+Name: nat/irc/ContenidoSencillo.class
+Name: nat/irc/leerVar.class
+Name: com/borland/jbcl/layout/XYConstraints.class
+Name: nat/irc/leerVar$2.class
+Name: nat/irc/leerVar$1.class
+Name: com/borland/jbcl/layout/XYLayout.class
+Name: nat/irc/Principal$1.class

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><templates><template autoinsert="true" context="php_new_file_context" deleted="false" description="html 5" enabled="true" id="org.eclipse.php.ui.editor.templates.php.html.frameset" name="New PHP file - HTML 5">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;${encoding}&quot;&gt;
+&lt;title&gt;Insertar título aquí&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+${cursor}
+&lt;/body&gt;
+&lt;/html&gt;
+</template>
+</templates>

@@ -1,0 +1,2 @@
+sudo /etc/init.d/vmware start &>/dev/null &
+sudo /usr/bin/vmware.exe &

@@ -1,0 +1,33 @@
+@CHARSET "UTF-8";
+/*aspecto inicial*/
+a:link {
+	
+	color: #ffffff;
+	border: 1px solid red;
+}
+/*visitados*/
+a:visited {
+	text-transform: uppercase;
+	font-size: 20px;
+	color: yellow;
+
+}
+/*ratón encima*/
+a:hover {
+	text-decoration: underline;
+	text-transform: uppercase;
+}
+/*activados (pinchar con el ratón)*/
+a:active {
+	font-weight: bold;
+}
+
+input, textarea {
+	font-size: large;
+	border: 3px solid #70C332;
+	color: #666;
+	background: #fff;
+}
+input:focus, text-area:focus {
+	background: #333;
+}

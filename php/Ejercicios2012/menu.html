@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang="es">
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <title>Menús con listas</title>
+  <link href="menu.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+      function remarcaTexto(id) {
+         //alert("remarca. id: "+id);
+         enlace=document.getElementById(id);
+         enlace.innerHTML=" > "+enlace.innerHTML;
+         //alert(enlace.text);
+      }
+      function desmarcaTexto(id) {
+         //alert("desmarca. id: "+id);
+         enlace=document.getElementById(id);
+         //alert("'"+enlace.innerHTML+"'");
+         enlace.innerHTML=enlace.innerHTML.substr(6);
+         
+      }
+         
+  </script>
+</head>
+<body>
+   <div>
+      <div class="izda">
+         <ul>
+            <li><a href ="..." title ="...">Home </a></li>
+            <li><a href ="..." title ="...">Archivos </a></li>
+            <li><a href ="..." title ="...">Enlaces </a></li>
+            <li><a id="acercaDe" href ="..." onmouseover="remarcaTexto('acercaDe');" OnMouseOut="desmarcaTexto('acercaDe');" title ="...">Acerca de </a></li>
+         </ul>
+      </div>
+      E=mc<sup>2</sup>
+   </div>
+</body>
+</html>

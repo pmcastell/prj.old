@@ -1,0 +1,3 @@
+cd /home/usuario/aula
+java -jar calculadora.jar &> /dev/null &
+

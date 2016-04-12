@@ -1,0 +1,325 @@
+<?php
+  /*class altas {
+     var $autoIncrement=false;
+     function altas($tabla) {
+     }
+  }
+    */
+   if (!esUsuario("admin")) {
+       error("No está autorizado a ver esta página.");
+       exit();
+   }
+   include_once("funcionesAuxiliares.php");
+   /*function extraeLongitud($cadena) {
+      for($i=0; $i<strlen($cadena); $i++) {
+         if (is_numeric($cadena[$i])) {
+            $valor="";
+            while(is_numeric($cadena[$i])) {
+               $valor.=$cadena[$i];
+               $i++;
+            }
+            return (integer) $valor;
+         }
+      }
+      return null;
+   } 
+   function formularioAlta($name,$campos,$tipos,$autoIncrementos,$foreignKeys=null,$longitudesCampos=null,$titulo="",$action="?",$method="POST",$funcValidacion=null) {
+      if ($funcValidacion!=null) {
+         echo "<script>$funcValidacion</script>";
+      }
+      for($i=0; $i<count($tipos); $i++) {
+          if (strstr('datetime',strtolower($tipos[$i]))) {
+               echo '<script type="text/javascript" src="calendario/calendar.js"></script>
+               <script type="text/javascript" src="calendario/calendar-setup.js"></script>
+               <script type="text/javascript" src="calendario/lang/calendar-es.js"></script>
+    <link rel="stylesheet" type="text/css" media="all" href="calendario/skins/aqua/theme.css" title="Aqua" />';
+          }
+      }
+      echo '
+      <form name="',$name,'" action="',$action,'" method="',$method,'">';
+      echo '<table>
+         <tr><th colspan="2">',capitaliza($titulo);
+      for($i=0; $i<count($campos); $i++) {
+         if (!$autoIncrementos[$i]) {
+            echo '<tr><td>',capitaliza($campos[$i]),'<td>';
+         }
+         $tipo=strtolower($tipos[$i]);
+         if ($foreignKeys!=null && $foreignKeys[$i]!=null) {
+            campoSelect($foreignKeys[$i],$campos[$i],$longitudesCampos[$i]);
+         } elseif (strstr('datetime',$tipo)) {
+
+            if ($tipo=='datetime') {
+                calendarFechaHora($campos[$i]);
+            } else {
+                calendarFecha($campos[$i]);
+            }
+         
+         } else if($tipo=='tinyint(1)') {
+            echo '<select name="',$campos[$i],'">
+                     <option value="1" selected>Si</option>
+                     <option value="0">No</option>
+                  </select>';   
+         } else  {
+            $nombreCampo=strtolower($campos[$i]);
+            if (strstr($nombreCampo,"dni") || strstr($nombreCampo,"d.n.i.")) {
+               echo '<script>';
+               escribeFuncionValidarDni();
+               echo '</script>';
+               echo '<input onChange="return validarDni(document.',$name,'.',$campos[$i],');" ';
+            } else {
+               echo '<input ';
+            }
+            if ($autoIncrementos[$i]) {
+               echo 'type="hidden" value="NULL" ';
+            } else {
+               echo 'type="text" maxlength="',extraeLongitud($tipos[$i]),'"';
+            }
+            echo ' name="',$campos[$i],'">';
+         }
+      }
+      echo '<tr><td colspan="2" align="center"><input type="submit" value="Enviar" ';
+      if ($funcValidacion!=null) {
+         echo 'onSubmit="return',$name,'Validar();" ';
+      }
+      echo '>&nbsp;&nbsp;<input type="reset" value="Borrar Formulario">';
+      echo '</table>';
+      echo '</form>';
+   }  
+   function altas($tabla,$titulo="",$foreignKeys=null,$longitudesCampos=null) {
+      $conexion=abreBase('videoclub','videoclub','videoclub2007');
+      if (!$conexion) {
+          error("Error Estableciendo Conexión con el servidor: ".mysqlError());
+          return;
+      }
+      $result=mysql_query("show fields from ".$tabla);
+      if ($result) {
+         $campos=array();
+         $tipos=array();
+         $clavesAjenas=array();
+         $autoIncrementos=array();
+         for($i=0;$fila=mysql_fetch_array($result);$i++) {
+            $campos[$i]=$fila['Field']; 
+            $tipos[$i]=$fila['Type'];
+            $clavesAjenas[$i]=$fila['Key'];
+            if ($fila['Extra']=='auto_increment') {
+               $autoIncrementos[$i]=true;
+            } else {
+               $autoIncrementos[$i]=false;
+            }
+         }
+         //$result=mysql_query("show create table ".$tabla);
+         //$fila=mysql_fetch_array($result);
+         //$fila=$fila['Create Table'];
+         //for($i=0,$pos=0;$pos=strpos("$fila","FOREIGN KEY",$pos);$i++) {
+         //}    
+             
+         formulario($tabla,$campos,$tipos,$autoIncrementos,$foreignKeys,$longitudesCampos,$titulo,"?".variablesGet());
+      } else {
+         error("No se ha podido determinar la estructura de la tabla: ".mysqlError());
+      }
+   }     */ 
+   
+   function sentenciaInsert() {
+      //$consulta="insert into ".$_GET['destino']." values(";
+      $i=0;
+      //$nombreCampoFecha="";
+      $campos="";
+      $values="";
+      for(reset($_POST);key($_POST);) {
+         $clave=key($_POST);
+         $val=current($_POST);
+         /*if (strstr($clave,"Dia")) {
+            $nombreCampoFecha=substr($clave,0,strpos($clave,"Dia"));
+            next($_POST);
+            $clave=key($_POST);
+            while($nombreCampoFecha==substr($clave,0,strlen($nombreCampoFecha))) {
+               if (strstr($clave,"Mes")) {
+                  $val.='-'.current($_POST);
+               } elseif (strstr($clave,"Anio")) {
+                  $val.='-'.current($_POST);
+                  $val=substr($val,6,4).'-'.substr($val,3,2).'-'.substr($val,0,2);
+               } elseif (strstr($clave,"Hora")) {
+                  $val.=' '.current($_POST);
+               } elseif (strstr($clave,"Minutos")) {
+                  $val.=':'.current($_POST);
+               }
+               $i++;
+               next($_POST);
+               $clave=key($_POST);
+            }*/
+         if ($val[2]=='-' && $val[5]=='-' && (strlen($val)==10 || strlen($val)==16)) { // es una fecha
+            $val=substr($val,6,4).'-'.substr($val,3,2).'-'.substr($val,0,2).substr($val,10); //fecha a mysql
+         } //else {
+         next($_POST);
+         $i++;
+         //}
+         $campos.=$clave;
+         if ($val==null) {
+            $values.="NULL";
+         } else {
+            $values.="'$val'";
+         }
+         if (key($_POST)) {
+            $campos.=',';
+            $values.=',';
+         }
+      }
+      //$consulta= "insert into ".$_GET['destino']." (".$campos.") values(".$values.")";
+      //$consulta.=')';
+      //return $consulta;
+      return "insert into ".$_GET['destino']." (".$campos.") values(".$values.")";
+   }
+ 
+            
+    
+      
+   
+   //////////////////////////////////////////////////////////////////////
+   /////////////////////////////////////////////////////////////////////
+   //////////////////////////////////////////////////////////////////////
+   /////////////////////////////////////////////////////////////////////
+   
+   if (!$_POST) {
+      if ($_GET['destino']) {
+         $destino=$_GET['destino'];
+         $foreignKeys=null;
+         $longitudesCampos=null;
+         /*if ($destino=='socios') {
+            $foreignKeys=null;
+         } else*/if ($destino=='alquileres') {
+            //$foreignKeys indicada para cada campo de la tabla correspondiente, si es clave ajena,
+            //la consulta que hay que hacer para sacar la lista que se mostrará al usuario para ese campo
+            $foreignKeys=array(null,
+                               //"select  distinct dni as DNI, dni as DNI2, ".nombreApellidos()." as Nombre from socios where dni not in ((select distinct dni from ((socios join alquileres on dni=dni_socios) join detalle_alquileres on id_alquileres=alquileres.id) where fecha_devolucion is null))",
+                               "select distinct dni as DNI, dni as DNI2, ".nombreApellidos()."as Nombre from socios where dni not in (select distinct dni from ((socios join alquileres on dni=dni_socios) join detalle_alquileres on id_alquileres=alquileres.id) where fecha_devolucion is null)",
+                               //fecha_devolucion is not NULL order by apellido1,apellido2,nombre",
+                               null,
+                               "select * from tarifas order by fecha desc");
+            $longitudesCampos=array(null,array(9,9,28),null,array(10,10,6,6,6,6));
+         } elseif ($destino=='ingresos') {
+            $foreignKeys=array(null,
+                               "select dni as DNI, dni as DNI2, ".nombreApellidos()." as Nombre from socios order by apellido1,apellido2,nombre",
+                               null,
+                               null);
+            $longitudesCampos=array(null,array(9,9,28),null,null);
+            
+         /*} elseif ($destino=='tarifas') {
+            $foreignKeys=null;*/
+         } elseif ($destino=='detalle_alquileres') {
+            $foreignKeys=array(null,
+                               "select alquileres.id as ID,dni as DNI, ".nombreApellidos()." as Nombre, fecha_alquiler as Fecha from socios join alquileres on dni=dni_socios order by fecha desc",
+                               //"select ejemplares.id as ID, ejemplares.id as ID2, titulo as Título, actores as Actores from peliculas join ejemplares on id_peliculas=peliculas.id where disponible='1' order by Título",
+                               "select ejemplares.id as ID, ejemplares.id as ID2, titulo as Título, actores as Actores from peliculas join ejemplares on id_peliculas=peliculas.id where ejemplares.id not in (select id_ejemplares from detalle_alquileres where fecha_devolucion is null) order by Titulo",
+                               null,
+                               null);
+            $longitudesCampos=array(null,
+                                    array(10,9,28,16),
+                                    array(13,19,25,20),
+                                    null,
+                                    null);
+                                    
+                               
+                               
+           /* $foreignKeys=array("select alquileres.id as ID,dni as DNI, concat(".conIf("nombre").",' ',".conIf("apellido1").",' ',".conIf("apellido2").") as Nombre, fecha_alquiler as Fecha from socios join alquileres on dni=dni_socios order by fecha desc",
+                               "select distinct ejemplares.id as ID, titulo as Título, actores as Actores from peliculas join ejemplares on id_peliculas=peliculas.id where disponible='1' order by Título",
+                               "select ejemplares.num as Num, ejemplares.num as Num2, titulo as Título, actores as Actores from peliculas join ejemplares on id_peliculas=peliculas.id where disponible='1' order by Título",
+                               null,
+                               null);
+            $longitudesCampos=array(array(10,9,28,16),
+                                    array(19,25,20),
+                                    array(3,3,25,20),
+                                    null,
+                                    null);*/
+         } elseif ($destino=='ejemplares') {
+            $foreignKeys=array(null,
+                               "select peliculas.id as ID, titulo as Título, actores as Actores from peliculas order by Título",
+                               null);
+            $longitudesCampos=array(null,
+                                    array(10,25,20),
+                                    null);
+                               
+         } /*elseif ($destino=='peliculas') {
+            $foreignKeys=null;
+         }*/
+         
+         //crearFormulario($destino,$destino,$foreignKeys,$longitudesCampos);
+         formulario2($destino,$foreignKeys,$longitudesCampos);
+      }
+   } else {
+      $consulta=sentenciaInsert();
+      //echo '<br>',$consulta;
+      $conexion=abreBase('videoclub','videoclub','videoclub2007');
+      $destino=$_GET['destino'];
+      if ($conexion) {
+         //Acciones antes de actuializar
+         if ($destino=="detalle_alquileres") {
+            //comprobar que el total de alquileres no superar
+            //el coste de las películas sacadas por un período de 3 horas
+            //También comprobar que el cliente no tiene ningún alquiler pendiente de devolver
+            //$consulta="";
+         }
+         if (!mysql_query($consulta)) {
+            error("Insertando Registro: ".mysqlError());
+            error("Consulta: $consulta");
+         } else {
+            //Accdiones después de actualizar
+            if ($destino=='detalle_alquileres') {
+               if ($_POST['fecha_devolucion']) {
+                  mysql_query("update detalle_alquileres join ejemplares on id_ejemplares=ejemplares.id set disponible=1 where ejemplares.id='".$_POST['id_ejemplares']."'");
+               } else {
+                  mysql_query("update detalle_alquileres join ejemplares on id_ejemplares=ejemplares.id set disponible=0 where ejemplares.id='".$_POST['id_ejemplares']."'");
+               }
+            } elseif ($destino=='ingresos') {
+               $consulta="update socios set saldo=saldo+".$_POST['cantidad']." where dni='".$_POST['dni_socios']."'";
+               if (!query($consulta)) {
+                  error("Error Actualizando saldo del cliente: ".$_POST['dni_socios']);
+                  error("Consulta: $consulta => ".mysqlError());
+               }
+               error($consulta);
+            }
+            //error($consulta);
+            echo 'Registro Insertado Correctamente.<br>';
+            historyBackLink("Volver");
+         }
+      } else {
+         error("Conectando con el Servidor de B.D.: ".mysqlError());
+      }
+   }
+      
+         
+   /*
+
+<form name="altaSocios" action="?" method="post">
+   <table>
+      <tr>
+         <th colspan="2">
+            Alta de Socios
+      <tr>
+         <td>D.N.I.:<td><input type="text" value="" maxlength="9" name="dni">
+         <td>Nombre:<td><input type="text" value="" maxlength="40" name="nombre">
+         <td>Apellido1:<td><input type="text" value="" maxlength="
+
+   fcuntion formulario($titulo,$campos,         */
+   
+   
+               /*selectFecha($campos[$i],getdate(),null,true);
+            if ($tipo=='datetime') {
+               echo '&nbsp;';
+               selectHora($campos[$i],date('H:i'),true);
+            } 
+            $formato="%d-%m-%Y";
+            $maxLong=10;
+            if ($tipo=='datetime') {
+                $formato.=" %H:%M";
+                $maxLong=16;
+            } 
+            calendarFecha($cam
+            echo '<input align="right" type="text" maxlength=',$maxLong,' id="',$campos[$i],'" name="',$campos[$i],'" />
+            <input value="..." type="submit" id="',$campos[$i],'-button">
+            <script type="text/javascript">
+            Calendar.setup({inputField:"',$campos[$i],'",button:"',$campos[$i],'-button",
+              align : "Tr", daFormat : "',$formato,'", ifFormat: "',$formato,'"
+            });
+             </script>';     
+            */
+?>

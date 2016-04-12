@@ -1,0 +1,8 @@
+sudo apt-get install pcaputils
+DUMPCAP=$(which dumpcap)
+if [ "$DUMPCAP" != "" ];
+then
+
+   
+setcap 'CAP_NET_RAW+eip CAP_NET_ADMIN+eip' /usr/sbin/dumpcap
+

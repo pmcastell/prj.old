@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Definir una DTD para enviar estrucutras de bases de datos de forma que el receptor pueda elaborar una
+instrucción sql para crear la BASE DE DATOS, de cuya estructura se envía información en el documento xml  -->
+
+<!DOCTYPE estructuraBD SYSTEM "estructuraBd.dtd">
+
+<!-- PONER EL DTD EN INTERNET -->
+<estructuraBD nombre="videoclub2">
+
+    <tabla nombre="peliculas">
+        <campo nombre="cod" tipo="INT" longitud="5" />        
+        <campo nombre="titulo" tipo="VARCHAR" longitud="40" />
+        <campo nombre="genero" tipo="ENUM" lista_de_valores="Humor Acción Thriller" null="1" />
+        <primary_key campos_clave="cod" />
+    </tabla>
+    <tabla nombre="clientes">
+        <campo nombre="cod" tipo="INT" longitud="4" />
+        <campo nombre="nombre" tipo="VARCHAR" longitud="20" />
+        <campo nombre="ap1" tipo="VARCHAR" longitud="20" />
+        <campo nombre="ap2" tipo="VARCHAR" longitud="20" null="1" />
+        <primary_key campos_clave="cod" />
+    </tabla>
+    <tabla nombre="alquileres">
+        <campo nombre="clientes_cod" tipo="INT" longitud="4" />
+        <campo nombre="peliculas_cod" tipo="INT" longitud="5" />
+        <campo nombre="fecha" tipo="DATETIME" />
+        <campo nombre="precio" tipo="DECIMAL" longitud="5" />
+        <primary_key campos_clave="clientes_cod peliculas_cod fecha" />
+        <foreign_key campos_clave="clientes_cod"  tabla_ajena="clientes" campos_relacionados="cod" />
+        <foreign_key campos_clave="peliculas_cod" tabla_ajena="peliculas" campos_relacionados="cod" />
+    </tabla>
+    <tabla nombre="ingresos">
+        <campo nombre="clientes_cod" tipo="INT" longitud="4"/>
+        <campo nombre="fecha" tipo="DATETIME"/>
+        <campo nombre="cantidad" tipo="DECIMAL" longitud="5"/>
+        <primary_key campos_clave="clientes_cod fecha"/>
+        <foreign_key campos_clave="clientes_cod" tabla_ajena="clientes" campos_relacionados="cod"/>
+    </tabla>
+    <tabla nombre="reservas">
+        <campo nombre="clientes_cod" tipo="INT" longitud="4"/>
+        <campo nombre="peliculas_cod" tipo="INT" longitud="5"/>
+        <campo nombre="fecha" tipo="DATETIME"/>
+        <campo nombre="precio" tipo="DECIMAL" longitud="5"/>
+        <primary_key campos_clave="clientes_cod"/>
+        <foreign_key campos_clave="clientes_cod" tabla_ajena="clientes" campos_relacionados="cod"/>
+        <foreign_key campos_clave="peliculas_cod" tabla_ajena="peliculas" campos_relacionados="cod"/>
+    </tabla>
+</estructuraBD>
+

@@ -1,0 +1,5 @@
+sudo route del default
+PASARELA=$(route -n | egrep '^0.0.0.0' | awk '{print $2;}')
+echo sudo route del -net $(route -n | egrep '^0.0.0.0' | awk '{print $1" netmask "$3}')
+echo sudo route del -net $(route -n | egrep '^128.0.0.0' | awk '{print $1" netmask "$3}')
+

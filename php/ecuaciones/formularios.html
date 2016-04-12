@@ -1,0 +1,48 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="es" lang ="es">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title></title>
+      <!-- autor Francisco Criado 07/03/2012 -->
+   </head>
+   <body>
+        <h2>Formulario para solucionar Ecuaciones</h2>
+        <form action="ecuaciones.php" method="post">
+            <label for="a">A:</label>
+            <input type="text" name="a" id="a"/>
+            <br/>
+            <label for="b">B:</label>
+            <input type="text" name="b" id="b"/>
+            <br/>
+            <label for="c">C:</label>
+            <input type="text" name="c" id="c"/>
+            <br/>
+            <input type="submit" value="Solucionar"/>
+        </form>
+        <br/><h2>Formulario para operaciones con 2 números</h2>
+        <form action="operaciones.php" method="post">
+            <table>
+                <tr>
+                    <td><label for="n1">Primer Número:</label></td>
+                    <td><input type="text" name="n1" id="n1"/></td>
+                </tr>
+                <tr>
+                    <td><label for="n2">Segundo Número:</label></td>
+                    <td><input type="text" name="n2" id="n2"/></td>
+                </tr>
+                <tr><td colspan="2"><input type="submit" value="Realizar cálculos"/></td></tr>
+            </table>
+        </form>
+        <br/><h2>Formulario para averiguar la nota</h2>
+        <form action="notas.php" method="post">
+            <table>
+                <tr>
+                    <td><label for="nota">Introduce Nota:</label></td>
+                    <td><input type="text" name="nota" id="nota"/></td>
+                </tr>
+                 <tr><td colspan="2"><input type="submit" value="Averiguar Nota"/></td></tr>
+            </table>
+        </form>
+
+   </body>
+</html>

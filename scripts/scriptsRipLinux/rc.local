@@ -1,0 +1,13 @@
+#!/bin/sh
+#
+# /etc/rc.d/rc.local:  Local system initialization script.
+#
+# Put any local setup commands in here:
+
+/bin/loadkeys es
+/scripts/network.sh
+mkdir /imagenes
+export PASSWD=mula2005
+SERVIDOR=$(cat $(ls /var/lib/dhcpc/*.info) | grep DHCPSIADDR | awk -F= "{print $2; }")
+/usr/bin/smbmount //$SERVIDOR/imagenes /imagenes -o username=amule
+/scripts/menu.sh

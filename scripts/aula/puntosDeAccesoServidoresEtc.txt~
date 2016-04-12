@@ -1,0 +1,38 @@
+192.168.1.100 	IESN_BIO_GEO2
+192.168.1.102	IES_SALAPROFES
+192.168.1.104	00:40:f4:92:ac:b0
+192.168.1.105	IESN_CONSERG
+192.168.1.106  IESN_FYQ
+192.168.1.107	IESN_MAT4
+
+
+
+Servidores
+----------
+
+
+srvSalaProfes	eth0      Link encap:Ethernet  direcciónHW e0:cb:4e:2c:a3:ce  Direc. inet:10.2.1.254
+			      eth1      Link encap:Ethernet  direcciónHW 00:24:01:ee:22:59
+			      eth1:1    Link encap:Ethernet  direcciónHW 00:24:01:ee:22:59  Direc. inet:10.10.10.9
+			
+
+aulasrv1		   eth1      Link encap:Ethernet  direcciónHW 00:24:01:ed:30:c1  Direc. inet:10.2.1.254
+			      eth0      Link encap:Ethernet  direcciónHW e0:cb:4e:2c:a2:62
+			      eth1:1    Link encap:Ethernet  direcciónHW 00:24:01:ed:30:c1  Direc. inet:10.10.10.11
+
+
+srv2aula		   eth1      Link encap:Ethernet  direcciónHW 00:19:99:88:6a:f8  Direc. inet:10.2.1.254
+			      eth0      Link encap:Ethernet  direcciónHW c8:3a:35:d0:f8:fc
+			      eth1:1    Link encap:Ethernet  direcciónHW 00:19:99:88:6a:f8  Direc. inet:10.10.10.12
+
+
+aulasrv1       eth0      Link encap:Ethernet  direcciónHW 00:16:0a:1c:4e:64  Direc. inet:10.2.1.254
+(tecnología)   eth1      Link encap:Ethernet  direcciónHW 00:19:99:80:53:e1  
+			      eth1:1    Link encap:Ethernet  direcciónHW 00:19:99:80:53:e1  Direc. inet:10.10.10.13  
+			
+
+Salaprofes2    eth6      Link encap:Ethernet  direcciónHW 00:0f:ea:40:57:3f  
+(junto pta.)	eth6:1    Link encap:Ethernet  direcciónHW 00:0f:ea:40:57:3f  Direc. inet:10.10.10.14
+			
+
+      			En todos: vncviewer 10.10.10.XXX:11 (la contraseña de adminprofes)

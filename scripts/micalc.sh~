@@ -1,0 +1,2 @@
+cd /m/Mios/calculadora
+java -jar calculadora.jar &

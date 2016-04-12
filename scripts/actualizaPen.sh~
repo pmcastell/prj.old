@@ -1,0 +1,13 @@
+ORIGENES="Antivir kvrt mcafee snapshot"
+for i in $ORIGENES;
+do
+   cp -ruv /m/PROGRAMS/$i/ ./PROGRAMS/$i/
+done   
+ORIGENES="avg clonezilla sysrcd wifiway"
+for i in $ORIGENES;
+do 
+   cp -ruv /m/$i/ ./$i/
+done
+   
+
+

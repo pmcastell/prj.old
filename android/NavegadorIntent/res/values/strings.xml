@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hola. Esta es la práctica 4.1</string>
+    <string name="app_name">NavegadorIntent</string>
+
+</resources>

@@ -1,0 +1,5 @@
+LISTA="/tmp/listaFicheros.txt"
+SALIDA="/tmp/listaFicherosmd5.txt"
+while read FICH; do
+   md5sum "$FICH" >> $SALIDA
+done < $LISTA

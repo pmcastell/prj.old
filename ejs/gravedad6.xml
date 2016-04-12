@@ -1,0 +1,836 @@
+<Osejs version="3.3">
+<Osejs.Description>
+</Osejs.Description>
+<Osejs.Model>
+<Osejs.Model.FramesPerSecond>25</Osejs.Model.FramesPerSecond>
+<Osejs.Model.Autostart>true</Osejs.Model.Autostart>
+<Osejs.Model.Variables>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>variables principales</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>t</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>incT</Name>
+<Value><![CDATA[1]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>n</Name>
+<Value><![CDATA[3]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>solx</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>soly</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>solz</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vx</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vy</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vz</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>ax</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>ay</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>az</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>GM</Name>
+<Value><![CDATA[2500]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>variables auxiliares</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>gm_raiz</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>maximoEjes</Name>
+<Value><![CDATA[400.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>radioSol</Name>
+<Value><![CDATA[60]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dx</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dy</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dz</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>numPuntosEstela</Name>
+<Value><![CDATA[1]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>fuerzasVisibles</Name>
+<Value><![CDATA[false]]></Value>
+<Type>boolean</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>velocidadesVisibles</Name>
+<Value><![CDATA[false]]></Value>
+<Type>boolean</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>avance</Name>
+<Value><![CDATA[1]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>mercurio</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>mx</Name>
+<Value><![CDATA[150.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>my</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>mz</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>cuasiDistanciaMercurio</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>numPuntosEstelaMercurio</Name>
+<Value><![CDATA[1]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>Venus</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>vex</Name>
+<Value><![CDATA[200.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vey</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vez</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>cuasiDistanciaVenus</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>numPuntosEstelaVenus</Name>
+<Value><![CDATA[1]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>tierra</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>tx</Name>
+<Value><![CDATA[300.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>ty</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>tz</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>cuasiDistanciaTierra</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>numPuntosEstelaTierra</Name>
+<Value><![CDATA[1]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+</Osejs.Model.Variables>
+<Osejs.Model.Initialization>
+<Osejs.Model.Initialization.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Página Inicio</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+vx[0]=0; //Mercurio
+vy[0]=4;
+vz[0]=0; 
+vx[1]=0;//Venus
+vy[1]=3.5;
+vz[1]=0;
+vx[2]=0; //Tierra
+vy[2]=3;
+vz[2]=0;
+
+
+]]></Code>
+
+</Content>
+</Osejs.Model.Initialization.Page>
+</Osejs.Model.Initialization>
+<Osejs.Model.Evolution>
+<Osejs.Model.Evolution.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Evolución Mercurio</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+for (int i=1; i<=avance; i++) {
+   dx=mx-solx;
+   dy=my-soly;
+   dz=mz-solz;
+   cuasiDistanciaMercurio=Math.pow(dx*dx+dy*dy+dz*dz,1.5);
+   gm_raiz=-GM/cuasiDistanciaMercurio;
+   ax[0]=gm_raiz*(mx-solx); // aceleración gravitatoria
+   ay[0]=gm_raiz*(my-soly);
+   az[0]=gm_raiz*(mz-solz);
+   vx[0]+=ax[0]*incT;
+   vy[0]+=ay[0]*incT;
+   vz[0]+=az[0]*incT;
+   mx+=vx[0]*incT;
+   my+=vy[0]*incT;
+   mz+=vz[0]*incT;
+}
+]]></Code>
+
+</Content>
+</Osejs.Model.Evolution.Page>
+<Osejs.Model.Evolution.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Evolución Venus</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+for (int i=1; i<=avance; i++) {
+   dx=vex-solx;
+   dy=vey-soly;
+   dz=vez-solz;
+   cuasiDistanciaVenus=Math.pow(dx*dx+dy*dy+dz*dz,1.5);
+   gm_raiz=-GM/cuasiDistanciaVenus;
+   ax[1]=gm_raiz*(vex-solx); // aceleración gravitatoria
+   ay[1]=gm_raiz*(vey-soly);
+   az[1]=gm_raiz*(vez-solz);
+   vx[1]+=ax[1]*incT;
+   vy[1]+=ay[1]*incT;
+   vz[1]+=az[1]*incT;
+   vex+=vx[1]*incT;
+   vey+=vy[1]*incT;
+   vez+=vz[1]*incT;
+}
+]]></Code>
+
+</Content>
+</Osejs.Model.Evolution.Page>
+<Osejs.Model.Evolution.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Evolución Tierra</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+for (int i=1; i<=avance; i++) {
+   dx=tx-solx;
+   dy=ty-soly;
+   dz=tz-solz;
+   cuasiDistanciaTierra=Math.pow(dx*dx+dy*dy+dz*dz,1.5);
+   gm_raiz=-GM/cuasiDistanciaTierra;
+   ax[2]=gm_raiz*(tx-solx); // aceleración gravitatoria
+   ay[2]=gm_raiz*(ty-soly);
+   az[2]=gm_raiz*(tz-solz);
+   vx[2]+=ax[2]*incT;
+   vy[2]+=ay[2]*incT;
+   vz[2]+=az[2]*incT;
+   tx+=vx[2]*incT;
+   ty+=vy[2]*incT;
+   tz+=vz[2]*incT;
+}
+]]></Code>
+
+</Content>
+</Osejs.Model.Evolution.Page>
+<Osejs.Model.Evolution.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Evolución Tiempo</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+t+=incT;
+]]></Code>
+
+</Content>
+</Osejs.Model.Evolution.Page>
+</Osejs.Model.Evolution>
+<Osejs.Model.Constraints>
+</Osejs.Model.Constraints>
+<Osejs.Model.Library>
+<Osejs.Model.Library.Page>
+<Type>LIBRARY_EDITOR</Type>
+<Name>Página Propia</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+int numPuntosEscala(int numPuntos, double distancia, int valorMax) {
+   int res=(int) ((double)numPuntos/valorMax*Math.pow(distancia,0.333333)*2.2);
+   //int res=(int) (Math.pow(distancia,0.333333)*2.2);
+   if (res<1) {
+      res=1;
+   } else if (res>valorMax) {
+      res=valorMax;
+   }
+   return res;
+}
+public void cambiaPuntosEstela() {
+   numPuntosEstelaMercurio=numPuntosEscala(numPuntosEstela,cuasiDistanciaMercurio,1000);
+   numPuntosEstelaVenus=numPuntosEscala(numPuntosEstela,cuasiDistanciaVenus,1000);
+   numPuntosEstelaTierra=numPuntosEscala(numPuntosEstela,cuasiDistanciaTierra,1000);;
+}
+]]></Code>
+
+</Content>
+</Osejs.Model.Library.Page>
+</Osejs.Model.Library>
+</Osejs.Model>
+<Osejs.View>
+<Osejs.View.Creation>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Frame</Type>
+<Property name="name">Ventana</Property>
+<Property name="_ejs_mainWindow">true</Property>
+<Property name="title"><![CDATA[Ventana]]></Property>
+<Property name="layout"><![CDATA[vbox]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="size"><![CDATA[727,529]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.DrawingPanel3D</Type>
+<Property name="name">PanelDibujo3D</Property>
+<Property name="parent">Ventana</Property>
+<Property name="position">center</Property>
+<Property name="minimumX"><![CDATA[-maximoEjes]]></Property>
+<Property name="maximumX"><![CDATA[maximoEjes]]></Property>
+<Property name="minimumY"><![CDATA[-maximoEjes]]></Property>
+<Property name="maximumY"><![CDATA[maximoEjes]]></Property>
+<Property name="minimumZ"><![CDATA[-maximoEjes]]></Property>
+<Property name="maximumZ"><![CDATA[maximoEjes]]></Property>
+<Property name="displayMode"><![CDATA[PERSPECTIVE]]></Property>
+<Property name="square"><![CDATA[true]]></Property>
+<Property name="hideLines"><![CDATA[true]]></Property>
+<Property name="quickRedraw"><![CDATA[true]]></Property>
+<Property name="decoration"><![CDATA[AXES]]></Property>
+<Property name="cursorMode"><![CDATA[CUBE]]></Property>
+<Property name="showCoordinates"><![CDATA[true]]></Property>
+<Property name="background"><![CDATA[150,255,255,255]]></Property>
+<Property name="foreground"><![CDATA[magenta]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Sol</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[solx]]></Property>
+<Property name="y"><![CDATA[soly]]></Property>
+<Property name="z"><![CDATA[solz]]></Property>
+<Property name="sizex"><![CDATA[radioSol]]></Property>
+<Property name="sizey"><![CDATA[radioSol]]></Property>
+<Property name="sizez"><![CDATA[radioSol]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[orange]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Mercurio</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[mx]]></Property>
+<Property name="y"><![CDATA[my]]></Property>
+<Property name="z"><![CDATA[mz]]></Property>
+<Property name="sizex"><![CDATA[radioSol/3]]></Property>
+<Property name="sizey"><![CDATA[radioSol/3]]></Property>
+<Property name="sizez"><![CDATA[radioSol/3]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="action"><![CDATA[cambiaPuntosEstela()]]></Property>
+<Property name="color"><![CDATA[red]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">TrazaMercurio</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[mx]]></Property>
+<Property name="y"><![CDATA[my]]></Property>
+<Property name="z"><![CDATA[mz]]></Property>
+<Property name="maxpoints"><![CDATA[numPuntosEstelaMercurio]]></Property>
+<Property name="norepeat"><![CDATA[true]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[red]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Arrow</Type>
+<Property name="name">fuerzaMercurio</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[mx]]></Property>
+<Property name="y"><![CDATA[my]]></Property>
+<Property name="z"><![CDATA[mz]]></Property>
+<Property name="sizex"><![CDATA[ax[0]*1000]]></Property>
+<Property name="sizey"><![CDATA[ay[0]*1000]]></Property>
+<Property name="sizez"><![CDATA[az[0]*1000]]></Property>
+<Property name="visible"><![CDATA[fuerzasVisibles]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="enabledSecondary"><![CDATA[false]]></Property>
+<Property name="color"><![CDATA[red]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Arrow</Type>
+<Property name="name">velocidadMercurio</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[mx]]></Property>
+<Property name="y"><![CDATA[my]]></Property>
+<Property name="z"><![CDATA[mz]]></Property>
+<Property name="sizex"><![CDATA[vx[0]*50]]></Property>
+<Property name="sizey"><![CDATA[vy[0]*50]]></Property>
+<Property name="sizez"><![CDATA[vz[0]*50]]></Property>
+<Property name="visible"><![CDATA[velocidadesVisibles]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[red]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Venus</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[vex]]></Property>
+<Property name="y"><![CDATA[vey]]></Property>
+<Property name="z"><![CDATA[vez]]></Property>
+<Property name="sizex"><![CDATA[radioSol/3]]></Property>
+<Property name="sizey"><![CDATA[radioSol/3]]></Property>
+<Property name="sizez"><![CDATA[radioSol/3]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="action"><![CDATA[cambiaPuntosEstela()]]></Property>
+<Property name="color"><![CDATA[magenta]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">TrazaVenus</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[vex]]></Property>
+<Property name="y"><![CDATA[vey]]></Property>
+<Property name="z"><![CDATA[vez]]></Property>
+<Property name="maxpoints"><![CDATA[numPuntosEstelaVenus]]></Property>
+<Property name="norepeat"><![CDATA[true]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[magenta]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Arrow</Type>
+<Property name="name">fuerzaVenus</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[vex]]></Property>
+<Property name="y"><![CDATA[vey]]></Property>
+<Property name="z"><![CDATA[vez]]></Property>
+<Property name="sizex"><![CDATA[ax[1]*1000]]></Property>
+<Property name="sizey"><![CDATA[ay[1]*1000]]></Property>
+<Property name="sizez"><![CDATA[az[1]*1000]]></Property>
+<Property name="visible"><![CDATA[fuerzasVisibles]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="enabledSecondary"><![CDATA[false]]></Property>
+<Property name="color"><![CDATA[magenta]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Arrow</Type>
+<Property name="name">velocidadVenus</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[vex]]></Property>
+<Property name="y"><![CDATA[vey]]></Property>
+<Property name="z"><![CDATA[vez]]></Property>
+<Property name="sizex"><![CDATA[vx[1]*50]]></Property>
+<Property name="sizey"><![CDATA[vy[1]*50]]></Property>
+<Property name="sizez"><![CDATA[vz[1]*50]]></Property>
+<Property name="visible"><![CDATA[velocidadesVisibles]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[magenta]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Tierra</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[tx]]></Property>
+<Property name="y"><![CDATA[ty]]></Property>
+<Property name="z"><![CDATA[tz]]></Property>
+<Property name="sizex"><![CDATA[radioSol/3]]></Property>
+<Property name="sizey"><![CDATA[radioSol/3]]></Property>
+<Property name="sizez"><![CDATA[radioSol/3]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="action"><![CDATA[cambiaPuntosEstela()]]></Property>
+<Property name="color"><![CDATA[blue]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">TrazaTierra</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[tx]]></Property>
+<Property name="y"><![CDATA[ty]]></Property>
+<Property name="z"><![CDATA[tz]]></Property>
+<Property name="maxpoints"><![CDATA[numPuntosEstelaTierra]]></Property>
+<Property name="norepeat"><![CDATA[true]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[blue]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Arrow</Type>
+<Property name="name">fuerzaTierra</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[tx]]></Property>
+<Property name="y"><![CDATA[ty]]></Property>
+<Property name="z"><![CDATA[tz]]></Property>
+<Property name="sizex"><![CDATA[ax[2]*1000]]></Property>
+<Property name="sizey"><![CDATA[ay[2]*1000]]></Property>
+<Property name="sizez"><![CDATA[az[2]*100]]></Property>
+<Property name="visible"><![CDATA[fuerzasVisibles]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="enabledSecondary"><![CDATA[false]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Arrow</Type>
+<Property name="name">velocidadTierra</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[tx]]></Property>
+<Property name="y"><![CDATA[ty]]></Property>
+<Property name="z"><![CDATA[tz]]></Property>
+<Property name="sizex"><![CDATA[vx[2]*50]]></Property>
+<Property name="sizey"><![CDATA[vy[2]*50]]></Property>
+<Property name="sizez"><![CDATA[vz[2]*50]]></Property>
+<Property name="visible"><![CDATA[velocidadesVisibles]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[blue]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">panelInfo</Property>
+<Property name="parent">Ventana</Property>
+<Property name="position">south</Property>
+<Property name="layout"><![CDATA[vbox]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">PanelSliders</Property>
+<Property name="parent">panelInfo</Property>
+<Property name="position">center</Property>
+<Property name="layout"><![CDATA[grid:2,4,0,0]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Label</Type>
+<Property name="name">Escala_de_Tiempo:</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="position">west</Property>
+<Property name="text"><![CDATA[   Avance: ]]></Property>
+<Property name="alignment"><![CDATA[RIGHT]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Slider</Type>
+<Property name="name">DeslizadorAvance</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="position">center</Property>
+<Property name="variable"><![CDATA[avance]]></Property>
+<Property name="minimum"><![CDATA[1]]></Property>
+<Property name="maximum"><![CDATA[20]]></Property>
+<Property name="orientation"><![CDATA[HORIZONTAL]]></Property>
+<Property name="ticks"><![CDATA[10]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Label</Type>
+<Property name="name">Estela</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="position">west</Property>
+<Property name="text"><![CDATA[   Estela: ]]></Property>
+<Property name="alignment"><![CDATA[RIGHT]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Slider</Type>
+<Property name="name">DeslizadorEstela</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="variable"><![CDATA[numPuntosEstela]]></Property>
+<Property name="minimum"><![CDATA[1]]></Property>
+<Property name="maximum"><![CDATA[1000]]></Property>
+<Property name="ticks"><![CDATA[30]]></Property>
+<Property name="closest"><![CDATA[true]]></Property>
+<Property name="action"><![CDATA[cambiaPuntosEstela()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Inicializar</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="position">west</Property>
+<Property name="text"><![CDATA[Inicializar]]></Property>
+<Property name="action"><![CDATA[_reset()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Continuar</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="position">east</Property>
+<Property name="text"><![CDATA[Continuar]]></Property>
+<Property name="action"><![CDATA[_play()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Label</Type>
+<Property name="name">EscalaEjes</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="position">center</Property>
+<Property name="text"><![CDATA[   Zoom: ]]></Property>
+<Property name="alignment"><![CDATA[RIGHT]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Slider</Type>
+<Property name="name">DeslizadorZoom</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="variable"><![CDATA[maximoEjes]]></Property>
+<Property name="minimum"><![CDATA[10]]></Property>
+<Property name="maximum"><![CDATA[2000]]></Property>
+<Property name="ticks"><![CDATA[20]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.CheckBox</Type>
+<Property name="name">VerFuerzas</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="variable"><![CDATA[fuerzasVisibles]]></Property>
+<Property name="text"><![CDATA[Ver Fuerzas]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.CheckBox</Type>
+<Property name="name">VerVelocidades</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="variable"><![CDATA[velocidadesVisibles]]></Property>
+<Property name="text"><![CDATA[Ver Velocidades]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Pausa</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="position">center</Property>
+<Property name="text"><![CDATA[Pausa]]></Property>
+<Property name="action"><![CDATA[_pause()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">paso</Property>
+<Property name="parent">PanelSliders</Property>
+<Property name="text"><![CDATA[Paso a Paso]]></Property>
+<Property name="action"><![CDATA[_pause(); _step();]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">PanelDepuracion</Property>
+<Property name="parent">Ventana</Property>
+<Property name="layout"><![CDATA[hbox]]></Property>
+<Property name="visible"><![CDATA[false]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">CampoNumerico</Property>
+<Property name="parent">PanelDepuracion</Property>
+<Property name="position">center</Property>
+<Property name="variable"><![CDATA[numPuntosEstelaMercurio]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">CampoNumerico2</Property>
+<Property name="parent">PanelDepuracion</Property>
+<Property name="variable"><![CDATA[numPuntosEstelaVenus]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">CampoNumerico3</Property>
+<Property name="parent">PanelDepuracion</Property>
+<Property name="variable"><![CDATA[numPuntosEstelaTierra]]></Property>
+</Osejs.View.Creation.Element>
+</Osejs.View.Creation>
+</Osejs.View>
+</Osejs>

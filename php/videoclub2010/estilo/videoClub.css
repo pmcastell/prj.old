@@ -1,0 +1,24 @@
+@CHARSET "UTF-8";
+div {
+	border: black solid 1px;
+}	
+.ancho {
+   clear: both;
+   text-align: center;
+   padding: 10px;
+   background: lightblue;
+}
+
+.menu {
+	width: 15%;
+	background: red;
+	height: 500px;
+	float:left;
+}
+
+.contenido {
+	width: 84%;
+	float: right;
+	background: green;
+	height: 500px;
+}	

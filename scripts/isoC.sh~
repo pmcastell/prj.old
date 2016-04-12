@@ -1,0 +1,6 @@
+uso() {
+   echo Uso: $0 directorio nombre-fichero
+   echo Hace una imagen nombre-fichero.iso de directorio
+   exit -1
+}   
+nice -19 mkisofs -f -iso-level 4 -R -b grldr -no-emul-boot -boot-load-size 4 -boot-info-table -o /l/ImagenesCdDvd/winXpLinux-cd.iso winXpLinux-cd

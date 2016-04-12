@@ -1,0 +1,27 @@
+[PropertyInfo]
+appletInfo,String,false,false, , ,true,<default>
+bonoLoto,JButton,false,false, , ,false,<default>
+combGanadora,JTextField,false,false, , ,false,<default>
+combJugadas,JTextArea,false,false, , ,false,<default>
+complementario,JTextField,false,false, , ,false,<default>
+comprobar,JButton,false,false, , ,false,<default>
+gordo,JButton,false,false, , ,false,<default>
+isStandalone,boolean,false,false, , ,false,<default>
+JLabel1,JLabel,false,false, , ,false,<default>
+JLabel2,JLabel,false,false, , ,false,<default>
+JLabel3,JLabel,false,false, , ,false,<default>
+JLabel4,JLabel,false,false, , ,false,<default>
+JLabel5,JLabel,false,false, , ,false,<default>
+JScrollPane1,JScrollPane,false,false, , ,false,<default>
+limpiar,JButton,false,false, , ,false,<default>
+parameter,String,false,false, , ,true,<default>
+parameterInfo,String[][],false,false, , ,true,<default>
+Premios,JTextField,false,false, , ,false,<default>
+Primitiva,JButton,false,false, , ,false,<default>
+reintegro,JTextField,false,false, , ,false,<default>
+titledBorder1,TitledBorder,false,false, , ,false,<default>
+[IconNames]
+
+
+
+

@@ -1,0 +1,34 @@
+@CHARSET "UTF-8";
+div {
+    border-style: solid;
+    border-color: red;
+    border-width: 2px;
+}
+.cabecera {
+    border-color: green;
+}
+.izquierda {
+    width: 20%;     
+    float:left;     
+    height: 200px;
+  }
+.derecha {
+    float : right;     
+    position : relative;     
+    width : 79%;     
+    height:200px;  
+}
+.contenido {
+    visibility: hidden;     
+    position: absolute;     
+    width: 100%;     
+    border-color: blue;  
+}
+.pie {
+    clear: both;    
+    border-color: green;    
+    border-width: 10px;  
+}
+.visible {
+    visibility: visible;  
+}

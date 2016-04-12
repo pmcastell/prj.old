@@ -1,0 +1,40 @@
+{% extends "general/base.html" %}
+
+{% block titulo %} Hola mundo {% endblock %}
+{% block titulo-pag %} Hola mundo {% endblock %}
+
+{% block contenido %}
+    <h2> Hola mundo </h2>
+    
+    <p>
+        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+        non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+
+    <p>
+        <img src="{{ STATIC_URL }}images/python.png" class="left" alt="python" />
+        Mauris ultrices ante velit. Vestibulum sollicitudin bibendum bibendum.
+        Maecenas eget ligula magna, at tempus sem. Cum sociis natoque penatibus
+        et magnis dis parturient montes, nascetur ridiculus mus. Nam in enim
+        eget urna interdum auctor. Praesent congue eros dolor. Cum sociis
+        natoque penatibus et magnis dis parturient montes, nascetur ridiculus
+        mus. Sed a venenatis nisl. Aenean eget dolor urna. Sed placerat arcu vel
+        risus congue quis varius quam elementum. Curabitur pellentesque vehicula
+        nulla, euismod molestie elit malesuada sed.
+    </p>
+    
+    <p>
+        Pellentesque sodales luctus nisl eu mattis. Aliquam id mauris eu mi
+        congue hendrerit. Etiam sed risus lectus, scelerisque laoreet sem.
+        Aenean vel nisi non sem tincidunt accumsan. Sed magna arcu, egestas ac
+        mattis nec, interdum eu turpis. Nam sit amet interdum lorem. Proin
+        porttitor bibendum augue eget accumsan. Donec eleifend, dolor at
+        interdum venenatis, risus turpis fringilla felis, et commodo neque
+        urna vitae leo. Nulla scelerisque sodales nulla dapibus venenatis.
+    </p>
+    
+{% endblock %}

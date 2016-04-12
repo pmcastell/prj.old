@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE libros 
+[
+<!ELEMENT libros (libro*)>
+<!ELEMENT libro (titulo,autor*,editorial,fecha_publicacion,isbn)>
+<!ELEMENT titulo (#PCDATA)>
+<!ELEMENT autor (#PCDATA)>
+<!ELEMENT editorial (#PCDATA)>
+<!ELEMENT fecha_publicacion (dia,mes,año)>
+<!ELEMENT dia (#PCDATA)>
+<!ELEMENT mes (#PCDATA)>
+<!ELEMENT año (#PCDATA)>
+<!ELEMENT isbn (#PCDATA)>
+]
+>
+<libros>
+	<libro>
+		<titulo></titulo>
+		<autor>
+		    Pepito pérez
+		</autor>
+		<autor>
+		    juanito lópez
+		</autor>
+		<autor>
+		    Eusebio fernandez
+		</autor>
+		<editorial>ANAYA</editorial>
+		<fecha_publicacion>
+		   <dia></dia>
+		   <mes></mes>
+		   <año></año>
+		</fecha_publicacion>
+		<isbn></isbn>
+	</libro>
+</libros>

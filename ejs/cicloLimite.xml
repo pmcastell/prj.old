@@ -1,0 +1,355 @@
+<Osejs version="3.3">
+<Osejs.Description>
+<Osejs.Description.Page>
+<Type>HTML_EDITOR</Type>
+<Name>Página Intro</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<![CDATA[
+<html>
+  <head>
+    
+  </head>
+  <body>
+    <img src="laboratoriosTexto/Imagenes/cicloLimite1.gif">
+  </body>
+</html>
+
+]]>
+
+</Content>
+</Osejs.Description.Page>
+</Osejs.Description>
+<Osejs.Model>
+<Osejs.Model.FramesPerSecond>25</Osejs.Model.FramesPerSecond>
+<Osejs.Model.Autostart>true</Osejs.Model.Autostart>
+<Osejs.Model.Variables>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>Tabla Variables</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>t</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>K</Name>
+<Value><![CDATA[1.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>x0</Name>
+<Value><![CDATA[2.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>y0</Name>
+<Value><![CDATA[2.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>x</Name>
+<Value><![CDATA[x0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>y</Name>
+<Value><![CDATA[y0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>aux</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>derx</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dery</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name></Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>Variables vista</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>muestraVentanaSliders</Name>
+<Value><![CDATA[true]]></Value>
+<Type>boolean</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+</Osejs.Model.Variables>
+<Osejs.Model.Initialization>
+<Osejs.Model.Initialization.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Página Inicio</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+_resetView();
+t=0;
+x=x0;
+y=y0;
+
+]]></Code>
+
+</Content>
+</Osejs.Model.Initialization.Page>
+</Osejs.Model.Initialization>
+<Osejs.Model.Evolution>
+<Osejs.Model.Evolution.Page>
+<Type>ODE_EDITOR</Type>
+<Name>Página Evolución</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<IndependentVariable>t</IndependentVariable>
+<Increment>0.1</Increment>
+<Rate state="x">derx</Rate>
+<Rate state="y">dery</Rate>
+<Method>MidPoint</Method>
+<Tolerance></Tolerance>
+<Comment><![CDATA[]]></Comment>
+
+</Content>
+</Osejs.Model.Evolution.Page>
+</Osejs.Model.Evolution>
+<Osejs.Model.Constraints>
+<Osejs.Model.Constraints.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Página Ligaduras</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+aux=K*(1-x*x-y*y)/Math.sqrt(x*x+y*y);
+derx=y+x*aux;
+dery=-x+y*aux;
+]]></Code>
+
+</Content>
+</Osejs.Model.Constraints.Page>
+</Osejs.Model.Constraints>
+<Osejs.Model.Library>
+</Osejs.Model.Library>
+</Osejs.Model>
+<Osejs.View>
+<Osejs.View.Creation>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Frame</Type>
+<Property name="name">mainFrame</Property>
+<Property name="_ejs_mainWindow">true</Property>
+<Property name="title"><![CDATA[mainFrame]]></Property>
+<Property name="layout"><![CDATA[border]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="size"><![CDATA[816,333]]></Property>
+<Property name="resizable"><![CDATA[true]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">panel</Property>
+<Property name="parent">mainFrame</Property>
+<Property name="position">west</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">panelButtons</Property>
+<Property name="parent">panel</Property>
+<Property name="position">north</Property>
+<Property name="layout"><![CDATA[grid:0,1,0,0]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Play</Property>
+<Property name="parent">panelButtons</Property>
+<Property name="text"><![CDATA[Play]]></Property>
+<Property name="enabled"><![CDATA[_isPaused]]></Property>
+<Property name="action"><![CDATA[_play()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Pause</Property>
+<Property name="parent">panelButtons</Property>
+<Property name="text"><![CDATA[Pause]]></Property>
+<Property name="enabled"><![CDATA[_isPlaying]]></Property>
+<Property name="action"><![CDATA[_pause()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Reset</Property>
+<Property name="parent">panelButtons</Property>
+<Property name="text"><![CDATA[Reset]]></Property>
+<Property name="action"><![CDATA[_reset()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Inicializa</Property>
+<Property name="parent">panelButtons</Property>
+<Property name="text"><![CDATA[Inicializa]]></Property>
+<Property name="action"><![CDATA[_initialize()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.CheckBox</Type>
+<Property name="name">SelectorVentanaDialogoSliders</Property>
+<Property name="parent">panelButtons</Property>
+<Property name="variable"><![CDATA[muestraVentanaSliders]]></Property>
+<Property name="selected"><![CDATA[true]]></Property>
+<Property name="text"><![CDATA[Modificar x,y]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.PlottingPanel</Type>
+<Property name="name">graficas_vs_tiempo</Property>
+<Property name="parent">mainFrame</Property>
+<Property name="position">center</Property>
+<Property name="title"><![CDATA[Ciclo Límite]]></Property>
+<Property name="axesType"><![CDATA[Cartesian2]]></Property>
+<Property name="titleX"><![CDATA[Tiempo]]></Property>
+<Property name="xaxisType"><![CDATA[LINEAR]]></Property>
+<Property name="majorTicksX"><![CDATA[true]]></Property>
+<Property name="titleY"><![CDATA[x,y]]></Property>
+<Property name="yaxisType"><![CDATA[LINEAR]]></Property>
+<Property name="majorTicksY"><![CDATA[true]]></Property>
+<Property name="autoscaleX"><![CDATA[true]]></Property>
+<Property name="autoscaleY"><![CDATA[false]]></Property>
+<Property name="minimumY"><![CDATA[-4]]></Property>
+<Property name="maximumY"><![CDATA[4]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">x_vs_t</Property>
+<Property name="parent">graficas_vs_tiempo</Property>
+<Property name="x"><![CDATA[t]]></Property>
+<Property name="y"><![CDATA[x]]></Property>
+<Property name="maxpoints"><![CDATA[100]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[red]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">y_vs_t</Property>
+<Property name="parent">graficas_vs_tiempo</Property>
+<Property name="x"><![CDATA[t]]></Property>
+<Property name="y"><![CDATA[y]]></Property>
+<Property name="maxpoints"><![CDATA[100]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[blue]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.PlottingPanel</Type>
+<Property name="name">graficas_y_vs_x</Property>
+<Property name="parent">mainFrame</Property>
+<Property name="position">east</Property>
+<Property name="title"><![CDATA[Ciclo Límite]]></Property>
+<Property name="axesType"><![CDATA[Cartesian3]]></Property>
+<Property name="titleX"><![CDATA[x]]></Property>
+<Property name="xaxisType"><![CDATA[LINEAR]]></Property>
+<Property name="majorTicksX"><![CDATA[true]]></Property>
+<Property name="titleY"><![CDATA[y]]></Property>
+<Property name="yaxisType"><![CDATA[LINEAR]]></Property>
+<Property name="majorTicksY"><![CDATA[true]]></Property>
+<Property name="autoscaleX"><![CDATA[true]]></Property>
+<Property name="autoscaleY"><![CDATA[true]]></Property>
+<Property name="minimumX"><![CDATA[-4]]></Property>
+<Property name="maximumX"><![CDATA[4]]></Property>
+<Property name="minimumY"><![CDATA[-4]]></Property>
+<Property name="maximumY"><![CDATA[4]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">y_vs_x</Property>
+<Property name="parent">graficas_y_vs_x</Property>
+<Property name="x"><![CDATA[x]]></Property>
+<Property name="y"><![CDATA[y]]></Property>
+<Property name="maxpoints"><![CDATA[200]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[blue]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Dialog</Type>
+<Property name="name">VentanaDialogoSliders</Property>
+<Property name="title"><![CDATA[VentanaDialogoSliders]]></Property>
+<Property name="layout"><![CDATA[grid:2,1,0,0]]></Property>
+<Property name="visible"><![CDATA[muestraVentanaSliders]]></Property>
+<Property name="location"><![CDATA[0,330]]></Property>
+<Property name="size"><![CDATA[300,300]]></Property>
+<Property name="resizable"><![CDATA[true]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Slider</Type>
+<Property name="name">slider_x</Property>
+<Property name="parent">VentanaDialogoSliders</Property>
+<Property name="variable"><![CDATA[x0]]></Property>
+<Property name="minimum"><![CDATA[-4.0]]></Property>
+<Property name="maximum"><![CDATA[4.0]]></Property>
+<Property name="format"><![CDATA[x=0.0]]></Property>
+<Property name="ticks"><![CDATA[9]]></Property>
+<Property name="ticksFormat"><![CDATA[0.#]]></Property>
+<Property name="action"><![CDATA[_initialize()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Slider</Type>
+<Property name="name">slider_y</Property>
+<Property name="parent">VentanaDialogoSliders</Property>
+<Property name="variable"><![CDATA[y0]]></Property>
+<Property name="minimum"><![CDATA[-4.0]]></Property>
+<Property name="maximum"><![CDATA[4.0]]></Property>
+<Property name="format"><![CDATA[y0=0.0]]></Property>
+<Property name="ticks"><![CDATA[9]]></Property>
+<Property name="ticksFormat"><![CDATA[0.#]]></Property>
+<Property name="action"><![CDATA[_initialize()]]></Property>
+</Osejs.View.Creation.Element>
+</Osejs.View.Creation>
+</Osejs.View>
+</Osejs>

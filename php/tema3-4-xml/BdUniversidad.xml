@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<BdUniversidad>
+	<alumno>
+		<dni>12345678Z</dni>
+		<nombre>Pedro Luis</nombre>
+		<apellido>GUTIÉRREZ González</apellido>
+		<ciudad>SEVILLA</ciudad>
+		<teléfono>954112233</teléfono>
+		<calle>Avda. Ciencias</calle>
+		<número>33</número>
+		<fechaNacimiento>01-01-1975</fechaNacimiento>
+	</alumno>
+	<profesor>
+		<id>1</id>
+		<dni>23123444S</dni>
+	</profesor>
+	<imparte>
+	   <dni></dni>
+	   <dni></dni>
+	</imparte>
+	<asignatura>
+		<nombre>LMSGI</nombre>
+		<créditos>32</créditos>
+		<curso>1º DAM</curso>
+	</asignatura>
+
+</BdUniversidad>

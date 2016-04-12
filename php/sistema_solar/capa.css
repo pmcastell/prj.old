@@ -1,0 +1,31 @@
+div{
+   border:solid 2px blue;
+   background-color:#66FF99;
+  
+}
+.cabecera{
+	height:50px;
+	text-align:center;
+	
+	}
+.izq{
+   	float:left;
+ 	width:25%;
+	background-color:#66FF33;
+	height:760px;
+	text-align:left;;
+   
+}
+.der{
+   	float:right;
+	width:74%;
+	position:relative;
+	height:760px;
+	font-size:11pt;
+	background-color:#9c0;
+	
+}
+.pie{
+   	background-color:#0c9;
+	text-align:center;
+}
