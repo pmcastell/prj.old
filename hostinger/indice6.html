@@ -46,6 +46,15 @@ srvSalaProfes_TUN_SSH_CMD2="/sbin/route add -net 10.2.1.0/24 gw $TUN_SSH_DEV_IP;
 srvSalaProfes_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24 &> /dev/null; "
 srvSalaProfes_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
 
+Salaprofes2_TUN_SSH=$GLOBAL_TUN_SSH
+Salaprofes2_TUN_SSH_IP=$GLOBAL_TUN_IP
+Salaprofes2_TUN_SSH_PORT=$GLOBAL_TUN_PORT
+Salaprofes2_TUN_SSH_DEV=33
+Salaprofes2_TUN_SSH_CMD1="/sbin/route add -net 10.10.10.0/24 gw $TUN_SSH_DEV_IP; "
+Salaprofes2_TUN_SSH_CMD2="/sbin/route add -net 10.2.1.0/24 gw $TUN_SSH_DEV_IP; "
+Salaprofes2_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24 &> /dev/null; "
+Salaprofes2_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
+
 iesinclan_TUN_SSH=si
 iesinclan_TUN_SSH_IP=$GLOBAL_TUN_IP
 iesinclan_TUN_SSH_PORT=$GLOBAL_TUN_PORT
@@ -55,23 +64,15 @@ iesinclan_TUN_SSH_CMD2="/sbin/route add -net 192.168.0.0/22 gw $TUN_SSH_DEV_IP; 
 iesinclan_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24 &> /dev/null; "
 iesinclan_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
 
-ubu14_TUN_SSH=si
-ubu14_TUN_SSH_IP=$GLOBAL_TUN_IP
-ubu14_TUN_SSH_PORT=$GLOBAL_TUN_PORT
-ubu14_TUN_SSH_DEV=27
+#ubu14_TUN_SSH=si
+#ubu14_TUN_SSH_IP=$GLOBAL_TUN_IP
+#ubu14_TUN_SSH_PORT=$GLOBAL_TUN_PORT
+#ubu14_TUN_SSH_DEV=27
 
 Free10_TUN_SSH=si
 Free10_TUN_SSH_IP=$GLOBAL_TUN_IP
 Free10_TUN_SSH_PORT=$GLOBAL_TUN_PORT
 Free10_TUN_SSH_DEV=29
-
-ubu15_TUN_SSH=si
-ubu15_TUN_SSH_IP=$GLOBAL_TUN_IP
-ubu15_TUN_SSH_PORT=$GLOBAL_TUN_PORT
-ubu15_TUN_SSH_DEV=30
-ubu15_TUN_SSH_CMD1="/sbin/route add -net 172.18.162.0/24 gw $TUN_SSH_DEV_IP; "
-ubu15_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24 &> /dev/null; "
-ubu15_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
 
 ubu_TUN_SSH=si
 ubu_TUN_SSH_IP=$GLOBAL_TUN_IP
@@ -89,4 +90,4 @@ reg6543_TUN_SSH_CMD1="/sbin/route add -net 172.17.8.0/24 gw $TUN_SSH_DEV_IP; "
 reg6543_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24 &> /dev/null; "
 reg6543_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
 
-MD5SUM=7613c8b6a150c8a50289529a80035ca9
+MD5SUM=7a7082c391d8afe5fa58a12fc6f665e0
