@@ -1,0 +1,59 @@
+# This is a sample menu.lst file. You should make some changes to it.
+# The old install method of booting via the stage-files has been removed.
+# Please install GRLDR boot strap code to MBR with the bootlace.com
+# utility under DOS/Win9x or Linux.
+
+#splashimage=/fondoFirefoxMar.xpm.gz 
+#splashimage=/splash.xpm 
+#splashimage=/imgs/tuxbsdxp.xpm.gz 
+#splashimage=/imgs/grub_face.xpm.gz
+#splashimage=/imgs/grub_buddha.xpm.gz
+#splashimage=/imgs/apolo.xpm
+#splashimage=/imgs/grub_space.xpm.gz 
+#splashimage=/imgs/grub_vase.xpm.gz 
+splashimage=/imgs/grub_daisy.xpm.gz 
+#splashimage=/imgs/grub_klimt.xpm.gz
+#splashimage=/imgs/grub-splash.png 
+#splashimage=/imgs/ESA_Mars.xpm.gz 
+#splashimage=/imgs/hubble.xpm.gz
+
+#foreground ffffff #background 004174 #viewport 3 0 80 30
+
+foreground ffffff
+#background ffff88
+viewport 3 2 77 22
+shadow 1
+#color black/cyan yellow/cyan #color yellow/magenta yellow/cyan #color white/cyan yellow/black
+
+timeout 30
+default 1
+#root (hd0,4)
+
+
+title -------------- Linux --------------------------
+root
+
+title Restaurar Lliurex (SysRcD32 Live CD altker32)
+find --set-root /autorun0
+kernel /sysrcd/altker32 initrd=/sysrcd/initram.igz setkmap=es subdir=sysrcd rootpass=root autoruns=0
+initrd=/sysrcd/initram.igz
+
+
+title SysRcD32 Live CD altker32
+find --set-root /autorun0
+kernel /sysrcd/altker32 initrd=/sysrcd/initram.igz setkmap=es subdir=sysrcd rootpass=root autoruns=no
+initrd=/sysrcd/initram.igz
+
+
+title SysRcD64 Live CD altker64
+find --set-root /autorun0
+kernel /sysrcd/altker64 initrd=/sysrcd/initram.igz setkmap=es subdir=sysrcd rootpass=root autoruns=no
+initrd=/sysrcd/initram.igz
+
+
+title reboot
+reboot
+
+title halt
+halt
+
