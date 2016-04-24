@@ -1,0 +1,12 @@
+parameters a,i,j;
+//permuta la columna i-ésima por la j-ésima en la matriz a
+//devuelve la matriz resultante del cambio
+if (type(a)!="M" || type(i)!="D" || type(j)!="D") {
+   return "Error en parámetros, el primero debe ser matriz y los otros 2 numéricos.";
+}
+for(k=0; k<len(a[0]); k++) {
+   temp=a[k][i];
+   a[k][i]=a[k][j];
+   a[k][j]=temp;
+}
+return a;

@@ -1,0 +1,6 @@
+parameters n;
+dim a[n];
+for(i=0;i<n;i++) {
+   a[i]=i;
+}   
+return a;

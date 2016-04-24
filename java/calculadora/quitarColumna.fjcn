@@ -1,0 +1,18 @@
+parameters a,c;
+
+if (type(a)!="M" || type(a[0])!="M" || type(c)!="D") {
+   "Error en parámetros: se necesitan una matriz y número de fila a eliminar";
+}
+if (c<0 || c>=len(a[0])) {
+   return "Error la fila está fuera del rango";
+}   
+dim res[len(a)][len(a[0])-1];
+for(i=0; i<len(a); i++) {
+   for(j=0,k=0; j<len(a[0]); j++) {
+      if (j!=c) {
+         res[i][k]=a[i][j];
+         k++;
+      }
+   }
+}
+return res;

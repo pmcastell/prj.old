@@ -1,0 +1,16 @@
+parameters a;
+
+if (type(a)!="M") {
+   return "Error el parámetro no es una matriz.";
+}
+if (type(a[0])!="M") {
+   return "Error el parámetro no es una matriz bidimensional.";
+}
+dim res[len(a[0])][len(a)];
+for(i=0; i<len(res); i++) {
+   for(j=0; j<=i; j++) {
+      res[i][j]=a[j][i];
+      res[j][i]=a[i][j];
+   }
+}
+return res;

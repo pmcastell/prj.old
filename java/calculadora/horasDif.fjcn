@@ -1,0 +1,4 @@
+parameters h1,h2;
+
+t=timeDif(h1,h2);
+return eval(substr(t,0,1)+"+"+substr(t,3,4)+"/60+"+substr(t,6,7)+"/3600");

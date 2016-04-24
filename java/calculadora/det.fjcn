@@ -1,0 +1,26 @@
+parameters a;
+
+if (type(a)!="M" ) {
+   return "Error el parámetro no es una matriz";
+}
+if (type(a[0])!="M") {
+   return "Error la matriz no es bidimensional.";
+}
+if (len(a)!=len(a[0])) {
+   return "Error la matriz no es cuadrada: no se puede calcular el n.";
+}
+
+if (len(a)==1) {
+   return a[0][0];
+} else {
+   pivote=-1;
+   det=0;
+   for(j=0; j<len(a[0]); j++) {
+      pivote=-pivote;
+      det=det+pivote*a[0][j]*det(menor(a,0,j));
+   }
+   return det;
+}
+
+      
+      

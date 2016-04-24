@@ -1,0 +1,7 @@
+parameters a,b;
+
+c=prodMat(a,b);
+if (type(c)=="S") {
+   return "error en parámetros.";
+}
+for(

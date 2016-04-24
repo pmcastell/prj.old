@@ -1,0 +1,4 @@
+parameters v,a; //devuelve el vector reflejado de a sobre la dirección definida por v
+   modulo2=v[0]^2+v[1]^2;
+   mreflex={{(v[0]^2-v[1]^2)/modulo2,(2*v[0]*v[1])/modulo2},{(2*v[0]*v[1])/modulo2,(-v[0]^2+v[1]^2)/modulo2}};
+return {mreflex[0][0]*a[0]+mreflex[0][1]*a[1],mreflex[1][0]*a[0]+mreflex[1][1]*a[1]};

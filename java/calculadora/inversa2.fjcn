@@ -1,0 +1,27 @@
+parameters a;
+
+if (type(a)!="M" ) {
+   return "Error el parámetro no es una matriz";
+}
+if (type(a[0])!="M") {
+   return "Error la matriz no es bidimensional.";
+}
+if (len(a)!=len(a[0])) {
+   return "Error la matriz no es cuadrada: no se puede calcular el n.";
+}
+d=det(a);
+if (d==0) {
+   print("Determinante: ",d);
+   return "La matriz no tiene inversa: El determinante es 0.";
+}
+res=adjunta(a);
+//print("adjunta: ",res);
+orden=len(res);
+for(i=0; i<orden; i++) {
+   for(j=0; j<=i; j++) {
+      temp=res[j][i];
+      res[j][i]=res[i][j]/d;
+      res[i][j]=temp/d;
+   }
+}
+return res;

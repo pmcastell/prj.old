@@ -1,0 +1,16 @@
+parameters n,d;
+
+if (type(n)!="D" || type(d)!="D") {
+   return "Error en algún parámetro no es numérico";
+}
+if (int(d)!=d) {
+   return "Error número de decimales debe ser un entero.";
+}
+n=n*10^d;
+n=n+0.5;
+if (n>0) {
+   n=floor(n);
+} else {
+   n=ceil(n);
+}
+return n/10^d;

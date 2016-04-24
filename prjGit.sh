@@ -6,4 +6,5 @@ if [ ! -d $DEST ]; then
    git clone https://github.com/javier-iesn/prj
 fi   
 cp -ruv /m/Mios/Instituto/prj $DEST/
-#/m/Mios/prj/scripts/git.sh commit
+cd $DEST/prj
+/m/Mios/prj/scripts/git.sh commit

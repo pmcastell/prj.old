@@ -1,0 +1,3 @@
+parameters h1;
+
+return eval(substr(h1,0,1)+"*3600+"+substr(h1,3,4)+"*60+"+substr(h1,6,7));

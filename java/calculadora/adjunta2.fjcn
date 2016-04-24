@@ -1,0 +1,22 @@
+parameters a;
+
+if (type(a)!="M") {
+   return "Error: el parámetro no es una matriz";
+}
+if (type(a[0])!="M") {
+   return "Error: el parámetro no es una matriz bidimensional.";
+}
+if (len(a)!=len(a[0])) {
+   return "Error la matriz no es cuadrada";
+}
+orden=len(a);
+dim res[orden][orden];
+for(i=0; i<orden; i++) {
+   for(j=0; j<orden; j++) {
+      //print("menor ",i,",",j,menor(a,i,j));
+      //print("iif: ",iif( i+j % 2 == 0; 1; -1));
+      res[i][j]=iif( (i+j) % 2 == 0; 1; -1)*det(menor(a,i,j));
+      //print("res[",i,",",j,"]",res[i][j]);
+   }
+}
+return res;

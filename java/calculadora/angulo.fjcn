@@ -1,0 +1,3 @@
+parameters u,v;
+
+return acos(redondeo(prodEscalar(u,v)/(modulo(u)*modulo(v)),15));

@@ -1,0 +1,10 @@
+parameters a; //devuelve el angulo en radianes
+return a*180/pi;
+
+parameters num,base
+
+   num=""+num
+   base=eval(""+base)
+   ultimoDigito=len(num)-1
+   for(i=ultimoDigito;i>0;i--) {
+      valor+=eval(num[i])*base^

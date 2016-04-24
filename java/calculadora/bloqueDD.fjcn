@@ -1,0 +1,13 @@
+parameters tam;
+
+   min=1000000;
+   max=10000000;
+   if (tam<min) {
+      return tam;
+   }
+   res=1;
+   while((aux=esPrimo(tam))>1 && res<min) {
+      res=res*aux;;
+	  tam=tam/aux;
+   }
+return res;  

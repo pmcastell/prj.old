@@ -1,0 +1,16 @@
+parameters u,v;
+
+if (type(u)!="M" || type(v)!="M") {
+   return "Error uno de los parámetros no es una matriz.";
+}
+if (len(u)!=len(v)) {
+   return "Error los vectores no tienen la misma dimensión.";
+}
+if (type(u[0])!="D" || type(v[0])!="D") {
+   return "Error los datos de los vectores no son numéricos.";
+}
+res=0;
+for(i=0; i<len(u); i++) {
+   res=res+u[i]*v[i];
+}
+return res;

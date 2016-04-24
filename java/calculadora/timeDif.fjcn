@@ -1,0 +1,18 @@
+parameters h1,h2;
+
+dif=segundosHora(h1)-segundosHora(h2);
+horas=int(dif/3600);
+if (horas<10) {
+   horas="0"+horas;
+}   
+dif=dif%3600;
+minutos=int(dif/60);
+if (minutos<10) {
+   minutos="0"+minutos;
+}
+dif%=60;
+if (dif<10) {
+   dif="0"+dif;
+}
+return horas+":"+minutos+":"+dif;
+

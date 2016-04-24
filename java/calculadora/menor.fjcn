@@ -1,0 +1,6 @@
+parameters a,i,j;
+
+if (type(a)!="M" || type(a[0])!="M") {
+   return "Error: a no es matriz bidimensional";
+}
+return quitarFila(quitarColumna(a,j),i);

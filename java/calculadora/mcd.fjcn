@@ -1,0 +1,9 @@
+parameters a,b;
+
+while(b!=0) {
+   res=a%b;
+   a=b;
+   b=res;
+}
+return a;
+   

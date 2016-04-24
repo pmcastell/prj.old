@@ -1,0 +1,7 @@
+feps=8.854187817*10^(-12); //permitividad eléctrica
+fnu=4*pi*10^(-7);  // permeabilidad magnética
+fgrav=6.67*10^(-11); // G
+fc=1/sqrt(feps*fnu); // velocidad luz
+frt=6.37*10^6; // ratio de La Tierra
+fmt=5.96*10^24; // masa de La Tierra
+ftt=24*60*60; // período de rotación de La Tierra

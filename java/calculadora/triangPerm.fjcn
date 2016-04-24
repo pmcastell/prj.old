@@ -1,0 +1,67 @@
+parameters m;
+
+i=f=k=numPermutaciones=pivote=n=0;
+for(i=0; i<len(m)-1; i++) {
+   if (m[i][i]==0) {
+      m=permutarFilaSinCero(m,i,n);
+      if (n>0) {
+         numPermutaciones=numPermutaciones+n;
+      } else {
+         m=permutarColumnaSinCero(m,i,n);
+         if n(>0) {
+            numPermutaciones=numPermutaciones+n;
+         } else {
+            return "Error";
+         }
+      }
+   }   
+   for(f=i+1; f<len(m); f++) {
+      pivote=m[f][i]/m[i][i];
+      for(k=i; k<len(m[0]); k++) {
+         m[f][k]=m[f][k]-pivote*m[i][k];
+      }
+   }   
+}
+if (numPermutaciones % 2 != 0) {
+   f=len(m)-1;
+   for(k=f; k<len(m[0]); k++) {
+      m[f][k]=-m[f][k];
+   }
+}
+return m;   
+   
+//public matriz triangPerm() {//triangulariza sin que varíe el determinante
+//if (triang==null) {
+//int i,f,k, numPermutaciones=0;
+//double pivote;
+//triang=new matriz(this.m);
+
+//for(i=0; i<filas()-1; i++) {
+//    if (triang.m[i][i]==0.0) {
+//        int perm=triang.permutarFilaSinCero(i);
+//        if (perm>0) {
+//            numPermutaciones+=perm;
+//        } else if ((perm=triang.permutarColumSinCero(i))>0) {
+//            numPermutaciones+=perm;
+//        } else {
+//            return null;
+//        }
+//    }
+//    for(f=i+1; f<filas(); f++) {
+//        pivote=triang.m[f][i]/triang.m[i][i];
+//        for(k=i; k<cols(); k++) {
+//            triang.m[f][k]-=pivote*triang.m[i][k];
+//        }
+//    }
+//}
+//if (numPermutaciones % 2 != 0) {
+//    for(k=filas()-1;k<cols();k++) {
+//        triang.m[filas()-1][k]=-triang.m[filas()-1][k];
+//    }
+//}
+//}
+//return triang;
+//}
+
+
+

@@ -1,0 +1,30 @@
+parameters num,base;
+   digitosValidos="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   baseMax=36;
+   if (base<2 || base > baseMax) {
+      return "ERROR las bases permitidas son [2,36]";
+   }
+   num=toupper(""+num);
+   //print("base: "+base);
+   base=eval(""+base);
+   ultimoDigito=len(num)-1;
+   valor=0;
+   for(i=ultimoDigito;i>=0;i--) {
+      digito=num[i];
+      encontrado=false;
+      print(digito);
+      for(valDigit=0;valDigit<base && !encontrado;) {
+         if (digito==digitosValidos[valDigit]) {
+            encontrado=true;
+         } else {
+            valDigit++;
+         }
+      }
+      if (!encontrado) {
+         return "ERROR: el dígito "+i+" no es válido.";
+      } else {
+         valor+=valDigit*base^(ultimoDigito-i);
+      }
+      //print("digito "+i+":"+valDigit);
+   }
+return valor;
