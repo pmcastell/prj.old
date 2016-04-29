@@ -38,12 +38,14 @@ if $DEBUG; then
 fi
 
 if [ "$(wget --timeout=10 --tries=1 -O - http://portquiz.net:587 2> /dev/null)" = "" ]; then
-   if [ -f $TUNEL_PORT ]; then PORT=$(cat $TUNEL_PORT); else 
-      PORT=$($DIR_BASE/puertoLibre.sh); echo $PORT > $TUNEL_PORT;
-      ssh -L $PORT:$SMTP_SERVER -N 
-   fi
-   SMTP_SERVER="localhost:$PORT"
+   #if [ -f $TUNEL_PORT ]; then PORT=$(cat $TUNEL_PORT); else 
+   #   PORT=$($DIR_BASE/puertoLibre.sh); echo $PORT > $TUNEL_PORT;
+   #   ssh -L $PORT:$SMTP_SERVER -N 
+   #fi
+   #SMTP_SERVER="localhost:$PORT"
    PROXY_CMD="torsocks "
+else 
+   PROXY_CMD=""
 fi
   
 (echo "ehlo $USUARIO"; $ESPERA_CMD
@@ -60,7 +62,7 @@ $DIR_BASE/cuerpoMail.sh "$@"
 
 
 echo "."; $ESPERA_CMD
-echo "quit") | torsocks openssl s_client -starttls smtp -crlf -connect $SMTP_SERVER -crlf -ign_eof 2>/dev/null
+echo "quit") | $PROXY_CMD openssl s_client -starttls smtp -crlf -connect $SMTP_SERVER -crlf -ign_eof 2>/dev/null
 
 exit 0
 

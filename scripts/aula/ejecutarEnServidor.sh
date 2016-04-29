@@ -188,5 +188,6 @@ do
    echo -n "-----------------------" >> /root/fallosMontajeSdb1.txt
 done" > /root/comprobarMontajeNet.sh
 echo "*/5 * * * *	root  /root/comprobarMontajeNet.sh &> /dev/null &" >> /etc/crontab
+echo "00 11 * * *	root	/usr/sbin/lliurex-mirror update" >> /etc/crontab
 
 

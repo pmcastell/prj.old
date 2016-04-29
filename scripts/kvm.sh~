@@ -1,7 +1,4 @@
-#sudo kvm -machine q35 -vga vmware -k es -boot menu=on -vnc :15 -localtime -net nic,vlan=0 -net tap,vlan=0,ifname=tap15 -m 1024 -hda /dev/sdb 
-#sudo kvm -machine q35 -g widthxheight[xdepth] -vga vmware -k es -boot menu=on -vnc :15 -localtime -net nic,vlan=0 -net tap,vlan=0,ifname=tap15 -m 1024 -hda /dev/sdb
-#sudo kvm -machine q35 -vga vmware -vnc :15 -k es -boot menu=on  -localtime -net nic -net vde,ifname=tap0 -m 1024 -hda /dev/sdb
-
+###3
 #!/bin/bash
 uso() {
    echo uso: $0 '[-m <cantidad-ram>] (-boot d -cdrom <fichero-cdrom> | -hda <fichero-imagen-disco>)'
@@ -60,6 +57,23 @@ while true; do
    if [ "$(echo $VNCUSADOS | grep $VNCPORT)" = "" ]; then break; fi
    VNCPORT=$(( $VNCPORT + 1 ))
 done 
+###1
+sudo kvm -machine q35 -soundhw hda -g 1360x768x32  -k es -boot menu=on -vnc ":$VNCPORT" -localtime -net nic,vlan=0,macaddr=00:1d:60:d8:69:b7 -net tap,vlan=0 -m 1024 $* &
+sleep 2
+###2
+_remmina $VNCPORT
+TAPS=$(ifconfig -a | grep -E ^tap | awk '{print $1;}') 
+for t in $TAPS; do
+   #brctl addif kvmbr0 tap0; #brctl addif kvmbr0 tap1
+   sudo brctl addif kvmbr0 $t
+done   
+
+exit 0
+
+
+
+
+###1
 ###TAPS=$(ifconfig -a | grep -E ^tap | awk '{print $1;}') 
 ###NUM_TAPS=$(ifconfig -a | grep -E ^tap | awk '{print $1;}' | wc -l)
 ###if [ "$TAPS" = "" ]; then NUEVO_TAP="tap0"; else NUEVO_TAP="tap$NUM_TAPS"; fi
@@ -68,18 +82,14 @@ done
 ###sudo brctl addif kvmbr0 $NUEVO_TAP
 ###sudo ifconfig $NUEVO_TAP up
 ###kvm -machine q35 -vga vmware -k es -boot menu=on -vnc :$VNCPORT -localtime -net nic,vlan=0,macaddr=$(randomMAC) -net tap,vlan=0,ifname=$NUEVO_TAP -m 1024 $* &
-sudo kvm -machine q35 -soundhw hda -vga std -k es -boot menu=on -vnc ":$VNCPORT,noadaptive" -localtime -net nic,vlan=0,macaddr=$(randomMAC) -net tap,vlan=0 -m 1024 $* &
-sleep 2
+#sudo kvm -machine q35 -soundhw hda -vga std -k es -boot menu=on -vnc ":$VNCPORT" -localtime -net nic,vlan=0,macaddr=$(randomMAC) -net tap,vlan=0 -m 1024 $* &
+
+###2
 ###sudo tunctl -d $NUEVO_TAP
 #vinagre localhost:$VNCPORT &>/dev/null &
-_remmina $VNCPORT
-#-hda /dev/sdc
-TAPS=$(ifconfig -a | grep -E ^tap | awk '{print $1;}') 
-for t in $TAPS; do
-   #brctl addif kvmbr0 tap0
-   #brctl addif kvmbr0 tap1
-   sudo brctl addif kvmbr0 $t
-done   
 
-
+###3
+#sudo kvm -machine q35 -vga vmware -k es -boot menu=on -vnc :15 -localtime -net nic,vlan=0 -net tap,vlan=0,ifname=tap15 -m 1024 -hda /dev/sdb 
+#sudo kvm -machine q35 -g widthxheight[xdepth] -vga vmware -k es -boot menu=on -vnc :15 -localtime -net nic,vlan=0 -net tap,vlan=0,ifname=tap15 -m 1024 -hda /dev/sdb
+#sudo kvm -machine q35 -vga vmware -vnc :15 -k es -boot menu=on  -localtime -net nic -net vde,ifname=tap0 -m 1024 -hda /dev/sdb
 
