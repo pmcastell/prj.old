@@ -50,6 +50,8 @@ if [ "$(wget --timeout=10 --tries=1 -O - http://portquiz.net:587 2> /dev/null)" 
 else 
    PROXY_CMD=""
 fi
+echo $PROXY_CMD openssl s_client -starttls smtp -crlf -connect $SMTP_SERVER -crlf -ign_eof
+exit  
 (echo "ehlo $USUARIO"; $ESPERA_CMD
 #echo "auth plain $AUTHPLAIN"; $ESPERA_CMD
 echo "auth login"; $ESPERA_CMD

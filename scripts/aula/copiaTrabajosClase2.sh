@@ -1,39 +1,43 @@
 #!/bin/bash
 
 uso() { echo uso: $0 '<fichero-lista-usuarios-clase> [<extensiones>]'; exit 1; }
+CWD=$(pwd)
 cd $(dirname $0)
-
-
 if [ "$1" = "" ] && [ ! -d usuarios ]; then uso; fi
 CLASE=$(tempfile)
 if [ "$1" = "" ]; then
    if [ "$(hostname)" = "aulasrv1" ]; then CURSOS="1ESO-A-B-E.txt 1ESO-C-D.txt 2BACH-BACA-BAHA.txt 4ESO-A-B-PDC1.txt 4ESO-A-B.txt";
    elif [ "$(hostname)" = "srv2aula" ]; then CURSOS="2ESO-F.txt"; fi
    for f in $CURSOS; do cat usuarios/$f >> $CLASE; done
-else  cat $1 > $CLASE; fi   
+else for f in $1; do cat usuarios/$f >> $CLASE; done; fi   
 if [ "$2" = "" ]; then 
    EXTENSIONES="\.doc$|\.docx$\.dot$|\.dotx$\.xls$|\.xlsx$|\.ppt$|\.pptx$|\.pdf$\|\.thmx$|\.xlt$|\.xltx$|\.odp$|\.odt$|\.svg$|\.php$"
    EXTENSIONES="${EXTENSIONES}|\.htm.$|\.png$|\.swf"
 else EXTENSIONES="$2"; fi
-LISTA_FICH=$(tempfile); COPIA_TRABAJOS="/bakNet/CopiasSeg/trabajos"; 
-DIR_DEST="/net/server-sync/home/teachers/franav/Desktop/TRABAJOS_ALUMNOS"; #sudo rm -rf $COPIA_TRABAJOS
+LISTA_FICH=$(tempfile); COPIA_TRABAJOS="/bakNet/CopiasSeg/trabajos"; ORIGEN=/net/server-sync/home/students;
+DIR_DEST="/net/server-sync/home/teachers/franav/Desktop/TRABAJOS_ALUMNOS2"; #sudo rm -rf $COPIA_TRABAJOS
 mkdir -p $COPIA_TRABAJOS&>/dev/null
+cd $ORIGEN
 while read ALU; do
    if [ "$ALU" != "" ]; then
-      sudo find /net/server-sync/home/students/$ALU | grep -v '\.moving_profiles' | grep -iE "(${EXTENSIONES})" > $LISTA_FICH
-      while read f ; do sudo cp -upv --parents "$f" "$COPIA_TRABAJOS/"; done < $LISTA_FICH 
+      sudo find $ALU | grep -v '\.moving_profiles' | grep -iE "(${EXTENSIONES})" >> $LISTA_FICH
+      #while read f ; do sudo cp -upv --parents "$f" "$COPIA_TRABAJOS/"; done < $LISTA_FICH 
    fi
 done  < $CLASE
+
 #sudo chown -R franav:teachers $COPIA_TRABAJOS
 mkdir -p $DIR_DEST &>/dev/null
 ULT=$(ls $DIR_DEST/ | grep trabajos | sort | tail -1); DEST="$DIR_DEST/trabajos-$(hostname)-$(date +"%Y-%m-%d--%H-%M").7z"
 
-if [ "$ULT" = "" ]; then sudo nice -19 7za a -w$DIR_DEST/ -mhe -r -mx=9 $DEST $COPIA_TRABAJOS/; else    
-                         sudo nice -19 7za u -w$DIR_DEST/ -mhe  -r -mx=9 -u- -uq0!$DEST $DIR_DEST/$ULT $COPIA_TRABAJOS/; echo detectado ant; fi   
+if [ "$ULT" = "" ]; then sudo nice -19 7za a -w$DIR_DEST/ -ms=on -mmt=off -mx=9 -t7z -m0=lzma2 -mfb=64 -md=32m $DEST @$LISTA_FICH ;
+                    else sudo nice -19 7za u -w$DIR_DEST/ -ms=on -mmt=off -mx=9 -t7z -m0=lzma2 -mfb=64 -md=32m -u- -uq0!$DEST $DIR_DEST/$ULT @$LISTA_FICH;
+                         echo detectado ant; 
+                    fi   
+                    
 sudo chown franav:teachers $DEST
-sudo rm $LISTA_FICH
+echo sudo rm $LISTA_FICH
 sudo rm $CLASE
-
+cd $CWD
 exit 0
 #sudo rm -rf $COPIA_TRABAJOS
 

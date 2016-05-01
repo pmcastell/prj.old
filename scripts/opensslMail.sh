@@ -7,17 +7,17 @@ uso () {
    echo uso: $0 '<dir-ip> <port> [<pop3|smmtp>]'
    exit 1
 }
-if [ "$1" = "" -o "$2" = "" ];
+if [ "$1" = "" ] || [ "$2" = "" ];
 then
    uso
 fi   
-if [ "$3" != "" -a "$3" = "pop3" ];
+if [ "$3" != "" ] && [ "$3" = "pop3" ];
 then
-   TLS=' -starttls pop3 '
+   TLS=' --starttls pop3 '
 fi
-if [ "$3" != "" -a "$3" = "smtp" ];
+if [ "$3" != "" ] && [ "$3" = "smtp" ];
 then
-   TLS=' -starttls smtp '
+   TLS=' --starttls smtp '
 fi
 echo openssl s_client $TLS -crlf -connect $1:$2 -crlf -ign_eof
 

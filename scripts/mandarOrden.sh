@@ -3,17 +3,16 @@
 #U2FsdGVkX18yYWmptO1TIzrbZf2KSUqo3RRi
 
 uso() {
-   echo uso: $0 '<usuario-correo-gmail> <orden>' #<password-aes-256-ctr--base64>
+   echo uso: $0 '<cuenta-correo> <orden>' #<password-aes-256-ctr--base64>
    exit 1
 }
 
 if [ $# -lt 2 ]; then uso; fi
 
-USER=$1
+CUENTA="$1"
 CMD=$2
 #PASS=$3
 
-CUENTA="$USER@gmail.com"
 DIR_BASE=$(dirname $0)
 #PASS=$(echo -n "$PASS" | base64 -d | openssl enc -d -aes-256-ctr -k "$(sudo dmidecode -s system-uuid)")
 
