@@ -62,5 +62,15 @@ done
 
 cd /home/usuario/hostinger
 ./actualiza2.sh
+TEMP=$(tempfile)
+for INDICE in $INDICES; do
+   wget -O - http://ubuin.noip.me/$(basename $INDICE) 2>/dev/null | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
+   if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then eecho habla -n Error en fichero: $INDICE; fi
+done   
 cd $PWD
+
+
+
+
+
 
