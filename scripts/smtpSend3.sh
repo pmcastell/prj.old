@@ -61,7 +61,11 @@ PASSWORD=$(echo U2FsdGVkX19drRs6nj2qnWnhJeNfmvdJrInw | base64 -d | openssl enc -
 DOMINIO=$(echo $REMITENTE | awk -F'@' '{print $2;}')
 if   [ "$DOMINIO" = "gmail.com" ]; then SMTP_SERVER="smtp.gmail.com:587"; 
 elif [ "$DOMINIO" = "yahoo.com" ] || [ "$DOMINIO" = "yahoo.es" ]; then SMTP_SERVER="smtp.mail.yahoo.com:587"; 
-elif [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ]; then SMTP_SERVER="smtp.live.com:587"; fi
+elif [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ]; then SMTP_SERVER="smtp.live.com:587";
+elif [ "$DOMINIO" = "gva.es" ]; then SMTP_SERVER="smtp.gva.es:587"; fi
+
+#pop3s.gva.es:995 o imaps.gva.es:993 Servidor Saliente : smtp.gva.es,
+#marcando la casilla "Mi servidor requiere autenticación".
 
 #AUTHPLAIN=$($DIR_BASE/authPlain.sh $USUARIO $PASSWORD)
 
