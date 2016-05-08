@@ -58,7 +58,7 @@ while true; do
    VNCPORT=$(( $VNCPORT + 1 ))
 done 
 ###1
-sudo kvm -machine q35 -soundhw hda -vga qxl -k es -boot menu=on -vnc ":$VNCPORT" -localtime -net nic,vlan=0,macaddr=00:1d:60:d8:69:b7 -net tap,vlan=0 -m 1024 $* &
+sudo kvm -machine q35 -soundhw hda -vga qxl -k es -boot menu=on -vnc ":$VNCPORT" -localtime -net nic,vlan=0,macaddr=00:1d:60:d8:69:b7 -net tap,vlan=0 -m 1024 "$*" &
 sleep 2
 ###2
 _remmina $VNCPORT
