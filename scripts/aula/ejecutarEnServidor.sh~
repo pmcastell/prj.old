@@ -7,22 +7,13 @@ fi
    
 crearRcLocal() {
 cp /etc/rc.local /etc/rc.local.orig
-echo '#!/bin/sh -e
-#
-# rc.local
-#
-# This script is executed at the end of each multiuser runlevel.
-# Make sure that the script will "exit 0" on success or any other
-# value on error.
-#
-# In order to enable or disable this script just change the execution
-# bits.
-#
-# By default this script does nothing.
+cat /etc/rc.local.orig | grep -v '^exit' > /etc/rc.local
+
+echo "
 /bin/echo 1 > /proc/sys/net/ipv4/ip_forward
 /sbin/iptables -A POSTROUTING -j MASQUERADE -s 10.2.1.0/24 -t nat
 
-exit 0' > /tmp/rc.local
+exit 0" >> /etc/rc.local
 }
 
 crearDnsmasqConfsrv1() {
@@ -140,20 +131,12 @@ conf-dir=/var/lib/dnsmasq/macs
 conf-dir=/var/lib/dnsmasq/config
 conf-dir=/etc/dnsmasq.d/' > /etc/dnsmasq.conf
 }
-
-if [ "$(whoami)" != "root" ]; then
-   sudo $0 $*
-   exit
-fi  
-
-crearRcLocal
-if [ "$(hostname)" = "aulasrv1" ]; then crearDnsmasqConfsrv1 fi
-if [ "$(hostname)" = "srv2aula" ]; then crearDnsmasqConfsrv2 fi
-
-sudo apt-get -y install tor connect-proxy privoxy
-echo forward-socks4a / 127.0.0.1:9050 . >> /etc/privoxy/config
-#redirigir tráfico a través de tor
-echo "Host 10.2.1.* pc1* pc2* 10.10.10.*
+instalarTorPrivoxy() {
+   apt-get -y install tor connect-proxy privoxy
+   echo "forward-socks4a / 127.0.0.1:9050 ." >> /etc/privoxy/config
+}
+crearSshConfig() {
+echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1
 	CheckHostIP no
 	UserKnownHostsFile /dev/null 
 	StrictHostKeyChecking no
@@ -169,24 +152,60 @@ Host *
 	Protocol 2
 	ProxyCommand connect -4 -S 127.0.0.1:9050 $(tor-resolve %h localhost:9050) %p
 " > /root/.ssh/config
-
-echo "if [ "$(ps aux | grep -i x11vnc | grep /var/run/lightdm | grep -v grep)" = "" ]; then
+}
+crearX11VncRoot() {
+echo "if [ \"$(ps aux | grep -i x11vnc | grep /var/run/lightdm | grep -v grep)\" = \"\" ]; then
    /usr/bin/x11vnc -rfbauth /root/.vnc/passwd -autoport 5911 -auth /var/run/lightdm/root/:0 -display :0 -forever -loop  &> /dev/null &
 fi" > /root/x11vncRoot.sh
 echo "*/5 * * * *	root  /root/x11vncRoot.sh &> /dev/null &" >> /etc/crontab
-
+}
+crearComprobarMontajeNet() {
 echo "#comprobar si /net esta montado
-while [ "$(/bin/mount | /bin/grep '/dev/sdb1 on /net type ext4 (rw,acl)')" = "" ];
+while [ \"$(/bin/mount | /bin/grep '/dev/sdb1 on /net type ext4 (rw,acl)')\" = \"\" ];
 do
-   echo -n "-----------------------" >> /root/fallosMontajeSdb1.txt
-   /bin/date +"%Y-%m-%d" >> /root/fallosMontajeSdb1.txt
-   echo -n "-----------------------" >> /root/fallosMontajeSdb1.txt
+   echo -n \"-----------------------\" >> /root/fallosMontajeSdb1.txt
+   /bin/date +\"%Y-%m-%d\" >> /root/fallosMontajeSdb1.txt
+   echo -n \"-----------------------\" >> /root/fallosMontajeSdb1.txt
    /sbin/fsck -fyC /dev/sdb1 >> /root/fallosMontajeSdb1.txt
    /bin/mount /net
-   echo -n "-----------------------" >> /root/fallosMontajeSdb1.txt
-   /bin/date +"%Y-%m-%d" >> /root/fallosMontajeSdb1.txt
-   echo -n "-----------------------" >> /root/fallosMontajeSdb1.txt
+   echo -n \"-----------------------\" >> /root/fallosMontajeSdb1.txt
+   /bin/date +\"%Y-%m-%d\" >> /root/fallosMontajeSdb1.txt
+   echo -n \"-----------------------\" >> /root/fallosMontajeSdb1.txt
 done" > /root/comprobarMontajeNet.sh
-echo "*/5 * * * *	root  /root/comprobarMontajeNet.sh &> /dev/null &" >> /etc/crontab
+echo "*/1 * * * *	root  /root/comprobarMontajeNet.sh &> /dev/null &" >> /etc/crontab
+}
+cambiarConfigSamba() {
+echo "
+[net]
+    comment = Public 
+    path = /net
+    public = yes
+    guest ok = yes
+    writable = yes
+    printable = no
+    valid users = jualeo01 franav lliurex" > /etc/samba/sambaMio
+echo "include = /etc/samba/sambaMio" >> /etc/samba/smb.conf    
+}
+
+if [ "$(whoami)" != "root" ]; then
+   sudo $0 "$@"
+   exit $?
+fi  
+
+crearRcLocal
+if [ "$(hostname)" = "aulasrv1" ]; then crearDnsmasqConfsrv1 fi
+if [ "$(hostname)" = "srv2aula" ]; then crearDnsmasqConfsrv2 fi
+#Con tor/privosy podemos redirigir a squid a través de la red tor
+instalarTorPrivoxy
+#redirigir tráfico a través de tor
+crearSshConfig
+#crear ejecución de x11vnc
+crearX11VncRoot
+#comprobar el montaje de /net que falla bastantes veces
+crearComprobarMontajeNet
+#cambiar config samba
+cambiarConfigSamba
+#Actualizar mirror del aula/sistema a las 11 de la mañana
+echo "00 11 * * *	root	/usr/sbin/lliurex-mirror update" >> /etc/crontab
 
 

@@ -65,7 +65,7 @@ elif [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ]; then SMTP_SE
 elif [ "$DOMINIO" = "gva.es" ]; then SMTP_SERVER="smtp.gva.es:587"; fi
 
 #pop3s.gva.es:995 o imaps.gva.es:993 Servidor Saliente : smtp.gva.es,
-#marcando la casilla "Mi servidor requiere autenticación".
+#marcando la casilla "Mi servidor requiere autenticación". 03015105@gva.es
 
 #AUTHPLAIN=$($DIR_BASE/authPlain.sh $USUARIO $PASSWORD)
 
