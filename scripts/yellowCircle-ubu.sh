@@ -19,7 +19,7 @@ Host *
 	ProxyCommand connect -4 -S 127.0.0.1:9050 $(tor-resolve %h localhost:9050) %p
 " > /root/.ssh/config
 }
-ssh_rsa() {
+sshRsa() {
 echo "-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEArnYsupG6MCPowVRzm9bg48trxA2odsEKIoUfDsXh4px1uD2e
 BmmUtQs0qCRJ73e249Vt5qv7/arPRIsWymwuTCtG4c7iTCtDDgKgXKMgtxP6xY9z
@@ -59,6 +59,7 @@ wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tu
 echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' >> /etc/crontab
 chmod +x /root/tunelSsh6.sh
 echo 127.0.0.1 ubu >> /etc/hosts
-ssh_rsa
+sshConfig
+sshRsa
 
 
