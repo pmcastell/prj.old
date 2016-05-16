@@ -55,7 +55,9 @@ cumples=[
       ['MARI MEDICO','17-05-2011','C'],
       ['CERTFICADO FNMT','07-11-2016','C'],
       ['RENOVAR SEGURO COCHE DOMICILIACION','29-06-2016','C'],
-      ['REENVÍO DE CORRESPONDENCIA POSTAL','29-08-2016','C']
+      ['REENVÍO DE CORRESPONDENCIA POSTAL','29-08-2016','C'],
+      ['CITA PREVIA RENTA 2015','18-05-2016','S'],
+      ['ubuin.noip.me','10-06-2015','C']
    ]
 def rellena(cadena,tam):
     for i in range(1,tam-len(cadena)):

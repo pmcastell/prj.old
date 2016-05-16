@@ -54,9 +54,10 @@ if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 echo ubu > /etc/hostname
 hostname ubu
 sudo apt-get update
-sudo apt-get -y install tor connect-proxy vnc4server icewm
+sudo apt-get -y install tor connect-proxy vnc4server icewm xterm
 wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
 echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' >> /etc/crontab
+echo '*/5 *   *   *   *    usuario /usr/bin/vncserver -geometry 1366x768 1440x900 :1 > /dev/null' >> /etc/crontab
 chmod +x /root/tunelSsh6.sh
 echo 127.0.0.1 ubu >> /etc/hosts
 sshConfig
