@@ -1,5 +1,7 @@
 #!/bin/bash
 
+DEBUG=false
+
 ovpnKEY() {
    if [ ! -f /root/key ]; then
       echo "
@@ -53,30 +55,11 @@ mata() {
       CUENTA=$(expr $CUENTA + 1)
    done
 }
-desencriptaLinea() {
-   CHA=$1
-   i=1
-   while [ $i -le 16 ];
-   do
-      CHA=$(echo -n $CHA | base64 -d)
-      i=$(expr $i + 1)
-   done
-   echo $CHA
-}
-desencripta() {
-   if [ "$1" = "" ]; then ENTRADA="/dev/stdin"; else ENTRADA="$1"; fi
-   if [ -f $ENTRADA -o "$ENTRADA" = "/dev/stdin" ]; then
-      while read LINEA; do
-         echo $(desencriptaLinea "$LINEA")
-      done < $ENTRADA
-   else
-      echo $(desencriptaLinea "$1")
-   fi
-}
 md5Lineas() {
    FICH=$1
    NUM_LINEAS=$2
-   while read L; do echo $L; done < $FICH | head -$NUM_LINEAS | md5sum | awk '{ print $1;}'
+   for((i=0;i<$NUM_LINEAS;i++)); do read L; echo $L; done < $FICH | md5sum | awk '{print $1;}'
+   #while read L; do echo $L; done < $FICH | head -$NUM_LINEAS | md5sum | awk '{ print $1;}'
 }
 filesize() {
    ls -l $1 | awk '{ print $5;}'
@@ -103,109 +86,119 @@ obtenerFichero() {
    else
       exit
    fi
+}  
+borrarParametros() {
+   HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
+   for v in $(env); do 
+      if [ "$(echo $v  | grep -E "(^$HOSTNAME|^GLOBAL)")" != "" ]; then
+         unset $(echo $v | awk -F'=' '{print $1;}')
+      fi
+   done
 }   
 procesarParametros() {
+   borrarParametros
    TEMP=$(tempfile)
    HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
-   #HOSTNAME="aulasrv1"
+   if $DEBUG; then HOSTNAME="aulasrv1"; fi
    obtenerFichero indice6.html $TEMP
    while read LINEA; do 
-      #if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E ^${HOSTNAME} | grep -v grep)" != "" ]; then export "$LINEA"; fi
-      #if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E ^GLOBAL_ | grep -v grep)" != "" ]; then   export "$LINEA"; fi
-      #if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E ^${HOSTNAME} | grep -v grep)" != "" ] ||
-      #    [ "$LINEA" != "" -a "$(echo $LINEA | grep -E ^GLOBAL_ | grep -v grep)" != "" ] then
       if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E "(^$HOSTNAME|^GLOBAL)")" != "" ]; then
          VAR=$(echo $LINEA | awk -F'=' '{print $1;}')
          VALOR=$(echo $LINEA | awk -F'=' '{print $2;}')
-         if [ "$(echo $VALOR | egrep '^\$')" != "" -a "$(eval echo \$${VALOR})" != "" ]; then
-            #echo VAR: $VAR
-            #echo VALOR: $VALOR
-            #echo VALOR REAL: $(eval echo \$${VALOR})
-            #echo export $VAR="$(eval echo ${VALOR})"
+         if [ "$(echo $VALOR | egrep '^\$')" != "" -a "$(eval echo ${VALOR})" != "" ]; then
+            #if $DEBUG; then echo EVAL: $(eval echo ${VALOR}); fi
             export $VAR="$(eval echo ${VALOR})"
          else
-            #echo export $LINEA
+            #if $DEBUG; then echo export $LINEA; fi
             export "$LINEA"
          fi
       fi
    done < $TEMP
-   TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH)
-   TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP)
-   TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT)
-   TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV)
-   TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"
-   TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"
-   TUN_SSH_CMD=""
+   #SSH
+   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH)
+   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP)
+   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT)
+   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV)
+   export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"
+   export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"
+   export TUN_SSH_CMD=""
    for((i=1;i<=10;i++)); do 
       VAR_NAME="${HOSTNAME}_TUN_SSH_CMD${i}"
-      #echo VAR_NAME: $VAR_NAME
-      #VALOR=$(eval echo \$$VAR_NAME)
-      #echo VALOR: $VALOR
-      #TUN_SSH_CMD="$TUN_SSH_CMD $(eval echo \$${HOSTNAME}_TUN_SSH_CMD${i})"
-      #TUN_SSH_CMD="$TUN_SSH_CMD \$${HOSTNAME}_TUN_SSH_CMD${i}"
-      #TUN_SSH_CMD="$TUN_SSH_CMD $VALOR"
-      TUN_SSH_CMD="$TUN_SSH_CMD $(eval echo \$$VAR_NAME)"
-      #echo TUN_SSH_CMD: $TUN_SSH_CMD
+      export TUN_SSH_CMD="$TUN_SSH_CMD $(eval echo \$$VAR_NAME)"
    done
-   TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD)
-   
-   TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
-   TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)
-   TUN_OVP_PORT=$(eval echo \$${HOSTNAME}_TUN_OVP_PORT)
-   TUN_OVP_DEV=$(eval echo \$${HOSTNAME}_TUN_OVP_DEV)
-   TUN_OVP_DEV_IP="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.${TUN_OVP_DEV}"
-   TUN_OVP_DEV_GW="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.1"
-   TUN_OVP_IFCONFIG="$TUN_OVP_DEV_IP $TUN_OVP_DEV_GW"
+   export TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD)
+   #OVPN
+   export TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
+   export TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)
+   export TUN_OVP_PORT=$(eval echo \$${HOSTNAME}_TUN_OVP_PORT)
+   export TUN_OVP_DEV=$(eval echo \$${HOSTNAME}_TUN_OVP_DEV)
+   export TUN_OVP_DEV_IP="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.${TUN_OVP_DEV}"
+   export TUN_OVP_DEV_GW="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.1"
+   export TUN_OVP_IFCONFIG="$TUN_OVP_DEV_IP $TUN_OVP_DEV_GW"
+   rm $TEMP
 }
-if [ "$(whoami)" != "root" ]; then
-   sudo $0 $*
-   exit
-fi  
-if [ $(ps aux | grep $(basename $0) | grep '/bin/bash' | grep -v grep | wc -l) -gt 2 ]; then
-   exit 2
-fi   
+if [ "$(whoami)" != "root" ]; then sudo $0 $*; exit; fi  
+if [ $(ps aux | grep $(basename $0) | grep '/bin/bash' | grep -v grep | wc -l) -gt 2 ]; then exit 2; fi   
 
-while true; do
-   if [ "$CONEXION_ESTABLECIDA" != "1" ]; then
-      procesarParametros
-      #echo parámetros procesados
-   fi
-   CONEXION_ESTABLECIDA=0
+DIA_DE_COMIENZO=$(date +"%Y-%m-%d")
+while [ "$DIA_DE_COMIENZO" = "$(date +"%Y-%m-%d")" ]; do
+   if ! $CONEXION_ESTABLECIDA; then procesarParametros; fi
+   CONEXION_ESTABLECIDA=false
    if [ "$GLOBAL_ESPERA" = "" ]; then TUN_ESPERA=300; else TUN_ESPERA=$GLOBAL_ESPERA; fi
    if [ "$TUN_SSH" = "si" ]; then
-      #echo tunel ssh: ping -c 4 $TUN_SSH_DEV_GW
       if [ "$(ping -c 4 $TUN_SSH_DEV_GW 2>&1 | grep '100% packet loss' | grep -v grep)" != "" ]; then
-         mata
-         #echo intentando establecer tunel ssh
+         mata; #echo intentando establecer tunel ssh
          tunelSSH
       else
-         CONEXION_ESTABLECIDA=1
+         CONEXION_ESTABLECIDA=true
       fi
    fi
    if [ "$TUN_OVP" = "si" ]; then
       #echo tunel ovp
       if [ "$(ping -c 4 $TUN_OVP_DEV_GW 2>&1 | grep '100% packet loss' | grep -v grep)" != "" ]; then
-         mata
-         #echo intentando establecer tunel vpn
+         mata; #echo intentando establecer tunel vpn
          tunelOVPN
       else
          CONEXION_ESTABLECIDA=1
       fi
    fi
-   #echo sleep $TUN_ESPERA;
    sleep $TUN_ESPERA;
 done   
 
+exit 0
+
+#CODIGO GUARDADO:
 
 
+   while read LINEA; do 
+      #EXPORT=$(echo $LINEA | awk -F'=' '{print "export "$1"="$2;}'); 
+      #VAR=$(echo $LINEA | awk -F'=' '{print $1;}');
+      #VAL=$(echo $LINEA | awk -F'=' '{print $2;}');
+      #$EXPORT; 
+      if [ "$LINEA" != "" -a "$(echo $LINEA | grep $HOSTNAME | grep -v grep)" != "" ]; then export $LINEA; fi
+      #echo "VAR: $VAR ,  VAL: $VAL"
+      #echo $EXPORT
+   done < $TEMP
+   
 
-
-   #while read LINEA; do 
-   #   #EXPORT=$(echo $LINEA | awk -F'=' '{print "export "$1"="$2;}'); 
-   #   #VAR=$(echo $LINEA | awk -F'=' '{print $1;}');
-   #   #VAL=$(echo $LINEA | awk -F'=' '{print $2;}');
-   #   #$EXPORT; 
-   #   if [ "$LINEA" != "" -a "$(echo $LINEA | grep $HOSTNAME | grep -v grep)" != "" ]; then export $LINEA; fi
-   #   #echo "VAR: $VAR ,  VAL: $VAL"
-   #   #echo $EXPORT
-   #done < $TEMP
+  
+desencriptaLinea() {
+   CHA=$1
+   i=1
+   while [ $i -le 16 ];
+   do
+      CHA=$(echo -n $CHA | base64 -d)
+      i=$(expr $i + 1)
+   done
+   echo $CHA
+}
+desencripta() {
+   if [ "$1" = "" ]; then ENTRADA="/dev/stdin"; else ENTRADA="$1"; fi
+   if [ -f $ENTRADA -o "$ENTRADA" = "/dev/stdin" ]; then
+      while read LINEA; do
+         echo $(desencriptaLinea "$LINEA")
+      done < $ENTRADA
+   else
+      echo $(desencriptaLinea "$1")
+   fi
+}   
