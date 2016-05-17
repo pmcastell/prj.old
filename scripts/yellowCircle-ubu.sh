@@ -53,7 +53,7 @@ if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 echo ubu > /etc/hostname
 hostname ubu
 sudo apt-get update
-sudo apt-get -y install tor connect-proxy vnc4server icewm xterm
+sudo apt-get -y install tor connect-proxy vnc4server icewm xterm firefox
 wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
 if [ "$(cat /etc/crontab | grep tunelSsh6)" = "" ]; then
    echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' >> /etc/crontab
