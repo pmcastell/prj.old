@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [ "$(whoami)" != "root" ]; then 
-   sudo $0 $*
-   exit
-fi
-   
 crearRcLocal() {
 cp /etc/rc.local /etc/rc.local.orig
 cat /etc/rc.local.orig | grep -v '^exit' > /etc/rc.local
@@ -92,8 +87,8 @@ strict-order
 expand-hosts
 no-hosts
 addn-hosts=/var/lib/dnsmasq/hosts
-domain=aula1
-local=/aula1/
+domain=aula2
+local=/aula2/
 address=/preseed/mirror/proxy/10.2.1.254
 # DHCP CONFIGURATION
 interface=eth0
@@ -101,8 +96,8 @@ dhcp-authoritative
 dhcp-ignore-names
 dhcp-option=option:router,0.0.0.0
 dhcp-option=option:dns-server,10.2.1.254
-dhcp-option=option:domain-name,aula1
-dhcp-option=option:domain-search,aula1
+dhcp-option=option:domain-name,aula2
+dhcp-option=option:domain-search,aula2
 dhcp-range=10.2.1.100,10.2.1.200,12h
 dhcp-host=00:1a:a0:bc:88:f1,pc201,10.2.1.201,infinite
 dhcp-host=00:1d:60:d8:69:b5,pc202,10.2.1.202,infinite
@@ -148,20 +143,22 @@ echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1
 
 Host *
 	CheckHostIP no
+	UserKnownHostsFile /dev/null 
+	StrictHostKeyChecking no
 	Compression yes
 	Protocol 2
-	ProxyCommand connect -4 -S 127.0.0.1:9050 $(tor-resolve %h localhost:9050) %p
+	ProxyCommand connect -4 -S 127.0.0.1:9050 \$(tor-resolve %h localhost:9050) %p
 " > /root/.ssh/config
 }
 crearX11VncRoot() {
-echo "if [ \"$(ps aux | grep -i x11vnc | grep /var/run/lightdm | grep -v grep)\" = \"\" ]; then
+echo "if [ \"\$(ps aux | grep -i x11vnc | grep /var/run/lightdm | grep -v grep)\" = \"\" ]; then
    /usr/bin/x11vnc -rfbauth /root/.vnc/passwd -autoport 5911 -auth /var/run/lightdm/root/:0 -display :0 -forever -loop  &> /dev/null &
 fi" > /root/x11vncRoot.sh
 echo "*/5 * * * *	root  /root/x11vncRoot.sh &> /dev/null &" >> /etc/crontab
 }
 crearComprobarMontajeNet() {
 echo "#comprobar si /net esta montado
-while [ \"$(/bin/mount | /bin/grep '/dev/sdb1 on /net type ext4 (rw,acl)')\" = \"\" ];
+while [ \"\$(/bin/mount | /bin/grep '/dev/sdb1 on /net type ext4 (rw,acl)')\" = \"\" ];
 do
    echo -n \"-----------------------\" >> /root/fallosMontajeSdb1.txt
    /bin/date +\"%Y-%m-%d\" >> /root/fallosMontajeSdb1.txt
@@ -191,8 +188,8 @@ echo "include = /etc/samba/sambaMio" >> /etc/samba/smb.conf
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?;fi  
 
 crearRcLocal
-if [ "$(hostname)" = "aulasrv1" ]; then crearDnsmasqConfsrv1 fi
-if [ "$(hostname)" = "srv2aula" ]; then crearDnsmasqConfsrv2 fi
+if [ "$(/sbin/ifconfig eth0 | grep 'e0:cb:4e:2c:a2:62')" != "" ]; then crearDnsmasqConfsrv1 fi
+if [ "$(/sbin/ifconfig eth0 | grep 'c8:3a:35:d0:f8:fc')" != "" ]; then crearDnsmasqConfsrv2 fi
 #Con tor/privosy podemos redirigir a squid a través de la red tor
 instalarTorPrivoxy
 #redirigir tráfico a través de tor

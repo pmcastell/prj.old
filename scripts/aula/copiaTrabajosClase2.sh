@@ -12,7 +12,7 @@ if [ "$1" = "" ]; then
 else for f in $1; do cat usuarios/$f >> $CLASE; done; fi   
 if [ "$2" = "" ]; then 
    EXTENSIONES="\.doc$|\.docx$\.dot$|\.dotx$\.xls$|\.xlsx$|\.ppt$|\.pptx$|\.pdf$\|\.thmx$|\.xlt$|\.xltx$|\.odp$|\.odt$|\.svg$|\.php$"
-   EXTENSIONES="${EXTENSIONES}|\.htm.$|\.png$|\.swf"
+   EXTENSIONES="${EXTENSIONES}|\.htm.$|\.png$|\.swf|\.sb$"
 else EXTENSIONES="$2"; fi
 LISTA_FICH=$(tempfile); COPIA_TRABAJOS="/bakNet/CopiasSeg/trabajos"; ORIGEN=/net/server-sync/home/students;
 DIR_DEST="/net/server-sync/home/teachers/franav/Desktop/TRABAJOS_ALUMNOS2"; #sudo rm -rf $COPIA_TRABAJOS

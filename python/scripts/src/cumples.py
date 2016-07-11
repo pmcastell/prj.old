@@ -56,8 +56,10 @@ cumples=[
       ['CERTFICADO FNMT','07-11-2016','C'],
       ['RENOVAR SEGURO COCHE DOMICILIACION','29-06-2016','C'],
       ['REENVÍO DE CORRESPONDENCIA POSTAL','29-08-2016','C'],
-      ['CITA PREVIA RENTA 2015','18-05-2016','S'],
-      ['ubuin.noip.me','10-06-2015','C']
+      ['CURSOS INTEF 2ª ED','15-06-2016','S'],
+      ['ubuin.noip.me','12-07-2016','C'],
+      ['Dropbox Espacio tablet caduca','31-08-2016','C'],
+      ['Cita Jorge Dentista Fenoll 18:30','15-07-2016','C']
    ]
 def rellena(cadena,tam):
     for i in range(1,tam-len(cadena)):

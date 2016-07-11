@@ -29,8 +29,8 @@ done  < $CLASE
 mkdir -p $DIR_DEST &>/dev/null
 ULT=$(ls $DIR_DEST/ | grep trabajos | sort | tail -1); DEST="$DIR_DEST/trabajos-$(hostname)-$(date +"%Y-%m-%d--%H-%M").7z"
 
-if [ "$ULT" = "" ]; then sudo nice -19 7za a -w$DIR_DEST/ -mmt=off -mx=9 -t7z -m0=lzma2 -mfb=64 -md=32m $DEST @$LISTA_FICH ;
-                    else sudo nice -19 7za u -w$DIR_DEST/ -mmt=off -mx=9 -t7z -m0=lzma2 -mfb=64 -md=32m -u- -uq0!$DEST $DIR_DEST/$ULT @$LISTA_FICH;
+if [ "$ULT" = "" ]; then sudo nice -19 7za a -w$DIR_DEST/ -ms=on -mmt=off -mx=9 -t7z -m0=lzma2 -mfb=64 -md=32m $DEST @$LISTA_FICH ;
+                    else sudo nice -19 7za u -w$DIR_DEST/ -ms=on -mmt=off -mx=9 -t7z -m0=lzma2 -mfb=64 -md=32m -u- -uq0!$DEST $DIR_DEST/$ULT @$LISTA_FICH;
                          echo detectado ant; 
                     fi   
                     

@@ -14,9 +14,9 @@ CMD=$2
 #PASS=$3
 
 DIR_BASE=$(dirname $0)
-#PASS=$(echo -n "$PASS" | base64 -d | openssl enc -d -aes-256-ctr -k "$(sudo dmidecode -s system-uuid)")
 
-CMD=$(echo $CMD | openssl enc -e -aes-256-ctr -k "00020003-0004-0005-0006-000700080009" | base64 )
-CMD="Orden:$CMD"
+CMD=$(echo $CMD | $DIR_BASE/encriptar.sh )
+CMD="Ejecutar Orden: $CMD"
 
 $DIR_BASE/smtpSend.sh "$CUENTA" "$CUENTA" "'$CMD'" "'$CMD'"
+

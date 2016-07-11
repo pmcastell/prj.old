@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o ConnectTimeout=30 -o ConnectionAttempts=10 -o StrictHostKeyChecking=no -p 443 root@ubuin.linkpc.net -w 36:36 -CTf /bin/bash -c '/bin/ls; /bin/sleep 5 ; /sbin/ifconfig tun36  10.36.36.1/24 pointopoint 10.36.36.36 up; /bin/sleep 3; /sbin/route add -net 10.10.10.0/24 gw 10.36.36.36; /sbin/route add -net 10.2.1.0/24 gw 10.36.36.36; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.36.36.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.36.36.0/24; '
+if [ "$(/sbin/ifconfig -a | grep tun36)" != "" ]; then
+   /sbin/ifconfig tun36 10.36.36.36/24 pointopoint 10.36.36.1 up &> /dev/null
+fi
+   

@@ -11,14 +11,13 @@ __apagarPc() {
 
 __apagarAula() {
    for IP in $(cat /etc/dnsmasq.conf | grep dhcp-host | awk -F'=' '{print $2;}' | awk -F',' '{print $3;}'); do 
-	   __apagarPc $1 $IP
+	   eecho __apagarPc $1 $IP
 	   #sleep 1
    done
 }
-if [ "$1" = "" ]; then CMD="-s"; else CMD="$1"; fi
+if [ "$1" = "" ]; then CMD="-s"; else CMD="$1"; shift; fi
 if ( [ "$CMD" = "-p" ] || [ "$CMD" = "-s" ] ) && [ "$2" = "" ]; then __apagarAula "$CMD"; exit 0; fi
 #elif [ "$CMD" = "-s" ]; then CMD="$1"; shift; fi
-shift
 while [ "$1" != "" ]; do 
    if $DEBUG; then echo __apagarPc $CMD $1; fi
    __apagarPc $CMD $1

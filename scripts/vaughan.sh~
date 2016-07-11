@@ -34,6 +34,6 @@ else
 fi   
 
 
-echo vlc  $URI --sout "#transcode{acodec=mp3,ab=64,channels=2}:duplicate{dst=std{access=file,mux=raw,dst=$SALIDA}}" &
+eecho cvlc  $URI --sout "#transcode{acodec=mp3,ab=64,channels=2}:duplicate{dst=std{access=file,mux=raw,dst=$SALIDA}}" &
 sleep 30
-echo vlc $SALIDA &
+eecho vlc $SALIDA &
