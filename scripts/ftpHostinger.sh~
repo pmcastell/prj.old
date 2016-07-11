@@ -1,0 +1,2 @@
+uso() {
+   echo uso: $0 '<hostinger-site>' '<fich-1>'

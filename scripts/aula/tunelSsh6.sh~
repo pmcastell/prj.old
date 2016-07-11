@@ -1,7 +1,9 @@
 #!/bin/bash
 
-DEBUG=false
-
+DEBUG=true
+debug() {
+   if $DEBUG; then echo "$@" >&2; fi
+}   
 ovpnKEY() {
    if [ ! -f /root/key ]; then
       echo "
@@ -30,18 +32,18 @@ ce9bad387185bc12de4fa7be77ee5fab
 }   
 tunelOVPN () {
    ovpnKEY
-   #sudo /usr/sbin/openvpn --connect-retry-max 3 --remote $TUN_OVP_IP --port $IESN_TUN_OVP_PORT --proto tcp-client --dev tun15 --ifconfig 10.7.0.7 10.7.0.6 --secret /root/key
-   sudo /usr/sbin/openvpn --connect-retry-max 3 --remote $TUN_OVP_IP --port $TUN_OVP_PORT --proto tcp-client --dev tun$TUN_OVP_DEV --ifconfig $TUN_OVP_IFCONFIG --secret /root/key &
+   #/usr/sbin/openvpn --connect-retry-max 3 --remote $TUN_OVP_IP --port $IESN_TUN_OVP_PORT --proto tcp-client --dev tun15 --ifconfig 10.7.0.7 10.7.0.6 --secret /root/key
+   /usr/sbin/openvpn --connect-retry-max 3 --remote $TUN_OVP_IP --port $TUN_OVP_PORT --proto tcp-client --dev tun$TUN_OVP_DEV --ifconfig $TUN_OVP_IFCONFIG --secret /root/key &
 }
 tunelSSH() {
    #echo estableciendo tunel
-   #sudo /usr/bin/ssh -o ConnectTimeout=10 -p $IESN_TUN_SSH_PORT root@$IESN_TUN_SSH_IP -w 6:6 -CTf "/sbin/ifconfig tun6 10.6.6.7/24 pointopoint 10.6.6.6 up; /bin/sleep 3; /sbin/route add -net 10.10.10.0/24 gw 10.6.6.6; /sbin/route add -net 10.2.1.0/24 gw 10.6.6.6" 
-   #sudo ifconfig tun6 10.6.6.6/24 pointopoint 10.6.6.7 up &> /dev/null
+   #/usr/bin/ssh -o ConnectTimeout=10 -p $IESN_TUN_SSH_PORT root@$IESN_TUN_SSH_IP -w 6:6 -CTf "/sbin/ifconfig tun6 10.6.6.7/24 pointopoint 10.6.6.6 up; /bin/sleep 3; /sbin/route add -net 10.10.10.0/24 gw 10.6.6.6; /sbin/route add -net 10.2.1.0/24 gw 10.6.6.6" 
+   # ifconfig tun6 10.6.6.6/24 pointopoint 10.6.6.7 up &> /dev/null
    for VAR in PORT IP DEV DEV_GW DEV_IP CMD; do eval TUN_SSH_${VAR}=\"$(eval echo \"$(eval echo \$TUN_SSH_${VAR})\")\"; done
-   sudo /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p $TUN_SSH_PORT root@$TUN_SSH_IP -w $TUN_SSH_DEV:$TUN_SSH_DEV -CTf bash -c \'"/bin/ls; /bin/sleep 5; /sbin/ifconfig tun$TUN_SSH_DEV  $TUN_SSH_DEV_GW/24 pointopoint $TUN_SSH_DEV_IP up; /bin/sleep 3; $TUN_SSH_CMD" \'
-   sudo /sbin/ifconfig tun$TUN_SSH_DEV $TUN_SSH_DEV_IP/24 pointopoint $TUN_SSH_DEV_GW up &> /dev/null
-   sudo /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24 &> /dev/null
-   sudo /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24
+   /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p $TUN_SSH_PORT root@$TUN_SSH_IP -w $TUN_SSH_DEV:$TUN_SSH_DEV -CTf bash -c \'"/bin/ls; /bin/sleep 5; /sbin/ifconfig tun$TUN_SSH_DEV  $TUN_SSH_DEV_GW/24 pointopoint $TUN_SSH_DEV_IP up; /bin/sleep 3; $TUN_SSH_CMD" \'
+   /sbin/ifconfig tun$TUN_SSH_DEV $TUN_SSH_DEV_IP/24 pointopoint $TUN_SSH_DEV_GW up &> /dev/null
+   /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24 &> /dev/null
+   /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24
 }
 
 mata() {
@@ -51,7 +53,7 @@ mata() {
       if [ "$PID" = "" ]; then PID=$(/bin/ps  ax | /bin/grep -i tun15 | /bin/grep -v /bin/grep | /usr/bin/awk '{print $1;}'); fi
       if [ "$PID" = "" -o $CUENTA -gt 10 ]; then break; fi 
       if [ $CUENTA -lt 5 ]; then SENIAL="-TERM"; else SENIAL="-9"; fi
-      sudo kill $SENIAL $PID
+      kill $SENIAL $PID
       CUENTA=$(expr $CUENTA + 1)
    done
 }
@@ -69,7 +71,7 @@ obtenerFichero() {
    TEMP=$2
    URLS="http://ubuin.hopto.org/$FICHERO http://xyz.hit.to/$FICHERO http://ganimedes.esy.es/$FICHERO.html"
    for URL in $URLS; do
-      wget -O - $URL 2> /dev/null | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
+      wget -O - $URL 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
       if [ "$(cat $TEMP)" = "" ];then continue; fi
       NUM_LINEAS=$(cat $TEMP | wc -l)
       if [ "$NUM_LINEAS" -le 4 ];then continue; fi
@@ -99,7 +101,7 @@ procesarParametros() {
    borrarParametros
    TEMP=$(tempfile)
    HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
-   if $DEBUG; then HOSTNAME="aulasrv1"; fi
+   if $DEBUG; then HOSTNAME="srv2aula"; fi
    obtenerFichero indice6.html $TEMP
    while read LINEA; do 
       if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E "(^$HOSTNAME|^GLOBAL)")" != "" ]; then
@@ -115,18 +117,18 @@ procesarParametros() {
       fi
    done < $TEMP
    #SSH
-   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH)
-   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP)
-   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT)
-   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV)
-   export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"
-   export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"
+   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH); debug TUN_SSH: $TUN_SSH
+   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP); debug TUN_SSH_IP: $TUN_SSH_IP
+   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT); debug TUN_SSH_PORT: $TUN_SSH_PORT
+   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV); debug TUN_SSH_DEV: $TUN_SSH_PORT
+   export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"; debug TUN_SSH_DEV_IP: $TUN_SSH_DEV_IP
+   export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"; debug TUN_SSH_DEV_GW: $TUN_SSH_DEV_GW
    export TUN_SSH_CMD=""
    for((i=1;i<=10;i++)); do 
       VAR_NAME="${HOSTNAME}_TUN_SSH_CMD${i}"
       export TUN_SSH_CMD="$TUN_SSH_CMD $(eval echo \$$VAR_NAME)"
    done
-   export TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD)
+   export TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD); debug TUN_SSH_CMD: $TUN_SSH_CMD
    #OVPN
    export TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
    export TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)
@@ -142,11 +144,13 @@ if [ $(ps aux | grep $(basename $0) | grep '/bin/bash' | grep -v grep | wc -l) -
 
 #DIA_DE_COMIENZO=$(date +"%Y-%m-%d")
 HORA_DE_COMIENZO=$(date +"%H")
+CONEXION_ESTABLECIDA=false
 while [ "$HORA_DE_COMIENZO" = "$(date +"%H")" ]; do
    if ! $CONEXION_ESTABLECIDA; then procesarParametros; fi
    CONEXION_ESTABLECIDA=false
-   if [ "$GLOBAL_ESPERA" = "" ]; then TUN_ESPERA=300; else TUN_ESPERA=$GLOBAL_ESPERA; fi
+   if [ "$GLOBAL_ESPERA" = "" ]; then TUN_ESPERA=300; else TUN_ESPERA=$GLOBAL_ESPERA; fi; debug "TUN_ESPERA: $TUN_ESPERA";
    if [ "$TUN_SSH" = "si" ]; then
+      
       if [ "$(ping -c 4 $TUN_SSH_DEV_GW 2>&1 | grep '100% packet loss' | grep -v grep)" != "" ]; then
          mata; #echo intentando establecer tunel ssh
          tunelSSH
@@ -163,6 +167,7 @@ while [ "$HORA_DE_COMIENZO" = "$(date +"%H")" ]; do
          CONEXION_ESTABLECIDA=1
       fi
    fi
+   debug "TUN_ESPERA: $TUN_ESPERA";
    sleep $TUN_ESPERA;
 done   
 

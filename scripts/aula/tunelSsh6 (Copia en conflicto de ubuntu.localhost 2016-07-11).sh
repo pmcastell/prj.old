@@ -1,9 +1,7 @@
 #!/bin/bash
 
 DEBUG=false
-debug() {
-   if $DEBUG; then echo "$@" >&2; fi
-}   
+
 ovpnKEY() {
    if [ ! -f /root/key ]; then
       echo "
@@ -101,7 +99,7 @@ procesarParametros() {
    borrarParametros
    TEMP=$(tempfile)
    HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
-   if $DEBUG; then HOSTNAME="srv2aula"; fi
+   if $DEBUG; then HOSTNAME="aulasrv1"; fi
    obtenerFichero indice6.html $TEMP
    while read LINEA; do 
       if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E "(^$HOSTNAME|^GLOBAL)")" != "" ]; then
@@ -117,18 +115,18 @@ procesarParametros() {
       fi
    done < $TEMP
    #SSH
-   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH); debug TUN_SSH: $TUN_SSH
-   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP); debug TUN_SSH_IP: $TUN_SSH_IP
-   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT); debug TUN_SSH_PORT: $TUN_SSH_PORT
-   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV); debug TUN_SSH_DEV: $TUN_SSH_PORT
-   export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"; debug TUN_SSH_DEV_IP: $TUN_SSH_DEV_IP
-   export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"; debug TUN_SSH_DEV_GW: $TUN_SSH_DEV_GW
+   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH)
+   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP)
+   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT)
+   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV)
+   export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"
+   export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"
    export TUN_SSH_CMD=""
    for((i=1;i<=10;i++)); do 
       VAR_NAME="${HOSTNAME}_TUN_SSH_CMD${i}"
       export TUN_SSH_CMD="$TUN_SSH_CMD $(eval echo \$$VAR_NAME)"
    done
-   export TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD); debug TUN_SSH_CMD: $TUN_SSH_CMD
+   export TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD)
    #OVPN
    export TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
    export TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)
@@ -144,13 +142,11 @@ if [ $(ps aux | grep $(basename $0) | grep '/bin/bash' | grep -v grep | wc -l) -
 
 #DIA_DE_COMIENZO=$(date +"%Y-%m-%d")
 HORA_DE_COMIENZO=$(date +"%H")
-CONEXION_ESTABLECIDA=false
 while [ "$HORA_DE_COMIENZO" = "$(date +"%H")" ]; do
    if ! $CONEXION_ESTABLECIDA; then procesarParametros; fi
    CONEXION_ESTABLECIDA=false
-   if [ "$GLOBAL_ESPERA" = "" ]; then TUN_ESPERA=300; else TUN_ESPERA=$GLOBAL_ESPERA; fi; debug "TUN_ESPERA: $TUN_ESPERA";
+   if [ "$GLOBAL_ESPERA" = "" ]; then TUN_ESPERA=300; else TUN_ESPERA=$GLOBAL_ESPERA; fi
    if [ "$TUN_SSH" = "si" ]; then
-      
       if [ "$(ping -c 4 $TUN_SSH_DEV_GW 2>&1 | grep '100% packet loss' | grep -v grep)" != "" ]; then
          mata; #echo intentando establecer tunel ssh
          tunelSSH
@@ -167,7 +163,6 @@ while [ "$HORA_DE_COMIENZO" = "$(date +"%H")" ]; do
          CONEXION_ESTABLECIDA=1
       fi
    fi
-   debug "TUN_ESPERA: $TUN_ESPERA";
    sleep $TUN_ESPERA;
 done   
 

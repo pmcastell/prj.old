@@ -44,10 +44,10 @@ if [ "$(whoami)" != "root" ]; then sudo $0 $*; exit ; fi
 if [ "$2" = "si" ]; then sudo service $SERVICE start; CAD1=no; CAD2=si;
 elif [ "$2" = "no" ]; then sudo service $SERVICE stop; CAD1=si; CAD2=no;
 else uso; fi
-DIR_BASE=$(encuentraDir "hostinger")
-if [ "$DIR_BASE" = "" ]; then echo No se han podido encontrar ficheros de índice; habla -n No se han podido encontrar ficheros de índice; exit 2; fi
-INDICES="$DIR_BASE/indice4.html $DIR_BASE/indice5.html"
-INDICES="$DIR_BASE/indice6.html $DIR_BASE/indice5.html"
+DIR_BASE_HOSTINGER=$(encuentraDir "hostinger")
+if [ "$DIR_BASE_HOSTINGER" = "" ]; then echo No se han podido encontrar ficheros de índice; habla -n No se han podido encontrar ficheros de índice; exit 2; fi
+INDICES="$DIR_BASE_HOSTINGER/indice4.html $DIR_BASE_HOSTINGER/indice5.html"
+INDICES="$DIR_BASE_HOSTINGER/indice6.html $DIR_BASE_HOSTINGER/indice5.html"
 
 for INDICE in $INDICES; do
    #INDICE=/tmp/indice4.html
@@ -69,9 +69,9 @@ for INDICE in $INDICES; do
 done
 PASSWD="Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTV0ZKdGVGWlZiVFZyVmxVeFYyTkljRmhoTVhCUVdWZDRTMk14WkhGUmJGWlhZa2hDVVZkV1pEUlRNazE0V2toR1VtSkdXbGhaYTJoRFZWWmFjVkZ0UmxSTmF6RTFWVEowVjFaWFNraGhSemxWVmpOT00xcFZXbUZqVmtaMFVteHdWMDFFUlRGV1ZFb3dWakZhV0ZOcmFHaFNlbXhXVm0xNFlVMHhXbk5YYlVaclVqQTFSMWRyV25kV01ERldZMFZ3VjJKVVJYZFdha1pYWkVaT2NtSkdTbWhsYlhoWFZtMTBWMU14VWtkV1dHaFlZbGhTV0ZSV2FFTlNiRnBZWlVaT1ZXSlZXVEpWYkZKRFZqQXhkVlZ1V2xaaGExcFlXa1ZhVDJOc2NFZGhSMnhUVFcxb2IxWXhaREJaVmxsM1RVaG9hbEpzY0ZsWmJHaFRWMFpTVjJGRlRsUmlSM1F6VjJ0U1UxWnJNWEpqUld4aFUwaENSRlpxU2tkamJVVjZZVVphYUdFeGNHOVdha0poVkRKT2RGSnJaRmhpVjNodlZGVm9RMWRzV25KWGJHUmFWakZHTkZaSGRHdFdiVXBIVjJ4U1dtSkhhRlJXTUZwVFZqSkdSbFJzVG1sU2JrSmFWMnhXWVZReFdsaFRiRnBZVmtWd1YxbHJXa3RTUmxweFVWaG9hMVpzV2pGV01uaHJZVWRGZWxGcmJGZFdNMEpJVmtSS1UxWXhWblZWYlhCVFlrVndWVlp0ZUc5Uk1XUnpWMWhvV0dKRk5WUlVWbVEwVjFaV2RHUkhkRmROVjFKSldWVmFjMWR0U2tkWGJXaGFUVlp3ZWxreWVIZFNWa1p5VDFkc1UwMHlhRmxXYlhCTFRrWlJlRmRzYUZSaE1sSnhWVzB4TkdGR1ZYZGhSVTVUVW14d2VGVXlkR0ZpUmxwelUyeHdXbFpXY0doWlZXUkdaVWRPUjJKR2FHaE5WbkJ2Vm10U1MxUXlVa2RVYmtwaFVteEtjRlpxU205bGJHUllaVWM1YVUxWFVsaFdNV2h2V1ZaS1IxTnNaRlZXYkhCNlZHdGFWbVZYVWtoa1JtaFRUVVpaTVZac1pEUmpNV1IwVTJ0a1dHSlhhR0ZVVmxwM1ZrWmFjVkp1WkZOTlZrcDVWR3hhVDJGV1NuUlBWRTVYVFc1b1dGbFVRWGhTTVdSellVWlNhRTFzU25oV1YzUlhXVlpaZUZkdVJsVmlWR3h5V1d0YWQyVkdWblJrUkVKb1lYcEdlVlJzVm05WGJGcFhZMGhLV2xaWFVrZGFWM2hIWTIxS1IxcEdaRk5XV0VKMlZtcEdZV0V4VlhoWFdHaFZZbXhhVmxscldrdGpSbFp4VW10MFYxWnNjRWhXVjNSTFlUQXhSVkpzVGxaU2JFWXpWVVpGT1ZCUlBUMD0="
 PASSWD=$(echo $PASSWD  | desencripta)
-#echo $PASSWD | openssl enc -e -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" | base64 > /$DIR_BASE/indicep.html
-echo $PASSWD > /$DIR_BASE/indicep.html
-cd $DIR_BASE
+#echo $PASSWD | openssl enc -e -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" | base64 > $DIR_BASE_HOSTINGER/indicep.html
+echo $PASSWD > $DIR_BASE_HOSTINGER/indicep.html
+cd $DIR_BASE_HOSTINGER
 ./actualiza2.sh
 TEMP=$(tempfile)
 for INDICE in $INDICES; do
@@ -79,9 +79,4 @@ for INDICE in $INDICES; do
    if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then eecho habla -n Error en fichero: $INDICE; fi
 done   
 cd $PWD
-
-
-
-
-
 
