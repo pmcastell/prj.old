@@ -3,7 +3,7 @@ import simplegui, random
 # initialize globals - pos and vel encode vertical info for paddles
 WIDTH = 600; HEIGHT = 400; BALL_RADIUS = 20; PAD_WIDTH = 8; PAD_HEIGHT = 80
 HALF_PAD_WIDTH = PAD_WIDTH / 2; HALF_PAD_HEIGHT = PAD_HEIGHT / 2
-ball_pos=[0.0,0.0]; ball_vel=[0.0,0.0]
+ball_pos=[0,0]; ball_vel=[0,0]
 paddle1_pos=paddle2_pos=HALF_PAD_HEIGHT
 paddle1_vel=paddle2_vel=0.0
 score1=score2=0
@@ -12,7 +12,7 @@ gravity_activated=False #activates g acceleration
 g_accel=0 #g acceleration, 0 default
 pause_activated=False # is the game paused?
 ball_vel_save=ball_vel # if the game is paused set bal_vel to 0 and save old velocity
-computer_plays=0 #Wanna play against the computer? you'll always lose
+computer_plays=False #Wanna play against the computer? you'll always lose
 # helper function that spawns a ball by updating the 
 # ball's position vector and velocity vector
 # if right is True, the ball's velocity is upper right, else upper left
@@ -21,9 +21,9 @@ def ball_init(right):
     if (gravity_activated): ball_pos=[WIDTH/2,HEIGHT/3] # if gravity is activated ball starts higher
     else: ball_pos=[WIDTH/2,HEIGHT/2]
     horizontal_speed=random.randrange(4, 6)
-    ball_vel[1]=float(-random.randrange(4, 6))
-    if (right): ball_vel[0]=float(horizontal_speed)
-    else: ball_vel[0]=float(-horizontal_speed)
+    ball_vel[1]=-random.randrange(4, 6)
+    if (right): ball_vel[0]=horizontal_speed
+    else: ball_vel[0]=-horizontal_speed
 
 def new_game():
     global paddle1_pos, paddle2_pos, paddle1_vel, paddle2_vel  # these are floats
@@ -48,10 +48,8 @@ def draw(c):
     c.draw_line([PAD_WIDTH, 0],[PAD_WIDTH, HEIGHT], 1, "White")
     c.draw_line([WIDTH - PAD_WIDTH, 0],[WIDTH - PAD_WIDTH, HEIGHT], 1, "White")
     # draw paddles
-    if (computer_plays>=1):
+    if (computer_plays):
         paddle1_pos=ball_pos[1]
-    if (computer_plays>=2):
-        paddle2_pos=ball_pos[1]
     c.draw_polygon([(0,paddle1_pos-HALF_PAD_HEIGHT), (PAD_WIDTH, paddle1_pos-HALF_PAD_HEIGHT), (PAD_WIDTH, paddle1_pos+HALF_PAD_HEIGHT),
                     (0,paddle1_pos+HALF_PAD_HEIGHT)], 1, "White","White") 
     c.draw_polygon([(WIDTH-PAD_WIDTH,paddle2_pos-HALF_PAD_HEIGHT), (WIDTH-1, paddle2_pos-HALF_PAD_HEIGHT), (WIDTH-1, paddle2_pos+HALF_PAD_HEIGHT),
@@ -62,28 +60,19 @@ def draw(c):
         ball_vel[1]=-ball_vel[1]-g_accel
         if (ball_pos[1]<BALL_RADIUS): ball_pos[1]=BALL_RADIUS
         if (ball_pos[1]>HEIGHT-1-BALL_RADIUS): ball_pos[1]=HEIGHT-1-BALL_RADIUS
-    #print "g_accel: "+str(g_accel)            
-    #print "Antes: "+str(ball_vel[1])            
     ball_vel[1]+=g_accel
-    #print "Despues: "+str(ball_vel[1])
     if (ball_pos[0]<=PAD_WIDTH+BALL_RADIUS): #touching the left gutter
         if (abs(paddle1_pos-ball_pos[1])<=HALF_PAD_HEIGHT+BALL_RADIUS*3/4): #bounce
-            ball_vel[0]=-ball_vel[0] #reflect horizontal velocity
-            if (abs(ball_vel[0])<=20):
-                ball_vel[0]=ball_vel[0]*1.1 #increment horizontal velocity
+            ball_vel[0]=-ball_vel[0]*1.1 #reflect and increment horizontal velocity
         else:
             ball_init(True)
             score2+=1
     if (ball_pos[0]>=WIDTH-1-PAD_WIDTH-BALL_RADIUS):
         if (abs(paddle2_pos-ball_pos[1])<=HALF_PAD_HEIGHT+BALL_RADIUS*3/4): #BOUNCE
-            ball_vel[0]=-ball_vel[0] #reflect horizontal velocity
-            if (abs(ball_vel[0])<=20):
-                ball_vel[0]=ball_vel[0]*1.1 #increment horizontal velocity
+            ball_vel[0]=-ball_vel[0]*1.1 #reflect and increment horizontal velocity
         else:
             ball_init(False)
             score1+=1
-    #if (abs(ball_vel[0])>10):
-        #ball_vel[0]=10
     # draw ball and scores
     c.draw_text(str(score1), [WIDTH/4-24,HEIGHT/8], 48, "White")
     c.draw_text(str(score2), [WIDTH*3/4-24,HEIGHT/8], 48, "White")
@@ -112,8 +101,7 @@ def gravity():
     gravity_activated=not gravity_activated
     if (gravity_activated):
         gravity_button.set_text("Deactivate Gravity")
-        g_accel=1.0/6
-        #print "function gravity: g_accel: "+str(g_accel)
+        g_accel=1/6
         frame.set_canvas_background("#220022")
     else:
         gravity_button.set_text("Activate Gravity")
@@ -125,7 +113,7 @@ def pause():
     pause_activated=not pause_activated
     if (pause_activated):
         ball_vel_save=list(ball_vel)
-        ball_vel=[0.0,0.0]
+        ball_vel=[0,0]
         pause.set_text("Go on")
     else:
         ball_vel=list(ball_vel_save)
@@ -133,13 +121,11 @@ def pause():
 
 def players():
     global computer_plays
-    computer_plays=(computer_plays + 1) % 3
-    if (computer_plays==0):
-        players.set_text("Two Players")
-    elif (computer_plays==1):
-        players.set_text("Play Against Computer")
+    computer_plays=not computer_plays
+    if (computer_plays):
+        players.set_text("2 Players")
     else:
-        players.set_text("Computer Plays alone")
+        players.set_text("Play Against Computer")
             
 
 # create frame
@@ -152,8 +138,6 @@ gravity_button=frame.add_button("Activate Gravity",gravity,200)
 pause=frame.add_button("Pause",pause,200)
 players=frame.add_button("Play Against Computers",players,200)
 
-
 # start frame
 frame.start()
 new_game()
-

