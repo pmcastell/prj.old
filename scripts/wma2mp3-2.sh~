@@ -1,6 +1,5 @@
 #! /bin/bash
 # wma to mp3 script by mtron
-
 zenity --info \
         --text="this script converts all wma files in the current folder
 to mp3s and puts them in the folder output 

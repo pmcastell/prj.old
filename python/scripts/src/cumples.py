@@ -55,7 +55,7 @@ cumples=[
       ['MARI MEDICO','17-05-2011','C'],
       ['CERTFICADO FNMT','07-11-2016','C'],
       ['RENOVAR SEGURO COCHE DOMICILIACION','29-06-2016','C'],
-      ['REENVÍO DE CORRESPONDENCIA POSTAL','29-08-2016','C'],
+      ['REENVÍO DE CORRESPONDENCIA POSTAL','29-01-2017','C'],
       ['CURSOS INTEF 2ª ED','15-06-2016','S'],
       ['ubuin.noip.me','12-07-2016','C'],
       ['Dropbox Espacio tablet caduca','31-08-2016','C'],

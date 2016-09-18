@@ -1,6 +1,7 @@
 #!/bin/bash
 
 uso() { echo uso: $0 '<fichero-lista-usuarios-clase> [<extensiones>]'; exit 1; }
+
 CWD=$(pwd)
 cd $(dirname $0)
 if [ "$1" = "" ] && [ ! -d usuarios ]; then uso; fi
