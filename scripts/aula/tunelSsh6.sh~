@@ -69,10 +69,10 @@ filesize() {
 obtenerFichero() {
    FICHERO=$1
    TEMP=$2
-   URLS="http://ubuin.hopto.org/$FICHERO http://xyz.hit.to/$FICHERO http://ganimedes.esy.es/$FICHERO.html"
+   URLS="http://ubuin.hopto.org/$FICHERO http://xyz.hit.to/$FICHERO http://ganimedes.esy.es/$FICHERO"
    for URL in $URLS; do
-      if [ "$(which torsocks)" != "" ]; then PROXY_CMD="$(which torsock
-      wget -O - $URL 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
+      if [ "$(which torsocks)" != "" ]; then PROXY_CMD="$(which torsocks)"; else PROXY_CMD=""; fi
+      $PROXY_CMD wget -O - $URL 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
       if [ "$(cat $TEMP)" = "" ];then continue; fi
       NUM_LINEAS=$(cat $TEMP | wc -l)
       if [ "$NUM_LINEAS" -le 4 ];then continue; fi
@@ -81,7 +81,7 @@ obtenerFichero() {
       MD52=$(cat $TEMP | grep MD5SUM | awk -F'=' '{print $2;}')
       if [ "$MD51" = "$MD52" ]; then NUM_LINEAS=$(cat $TEMP | wc -l); NUM_LINEAS=$(($NUM_LINEAS - 1)); break; fi
    done
-   if [ "$NUM_LINEAS" -gt 4 ]; then
+   if [ "$NUM_LINEAS" [ "$NUM_LINEAS" -gt 4 ]; then
       TEMP2=$(tempfile)
       cat $TEMP | head  -$NUM_LINEAS > $TEMP2
       rm $TEMP
@@ -140,7 +140,7 @@ procesarParametros() {
    export TUN_OVP_IFCONFIG="$TUN_OVP_DEV_IP $TUN_OVP_DEV_GW"
    rm $TEMP
 }
-if [ "$(whoami)" != "root" ]; then sudo $0 $*; exit; fi  
+if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit 0; fi  
 if [ $(ps aux | grep $(basename $0) | grep '/bin/bash' | grep -v grep | wc -l) -gt 2 ]; then exit 2; fi   
 
 #DIA_DE_COMIENZO=$(date +"%Y-%m-%d")

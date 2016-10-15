@@ -55,15 +55,15 @@ hostname ubu
 sudo apt-get update
 sudo apt-get -y install tor connect-proxy vnc4server icewm xterm firefox
 wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
+wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
 if [ "$(cat /etc/crontab | grep tunelSsh6)" = "" ]; then
    echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' >> /etc/crontab
 fi
 if [ "$(cat /etc/crontab | grep vncserver)" = "" ]; then   
-   echo '*/5 *   *   *   *    usuario /usr/bin/vncserver -geometry 1366x768 1440x900 :1 &> /dev/null' >> /etc/crontab
+   echo '*/5 *   *   *   *    usuario /usr/bin/vncserver -geometry 1366x768 -geometry 1440x900 :1 &> /dev/null' >> /etc/crontab
 fi   
 chmod +x /root/tunelSsh6.sh
 echo 127.0.0.1 ubu >> /etc/hosts
 sshConfig
 sshRsa
-
-
+sudo /root/sshTun.sh &
