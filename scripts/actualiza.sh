@@ -6,7 +6,7 @@ then
    sudo $ACTUALIZADOR autoclean
    sudo $ACTUALIZADOR clean
    sudo $ACTUALIZADOR autoremove
+   sudo $ACTUALIZADOR dist-upgrade   
    sudo $ACTUALIZADOR upgrade
-   sudo $ACTUALIZADOR dist-upgrade
 fi   
 

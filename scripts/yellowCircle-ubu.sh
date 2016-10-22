@@ -49,11 +49,25 @@ uGRnIQ5lGZ+gLwFSi/YuDo8PsgO7Vc7FDWcEFNXv3mTF8mKpUbcYkw==
 " > /root/.ssh/id_rsa
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCudiy6kbowI+jBVHOb1uDjy2vEDah2wQoihR8OxeHinHW4PZ4GaZS1CzSoJEnvd7bj1W3mq/v9qs9EixbKbC5MK0bhzuJMK0MOAqBcoyC3E/rFj3PX9QjHtddQbjzUoCmkzPnRuMpPuaSjcLrupaTuHJCCReqV7luFuBXWQJaeER2SL4CIgZiXMU/P6Wi7Ckr1W7ft7wqa8MF9Mp4GBbQkavNiBl9z1aHLajjN3H32a1BUn3Bfro9E5dS+qVZ8RCXBxjbxvtYf/mg3nUikjHFDNjvGeDGMkUuHd8hFxPXIgjXqDIWrPdti/xYH27reaJInHvWlS6YAxbKhuaUgA3Tj root@ubuntu.localhost" > /root/.ssh/id_rsa.pub
 }
+actualiza() {
+echo "ACTUALIZADOR="apt-get -y "
+if [ "$(uname)" = "Linux" ];
+then
+   sudo $ACTUALIZADOR -f install
+   sudo $ACTUALIZADOR update
+   sudo $ACTUALIZADOR autoclean
+   sudo $ACTUALIZADOR clean
+   sudo $ACTUALIZADOR autoremove
+   sudo $ACTUALIZADOR dist-upgrade
+   sudo $ACTUALIZADOR upgrade
+fi" > /usr/local/bin/actualiza
+chmod +x /usr/local/bin/actualiza
+}
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 echo ubu > /etc/hostname
 hostname ubu
 sudo apt-get update
-sudo apt-get -y install tor connect-proxy vnc4server icewm xterm firefox
+sudo apt-get -y install tor connect-proxy vnc4server icewm xterm firefox wireshark
 wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
 wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
 if [ "$(cat /etc/crontab | grep tunelSsh6)" = "" ]; then
@@ -66,4 +80,5 @@ chmod +x /root/tunelSsh6.sh
 echo 127.0.0.1 ubu >> /etc/hosts
 sshConfig
 sshRsa
+actualiza
 sudo /root/sshTun.sh &
