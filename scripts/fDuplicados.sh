@@ -1,5 +1,10 @@
 #!/bin/bash
 
+uso() {
+   echo Uso: $0 '<dir-a-buscar>'
+   echo busca ficheros duplicados en '<dir-a-buscar>'
+   exit 1
+}   
 user() {
    echo $* | awk -F'students/' '{print $2;}' | awk -F'/' '{print $1;}'
 }   

@@ -1,21 +1,13 @@
 #!/bin/bash
 
-puertoLibre() {
-   read LOWERPORT UPPERPORT < /proc/sys/net/ipv4/ip_local_port_range
-   while :
-   do
-           PORT="`shuf -i $LOWERPORT-$UPPERPORT -n 1`"
-           ss -lpn | grep -q ":$PORT " || break
-   done
-   echo $PORT
+uso() {
+   echo uso: $0 '<num-pc>'
+   exit 1
 }
-if [ "$(ps aux | grep "xvnc4viewer -listen" | grep -v grep)" = "" ];
-then
-   PUERTO=$(puertoLibre)
-   xvnc4viewer -listen $PUERTO &
-else
-   PUERTO=$(ps aux | grep "xvnc4viewer -listen" | grep -v grep | awk '{ print $NF;}' | head -1)   
-fi   
-sleep 1
-bash -c "ssh lliurex@10.2.1.$1 pantalla $PUERTO > /dev/null" &
-
+if [ $# -lt 1 ]; then uso; fi
+if [ "$2" != "" ]; then DISP=$2; else DISP=0; fi
+PORT=$1
+PORT=${PORT:1:2}
+PORT=$(( $PORT + 10 ))
+vncviewer -listen 59${PORT} &
+ssh lliurex@10.2.1.$1 sudo x11vnc --auth /var/run/lightdm/root/:$DISP --display :$DISP --connect 10.2.1.254:59${PORT}&>/dev/null &

@@ -13,8 +13,9 @@ while read USUARIO; do
    sudo mkdir -p $DEST
    for FICH in "$FICHEROS_EXAMEN"; do
       sudo cp $FICH $DEST/
-      ls -l $DEST
+      ls -l $DEST/
    done
    sudo chown -R $USUARIO $DEST
    echo USUARIO: ACTUAL $USUARIO
 done < $USUARIOS
+

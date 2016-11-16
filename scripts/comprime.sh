@@ -1,32 +1,16 @@
 uso() {
-   echo Uso: $0 directorio-origen-a-comprimir
+   echo Uso: $0 '[[-p] <directorio-origen-a-comprimir>]'
+   exit 1
 }   
-
-
-if [ "$1" = "" ];
-then
-   ORIGEN=.
-elif [ "$1" = "-h" ];
-then
-   uso
-else
-   ORIGEN=$1
-fi 
-PASSWD=$(readPass)
-if [ "$PASSWD" = "" ];
-then
-   echo debes especificar una contraseña no vacía
-   uso
-   exit -1
-fi   
+if [ "$1" = "-p" ] && [ "$2" != "" ]; then PASSWD=$(readPass); ORIGEN=$2; elif [ "$1" = "-p" ] && [ "$2" = "" ]; then uso; 
+elif [ "$1" = "" ]; then ORIGEN=.; elif [ "$1" = "-h" ]; then uso; else ORIGEN=$1; fi 
 DESTINO=./$(pwd | gawk -F'/' '{print $NF;}').7z
-
+if [ "$PASSWD" != "" ]; then PASSWD="-p${PASSWD}"; fi
 if [ "$(echo $* | grep -i '\-nv' | grep -v grep)" != "" ];
 then
-   echo si entra
-   nice -19 7za a -w./ -mhe -p$PASSWD -r -ms=off -mx=9 $DESTINO
+   eecho nice -19 7za a $DESTINO -w./ -mhe $PASSWD -r -ms=off -mx=9 $ORIGEN
 else   
-   nice -19 7za a -w./ -mhe -p$PASSWD -r -ms=off -mx=9 -v100m $DESTINO
+   eecho nice -19 7za a $DESTINO -w./ -mhe $PASSWD -r -ms=off -mx=9 -v10m $ORIGEN
 fi   
 #mv $DESTINO ./
 

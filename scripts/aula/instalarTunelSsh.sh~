@@ -1,14 +1,18 @@
-#!/bin/bash
-
 sshConfig() {
-echo "Host localhost 127.0.0.1 172.18.163.*
-	CheckHostIP no
+if [ "$1" = "yellowcircle" ]; then
+   echo "Host localhost 127.0.0.1 172.18.163.*" > /root/.ssh/config
+elif [ "$1" = "insti" ]; then
+   echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1
+	User lliurex"  > /root/.ssh/config
+else 
+   echo "Host localhost 127.0.0.1" > /root/.ssh/config
+fi   	  
+echo "CheckHostIP no
 	UserKnownHostsFile /dev/null 
 	StrictHostKeyChecking no
 	Compression yes
 	Protocol 2
 	ProxyCommand none 
-
 
 Host *
 	CheckHostIP no
@@ -17,8 +21,9 @@ Host *
 	Compression yes
 	Protocol 2
 	ProxyCommand connect -4 -S 127.0.0.1:9050 \$(tor-resolve %h localhost:9050) %p
-" > /root/.ssh/config
+" >> /root/.ssh/config
 }
+
 sshRsa() {
 echo "-----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEArnYsupG6MCPowVRzm9bg48trxA2odsEKIoUfDsXh4px1uD2e
@@ -50,41 +55,8 @@ uGRnIQ5lGZ+gLwFSi/YuDo8PsgO7Vc7FDWcEFNXv3mTF8mKpUbcYkw==
 " > /root/.ssh/id_rsa
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCudiy6kbowI+jBVHOb1uDjy2vEDah2wQoihR8OxeHinHW4PZ4GaZS1CzSoJEnvd7bj1W3mq/v9qs9EixbKbC5MK0bhzuJMK0MOAqBcoyC3E/rFj3PX9QjHtddQbjzUoCmkzPnRuMpPuaSjcLrupaTuHJCCReqV7luFuBXWQJaeER2SL4CIgZiXMU/P6Wi7Ckr1W7ft7wqa8MF9Mp4GBbQkavNiBl9z1aHLajjN3H32a1BUn3Bfro9E5dS+qVZ8RCXBxjbxvtYf/mg3nUikjHFDNjvGeDGMkUuHd8hFxPXIgjXqDIWrPdti/xYH27reaJInHvWlS6YAxbKhuaUgA3Tj root@ubuntu.localhost" > /root/.ssh/id_rsa.pub
 }
-actualiza() {
-ACTUALIZADOR="apt-get -y "
-if [ "$(uname)" = "Linux" ];
-then
-   sudo $ACTUALIZADOR -f install
-   sudo $ACTUALIZADOR update
-   sudo $ACTUALIZADOR autoclean
-   sudo $ACTUALIZADOR clean
-   sudo $ACTUALIZADOR autoremove
-   sudo $ACTUALIZADOR dist-upgrade
-   sudo $ACTUALIZADOR upgrade
-fi" > /usr/local/bin/actualiza
-chmod +x /usr/local/bin/actualiza
-}
-instalaScriptTunelSsh() {
-   wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
-   wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
-   if [ "$(cat /etc/crontab | grep tunelSsh6)" = "" ]; then
-      echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' >> /etc/crontab
-   fi
-   chmod +x /root/tunelSsh6.sh
-   chmod +x /root/sshTun.sh
-}
 
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
-echo ubu > /etc/hostname
-hostname ubu
 sudo apt-get update
-sudo apt-get -y install tor connect-proxy vnc4server icewm xterm firefox wireshark
-instalaScriptTunelSsh
-if [ "$(cat /etc/crontab | grep vncserver)" = "" ]; then   
-   echo '*/5 *   *   *   *    usuario /usr/bin/vncserver -geometry 1366x768 -geometry 1440x900 :1 &> /dev/null' >> /etc/crontab
-fi  
-echo 127.0.0.1 ubu >> /etc/hosts
-sshConfig
-sshRsa
-actualiza
-sudo /root/sshTun.sh &
+sudo apt-get -y install tor connect-proxy vnc4server wireshark
+
