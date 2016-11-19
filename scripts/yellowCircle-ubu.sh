@@ -65,8 +65,8 @@ fi" > /usr/local/bin/actualiza
 chmod +x /usr/local/bin/actualiza
 }
 instalaScriptTunelSsh() {
-   wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
-   wget -c https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
+   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
+   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
    if [ "$(cat /etc/crontab | grep tunelSsh6)" = "" ]; then
       echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' >> /etc/crontab
    fi

@@ -55,8 +55,28 @@ uGRnIQ5lGZ+gLwFSi/YuDo8PsgO7Vc7FDWcEFNXv3mTF8mKpUbcYkw==
 " > /root/.ssh/id_rsa
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCudiy6kbowI+jBVHOb1uDjy2vEDah2wQoihR8OxeHinHW4PZ4GaZS1CzSoJEnvd7bj1W3mq/v9qs9EixbKbC5MK0bhzuJMK0MOAqBcoyC3E/rFj3PX9QjHtddQbjzUoCmkzPnRuMpPuaSjcLrupaTuHJCCReqV7luFuBXWQJaeER2SL4CIgZiXMU/P6Wi7Ckr1W7ft7wqa8MF9Mp4GBbQkavNiBl9z1aHLajjN3H32a1BUn3Bfro9E5dS+qVZ8RCXBxjbxvtYf/mg3nUikjHFDNjvGeDGMkUuHd8hFxPXIgjXqDIWrPdti/xYH27reaJInHvWlS6YAxbKhuaUgA3Tj root@ubuntu.localhost" > /root/.ssh/id_rsa.pub
 }
-
+instalaScriptTunelSsh() {
+   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
+   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
+   if [ "$(cat /etc/crontab | grep tunelSsh6)" = "" ]; then
+      echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' >> /etc/crontab
+   fi
+   chmod +x /root/tunelSsh6.sh
+   chmod +x /root/sshTun.sh
+}
+aptSourcesList() {
+   S1="deb http://es.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted"
+   S2="deb http://es.archive.ubuntu.com/ubuntu trusty-updates main universe multiverse restricted"
+   S3="deb http://es.archive.ubuntu.com/ubuntu trusty-security main universe multiverse restricted"
+   SOURCES="/etc/apt/sources.list"
+   if [ "$(cat $SOURCES | grep \'$1\')" = "" ]; then echo $1 >> $SOURCES; fi
+   if [ "$(cat $SOURCES | grep \'$2\')" = "" ]; then echo $2 >> $SOURCES; fi
+   if [ "$(cat $SOURCES | grep \'$3\')" = "" ]; then echo $3 >> $SOURCES; fi
+   
+}
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 sudo apt-get update
 sudo apt-get -y install tor connect-proxy vnc4server wireshark
-
+sshConfig insti
+sshRsa
+instalaScriptTunelSsh
