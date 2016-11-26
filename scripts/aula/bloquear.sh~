@@ -29,9 +29,6 @@ then
       LISTA_DE_SITIOS_BLOQUEADOS="$LISTA_DE_SITIOS_BLOQUEADOS $1"
       shift
    done
-      
-
-   
    for SITIO in $LISTA_DE_SITIOS_BLOQUEADOS; do
       if [ "$(cat /etc/hosts | grep $SITIO)" = "" ];
       then
@@ -41,3 +38,4 @@ then
 fi   
 sudo service squid3 stop
 sudo service squid3 start
+sudo service dnsmasq restart

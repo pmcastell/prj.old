@@ -7,6 +7,7 @@ DIR=$(dirname $0)
 if [ "$1" != "" ]; then
    while [ "$1" != "" ]; do 
       LINEA=$(cat /etc/dnsmasq.conf | grep -vE '^#' | grep $1  | head -1)
+      if [ "$LINEA" = "" ]; then echo no se encontró mac de $1; shift; continue; fi
       MAC=$(echo $LINEA | awk -F'=' '{print $2;}' | awk -F',' '{print $1;}')
       IP=$(echo $LINEA | awk -F'=' '{print $2;}' | awk -F',' '{print $3;}')
       #sudo arp -s $IP $MAC
