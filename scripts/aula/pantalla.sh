@@ -6,8 +6,19 @@ uso() {
 }
 if [ $# -lt 1 ]; then uso; fi
 if [ "$2" != "" ]; then DISP=$2; else DISP=0; fi
-PORT=$1
-PORT=${PORT:1:2}
-PORT=$(( $PORT + 10 ))
-vncviewer -listen 59${PORT} &
-ssh lliurex@10.2.1.$1 sudo x11vnc --auth /var/run/lightdm/root/:$DISP --display :$DISP --connect 10.2.1.254:59${PORT}&>/dev/null &
+FPORT="/tmp/___pantalla_PORT___.txt"
+if [ ! -f  $FPORT ]; then
+   for((PORT=5920;PORT<=65535;PORT++)); do
+      if [ "$PORT" = "65535" ]; then 
+         zenity --info --title="No se encuentra puerto libre" --text="No se ha encontrado un puerto libre"; 
+         exit 2; 
+      fi
+      if [ "$(netstat -lnt | grep ":$PORT")" = "" ]; then break; fi
+   done
+   echo $PORT > $FPORT
+   vncviewer -listen ${PORT} &
+else
+   PORT=$(cat $FPORT)
+fi   
+
+ssh lliurex@10.2.1.$1 sudo x11vnc -noshm -24to32 --auth /var/run/lightdm/root/:$DISP --display :$DISP -connect_or_exit 10.2.1.254:${PORT}&>/dev/null &

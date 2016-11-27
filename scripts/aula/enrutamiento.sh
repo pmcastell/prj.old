@@ -10,6 +10,7 @@ uso() {
    exit 1
 }
 if [ "$1" = "" ]; then uso; fi
+if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 if [ "$1" = "on" ]; then
    sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
    if [ "$(sudo iptables -t nat -nL | grep MASQUERADE | grep 10.2.1.0)" = "" ]; then
@@ -18,4 +19,6 @@ if [ "$1" = "on" ]; then
 elif [ "$1" = "off" ]; then
    sudo bash -c 'echo 0 > /proc/sys/net/ipv4/ip_forward' 
 fi
+echo "Estado Actual:"
+echo "--------------"
 estado  

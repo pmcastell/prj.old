@@ -7,10 +7,7 @@ uso() {
 if [ "$1" = "" ] || [ "$1" != "ON" -a "$1" != "on" -a "$1" != "off" -a "$1" != "OFF" ]; then
    uso $LISTA_DE_SITIOS_BLOQUEADOS
 fi   
-if [ "$(whoami)" != "root" ]; then
-   sudo $0 $*
-   exit
-fi   
+if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 if [ ! -f /etc/hosts.original ]; then
    cp /etc/hosts /etc/hosts.original
 fi

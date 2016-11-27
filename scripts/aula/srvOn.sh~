@@ -2,7 +2,7 @@
 uso() {
    echo uso: $0 '<servidor-a-despertar>'
    echo Servidores disponibles: 
-   echo "srvSalaProfes
+   echo "         srvSalaProfes
          aula1srv
          aula2srv
          tecnologia
@@ -16,6 +16,7 @@ uso() {
 todas() {
    MACS="00:24:01:ee:22:59 00:24:01:ed:30:c1 00:19:99:88:6a:f8 00:19:99:80:53:e1 00:0f:ea:40:57:3f 00:24:01:ee:21:c7 44:8a:5b:c2:77:fc 44:8a:5b:c2:71:e6"
    for MAC in $MACS; do 
+      echo sudo etherwake -i eth1 $MAC;
       sudo etherwake -i eth1 $MAC;
    done
 }   
@@ -31,7 +32,7 @@ elif [ "$1" = "PT1" ];         then MAC="44:8a:5b:c2:71:e6";
 elif [ "$1" = "Salaprofes2" ]; then MAC="00:0f:ea:40:57:3f";
 elif [ "$1" = "ALL" ];         then todas; exit 0;
 fi
-if [ "$MAC" != "" ]; then sudo etherwake -i eth1 $MAC;
+if [ "$MAC" != "" ]; then echo sudo etherwake -i eth1 $MAC; sudo etherwake -i eth1 $MAC;
 else echo Error servidor no encontrado; fi
 
    

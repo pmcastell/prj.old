@@ -1,6 +1,6 @@
 #!/bin/bash
 #dhcp-host=00:19:66:e9:3b:f6,pc01,10.2.1.101,infinite
-DEBUG=true
+DEBUG=false
 __apagarPc() {
    if [ "$1" = "-p" ]; then COMMAND="/sbin/poweroff"; else COMMAND="/sbin/shutdown -h now"; fi
    IP=$2
@@ -15,6 +15,7 @@ __apagarAula() {
 	   #sleep 1
    done
 }
+if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 if [ "$1" = "" ]; then CMD="-s"; else CMD="$1"; shift; fi
 if ( [ "$CMD" = "-p" ] || [ "$CMD" = "-s" ] ) && [ "$2" = "" ]; then __apagarAula "$CMD"; exit 0; fi
 #elif [ "$CMD" = "-s" ]; then CMD="$1"; shift; fi

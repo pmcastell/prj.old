@@ -14,7 +14,9 @@ micalc
 vaciarArp
 cerrarSesion
 imprime
-enrutamiento"
+enrutamiento
+echoColor
+ayuda"
 for s in $SCRIPTS; do
    chmod +x,+r $s.sh
    sudo cp /home/franav/aula/$s.sh /usr/local/bin/$s

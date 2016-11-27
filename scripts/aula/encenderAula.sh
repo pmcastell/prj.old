@@ -1,8 +1,6 @@
 #!/bin/bash
-if [ "$(whoami)" != "root" ]; then
-   sudo $0 $*
-   exit
-fi
+
+if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 DIR=$(dirname $0) 
 if [ "$1" != "" ]; then
    while [ "$1" != "" ]; do 

@@ -11,7 +11,7 @@ uso() {
 ###Y finalmente según quiera activarse o desactivarse la salida a través de tor, pasarle a éste script 
 ###el parámetro on u off
 if [ "$1" = "" ]; then uso; fi
-if [ "$(whoami)" != "root" ]; then sudo $0 $*; exit; fi   
+if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 CONF_SQUID="/etc/squid3/squid.conf"
 #CONF_SQUID="/tmp/squid.conf"
 LINEA1="cache_peer localhost parent 8118 7 no-digest no-query"

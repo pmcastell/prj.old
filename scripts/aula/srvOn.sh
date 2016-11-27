@@ -2,7 +2,7 @@
 uso() {
    echo uso: $0 '<servidor-a-despertar>'
    echo Servidores disponibles: 
-   echo "srvSalaProfes
+   echo "         srvSalaProfes
          aula1srv
          aula2srv
          tecnologia
@@ -20,8 +20,8 @@ todas() {
       sudo etherwake -i eth1 $MAC;
    done
 }   
-
 if [ "$1" = "" ]; then uso; fi
+if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 if [ "$1" = "srvSalaProfes" ]; then MAC="00:24:01:ee:22:59";
 elif [ "$1" = "aula2srv" ];    then MAC="00:24:01:ed:30:c1";
 elif [ "$1" = "aula1srv" ];    then MAC="00:19:99:88:6a:f8";
