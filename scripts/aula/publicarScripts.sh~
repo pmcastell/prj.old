@@ -1,4 +1,13 @@
 #!/bin/bash
+publicarScripts() {
+   for s in $2; do
+      chmod +x,+r $s.$1
+      sudo cp /home/franav/aula/$s.$1 /usr/local/bin/$s
+      sudo chmod +x,+r /usr/local/bin/$s
+      #sudo ln -s /usr/local/bin/$s.$1 /usr/local/bin/$s
+   done
+}
+
 if [ "$(whoami)" != "root" ]; then
    sudo $0 $*
    exit
@@ -15,11 +24,8 @@ vaciarArp
 cerrarSesion
 imprime
 enrutamiento
+echoColor
 ayuda"
-for s in $SCRIPTS; do
-   chmod +x,+r $s.sh
-   sudo cp /home/franav/aula/$s.sh /usr/local/bin/$s
-   sudo chmod +x,+r /usr/local/bin/$s
-   #sudo ln -s /usr/local/bin/$s.sh /usr/local/bin/$s
-done
-   
+publicarScripts sh "$SCRIPTS"
+PYTHONS="consultaLdap"
+publicarScripts py "$PYTHONS"   

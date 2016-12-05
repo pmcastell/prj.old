@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo -e "
-\n-------------------------------------------------------------------------------------\n
+-------------------------------------------------------------------------------------
 $(echoColor Orange Estos son los comandos \(scripts\) disponibles:)
 $(echoColor Yellow sudo bloquear) <on-off> [lista-máquinas-a-bloquear] ---> bloquea/desbloquea acceso a youtube y la lista de máquinas a bloquear
    ejemplo: bloquear on www.marca.com www.as.com ---> (bloquea youtube, marca y as)
@@ -29,11 +29,7 @@ $(echoColor Yellow echoColor) <color> <texto> ---> imprime texto en el color ind
       Black, Red, Green, Orange, Blue , Purple , Cyan, LightGray, DarkGray, LightRed, LightGreen, 
       Yellow, LightBlue, LightPurple, LightCyan, White
 $(echoColor Yellow ayuda)  ---> imprime esta ayuda
-\n-------------------------------------------------------------------------------------\n
-
-
+\n-------------------------------------------------------------------------------------
 Esto es to, eso es to, eso es todo amigos!!!
-
 $(echoColor LightCyan @F.J.Criado)
-
-" | less -R
+Pulsa q para salir" | less -R

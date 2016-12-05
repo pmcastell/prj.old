@@ -21,7 +21,7 @@ echo "RCFILE_01               = /etc/ltsp/wolfix" >> /var/lib/tftpboot/ltsp/i386
 #esto se añade al contab del root, para aue se autoapguen
 ## mejor hacer chroot y sudo crontab -e
 #echo 'CRONTAB_01 = "30 18 * * *   /sbin/poweroff"' >> /var/lib/tftpboot/ltsp/mini-light-client/lts.conf
-sudo vi /var/lib/tftpboot/ltsp/i386/lts.conf # cambiar quitar SHUTDOWN_TIME
+sudo vi /var/lib/tftpboot/ltsp/i386/lts.conf # cambiar SHUTDOWN_TIME
 sudo chroot /opt/ltsp/mini-light-client
 sudo crontab -e
 sudo adduser ltspadmin
