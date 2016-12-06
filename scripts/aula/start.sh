@@ -77,7 +77,12 @@ cd $DIR_BASE_HOSTINGER
 TEMP=$(tempfile)
 for INDICE in $INDICES; do
    wget -O - http://ubuin.hopto.org/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
-   if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then eecho habla -n Error en fichero: $INDICE; fi
+   if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then 
+      #eecho habla -n Error en fichero: $INDICE; ERROR=true; fi
+      lftp  ftp://u964077031.ganimedes:basura68@ftp.ganimedes.esy.es -e "set ssl:verify-certificate no; rm indice6.html;bye" 
+      "$0 $@"
+   fi
 done   
 cd $PWD
+if [ $ERROR ]; then exit 2; else exit 0; fi
 

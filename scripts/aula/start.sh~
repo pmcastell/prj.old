@@ -1,5 +1,5 @@
 #!/bin/bash
-
+ 
 uso() {
    echo uso: $0 '<SSH|OVP>' '<si|no>'
    echo SSH pone en marcha tunel SSH
@@ -44,6 +44,7 @@ if [ "$(whoami)" != "root" ]; then sudo $0 $*; exit ; fi
 if [ "$2" = "si" ]; then sudo service $SERVICE start; CAD1=no; CAD2=si;
 elif [ "$2" = "no" ]; then sudo service $SERVICE stop; CAD1=si; CAD2=no;
 else uso; fi
+DIR_BASE="/scripts"
 DIR_BASE_HOSTINGER=$(encuentraDir "hostinger")
 if [ "$DIR_BASE_HOSTINGER" = "" ]; then echo No se han podido encontrar ficheros de índice; habla -n No se han podido encontrar ficheros de índice; exit 2; fi
 INDICES="$DIR_BASE_HOSTINGER/indice4.html $DIR_BASE_HOSTINGER/indice5.html"
@@ -75,8 +76,13 @@ cd $DIR_BASE_HOSTINGER
 ./actualiza2.sh
 TEMP=$(tempfile)
 for INDICE in $INDICES; do
-   wget -O - http://ubuin.hopto.org/$(basename $INDICE) 2>/dev/null | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
-   if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then eecho habla -n Error en fichero: $INDICE; fi
+   wget -O - http://ubuin.hopto.org/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
+   if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then 
+      #eecho habla -n Error en fichero: $INDICE; ERROR=true; fi
+      lftp  ftp://u964077031.ganimedes:basura68@ftp.ganimedes.esy.es -e "set ssl:verify-certificate no; get -E indice6.html;bye"
+      "$0 $@"
+   fi
 done   
 cd $PWD
+if [ $ERROR ]; then exit 2; else exit 0; fi
 
