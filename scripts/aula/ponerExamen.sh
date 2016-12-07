@@ -1,3 +1,5 @@
+#!/bin/bash
+
 uso() {
    echo uso: $0 '<fichero-usuarios.txt>' '<carpeta-examen>' '<ficheros-examen>'
    exit
@@ -12,7 +14,7 @@ while read USUARIO; do
    DEST=/net/server-sync/home/students/$USUARIO/Desktop/$CARPETA_EXAMEN
    sudo mkdir -p $DEST
    for FICH in "$FICHEROS_EXAMEN"; do
-      sudo cp $FICH $DEST/
+      sudo cp -v $FICH $DEST/
       ls -l $DEST/
    done
    sudo chown -R $USUARIO $DEST

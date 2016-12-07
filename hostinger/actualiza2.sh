@@ -1,9 +1,6 @@
 #!/bin/bash
 ftpPut() {
    CLAVE=$(cat $(dirname $0)/ftpClave.txt | desencripta)
-   echo $(dirname $0)
-   echo $(cat $(dirname $0)/ftpClave.txt)
-   exit
    for f in $1; do wput --ascii -u "$f" "ftp://$2:$CLAVE@$3"; done
 }  
 encFtpPut() {

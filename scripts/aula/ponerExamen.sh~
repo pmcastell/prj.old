@@ -1,3 +1,5 @@
+#!/bin/bash
+
 uso() {
    echo uso: $0 '<fichero-usuarios.txt>' '<carpeta-examen>' '<ficheros-examen>'
    exit
@@ -18,3 +20,4 @@ while read USUARIO; do
    sudo chown -R $USUARIO $DEST
    echo USUARIO: ACTUAL $USUARIO
 done < $USUARIOS
+

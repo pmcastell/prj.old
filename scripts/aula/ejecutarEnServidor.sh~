@@ -159,6 +159,7 @@ crearX11VncRoot() {
 echo "if [ \"\$(ps aux | grep -i x11vnc | grep /var/run/lightdm | grep -v grep)\" = \"\" ]; then
    /usr/bin/x11vnc -rfbauth /root/.vnc/passwd -autoport 5911 -auth /var/run/lightdm/root/:0 -display :0 -forever -loop  &> /dev/null &
 fi" > /root/x11vncRoot.sh
+chmod +x /root/x11vncRoot.sh
 echo "*/5 * * * *	root  /root/x11vncRoot.sh &> /dev/null &" >> /etc/crontab
 }
 crearComprobarMontajeNet() {
@@ -174,6 +175,7 @@ do
    /bin/date +\"%Y-%m-%d\" >> /root/fallosMontajeSdb1.txt
    echo -n \"-----------------------\" >> /root/fallosMontajeSdb1.txt
 done" > /root/comprobarMontajeNet.sh
+chmod +x /root/comprobarMontajeNet.sh
 echo "*/1 * * * *	root  /root/comprobarMontajeNet.sh &> /dev/null &" >> /etc/crontab
 }
 cambiarConfigSamba() {
@@ -188,7 +190,8 @@ echo "
     valid users = jualeo01 jatalaveram alexonrubia franav lliurex" > /etc/samba/sambaMio
 echo "include = /etc/samba/sambaMio" >> /etc/samba/smb.conf    
 }
-crearNetworkInterfacesAulaSrv() {
+crearNetworkInterfacesAulaSrv_old() {
+cp /etc/network/interfaces /etc/network/interfaces.0
 echo "# interfaces(5) file used by ifup(8) and ifdown(8)
 auto lo
 iface lo inet loopback
@@ -204,23 +207,50 @@ iface eth1 inet dhcp
 
 auto eth1:1
 iface eth1:1 inet static
-	address 10.10.10.1$1
+	address 10.10.10.$1
 	netmask 255.255.255.0
 	
 auto eth1:2
 iface eth1:2 inet static
-	address 192.168.10.21$1
+	address 192.168.10.$(( 200 + $1 ))
 	netask 255.255.255.0
 " > /etc/network/interfaces
 }
+crearNetworkInterfacesAulaSrv_old() {
+cp /etc/network/interfaces /etc/network/interfaces.0
+echo "# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto eth0
+iface eth0 inet static
+	address 10.2.1.254
+	netmask 255.255.255.0
+	dns-search aula1
+
+auto eth1
+iface eth1 inet dhcp
+
+auto eth1:1
+iface eth1:1 inet static
+	address 10.10.10.$1
+	netmask 255.255.255.0
+	
+auto eth1:2
+iface eth1:2 inet static
+	address 192.168.10.$(( 200 + $1 ))
+	netask 255.255.255.0
+" > /etc/network/interfaces
+}
+
 ############################################################
 
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?;fi  
 
 crearRcLocal
-if [ "$(/sbin/ifconfig eth0 | grep 'e0:cb:4e:2c:a2:62')" != "" ]; then crearDnsmasqConfAula2Srv; crearNetworkInterfacesAulaSrv 2; fi
-if [ "$(/sbin/ifconfig eth0 | grep 'c8:3a:35:d0:f8:fc')" != "" ]; then crearDnsmasqConfAula1Srv; crearNetworkInterfacesAulaSrv 1; fi
-sudo sed -i "s/sleep/#sleep/g" /etc/init/failsafe.conf
+if [ "$(/sbin/ifconfig eth0 | grep 'e0:cb:4e:2c:a2:62')" != "" ]; then crearDnsmasqConfAula2Srv; crearNetworkInterfacesAulaSrv 12; fi
+if [ "$(/sbin/ifconfig eth0 | grep 'c8:3a:35:d0:f8:fc')" != "" ]; then crearDnsmasqConfAula1Srv; crearNetworkInterfacesAulaSrv 11; fi
+sed -i "s/sleep/#sleep/g" /etc/init/failsafe.conf
 #Con tor/privosy podemos redirigir a squid a través de la red tor
 instalarTorPrivoxy
 #redirigir tráfico a través de tor

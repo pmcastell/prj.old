@@ -22,9 +22,9 @@ anadirLinea() {
 if [ "$1" = "-h" ]; then uso; fi   
 kFcriadon=$($(dirname $0)/claves.sh fcriadon)
 BASE_DIR=$(dirname $0)
+anadirLinea "export BASE_DIR=\"$(dirname $0)\""
 anadirLinea "alias sa1='sshpass -p \$($BASE_DIR/claves.sh franav) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sa1'"
-exit
-anadirLinea "alias sa2='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sa2'"
-anadirLinea "alias sb='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sb'"
-anadirLinea "alias sp='ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y fcriadon@sp'"
+anadirLinea "alias sa2='sshpass -p \$($BASE_DIR/claves.sh franav) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sa2'"
+anadirLinea "alias sb='sshpass -p \$($BASE_DIR/claves.sh franav) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sb'"
+anadirLinea "alias sp='sshpass -p \$($BASE_DIR/claves.sh fcriadon) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y fcriadon@sp'"
 
