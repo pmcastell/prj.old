@@ -5,7 +5,7 @@
 #   sudo arp -d $ip;  
 #done
 if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
-IFACES="eth0 eth1"
+if [ "$1" = "" ]; then IFACES="eth0 eth1"; else IFACES="$@"; fi
 for IFACE in $IFACES; do
    sudo ip link set arp off $IFACE 
    sudo ip link set arp on $IFACE

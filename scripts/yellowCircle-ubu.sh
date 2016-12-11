@@ -49,6 +49,7 @@ uGRnIQ5lGZ+gLwFSi/YuDo8PsgO7Vc7FDWcEFNXv3mTF8mKpUbcYkw==
 -----END RSA PRIVATE KEY-----
 " > /root/.ssh/id_rsa
 echo "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCudiy6kbowI+jBVHOb1uDjy2vEDah2wQoihR8OxeHinHW4PZ4GaZS1CzSoJEnvd7bj1W3mq/v9qs9EixbKbC5MK0bhzuJMK0MOAqBcoyC3E/rFj3PX9QjHtddQbjzUoCmkzPnRuMpPuaSjcLrupaTuHJCCReqV7luFuBXWQJaeER2SL4CIgZiXMU/P6Wi7Ckr1W7ft7wqa8MF9Mp4GBbQkavNiBl9z1aHLajjN3H32a1BUn3Bfro9E5dS+qVZ8RCXBxjbxvtYf/mg3nUikjHFDNjvGeDGMkUuHd8hFxPXIgjXqDIWrPdti/xYH27reaJInHvWlS6YAxbKhuaUgA3Tj root@ubuntu.localhost" > /root/.ssh/id_rsa.pub
+
 }
 actualiza() {
 ACTUALIZADOR="apt-get -y "

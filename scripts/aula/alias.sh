@@ -27,4 +27,6 @@ anadirLinea "alias sa1='sshpass -p \$($BASE_DIR/claves.sh franav) ssh -o UserKno
 anadirLinea "alias sa2='sshpass -p \$($BASE_DIR/claves.sh franav) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sa2'"
 anadirLinea "alias sb='sshpass -p \$($BASE_DIR/claves.sh franav) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sb'"
 anadirLinea "alias sp='sshpass -p \$($BASE_DIR/claves.sh fcriadon) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y fcriadon@sp'"
-
+anadirLinea "alias ltsp21='sshpass -p \$($BASE_DIR/claves.sh ltspadmin) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y fcriadon@ltsp21'"
+anadirLinea "alias ltsp22='sshpass -p \$($BASE_DIR/claves.sh ltspadmin) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y fcriadon@ltsp22'"
+anadirLinea "alias ltsp23='sshpass -p \$($BASE_DIR/claves.sh ltspadmin) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y fcriadon@ltsp23'"

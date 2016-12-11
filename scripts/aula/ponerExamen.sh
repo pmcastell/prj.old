@@ -9,9 +9,11 @@ USUARIOS="$1"
 #CARPETA_EXAMEN=EXAMEN_CALC
 CARPETA_EXAMEN="$2"
 FICHEROS_EXAMEN="$3"
+DIR_BASE="/net/server-sync/home/students"
 while read USUARIO; do
    if [ "$USUARIO" = "" ]; then continue; fi
-   DEST=/net/server-sync/home/students/$USUARIO/Desktop/$CARPETA_EXAMEN
+   DEST=$DIR_BASE/$USUARIO/Desktop/$CARPETA_EXAMEN
+   [ ! -d "$DIR_BASE/$USUARIO/Desktop" ] && echo "Error: no existe $DIR_BASE/$USUARIO/Desktop"
    sudo mkdir -p $DEST
    for FICH in "$FICHEROS_EXAMEN"; do
       sudo cp -v $FICH $DEST/
