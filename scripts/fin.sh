@@ -1,3 +1,5 @@
+#!/bin/bash
+
 desmontaEncfs() {
    DESMONTAR=$2; INTENTOS=1;
    while [ "$(mount | grep encfs | grep $1)" != "" -a $INTENTOS -le 5 ]; do
@@ -22,15 +24,14 @@ if [ "$FICHERO" = "" ]; then
     echo No has hecho copia /l/Mios-7z
     echo ¿Quieres hacerla?
     read resp
-    if [ "$resp" = "s" -o "$resp" = "S" ];
-    then
+    if [ "$resp" = "s" -o "$resp" = "S" ]; then
        mios
     fi
 fi    
 
-if [ "$1" == "" ]; then
+if [ "$1" = "" ]; then
    gnome-session-quit
-elif [ "$1" == "reboot" ]; then
+elif [ "$1" = "reboot" ]; then
    sudo reboot
 else
    sudo poweroff
