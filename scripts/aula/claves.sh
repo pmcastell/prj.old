@@ -26,8 +26,8 @@ else
 fi
 ping -c 2 $ROUTER &>/dev/null
 claveGeneral="$(arp -n | grep -w $ROUTER | awk '{print $3;}')"
-if [ "$1" = "franav" ]; then desencripta $(cat $fCLAVES | grep franav | awk -F':' '{print $2;}') $claveGeneral; 
-elif [ "$1" = "fcriadon" ]; then desencripta $(cat $fCLAVES | grep fcriadon | awk -F':' '{print $2;}') $claveGeneral; 
-else echo Usuario no encontrado; fi
+#if [ "$1" = "franav" ]; then desencripta $(cat $fCLAVES | grep franav | awk -F':' '{print $2;}') $claveGeneral; 
+#elif [ "$1" = "fcriadon" ]; then desencripta $(cat $fCLAVES | grep fcriadon | awk -F':' '{print $2;}') $claveGeneral; 
+#else echo Usuario no encontrado; fi
 
-
+echo $(desencripta $(cat $fCLAVES | grep $1 | awk -F':' '{print $2}') $claveGeneral)

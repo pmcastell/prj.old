@@ -1,12 +1,12 @@
 #!/bin/bash
 uso() {
    cat<<EOF
-   Uso: $0 
-   Para conectar en red (cable cruzado) otro equipo y darle acceso a internet
-   a través de ubuntu.
-   La red por defecto es 172.16.1.0/24
-   Se dan direcciones a la red en el rango 172.16.1.2-172.16.1.100
-   Se activa el nat
+   Uso: $0 [ WLAN SSID CLAVE RED
+   Uso: $0 [ <interfaz-wireless> <ssid> <clave-wpa> <dir-red-sin-última-parte> ]
+   Ejemplo: $0 wlan20 MiRedWifi miClave 172.16.1
+   Crearía un punto de acceso usando la interfaz de red wlan20, con nombre de red MiRedWifi,
+           con clave de acceso a la red wpa miClave y con direcciones IP en la red 72.16.1.0/24 
+   Se activa enrutamiento y nat a través del equipo
    
 EOF
    exit 1
@@ -50,9 +50,7 @@ sudo /usr/sbin/hostapd $TEMP &> /dev/null &
 sudo ifconfig $WLAN $RED.1/24 up
 sudo dnsmasq --interface="$WLAN" --bind-interfaces --dhcp-range=$RED.72,$RED.100,255.255.255.0
 sudo firewall -accept $RED.0/24 &> /dev/null
+sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
 sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s $RED.0/24
-
-
-
-
+rm $TEMP
 

@@ -14,7 +14,9 @@ echo -e "10.10.10.9      sp
 10.10.10.18     sh
 10.2.1.21       ltsp21
 10.2.1.22       ltsp22
-10.2.1.23       ltsp23" > $TEMP
+10.2.1.23       ltsp23
+172.18.161.250  fsserver
+192.168.10.6	ipsp" > $TEMP
 echo $TEMP
 }
 uso() {
