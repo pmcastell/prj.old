@@ -17,11 +17,12 @@ encFtpPut() {
       rm $TEMP
    done
 }   
-DIR_BASE=$(dirname $0)
+DIR_BASE="$(dirname $0)"
+PWD="$DIR_BASE"
 if [ ! -f $DIR_BASE/encriptar.sh ] && [ -f /scripts/encriptar.sh ]; then DIR_BASE="/scripts"; fi
 if [ "$1" = "" ]; then    LISTA="config indice6 indice5 indicep indicepass"; else LISTA="$1"; fi
 for INDICE in $LISTA; do
-   encFtpPut "${INDICE}.html" u964077031.ganimedes "ftp.ganimedes.esy.es/${INDICE}.html"
+   encFtpPut "${PWD}/${INDICE}.html" u964077031.ganimedes "ftp.ganimedes.esy.es/${INDICE}.html"
    #encFtpPut "${INDICE}.html" u296781278.reg6543   "ftp.iesninfo.esy.es/${INDICES}.html"
 done   
 #cp index.php.ganimedes index.php

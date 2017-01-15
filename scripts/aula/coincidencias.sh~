@@ -1,3 +1,5 @@
+#!/bin/bash
+
 user() {
    echo $* | awk -F'students/' '{print $2;}' | awk -F'/' '{print $1;}'
 }   
@@ -5,10 +7,11 @@ md5() {
    echo $* | awk '{print $1;}'
 }
 crearListaTrabajos() {
-   EXTENSIONES=".svg$"
    EXTENSIONES="\.ods$|\.xls$|\.xlsx$"
    EXTENSIONES="\.ods$|\.xls$|\.xlsx$|\.svg$"
-   EXTENSIONES="\.odp$|\.pdf|\.html|\.png
+   EXTENSIONES="\.odp$|\.pdf$"
+   EXTENSIONES=".svg$" 
+   EXTENSIONES="\.odp$|\.odt%"
    sudo find /net/server-sync/home/students/ | grep -iE "(${EXTENSIONES})" > $TEMP
 }
 crearListaMd5Unica() {

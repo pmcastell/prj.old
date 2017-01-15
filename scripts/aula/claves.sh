@@ -21,13 +21,12 @@ if [ -d /home/franav ]; then
 elif [ -d /datos/usuarios/profesores/fcriadon ]; then
    fCLAVES="/datos/usuarios/profesores/fcriadon/claves/claves.txt"; 
 else
-   echo "No se encuentra el fichero de claves"
-   exit 2
+   zenity --info --text="No se encuentra el fichero de claves"
 fi
 ping -c 2 $ROUTER &>/dev/null
 claveGeneral="$(arp -n | grep -w $ROUTER | awk '{print $3;}')"
 #if [ "$1" = "franav" ]; then desencripta $(cat $fCLAVES | grep franav | awk -F':' '{print $2;}') $claveGeneral; 
 #elif [ "$1" = "fcriadon" ]; then desencripta $(cat $fCLAVES | grep fcriadon | awk -F':' '{print $2;}') $claveGeneral; 
 #else echo Usuario no encontrado; fi
-
+if [ ! -f $fCLAVES ]; then zenity --info --text="No se encuentra el fichero de claves"; fi
 echo $(desencripta $(cat $fCLAVES | grep $1 | awk -F':' '{print $2}') $claveGeneral)

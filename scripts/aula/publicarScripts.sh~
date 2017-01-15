@@ -25,7 +25,8 @@ cerrarSesion
 imprime
 enrutamiento
 echoColor
+despiertaEpoptes
 ayuda"
 publicarScripts sh "$SCRIPTS"
-PYTHONS="consultaLdap"
+PYTHONS="aluPass"
 publicarScripts py "$PYTHONS"   

@@ -4,7 +4,7 @@ uso() {
 }   
 if [ "$1" = "-p" ] && [ "$2" != "" ]; then PASSWD=$(readPass); ORIGEN=$2; elif [ "$1" = "-p" ] && [ "$2" = "" ]; then uso; 
 elif [ "$1" = "" ]; then ORIGEN=.; elif [ "$1" = "-h" ]; then uso; else ORIGEN=$1; fi 
-DESTINO=./$(pwd | gawk -F'/' '{print $NF;}').7z
+DESTINO=./$(pwd | awk -F'/' '{print $NF;}').7z
 if [ "$PASSWD" != "" ]; then PASSWD="-p${PASSWD}"; fi
 if [ "$(echo $* | grep -i '\-nv' | grep -v grep)" != "" ];
 then

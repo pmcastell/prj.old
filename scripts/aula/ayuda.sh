@@ -3,6 +3,12 @@
 echo -e "
 -------------------------------------------------------------------------------------
 $(echoColor Orange Estos son los comandos \(scripts\) disponibles:)
+$(echoColor Yellow aluPass) [-b <usuario-alumno>  | -c <usuario-alumno> <nueva-pass>]
+   ejemplo: aluPass -b pepe ---> muestra los datos de pepe (contraseña incluída)
+            aluPass -c pepe nuevapass ---> cambia la clave de pepe a nuevapass
+$(echoColor Yellow despiertaEpoptes) [<pc-ip>|<pc-name>]
+   ejemplo: despiertaEpoptes 10.2.1.103 (despierta el epoptes del pc103)
+            despiertaEpoptes pc103      (Ídem)
 $(echoColor Yellow sudo bloquear) <on-off> [lista-máquinas-a-bloquear] ---> bloquea/desbloquea acceso a youtube y la lista de máquinas a bloquear
    ejemplo: bloquear on www.marca.com www.as.com ---> (bloquea youtube, marca y as)
             bloquear off  ---> desbloquea todos los sitios que estuvieran bloqueados

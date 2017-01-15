@@ -11,6 +11,9 @@ while [ "$1" != "" ]; do
 done;
 for PC in $(cat /etc/dnsmasq.conf | grep -i dhcp-host | awk -F',' '{print $3;}'); do
    echo copiando $LISTA en: $PC:$DEST
-   scp -r $LISTA lliurex@$PC:$DEST
+   for f in $LISTA; do
+      echo scp -r "$f" lliurex@$PC:$DEST
+      scp -r "$f" lliurex@$PC:$DEST
+   done
 done   
 

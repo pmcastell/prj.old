@@ -40,7 +40,7 @@ elif [ "$1" = "OVP" ]; then
 else
    uso
 fi   
-if [ "$(whoami)" != "root" ]; then sudo $0 $*; exit ; fi
+if [ "$(whoami)" != "root" ]; then sudo $0 $*; exit $?; fi
 if [ "$2" = "si" ]; then sudo service $SERVICE start; CAD1=no; CAD2=si;
 elif [ "$2" = "no" ]; then sudo service $SERVICE stop; CAD1=si; CAD2=no;
 else uso; fi
@@ -49,7 +49,7 @@ DIR_BASE_HOSTINGER=$(encuentraDir "hostinger")
 if [ "$DIR_BASE_HOSTINGER" = "" ]; then echo No se han podido encontrar ficheros de índice; habla -n No se han podido encontrar ficheros de índice; exit 2; fi
 INDICES="$DIR_BASE_HOSTINGER/indice4.html $DIR_BASE_HOSTINGER/indice5.html"
 INDICES="$DIR_BASE_HOSTINGER/indice6.html $DIR_BASE_HOSTINGER/indice5.html"
-
+#PWD=$(pwd)
 for INDICE in $INDICES; do
    #INDICE=/tmp/indice4.html
    REAL_IP=""
@@ -63,7 +63,6 @@ for INDICE in $INDICES; do
       sed -i "s/${SERV}_TUN_${1}=${CAD1}/${SERV}_TUN_${1}=${CAD2}/g" $INDICE
    done   
    sed -i "s/GLOBAL_TUN_${1}=${CAD1}/GLOBAL_TUN_${1}=${CAD2}/g" $INDICE
-   PWD=$(pwd)
    ponerMD5 $INDICE  
    #srv2aula_TUN_SSH=no
    #srv2aula   
@@ -72,17 +71,18 @@ PASSWD="Vm0wd2QyUXlVWGxWV0d4V1YwZDRWMVl3WkRSV01WbDNXa1JTV0ZKdGVGWlZiVFZyVmxVeFYy
 PASSWD=$(echo $PASSWD  | desencripta)
 #echo $PASSWD | openssl enc -e -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" | base64 > $DIR_BASE_HOSTINGER/indicep.html
 echo $PASSWD > $DIR_BASE_HOSTINGER/indicep.html
-cd $DIR_BASE_HOSTINGER
-./actualiza2.sh
+#cd $DIR_BASE_HOSTINGER
+$DIR_BASE_HOSTINGER/actualiza2.sh
 TEMP=$(tempfile)
 for INDICE in $INDICES; do
    wget -O - http://ubuin.hopto.org/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
    if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then 
-      #eecho habla -n Error en fichero: $INDICE; ERROR=true; fi
+      habla -n "Error en fichero: $INDICE. Voy a Borrarlo"; ERROR=true;
       lftp  ftp://u964077031.ganimedes:$(cat $DIR_BASE_HOSTINGER/ftpClave.txt | desencripta)@ftp.ganimedes.esy.es -e "set ssl:verify-certificate no; rm indice6.html;bye" 
-      "$0 $@"
+      "sudo $0 $@"
+      exit $?
    fi
 done   
-cd $PWD
+#cd $PWD
 if [ $ERROR ]; then exit 2; else exit 0; fi
 
