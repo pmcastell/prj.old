@@ -6,6 +6,10 @@ $(echoColor Orange Estos son los comandos \(scripts\) disponibles:)
 $(echoColor Yellow aluPass) [-b <usuario-alumno>  | -c <usuario-alumno> <nueva-pass>]
    ejemplo: aluPass -b pepe ---> muestra los datos de pepe (contraseña incluída)
             aluPass -c pepe nuevapass ---> cambia la clave de pepe a nuevapass
+            aluPass -l lista todos los usuarios (alumnos) y sus contraseñas
+$(echoColor Yellow despiertaEpoptes) [<pc-ip>|<pc-name>]
+   ejemplo: despiertaEpoptes 10.2.1.103 (despierta el epoptes del pc103)
+            despiertaEpoptes pc103      (Ídem)
 $(echoColor Yellow sudo bloquear) <on-off> [lista-máquinas-a-bloquear] ---> bloquea/desbloquea acceso a youtube y la lista de máquinas a bloquear
    ejemplo: bloquear on www.marca.com www.as.com ---> (bloquea youtube, marca y as)
             bloquear off  ---> desbloquea todos los sitios que estuvieran bloqueados
@@ -28,6 +32,7 @@ $(echoColor Yellow cerrarSesion)  ---> cierra sesión de un usuario en un pc
 $(echoColor Yellow imprime)  ---> manda directamente ficheros a la fotocopiadora de la sala de profesores SÓLO FUNCIONA CON PDFS
    ejemplo: imprime *.pdf /tmp/*.pdf  ---> imprime todos los ficheros pdf de la carpeta actual y de la /tmp
 $(echoColor Yellow sudo enrutamiento) <on-off>  ---> activa/desactiva el enrutamiento del aula
+$(echoColor Yellow sudo ipFija) <on-off>  ---> pone dirección IP fija en el servidor (on) o por DHCP (off)
 $(echoColor Yellow echoColor) <color> <texto> ---> imprime texto en el color indicado que puede ser:    
       Black, Red, Green, Orange, Blue , Purple , Cyan, LightGray, DarkGray, LightRed, LightGreen, 
       Yellow, LightBlue, LightPurple, LightCyan, White

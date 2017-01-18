@@ -86,24 +86,76 @@ def connect():
 				print(e,"")
 				return None
 			
+def uso():
+   print "Faltan argumentos"
+   print "Uso: "+sys.argv[0]+" -b <usuario> | -c <usuario> <nueva-password> | -l | -R <fichero-usuarios>"
+   print "-b busca al usuario e imprime información sobre el mismo si lo encuenntra"
+   print "-c cambia la contraseña del <usuario> a <nueva-password>"
+   print "-l lista todos los usuarios y sus contraseñas (sólo los alumnos)"
+   print "-R cambia todas las contraseñas a los usuarios especificadas en <fichero-usuarios>"
+   sys.exit(2)
 		
 	
-		
+
+def buscarUsuario(user=None):
+	if (user==None and len(sys.argv)>2):
+		user=sys.argv[2]
+	allPasswords=c.get_all_passwords(u,"Golem")
+	for i in range(len(allPasswords)):
+		regActual=allPasswords[i]
+		for key in regActual:
+			if (regActual[key].lower().find(user.lower())>=0):
+				print regActual
+				return
+	print "No se ha encontrado ningún registro que contenga: "+user
+
+def _cambiaPassAlu(userid,userpass):
+	if (c.change_student_password(u,"Golem",userid,userpass)):
+		print "Password de "+userid+" cambiada a: "+userpass
+	else:
+		print "Error cambiando password de ",userid,"a",userpass
+
+	 	
+def cambiaPassAlu():
+	if (len(sys.argv)<4):
+		uso()
+	userid=sys.argv[2]; userpass=sys.argv[3]
+	_cambiaPassAlu(userid, userpass)
+
+def listarPassAlumnos():
+	allPasswords=c.get_all_passwords(u,"Golem")
+	for i in range(len(allPasswords)):
+		alu=allPasswords[i]
+		if (alu.keys()[0] == 'uid'):
+			print alu['uid'].encode("utf-8"),"|",alu['passwd'].encode("utf-8")		
+         	 	
+def restaurarPassAlumnos():
+	if (len(sys.argv)<3):
+		uso()
+	try:
+		fich=sys.argv[2]
+	except:
+		print "error abriendo fichero",fich
+		sys.exit(3)
+	f=open(fich,"r")
+	for l in f:
+		user=l.split("|")
+		if (len(user)>=2):
+			userid=user[0].strip()
+			userpass=user[1].strip()
+			_cambiaPassAlu(userid, userpass)
+			
+	
+         	 	
 #def connect
-
-
-
 
 
 # EDIT HERE #
 
 user="adminprofes"
 password="nuci_admin"
-
 # ================= #
-
 u=(user,password)
-
 host="https://localhost"
 for i in range(0,len(sys.argv)):
    if (sys.argv[i] == "-h"):
@@ -111,21 +163,8 @@ for i in range(0,len(sys.argv)):
       del sys.argv[i]; del sys.argv[i]
       break
 host+=":9779"      
-   
 
 c=xmlrpclib.ServerProxy(host)
-
-
-
-
-
-
-
-#try:
-	#print "GOLEM LOGIN..."
-	#print c.login(u,"Golem",u)
-#except Exception as e:
-#	print e
 
 try:
    #print "GOLEM USER_LIST..."
@@ -133,48 +172,17 @@ try:
    #print c.get_student_passwords(u,"Golem")
    print "--------------------------------------------------------------"
    if (len(sys.argv)<2):
-      print "Faltan argumentos"
-      print "Uso: "+sys.argv[0]+" -b <usuario> | -c <usuario> <nueva-password>"
-      print "-b busca al usuario e imprime información sobre el mismo si lo encuenntra"
-      print "-c cambia la contraseña del <usuario> a <nueva-password>"
-      sys.exit()
+      uso()
    if (sys.argv[1] == "-c"):
-      if (len(sys.argv)<3):
-         print "Faltan argumentos"
-         sys.exit()
-      userid=sys.argv[2]; userpass=sys.argv[3]
-      if (c.change_student_password(u,"Golem",userid,userpass)):
-         print "Password de "+userid+" cambiada a: "+userpass
-      else:
-         print "Error cambiando password."
+      cambiaPassAlu()
    elif (sys.argv[1] == "-b"):
-      allPasswords=c.get_all_passwords(u,"Golem")
-      user=sys.argv[2]
-      encontrado=False
-      for i in range(len(allPasswords)):
-         regActual=allPasswords[i]
-         for key in regActual:
-            #print "clave lower: "+regActual[key].lower()
-            #print "user: "+user.lower()
-            if (regActual[key].lower().find(user.lower())>=0):
-               print regActual
-               encontrado=True
-               break
-      if (not encontrado):
-         print "No se ha encontrado ningún registro que contenga: "+user
-         #if (allPasswords[i]["uid"] == user):
-         #   print allPasswords[i]
-         #   break
-       
-       #for key in allPasswords[i]:
-              #if (allPasswords[i][key].lower().index(user.lower())>=0):
-              
-       #  if (allPasswords[i].lower().index(user.lower())>0):
-       #     print allPasswords[i]
-   	##print c.get_user_list(u,"Golem","gwasar")
-       ##print 
+      	 buscarUsuario()
+   elif (sys.argv[1] == "-l"):
+   	listarPassAlumnos()
+   elif (sys.argv[1] == "-R"):
+   	restaurarPassAlumnos()
    else:
-      print "falta argumento."
+      uso()
    print "--------------------------------------------------------------"
 
 except Exception as e:
@@ -189,3 +197,28 @@ except Exception as e:
 #except Exception as e:
 #	print e
 
+
+#if (allPasswords[i]["uid"] == user):
+         #   print allPasswords[i]
+         #   break
+       
+       #for key in allPasswords[i]:
+              #if (allPasswords[i][key].lower().index(user.lower())>=0):
+              
+       #  if (allPasswords[i].lower().index(user.lower())>0):
+       #     print allPasswords[i]
+   	##print c.get_user_list(u,"Golem","gwasar")
+       ##print 
+
+
+
+
+
+
+
+
+#try:
+	#print "GOLEM LOGIN..."
+	#print c.login(u,"Golem",u)
+#except Exception as e:
+#	print e

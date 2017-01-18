@@ -27,6 +27,7 @@ imprime
 enrutamiento
 echoColor
 despiertaEpoptes
+ipFija
 ayuda"
 publicarScripts sh "$SCRIPTS"
 PYTHONS="aluPass"

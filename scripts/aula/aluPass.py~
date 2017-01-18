@@ -86,6 +86,11 @@ def connect():
 				print(e,"")
 				return None
 			
+def uso():
+   print "Faltan argumentos"
+   print "Uso: "+sys.argv[0]+" -b <usuario> | -c <usuario> <nueva-password>"
+   print "-b busca al usuario e imprime información sobre el mismo si lo encuenntra"
+   print "-c cambia la contraseña del <usuario> a <nueva-password>"
 		
 	
 		
@@ -133,14 +138,11 @@ try:
    #print c.get_student_passwords(u,"Golem")
    print "--------------------------------------------------------------"
    if (len(sys.argv)<2):
-      print "Faltan argumentos"
-      print "Uso: "+sys.argv[0]+" -b <usuario> | -c <usuario> <nueva-password>"
-      print "-b busca al usuario e imprime información sobre el mismo si lo encuenntra"
-      print "-c cambia la contraseña del <usuario> a <nueva-password>"
+      uso()
       sys.exit()
    if (sys.argv[1] == "-c"):
-      if (len(sys.argv)<3):
-         print "Faltan argumentos"
+      if (len(sys.argv)<4):
+         uso()
          sys.exit()
       userid=sys.argv[2]; userpass=sys.argv[3]
       if (c.change_student_password(u,"Golem",userid,userpass)):
@@ -173,6 +175,12 @@ try:
        #     print allPasswords[i]
    	##print c.get_user_list(u,"Golem","gwasar")
        ##print 
+   elif (sys.argv[1] == "-l"):
+      allPasswords=c.get_all_passwords(u,"Golem")
+      print "--------------------------------------------------------------"
+      for i in range(len(allPasswords)):
+         alu=allPasswords[i]
+         print alu['uid'].encode("utf-8"),"|",alu['passwd'].encode("utf-8")
    else:
       print "falta argumento."
    print "--------------------------------------------------------------"
