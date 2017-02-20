@@ -12,6 +12,7 @@ cambiarIface() {
     else
        IFACE=$IFACES
     fi
+    GATEWAY="$(route -n | grep -vE tun[0-9]+$ | grep ^0\.0\.0\.0 | awk '{print $2;}')"
     echo cambiando a $IFACE >&2
 }    
 toggleVoice() {

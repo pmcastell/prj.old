@@ -59,7 +59,8 @@ cumples=[
       ['CURSOS INTEF 2ª ED','15-06-2016','S'],
       ['ubuin.noip.me','12-07-2016','C'],
       ['Dropbox Espacio tablet caduca','31-08-2016','C'],
-      ['Cita Jorge Dentista Fenoll 18:30','17-01-2017','C']
+      ['Cita Jorge Dentista Fenoll 18:30','17-01-2017','C'],
+      ['Cita Jorge Lily 10:00','08-03-2017','C']
    ]
 def rellena(cadena,tam):
     for i in range(1,tam-len(cadena)):

@@ -12,6 +12,7 @@ cambiarIface() {
     else
        IFACE=$IFACES
     fi
+    GATEWAY="$(route -n | grep -vE tun[0-9]+$ | grep ^0\.0\.0\.0 | awk '{print $2;}')"
     echo cambiando a $IFACE >&2
 }    
 toggleVoice() {
@@ -56,8 +57,8 @@ while true; do
          if [ "$(echo $IP_TOR | awk -F'.' '{print $1;}')" = "127" ]; then continue; fi
          if [ "$(echo $IP_TOR | awk -F'.' '{print $1$2;}')" = "192168" ]; then continue; fi
          if [ "$IP_TOR" != "" ] && [ "$(route -n | grep $IP_TOR)" = "" -a "$IP_TOR" != "$DIR_IP_LOCAL" ]; then # -a "$(wget -O - http://$IP_TOR/ 2>/dev/null | grep Tor)" != "" ]; then
-            sudo route add -host $IP_TOR gw r1
-            if $DEBUG; then echo route add -host $IP_TOR gw r1 >&2; fi
+            sudo route add -host $IP_TOR gw $GATEWAY
+            if $DEBUG; then echo route add -host $IP_TOR gw $GATEWAY >&2; fi
             if [ "$HABLAR" = "SI" ]; then  habla -n Se ha añadido la ruta $IP_TOR; fi
             if $DEBUG; then sudo netstat -onatup | grep -i sslh >&2; fi
             ping -c 4 $IP_TOR &> /dev/null
