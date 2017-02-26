@@ -28,6 +28,7 @@ enrutamiento
 echoColor
 despiertaEpoptes
 ipFija
+movepath
 ayuda"
 publicarScripts sh "$SCRIPTS"
 PYTHONS="aluPass"

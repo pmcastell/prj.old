@@ -9,7 +9,7 @@ if [ "$1" != "" ]; then
       MAC=$(echo $LINEA | awk -F'=' '{print $2;}' | awk -F',' '{print $1;}')
       IP=$(echo $LINEA | awk -F'=' '{print $2;}' | awk -F',' '{print $3;}')
       #sudo arp -s $IP $MAC
-      sudo etherwake $MAC; 
+      sudo etherwake -b $MAC; 
       sudo wakeonlan $MAC &> /dev/null ;
       shift
    done
@@ -24,7 +24,7 @@ while read l; do
       MAC=$(echo $l | awk -F'=' '{print $2;}' | awk -F',' '{print $1;}')
       IP=$(echo $l | awk -F'=' '{print $2;}' | awk -F',' '{print $3;}')
       #sudo arp -s $IP $MAC #&> /dev/null;
-      sudo etherwake $MAC; 
+      sudo etherwake -b $MAC; 
       sudo wakeonlan $MAC &> /dev/null ;
    fi
 done  < $TEMP
