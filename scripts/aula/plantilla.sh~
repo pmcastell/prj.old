@@ -1,0 +1,9 @@
+#!/bin/bash
+uso() {
+   cat<<EOF
+   
+EOF
+   exit 1
+}
+
+if [ "$1" = "-h" ]; then uso; fi      
