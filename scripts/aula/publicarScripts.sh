@@ -29,6 +29,7 @@ echoColor
 despiertaEpoptes
 ipFija
 movepath
+confProxy
 ayuda"
 publicarScripts sh "$SCRIPTS"
 PYTHONS="aluPass"

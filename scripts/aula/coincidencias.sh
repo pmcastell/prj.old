@@ -12,6 +12,7 @@ crearListaTrabajos() {
    EXTENSIONES="\.odp$|\.pdf$"
    EXTENSIONES=".svg$" 
    EXTENSIONES="\.odp$|\.odt$"
+   EXTENSIONES="\.ods$"
    sudo find /net/server-sync/home/students/ | grep -iE "(${EXTENSIONES})" > $TEMP
 }
 crearListaMd5Unica() {

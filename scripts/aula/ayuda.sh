@@ -34,6 +34,7 @@ $(echoColor Yellow imprime)  ---> manda directamente ficheros a la fotocopiadora
    ejemplo: imprime *.pdf /tmp/*.pdf  ---> imprime todos los ficheros pdf de la carpeta actual y de la /tmp
 $(echoColor Yellow sudo enrutamiento) <on-off>  ---> activa/desactiva el enrutamiento del aula
 $(echoColor Yellow sudo ipFija) <on-off>  ---> pone dirección IP fija en el servidor (on) o por DHCP (off)
+$(echoColor Yellow sudo confProxy) <on|off> --> Activa o desactiva el proxy en los clientes
 $(echoColor Yellow echoColor) <color> <texto> ---> imprime texto en el color indicado que puede ser:    
       Black, Red, Green, Orange, Blue , Purple , Cyan, LightGray, DarkGray, LightRed, LightGreen, 
       Yellow, LightBlue, LightPurple, LightCyan, White
