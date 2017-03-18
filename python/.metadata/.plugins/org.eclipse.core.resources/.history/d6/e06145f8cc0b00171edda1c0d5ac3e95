@@ -1,0 +1,33 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Creado: 18 de mar. de 2017
+# autor: usuario
+
+
+import sys
+prompt.encode("utf-8")
+
+print 50
+minimo=0
+maximo=100
+intento=50
+while True:
+    resp=raw_input()
+    if (resp.find("menor")):
+        maximo=intento
+        intento=int((maximo-minimo)/2)
+    elif (resp.find("mayor")):
+        minimo=intento
+        intento=int((maximo-minimo)/2)
+    elif (resp.find("Intento n")):
+        print intento
+    elif (resp.find("Lo siento")):
+        pass
+    elif (resp.find("Quires jugar")):
+        print "n"
+        break
+    else:
+        sys.stderr.write('Error Desconocido. Fin.\n')
+        sys.exit(1)
+      

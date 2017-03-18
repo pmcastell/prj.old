@@ -5397,6 +5397,7 @@ formencode.tests.test_validators|/usr/lib/python2.7/dist-packages/formencode/tes
 formencode.tests.test_variabledecode|/usr/lib/python2.7/dist-packages/formencode/tests/test_variabledecode.py
 formencode.validators|/usr/lib/python2.7/dist-packages/formencode/validators.py
 formencode.variabledecode|/usr/lib/python2.7/dist-packages/formencode/variabledecode.py
+fpconst|/usr/lib/python2.7/dist-packages/fpconst.py
 fpformat|/usr/lib/python2.7/fpformat.py
 fractions|/usr/lib/python2.7/fractions.py
 ftplib|/usr/lib/python2.7/ftplib.py
@@ -5870,6 +5871,7 @@ istanbul.main.tray_icon|/usr/lib/python2.7/dist-packages/istanbul/main/tray_icon
 istanbul.main.tray_popup|/usr/lib/python2.7/dist-packages/istanbul/main/tray_popup.py
 istanbul.main.window_select|/usr/lib/python2.7/dist-packages/istanbul/main/window_select.py
 itertools
+jack_mixer_c|/usr/lib/python2.7/dist-packages/jack_mixer_c.so
 jinja2.__init__|/usr/lib/python2.7/dist-packages/jinja2/__init__.py
 jinja2._compat|/usr/lib/python2.7/dist-packages/jinja2/_compat.py
 jinja2._stringdefs|/usr/lib/python2.7/dist-packages/jinja2/_stringdefs.py

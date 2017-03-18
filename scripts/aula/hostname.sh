@@ -24,5 +24,9 @@ done
 if [ "$(/bin/hostname)" != "pc${PCNUM}" ]; then
    /bin/hostname pc${PCNUM}
    /bin/echo pc${PCNUM} > /etc/hostname
+   /bin/cp /etc/hosts /tmp/hosts.old
+   echo "127.0.0.1   localhost pc${PCNUM}" > /etc/hosts
+   echo "10.10.10.11 moodle" >> /etc/hosts
+   cat /tmp/hosts.old | grep -v 127.0.0 | grep -v 127.0.1 | grep -v moodle >> /etc/hosts
 fi   
 
