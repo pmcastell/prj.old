@@ -11,7 +11,10 @@ xsetroot -solid grey
 #vncconfig -iconic &
 gnome-session &
 gnome-panel &
-x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
 x-window-manager &
-gnome-terminal &
-nemo &
+#gnome-terminal &
+#nemo &
+dropbox start -i
+sleep 1
+$HOME/inicio.sh

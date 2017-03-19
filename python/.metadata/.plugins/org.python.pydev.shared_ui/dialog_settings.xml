@@ -6,4 +6,10 @@
 		<item value="0" key="y"/>
 		<item value="490" key="height"/>
 	</section>
+	<section name="com.python.pydev.actions.QuickShowOutline">
+		<item value="505" key="width"/>
+		<item value="434" key="x"/>
+		<item value="87" key="y"/>
+		<item value="430" key="height"/>
+	</section>
 </section>

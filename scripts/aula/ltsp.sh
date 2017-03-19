@@ -15,7 +15,8 @@ ethtool -s eth0 wol g
 
 # EOF
 EOF
-
+#también lo metemos en /etc/rc.local
+sudo bash -c 'echo /sbin/ethtool -s eth0 wol g >> /etc/rc.local'
 sudo mv $TEMP $BASE_DIR/etc/ltsp/wolfix
 sudo chmod +x,+r $BASE_DIR/etc/ltsp/wolfix
 sudo chown 0:0 $BASE_DIR/etc/ltsp/wolfix
@@ -37,7 +38,7 @@ fi
 sed -i "s/^SHUTDOWN_TIME/#SHUTDOWN_TIME/g" /var/lib/tftpboot/ltsp/lts.conf
 #Ponemos apagado a las 18:30
 if [ "$(sudo cat $BASE_DIR/etc/crontab | grep -v ^# | grep poweroff)" = "" ]; then
-   sudo bash -c "echo 30 18 \* \* \*   root  /sbin/poweroff >> $BASE_DIR/etc/crontab"
+   sudo bash -c "echo 30 20 \* \* \*   root  /sbin/poweroff >> $BASE_DIR/etc/crontab"
 fi  
 
 #sudo vi /etc/ltsp/ltsp-update-image.excludes # comentar home y /etc/ssh/ssh_host_*_key
@@ -97,6 +98,9 @@ sudo chown -R 0:0 $BASE_DIR/root
 
 sudo chroot $BASE_DIR
 sudo adduser ltspadmin
+sudo gpasswd -a ltspadmin adm 
+sudo gpasswd -a ltspadmin lpadmin
+sudo chmod +s /sbin/reboot	
 sudo apt-get install ethtool arp-scan
 exit
 

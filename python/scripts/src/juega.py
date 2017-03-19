@@ -4,11 +4,7 @@
 # Creado: 18 de mar. de 2017
 # autor: usuario
 
-
 import sys
-
-
-
 
 minimo=0
 maximo=100

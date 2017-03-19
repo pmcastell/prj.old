@@ -1,0 +1,14 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Creado: 18 de mar. de 2017
+# autor: usuario
+
+import sys
+
+if (len(sys.argv)<4):
+    print "Uso: "+sys.argv[0]+" <banco> <oficina> <numCuenta>"
+
+banc=sys.argv[1]
+ofic=sys.argv[2]
+cuen=sys.argv[3]

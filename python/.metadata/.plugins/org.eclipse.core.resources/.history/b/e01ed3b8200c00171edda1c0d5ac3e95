@@ -1,0 +1,25 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Creado: 18 de mar. de 2017
+# autor: usuario
+
+import sys
+
+if (len(sys.argv)<3):
+    while True:
+        try:
+            v1=eval(raw_input("Introduce v1: "))
+            v2=eval(raw_input("Introduce v2: "))
+            break
+        except:
+            print "Parámetros incorrectos. Vuelve a intentarlo"
+else:
+    try: 
+        v1=eval(sys.argv[1])
+        v2=eval(sys.argv[2])
+    except:
+        print "Los parámetros no son correctos. Sorry"
+        sys.exit(1)
+        
+    

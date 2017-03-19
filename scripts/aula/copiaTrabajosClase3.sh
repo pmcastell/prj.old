@@ -6,7 +6,7 @@ ALUMNOS=$(tempfile);
 DIR_DEST="/net/server-sync/home/teachers/franav/Desktop/TRABAJOS_ALUMNOS2";
 ORIGEN=/net/server-sync/home/students;
 cd $ORIGEN
-sudo find . | grep -iE "(Desktop/INFORMATICA$|Desktop/INFORMÁTICA$)"  >> $ALUMNOS
+sudo find . -type d | grep -iE "(Desktop/INFORMATICA|Desktop/INFORMÁTICA)"  >> $ALUMNOS
 
 while read ALU; do
    if [ "$ALU" != "" ]; then

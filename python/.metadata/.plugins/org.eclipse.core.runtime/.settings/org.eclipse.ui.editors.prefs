@@ -1,2 +1,5 @@
 eclipse.preferences.version=1
+hoverReplaceMode=1
 overviewRuler_migration=migrated_3.1
+pydevOccurrenceIndicationColor=245,121,0
+spacesForTabs=true
