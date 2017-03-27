@@ -1,1 +1,0 @@
-uvscan --analyse --mime -rv --secure --summary --version $(. cmdLine)

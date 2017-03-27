@@ -1,1 +1,0 @@
-for d in $(dpkg -l | awk '{print $2;}' | grep -i linux | grep 3.2.0); do sudo apt-get --purge -y remove $d; done

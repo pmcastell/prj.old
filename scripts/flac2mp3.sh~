@@ -1,2 +1,0 @@
-#ffmpeg -i entrada.flac -acodec libmp3lame -ab 192k -ac 2 -ar 44100 salida.mp3
-ffmpeg -i $i -ab 192k -ac 2 -ar 48000 $i.mp3

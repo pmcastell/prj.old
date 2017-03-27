@@ -1,3 +1,0 @@
-sudo mount -o loop /l/ImagenesCdDvd/oxfordEngDict4.iso /cd-virtual/
-cd /cd-virtual/
-wine swhx.exe &
