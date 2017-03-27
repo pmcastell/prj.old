@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	version="0.1" xml:lang="es">
+	<xs:element name="estructuraBD">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="tabla" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="campo" maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="nombre" type="tipoIdVal" />
+									<xs:attribute name="tipo" type="tiposValidos" />
+									<xs:attribute name="longitud" type="xs:integer"
+										use="optional" />
+									<xs:attribute name="lista_de_valores" type="tipoListaValores"
+										use="optional" />
+									<xs:attribute name="null" type="xs:boolean" use="optional"/>
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="primary_key">
+								<xs:complexType>
+									<xs:attribute name="campos_clave" type="tipoListaIdVal" />
+								</xs:complexType>
+							</xs:element>
+							<xs:element name="foreign_key" minOccurs="0"
+								maxOccurs="unbounded">
+								<xs:complexType>
+									<xs:attribute name="campos_clave" type="tipoListaIdVal" />
+									<xs:attribute name="tabla_ajena" type="tipoIdVal" />
+									<xs:attribute name="campos_relacionados" type="tipoListaIdVal" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+						<xs:attribute name="nombre" type="tipoIdVal" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="nombre" type="tipoIdVal" />
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="tipoIdVal">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-z][a-zA-Z0-9_]*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoListaIdVal">
+		<xs:restriction base="xs:string">
+			<xs:whiteSpace value="replace" />
+			<xs:pattern value="([a-zA-z][a-zA-Z0-9_]* )*[a-zA-z][a-zA-Z0-9_]*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tiposValidos">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="INT|ENUM|CHAR|VARCHAR|DATE|DATETIME|DECIMAL" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoListaValores">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="([a-zA-Zá-úÁ-Ú0-9_]+ )*[a-zA-Zá-úÁ-Ú0-9_]+" />
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

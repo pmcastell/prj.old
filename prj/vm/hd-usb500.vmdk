@@ -1,0 +1,26 @@
+# Disk DescriptorFile
+version=1
+encoding="windows-1252"
+CID=095e8192
+parentCID=ffffffff
+createType="fullDevice"
+
+# Extent description
+RW 976773168 FLAT "\\.\PhysicalDrive1" 0
+
+# The Disk Data Base 
+#DDB
+
+ddb.virtualHWVersion = "7"
+ddb.uuid = "60 00 C2 9a 38 fd bc 51-8a c0 f9 a2 12 65 e3 82"
+ddb.geometry.cylinders = "16383"
+ddb.geometry.heads = "16"
+ddb.geometry.sectors = "63"
+ddb.geometry.biosCylinders = "60801"
+ddb.geometry.biosHeads = "255"
+ddb.geometry.biosSectors = "63"
+ddb.adapterType = "lsilogic"
+ddb.uuid.image="f3f1a29a-28d2-49df-a063-d39f7e4361c4"
+ddb.uuid.modification="edfa3788-3025-4633-b0ec-f646a3183493"
+ddb.uuid.parent="00000000-0000-0000-0000-000000000000"
+ddb.uuid.parentmodification="e792da19-60eb-455f-9041-a759d52492fe"

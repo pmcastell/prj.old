@@ -1,0 +1,26 @@
+# Disk DescriptorFile
+version=1
+encoding="UTF-8"
+CID=02530337
+parentCID=ffffffff
+createType="fullDevice"
+
+# Extent description
+RW 488397168 FLAT "/dev/sda" 0
+
+# The Disk Data Base 
+#DDB
+
+ddb.adapterType = "lsilogic"
+ddb.geometry.biosSectors = "63"
+ddb.geometry.biosHeads = "255"
+ddb.geometry.biosCylinders = "30401"
+ddb.geometry.sectors = "63"
+ddb.geometry.heads = "16"
+ddb.geometry.cylinders = "16383"
+ddb.uuid = "60 00 C2 97 54 05 93 f6-f6 cc 6f 21 d5 10 24 aa"
+ddb.virtualHWVersion = "7"
+ddb.uuid.image="b7c8b1dc-7773-4e95-a898-025fd89bbf3d"
+ddb.uuid.modification="a41fc4f7-7dc6-44a9-a183-aff73e3ee3b9"
+ddb.uuid.parent="00000000-0000-0000-0000-000000000000"
+ddb.uuid.parentmodification="7d0c7f50-d84e-4488-ad69-2fdc41ac45ea"

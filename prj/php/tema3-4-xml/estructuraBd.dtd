@@ -1,0 +1,17 @@
+<!ELEMENT estructuraBD (tabla+)>
+    <!ATTLIST estructuraBD nombre ID #REQUIRED>
+<!ELEMENT tabla (campo+,primary_key,foreign_key*)>
+    <!ATTLIST tabla nombre ID #REQUIRED>
+
+<!ELEMENT campo EMPTY>
+    <!ATTLIST campo nombre NMTOKEN #REQUIRED
+                    tipo (INT | CHAR | VARCHAR | ENUM | DATE | DATETIME | DECIMAL) #REQUIRED
+                    longitud NMTOKEN #IMPLIED
+                    lista_de_valores NMTOKENS #IMPLIED
+                    null (0 | 1) #IMPLIED>
+<!ELEMENT primary_key EMPTY>
+    <!ATTLIST primary_key campos_clave NMTOKENS #REQUIRED>
+<!ELEMENT foreign_key EMPTY>
+    <!ATTLIST foreign_key campos_clave NMTOKENS #REQUIRED
+                          tabla_ajena NMTOKEN #REQUIRED
+                          campos_relacionados NMTOKENS #REQUIRED>

@@ -1,0 +1,24 @@
+build.menu.1[0]=com.borland.jbuilder.build.ProjectBuilder$ProjectBuildAction;make
+build.menu.2[0]=com.borland.jbuilder.build.ProjectBuilder$ProjectBuildAction;rebuild
+content.layout.xml.[0]=<project-layout><tab_container selected_index="6"><tab node_name="[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/applet/Applet.java"/><tab node_name="BonoLoto.java"/><tab node_name="[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/awt/FlowLayout.java"/><tab node_name="[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/javax/swing/text/JTextComponent.java"/><tab node_name="[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/javax/swing/JTextField.java"/><tab node_name="[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/awt/Panel.java"/><tab node_name="[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/lang/Thread.java"/></tab_container></project-layout>
+debug.NoTracingClasses.1[0]=16 java.lang.Object1  1 -1
+debug.NoTracingClasses.2[0]=21 java.lang.ClassLoader1  1 -1
+debug.NoTracingClasses.3[0]=16 java.lang.String1  1 -1
+debug.SplitThreadsAndDataView[0]=0
+debug.Watches.1[0]=1  15  cgaux10 expression1  02  501  01  01  01  1 -1
+debug.Watches.2[0]=1  13  res10 expression1  02  501  01  01  01  1 -1
+debug.Watches.3[0]=1  11  i10 expression1  02  501  01  01  01  1 -1
+history.files.active[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/lang/Thread.java,F;610,25532
+history.files.open.1[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/applet/Applet.java,F;38,1371
+history.files.open.2[0]=BonoLoto.java,F;204,6398
+history.files.open.3[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/awt/FlowLayout.java,F;222,6886
+history.files.open.4[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/javax/swing/text/JTextComponent.java,F;3136,108502
+history.files.open.5[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/javax/swing/JTextField.java,F;763,26788
+history.files.open.6[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/awt/Panel.java,F;35,1116
+history.files.open.7[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/lang/Thread.java,F;610,25532
+import.optimize.legacyPropertiesRead[0]=1
+packagebrowser.lastClassName[0]=BonoLoto
+sys.Author[0]=
+sys.DefaultPackage[0]=primi
+sys.ReopenHistory.1[0]=[C%|/Borland/JBuilder2005/jdk1.4/src.zip]/java/awt/EventDispatchThread.java
+team.lastScanned[0]=1143567151334

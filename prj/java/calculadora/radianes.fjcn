@@ -1,0 +1,2 @@
+parameters a; //devuelve el angulo en radianes
+return a*3.141592653589793/180;

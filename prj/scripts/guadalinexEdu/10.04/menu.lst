@@ -1,0 +1,55 @@
+# This is a sample menu.lst file. You should make some changes to it.
+# The old install method of booting via the stage-files has been removed.
+# Please install GRLDR boot strap code to MBR with the bootlace.com
+# utility under DOS/Win9x or Linux.
+
+#splashimage=/fondoFirefoxMar.xpm.gz 
+#splashimage=/splash.xpm 
+#splashimage=/imgs/tuxbsdxp.xpm.gz 
+#splashimage=/imgs/grub_face.xpm.gz
+splashimage=/imgs/grub_buddha.xpm.gz
+#splashimage=/imgs/apolo.xpm
+#splashimage=/imgs/grub_space.xpm.gz 
+#splashimage=/imgs/grub_vase.xpm.gz 
+#splashimage=/imgs/grub_daisy.xpm.gz 
+#splashimage=/imgs/grub_klimt.xpm.gz
+#splashimage=/imgs/grub-splash.png 
+#splashimage=/imgs/ESA_Mars.xpm.gz 
+#splashimage=/imgs/hubble.xpm.gz
+
+#foreground ffffff #background 004174 #viewport 3 0 80 30
+
+foreground ffffff
+#background ffff88
+viewport 3 2 77 22
+shadow 1
+#color black/cyan yellow/cyan #color yellow/magenta yellow/cyan #color white/cyan yellow/black
+
+timeout 5
+default 0
+#root (hd0,4)
+
+
+title Restaurar Sistema (SysRcD32 Live CD altker32)
+find --set-root /guadaLinexEduCentrosTic
+kernel /sysrcd/altker32 initrd=/sysrcd/initram.igz setkmap=es subdir=sysrcd rootpass=root autoruns=0
+initrd=/sysrcd/initram.igz
+
+title SysRcD32 Live CD altker32
+find --set-root /guadaLinexEduCentrosTic
+kernel /sysrcd/altker32 initrd=/sysrcd/initram.igz setkmap=es subdir=sysrcd rootpass=root autoruns=no
+initrd=/sysrcd/initram.igz
+
+
+#kernel /sysrcd/altker32 initrd=/sysrcd/initram.igz setkmap=es subdir=sysrcd rootpass=root autoexec=/livemnt/boot/instala.sh
+
+#video=ofonly vga=0 looptype=squashfs subdir=sysrcd loop=./sysrcd.dat setkmap=es acpi=off
+#acpi=off devfs
+#video=ofonly vga=0 looptype=squashfs subdir=sysrcd loop=./sysrcd.dat setkmap=es acpi=off
+#subdir=sysrcd setkmap=es looptype=squashfs loop=./sysrcd.dat subdir=sysrcd
+#video=ofonly vga=0   splash=silent
+#kernel /sysrcd/rescuecd initrd=/sysrcd/initram.igz  setkmap=es looptype=squashfs loop=./sysrcd.dat subdir=sysrcd init=/linuxrc
+#kernel /sysrcd/rescuecd initrd=/sysrcd/initram.igz init=/linuxrc video=ofonly vga=0 looptype=squashfs subdir=sysrcd loop=./sysrcd.dat setkmap=es cdroot splash=silent	
+#kernel /sysrcd/rescuecd setkmap=es
+# subdir=/sysrcd setkmap=es looptype=squashfs loop=./sysrcd.dat
+

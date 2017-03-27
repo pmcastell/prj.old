@@ -1,0 +1,40 @@
+<!ELEMENT BDhospital (Hospital*,Sala*,Plantilla*,Ocupacion*,Doctor*,enfermo*)+>
+<!ELEMENT Hospital EMPTY>
+    <!ATTLIST Hospital hospital_cod NMTOKEN #REQUIRED 
+                       nombre NMTOKENS #REQUIRED
+                       direccion CDATA #REQUIRED 
+                       telefono NMTOKEN #REQUIRED
+                       num_camas NMTOKEN #REQUIRED>
+<!ELEMENT Sala EMPTY>
+    <!ATTLIST Sala hospital_cod NMTOKEN #REQUIRED 
+                   sala_cod NMTOKEN #REQUIRED
+                   nombre NMTOKENS #REQUIRED 
+                   num_cama NMTOKEN #REQUIRED>
+                   
+<!ELEMENT Plantilla EMPTY>
+    <!ATTLIST Plantilla hospital_cod NMTOKEN #REQUIRED 
+                        sala_cod NMTOKEN #REQUIRED
+                        empleado_num NMTOKEN #REQUIRED 
+                        apellido NMTOKENS #REQUIRED
+                        funcion NMTOKENS #REQUIRED 
+                        turno (Mañana|Tarde|Noche) #REQUIRED
+                        salario NMTOKEN #REQUIRED>
+<!ELEMENT Ocupacion EMPTY>
+    <!ATTLIST Ocupacion inscripcion NMTOKEN #REQUIRED 
+                        hospital_cod NMTOKEN #REQUIRED
+                        sala_cod NMTOKEN #REQUIRED 
+                        cama NMTOKEN #REQUIRED>
+<!ELEMENT Doctor EMPTY>
+    <!ATTLIST Doctor hospital_cod NMTOKEN #REQUIRED 
+                     doctor_num NMTOKEN #REQUIRED
+                     apellido NMTOKENS #REQUIRED 
+                     especialidad (Psiquiatra|Psicologo|Cirujano|Pediatra) #REQUIRED>
+<!ELEMENT enfermo EMPTY>
+    <!ATTLIST enfermo inscripcion NMTOKEN #REQUIRED 
+                      apellido NMTOKENS #REQUIRED
+                      direccion CDATA #REQUIRED 
+                      fecha_nac_dia (01|02|03|04|31) #REQUIRED
+                      fecha_nac_mes (01|02|03|04|05|06|07|08|09|10|11|12) #REQUIRED
+                      fecha_nac_año CDATA #REQUIRED 
+                      s (H |h|M|m) #REQUIRED
+                      ss NMTOKENS #REQUIRED>

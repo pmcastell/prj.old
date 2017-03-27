@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<videoclub xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="videoclub.xsd">
+  <pelicula id="6">
+    <titulo>Hable con ella</titulo>
+    <nacionalidad>ES</nacionalidad>
+    <director>Pedro Almodóvar</director>
+    <productor>Agustín Almodóvar    </productor>
+    <año>2002</año>
+    <genero>Comedia</genero>
+    <genero>Drama</genero>
+    <url>http://www.imdb.com/title/tt0287467/</url>
+  </pelicula>
+  <pelicula id="7">
+    <titulo>Solas</titulo>
+    <nacionalidad>ES</nacionalidad>
+    <director>Benito Zambrano</director>
+    <productor>Antonio P. Pérez</productor>
+    <año>1999</año>
+    <genero>Drama</genero>
+    <url>http://www.imdb.com/title/tt0190798/</url>
+  </pelicula>
+  <pelicula id="8">
+    <titulo>El Amor Perjudica Seriamente La Salud</titulo>
+    <nacionalidad>ES</nacionalidad>
+    <director>Manuel Gómez Pereira</director>
+    <productor>César Benítez</productor>
+    <año>1996</año>
+    <genero>Comedia</genero>
+    <genero>Romance</genero>
+    <url>http://www.imdb.com/title/tt0115536/</url>
+  </pelicula>
+  <pelicula id="9">
+    <titulo>La Buena Estrella</titulo>
+    <nacionalidad>ES</nacionalidad>
+    <director>Ricardo Franco</director>
+    <productor>Enrique Cerezo</productor>
+    <año>1997</año>
+    <genero>Drama</genero>
+    <url>http://www.imdb.com/title/tt0118788/</url>
+  </pelicula>
+  <pelicula id="10">
+    <titulo>Atraco A Las Tres</titulo>
+    <nacionalidad>ES</nacionalidad>
+    <director>José María Forqué</director>
+    <productor>José Alted</productor>
+    <año>1962</año>
+    <genero>Comedia</genero>
+    <url>http://www.imdb.com/title/tt0055763/</url>
+  </pelicula>
+</videoclub>

@@ -1,0 +1,1 @@
+make installkernel KERNCONF=IESINCLAN

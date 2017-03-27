@@ -1,0 +1,438 @@
+<Osejs version="3.3">
+<Osejs.Description>
+</Osejs.Description>
+<Osejs.Model>
+<Osejs.Model.FramesPerSecond>25</Osejs.Model.FramesPerSecond>
+<Osejs.Model.Autostart>true</Osejs.Model.Autostart>
+<Osejs.Model.Variables>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>variables principales</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>t</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>incT</Name>
+<Value><![CDATA[1]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>n</Name>
+<Value><![CDATA[1]]></Value>
+<Type>int</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>solx</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>soly</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>solz</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vx</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vy</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>vz</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>ax</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>ay</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>az</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension>n</Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>GM</Name>
+<Value><![CDATA[2500]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>variables auxiliares</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>gm_raiz</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>maximoEjes</Name>
+<Value><![CDATA[200.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>radioSol</Name>
+<Value><![CDATA[30]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dx</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dy</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dz</Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>mercurio</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>mx</Name>
+<Value><![CDATA[150.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>my</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>mz</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+</Osejs.Model.Variables>
+<Osejs.Model.Initialization>
+<Osejs.Model.Initialization.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Pagina Inicio</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+vx[0]=0; //Mercurio
+vy[0]=4;
+vz[0]=0; 
+]]></Code>
+
+</Content>
+</Osejs.Model.Initialization.Page>
+</Osejs.Model.Initialization>
+<Osejs.Model.Evolution>
+</Osejs.Model.Evolution>
+<Osejs.Model.Constraints>
+<Osejs.Model.Constraints.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Evolución Mercurio</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+dx=mx-solx;
+dy=my-soly;
+dz=mz-solz;
+gm_raiz=-GM/Math.pow(dx*dx+dy*dy+dz*dz,1.5);
+ax[0]=gm_raiz*mx; // aceleración gravitatoria
+ay[0]=gm_raiz*my;
+az[0]=gm_raiz*mz;
+vx[0]+=ax[0]*incT;
+vy[0]+=ay[0]*incT;
+vz[0]+=az[0]*incT;
+mx+=vx[0]*incT;
+my+=vy[0]*incT;
+mz+=vz[0]*incT;
+
+]]></Code>
+
+</Content>
+</Osejs.Model.Constraints.Page>
+<Osejs.Model.Constraints.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Incremento del tiempo</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+t+=incT;
+]]></Code>
+
+</Content>
+</Osejs.Model.Constraints.Page>
+</Osejs.Model.Constraints>
+<Osejs.Model.Library>
+</Osejs.Model.Library>
+</Osejs.Model>
+<Osejs.View>
+<Osejs.View.Creation>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Frame</Type>
+<Property name="name">Ventana</Property>
+<Property name="_ejs_mainWindow">true</Property>
+<Property name="title"><![CDATA[Ventana]]></Property>
+<Property name="layout"><![CDATA[border]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="size"><![CDATA[354,351]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.DrawingPanel3D</Type>
+<Property name="name">PanelDibujo3D</Property>
+<Property name="parent">Ventana</Property>
+<Property name="position">center</Property>
+<Property name="minimumX"><![CDATA[-maximoEjes]]></Property>
+<Property name="maximumX"><![CDATA[maximoEjes]]></Property>
+<Property name="minimumY"><![CDATA[-maximoEjes]]></Property>
+<Property name="maximumY"><![CDATA[maximoEjes]]></Property>
+<Property name="minimumZ"><![CDATA[-maximoEjes]]></Property>
+<Property name="maximumZ"><![CDATA[maximoEjes]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Sol</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[solx]]></Property>
+<Property name="y"><![CDATA[soly]]></Property>
+<Property name="z"><![CDATA[solz]]></Property>
+<Property name="sizex"><![CDATA[radioSol]]></Property>
+<Property name="sizey"><![CDATA[radioSol]]></Property>
+<Property name="sizez"><![CDATA[radioSol]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[orange]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Mercurio</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[mx]]></Property>
+<Property name="y"><![CDATA[my]]></Property>
+<Property name="z"><![CDATA[mz]]></Property>
+<Property name="sizex"><![CDATA[radioSol/3]]></Property>
+<Property name="sizey"><![CDATA[radioSol/3]]></Property>
+<Property name="sizez"><![CDATA[radioSol/3]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[blue]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Trace</Type>
+<Property name="name">TrazaMercurio</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[mx]]></Property>
+<Property name="y"><![CDATA[my]]></Property>
+<Property name="z"><![CDATA[mz]]></Property>
+<Property name="maxpoints"><![CDATA[220]]></Property>
+<Property name="connected"><![CDATA[true]]></Property>
+<Property name="color"><![CDATA[blue]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">panelInfo</Property>
+<Property name="parent">Ventana</Property>
+<Property name="position">south</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">Panelx</Property>
+<Property name="parent">panelInfo</Property>
+<Property name="position">west</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Label</Type>
+<Property name="name">x</Property>
+<Property name="parent">Panelx</Property>
+<Property name="position">west</Property>
+<Property name="text"><![CDATA[x]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">tx</Property>
+<Property name="parent">Panelx</Property>
+<Property name="position">center</Property>
+<Property name="variable"><![CDATA[mx]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.TextField</Type>
+<Property name="name">solx</Property>
+<Property name="parent">Panelx</Property>
+<Property name="position">north</Property>
+<Property name="variable"><![CDATA[solx]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Pausa</Property>
+<Property name="parent">Panelx</Property>
+<Property name="position">south</Property>
+<Property name="text"><![CDATA[Pausa]]></Property>
+<Property name="action"><![CDATA[_pause()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">Panely</Property>
+<Property name="parent">panelInfo</Property>
+<Property name="position">center</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Label</Type>
+<Property name="name">y</Property>
+<Property name="parent">Panely</Property>
+<Property name="position">west</Property>
+<Property name="text"><![CDATA[y]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">ty</Property>
+<Property name="parent">Panely</Property>
+<Property name="position">center</Property>
+<Property name="variable"><![CDATA[my]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.TextField</Type>
+<Property name="name">soly</Property>
+<Property name="parent">Panely</Property>
+<Property name="position">north</Property>
+<Property name="variable"><![CDATA[soly]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Continuar</Property>
+<Property name="parent">Panely</Property>
+<Property name="position">south</Property>
+<Property name="text"><![CDATA[Continuar]]></Property>
+<Property name="action"><![CDATA[_play()]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Panel</Type>
+<Property name="name">Panelz</Property>
+<Property name="parent">panelInfo</Property>
+<Property name="position">east</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Field</Type>
+<Property name="name">tz</Property>
+<Property name="parent">Panelz</Property>
+<Property name="position">center</Property>
+<Property name="variable"><![CDATA[mz]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Label</Type>
+<Property name="name">z</Property>
+<Property name="parent">Panelz</Property>
+<Property name="position">west</Property>
+<Property name="text"><![CDATA[z]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.TextField</Type>
+<Property name="name">solz</Property>
+<Property name="parent">Panelz</Property>
+<Property name="position">north</Property>
+<Property name="variable"><![CDATA[solz]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Button</Type>
+<Property name="name">Inicializar</Property>
+<Property name="parent">Panelz</Property>
+<Property name="position">south</Property>
+<Property name="text"><![CDATA[Inicializar]]></Property>
+<Property name="action"><![CDATA[_reset()]]></Property>
+</Osejs.View.Creation.Element>
+</Osejs.View.Creation>
+</Osejs.View>
+</Osejs>

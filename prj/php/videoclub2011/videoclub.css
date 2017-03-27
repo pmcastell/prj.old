@@ -1,0 +1,26 @@
+@CHARSET "UTF-8";
+
+.cabecera {
+	border: 1px solid yellow;
+}
+
+.izda {
+	float: left;
+	margin-left: 10px;
+	border: 1px solid red;
+	width: 20%;
+}
+.contenido {
+	float: right;
+	width: 78%;
+	border: 1px solid blue;
+}
+.pie {
+	clear: both;
+	border: 1px solid pink;
+}
+	
+ul li a {
+	display: block;
+	border: 1px solid red;
+}	

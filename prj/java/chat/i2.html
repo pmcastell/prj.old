@@ -1,0 +1,49 @@
+	
+<SCRIPT language="javascript">
+//variables de configuraci&oacute;n
+
+tituloPagina="Chat del Departamento de Informática del I.E.S. Ramón del Valle-Inclán";
+colofFondoPagina="#006900"
+colorFondo="#EE7700"
+
+nombreCanal="sevilla";
+nick="invitado";
+ urlAyuda="http://iesinclan.dyndns.org/";
+urlSalida="http://iesinclan.dyndns.org/";
+</SCRIPT>
+<HTML>
+   <HEAD>
+	<SCRIPT> document.write("<TITLE>"+tituloPagina+"</TITLE>");</SCRIPT>
+   </HEAD>
+   <SCRIPT> document.writeln("<BODY BGCOLOR="+colofFondoPagina+">");</SCRIPT>
+     <CENTER>
+	<H1>
+	  <U><SCRIPT>document.write(tituloPagina);</SCRIPT></U>
+	</H1>
+	<HR>
+	<TABLE BORDER=5>
+	<TR><TD>
+	   <div id="myapplet">
+	   <applet name="IrcApplet" code="nat.irc.Principal.class" codebase="." archive="irc.jar" width="800" height="600">
+	      <param name="nick" value="invitado">
+	      <param name="idioma" value="es">
+	      <param name="consolaR" value="128"><param name="consolaG" value="128">
+	      <param name="consolaB" value=128><param name=mPropiosR value=29>
+         <param name="mPropiosG" value=163><param name=mPropiosB value=248>
+	      <param name="mOtrosR" value=0><param name=mOtrosG value=0>
+	      <param name="mOtrosB" value=0>
+         <param name="ncanal" value="iesinclan">
+	      <param name="URLAyuda" value="http://iesinclan.dyndns.org">
+	      <param name="URLSalida" value="http://iesinclan.dyndns.org">
+	      <param name="filtro" value="3"><param name="ctR" value="0">
+  	      <param name="colorTexto" value="#000000">
+	      <param name="colorFondoTexto" value="#EE7700">
+	      <param name="colorFondo" value="#EE7700">
+	      <param name="wApplet" value="800">
+         <param name=hApplet value="600">
+       </applet>
+       </div>
+	</table>
+    </CENTER>	
+  </BODY>
+</HTML>

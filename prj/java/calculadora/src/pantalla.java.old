@@ -1,0 +1,454 @@
+
+/******************************************************************************/
+/******************         pantalla.java       *******************************/
+/******************************************************************************/
+import java.awt.*;
+import java.awt.event.*;
+import java.util.Vector;
+import javax.swing.*;
+import jclass.bwt.JCSeparator;
+import jclass.bwt.JCSpinBox;
+import jclass.bwt.JCSpinBoxEvent;
+import layout.XYConstraints;
+import layout.XYLayout;
+import mieval.SyntaxErrorException;
+import mieval.arbol_binario;
+import mieval.evaluador;
+
+/*class miSpinner extends JPanel {
+BasicArrowButton up, down;
+Spinner s;
+public miSpinner() {
+up=new BasicArrowButton();
+down=new BasicArrowButton();
+s=new Spinner();
+s.setValue(0);
+add(s);
+add(up);
+add(down);
+}
+public miSpinner(int i) {
+this();
+s.setValue(i);
+}
+}*/
+/******************************************************************************/
+/******* esta clase ha sido diseñada con ayuda de herramientas RAD    *********/
+/******* que genera automáticamente código                       **************/
+/******************************************************************************/
+public class pantalla extends JPanel {
+
+    private java.awt.Container contenedor=null;
+    private int initWidth=855;
+    private int initHeigth=600;
+    XYLayout xYLayout1 = new XYLayout();
+    boolean isStandalone = false;
+    miCanvas mcanvas = new miCanvas(initWidth, 550);
+    Vector listaArbol = new Vector();
+    JCSeparator jCSeparator1 = new JCSeparator();
+    JCSpinBox xIzda = new JCSpinBox();
+    JCSpinBox xDcha = new JCSpinBox();
+    JCSpinBox yInf = new JCSpinBox();
+    JCSpinBox ySup = new JCSpinBox();
+    JCSpinBox ppi = new JCSpinBox();
+    JComboBox listaFunciones = new JComboBox();
+    Vector listaColores = new Vector();
+    JTextField funcion = new JTextField();
+    JColorChooser colorChooser1 = new JColorChooser();
+    JButton elegirColor = new JButton();
+    JTextField color = new JTextField();
+    JLabel label1 = new JLabel();
+    JLabel label2 = new JLabel();
+    JLabel label3 = new JLabel();
+    JLabel label4 = new JLabel();
+    JLabel label5 = new JLabel();
+    JButton botonRedibujar = new JButton();
+    JButton botonAnadir = new JButton();
+    JButton botonQuitar = new JButton();
+    JCheckBox ponerPtosCorte = new JCheckBox();
+    JCheckBox ponerNombresFunciones = new JCheckBox();
+    
+
+    //Component initialization
+    public void jbInit() throws Exception {
+        xYLayout1.setWidth(initWidth);
+        xYLayout1.setHeight(initHeigth);
+        this.setSize(initWidth, initHeigth);
+        //this.setBackground(Color.pink);
+        mcanvas.setBackground(Color.white);
+        xDcha.setFont(new Font("Dialog", 1, 10));
+        xDcha.setAlignment(jclass.bwt.BWTEnum.RIGHT);
+        xDcha.setMinimum(-2147483647);
+        xDcha.addSpinBoxListener(new jclass.bwt.JCSpinBoxListener() {
+
+            public void spinBoxChangeBegin(JCSpinBoxEvent e) {
+            }
+
+            public void spinBoxChangeEnd(JCSpinBoxEvent e) {
+                xDcha_spinBoxChangeEnd(e);
+            }
+        });
+        xDcha.setIntValue(14);
+        xIzda.setFont(new Font("Dialog", 1, 10));
+        xIzda.setAlignment(jclass.bwt.BWTEnum.RIGHT);
+        xIzda.setMinimum(-2147483647);
+        xIzda.addSpinBoxListener(new jclass.bwt.JCSpinBoxListener() {
+
+            public void spinBoxChangeBegin(JCSpinBoxEvent e) {
+            }
+
+            public void spinBoxChangeEnd(JCSpinBoxEvent e) {
+                xIzda_spinBoxChangeEnd(e);
+            }
+        });
+        xIzda.addSpinBoxListener(new jclass.bwt.JCSpinBoxListener() {
+
+            public void spinBoxChangeBegin(JCSpinBoxEvent e) {
+            }
+
+            public void spinBoxChangeEnd(JCSpinBoxEvent e) {
+                xIzda_spinBoxChangeEnd(e);
+            }
+        });
+        xIzda.setIntValue(-14);
+        ySup.setFont(new Font("Dialog", 1, 10));
+        ySup.setAlignment(jclass.bwt.BWTEnum.RIGHT);
+        ySup.setMinimum(-2147483647);
+        ySup.addSpinBoxListener(new jclass.bwt.JCSpinBoxListener() {
+
+            public void spinBoxChangeBegin(JCSpinBoxEvent e) {
+            }
+
+            public void spinBoxChangeEnd(JCSpinBoxEvent e) {
+                ySup_spinBoxChangeEnd(e);
+            }
+        });
+        ySup.setIntValue(10);
+        yInf.setFont(new Font("Dialog", 1, 10));
+        yInf.setAlignment(jclass.bwt.BWTEnum.RIGHT);
+        yInf.setMinimum(-2147483647);
+        yInf.addSpinBoxListener(new jclass.bwt.JCSpinBoxListener() {
+
+            public void spinBoxChangeBegin(JCSpinBoxEvent e) {
+            }
+
+            public void spinBoxChangeEnd(JCSpinBoxEvent e) {
+                yInf_spinBoxChangeEnd(e);
+            }
+        });
+        yInf.setIntValue(-10);
+        ppi.setFont(new Font("Dialog", 1, 10));
+        ppi.setAlignment(jclass.bwt.BWTEnum.RIGHT);
+        ppi.setMaximum(40);
+        ppi.setMinimum(2);
+        ppi.setIntValue(2);
+        listaFunciones.setFont(new Font("Dialog", 1, 10));
+        elegirColor.setActionCommand("elegirColor");
+        elegirColor.setToolTipText("Elegir Color de la Funci¢n");
+        elegirColor.setMargin(new Insets(0, 0, 0, 0));
+        color.setBackground(Color.black);
+        color.setFont(new Font("Dialog", 1, 10));
+        label1.setFont(new Font("Dialog", 1, 12));
+        label1.setText("Rango x:");
+        label2.setText("Rango y:");
+        label3.setFont(new Font("Dialog", 1, 12));
+        label3.setText("Iterac./Pixel:");
+        label4.setFont(new Font("Dialog", 1, 12));
+        label4.setText("Dibujar:");
+        label5.setFont(new Font("Dialog", 1, 12));
+        label5.setText("Añadir la Funcion:");
+        botonRedibujar.setFont(new Font("Dialog", 1, 12));
+        botonRedibujar.setText("Redibujar:");
+        botonRedibujar.setToolTipText("Dibujar la Lista de Funciones");
+        botonRedibujar.setMargin(new Insets(0, 0, 0, 0));
+        botonAnadir.setFont(new Font("Dialog", 1, 12));
+        botonAnadir.setText("<");
+        botonAnadir.setToolTipText("Añadir a Lista de Funciones");
+        botonAnadir.setMargin(new Insets(0, 0, 0, 0));
+        botonQuitar.setFont(new Font("Dialog", 1, 12));
+        botonQuitar.setText(">");
+        botonQuitar.setToolTipText("Quintar Funcion de la lista");
+        botonQuitar.setMargin(new Insets(0, 0, 0, 0));
+        ponerPtosCorte.setFont(new Font("Dialog", 1, 12));
+        ponerPtosCorte.setText("Cortes");
+        ponerPtosCorte.addItemListener(new java.awt.event.ItemListener() {
+
+            public void itemStateChanged(ItemEvent e) {
+                ponerPtosCorte_itemStateChanged(e);
+            }
+        });
+        ponerNombresFunciones.setFont(new Font("Dialog", 1, 12));
+        ponerNombresFunciones.setText("Nombres");
+        ponerNombresFunciones.addItemListener(new java.awt.event.ItemListener() {
+
+            public void itemStateChanged(ItemEvent e) {
+                ponerNombresFunciones_itemStateChanged(e);
+            }
+        });
+        botonQuitar.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                botonQuitar_actionPerformed(e);
+            }
+        });
+        botonAnadir.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                botonAnadir_actionPerformed(e);
+            }
+        });
+        botonRedibujar.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                botonRedibujar_actionPerformed(e);
+            }
+        });
+        label2.setFont(new Font("Dialog", 1, 12));
+        elegirColor.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                elegirColor_actionPerformed(e);
+            }
+        });
+        elegirColor.setFont(new Font("Dialog", 1, 12));
+        elegirColor.setText("Color");
+        funcion.setFont(new Font("Dialog", 1, 10));
+        funcion.addActionListener(new java.awt.event.ActionListener() {
+
+            public void actionPerformed(ActionEvent e) {
+                funcion_actionPerformed(e);
+            }
+        });
+        this.setLayout(xYLayout1);
+        this.add(jCSeparator1, new XYConstraints(4, 550, 8444, 7));
+        this.add(xIzda, new XYConstraints(3, 574, 55, 25));
+        this.add(xDcha, new XYConstraints(3 + 55, 574, 55, 25));
+        this.add(yInf, new XYConstraints(3 + 2 * 55, 574, 55, 25));
+        this.add(ySup, new XYConstraints(3 + 3 * 55, 574, 55, 25));
+        this.add(ppi, new XYConstraints(3 + 4 * 55, 574, 55, 25));
+        this.add(listaFunciones, new XYConstraints(380, 574, 190, 27));
+        this.add(funcion, new XYConstraints(606, 574, 181, 27));
+        this.add(elegirColor, new XYConstraints(782, 557, 70, 22));
+        this.add(color, new XYConstraints(800, 580, 17, 19));
+        this.add(mcanvas, new XYConstraints(0, 0, initWidth, 550));
+        this.add(label1, new XYConstraints(32, 553, 62, 17));
+        this.add(label2, new XYConstraints(141, 553, -1, 17));
+        this.add(label3, new XYConstraints(214, 554, -1, 17));
+        //this.add(label4, new XYConstraints(475, 555, 120, 17));
+        this.add(label5, new XYConstraints(609, 557, 156, 15));
+        this.add(botonRedibujar, new XYConstraints(277, 574, 105, 27));
+        this.add(botonAnadir, new XYConstraints(567, 556, 40, 22));
+        this.add(botonQuitar, new XYConstraints(567, 578, 40, 22));
+        this.add(ponerPtosCorte, new XYConstraints(418, 555, 74, 17));
+        this.add(ponerNombresFunciones, new XYConstraints(308, 555, 90, 17));
+
+    }
+    public pantalla(java.awt.Container contenedor) {
+        this.contenedor=contenedor;
+        try {
+            jbInit();
+            //this.setBackground(Color.PINK);
+            mcanvas.establece_rangos(this.xIzda.getIntValue(),
+                    this.xDcha.getIntValue(), this.yInf.getIntValue(),
+                    this.ySup.getIntValue(), this.ppi.getIntValue());
+            mcanvas.repaint();
+            final pantalla self=this;
+            this.addComponentListener(new java.awt.event.ComponentAdapter()
+            {
+                public void componentResized(ComponentEvent e)
+                {
+                    
+                    System.out.println("pantalla componentresized. W: "+self.contenedor.getWidth()+" H: "+self.contenedor.getHeight());
+                    //mcanvas.setSize(this.get, WIDTH);
+                    if (self.contenedor!=null) {
+                        //self.mcanvas.setSize(self.contenedor.getWidth(), self.contenedor.getHeight());;
+                        ///self.mcanvas.repaint();
+                    }
+                }
+            });
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    //Main method
+    static public void main(String[] args) {
+        
+        JFrame frame = new JFrame();
+        pantalla miPantalla = new pantalla(frame);
+        frame.setTitle("Representación de Funciones");
+        frame.getContentPane().add(miPantalla, BorderLayout.CENTER);
+        frame.pack();
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.addWindowListener(
+                new WindowAdapter() {
+
+                    public void windowClosing(WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+        frame.setVisible(true);
+    }
+
+    /*** Este método se ejecuta cuando se produce el evento de hacer click*********/
+    /***     sobre el botón color. Muestra un cuadro de diálogo que      **********/
+    /***     permite elegir el color con el cual se representarán las    **********/
+    /***     funciones.                                                  **********/
+    /*** Parámetros: e-> contiene los datos referentes al evento generado *********/
+    /*** Devuelve: nada                                                   **********/
+    void elegirColor_actionPerformed(ActionEvent e) {
+        Color r = JColorChooser.showDialog(new JFrame(), "Elije un color", color.getBackground());
+        if (r != null) {
+            color.setBackground(r);
+        }
+    }
+    @Override
+    public void setSize(int w, int h) {
+        //if (w>=this.initWidth || h>=this.initHeigth) {
+            super.setSize(w,h);
+            System.out.println("cambiado pantalla W: "+this.getWidth()+" H: "+this.getHeight());
+            this.mcanvas.setSize(w, h-50);
+        //}
+    }
+    /*** Redibuja todas las funciones                                    **********/
+    /*** Parámetros: ninguno                                             **********/
+    /*** devuelve: nada                                                   **********/
+    void repintar() {
+        if (xIzda.getIntValue() < xDcha.getIntValue()
+                && yInf.getIntValue() < ySup.getIntValue()) {
+            mcanvas.establece_rangos(xIzda.getIntValue(), xDcha.getIntValue(),
+                    yInf.getIntValue(), ySup.getIntValue(),
+                    ppi.getIntValue());
+            if (listaFunciones.getItemCount() > 0) {
+                mcanvas.setListaFunciones(listaFunciones);
+                mcanvas.setListaArboles(listaArbol);
+                mcanvas.setListaColores(listaColores);
+            }
+            System.out.println("ancho: "+this.getWidth()+" alto: "+this.getHeight());
+            if (contenedor!=null) {
+               if (this.getWidth()<contenedor.getWidth() && contenedor.getWidth()>this.initWidth) {
+                  try {
+                     this.setSize(contenedor.getWidth(),this.getHeight());
+                     mcanvas.setSize(this.getWidth(),this.getHeight()-50);
+
+                  } catch (Exception ex){}
+               }
+            }
+            mcanvas.repaint();
+        } else {
+            if (xIzda.getIntValue() > xDcha.getIntValue()) {
+                xIzda.setIntValue(xDcha.getIntValue() - 1);
+            }
+            if (yInf.getIntValue() > ySup.getIntValue()) {
+                yInf.setIntValue(ySup.getIntValue() - 1);
+            }
+
+        }
+    }
+
+    /*** Este método se ejecuta cuando se produce el evento de hacer click*********/
+    /***     sobre el botón redibujar. Llama al anterior método para     **********/
+    /***     redibujar todas las funciones                               **********/
+    /*** Parámetros: e-> contiene los datos referentes al evento generado *********/
+    /*** devuelve: nada                                                   **********/
+    void botonRedibujar_actionPerformed(ActionEvent e) {
+        repintar();
+    }
+
+    /*** Añade una función a la lista de funciones a representar.        **********/
+    /***     Comprueba que la función no tiene ningún error de sintaxis  **********/
+    /***     al intentar generar su árbol sintáctico. Si no hubo error al**********/
+    /***     generarlo es que no había errores de sintaxis.              **********/
+    /*** Parámetros: ninguno                                             **********/
+    /*** devuelve: nada                                                   **********/
+    void anadirFuncion() {
+        String s = funcion.getText();
+        if (s.length() > 0) {
+            try {
+                arbol_binario a = mcanvas.eval.arbol_expr(s);
+                listaFunciones.addItem(s);
+                listaColores.addElement(color.getBackground());
+                listaFunciones.setSelectedIndex(listaFunciones.getItemCount() - 1);
+                listaArbol.addElement(a);
+                funcion.setText("");
+            } catch (SyntaxErrorException er) {
+                evaluador.cuadro_mensaje("La función expresada tiene algún error"
+                        + " de sintaxis",
+                        "Mensaje de Error");
+            }
+        }
+
+    }
+
+    /*** Este método se ejecuta cuando se produce el evento de hacer click*********/
+    /***     sobre el marcado con el símbolo '<'. Llama al anterior método**********/
+    /***     para añadir una función a la lista de funciones a representar*********/
+    /*** Parámetros: e-> contiene los datos referentes al evento generado *********/
+    /*** devuelve: nada                                                   **********/
+    void botonAnadir_actionPerformed(ActionEvent e) {
+        anadirFuncion();
+    }
+
+    /*** Este método es el recíproco del anterior. Es llamado al hacer click*******/
+    /***     sobre el botón marcado con el símbolo '>'. Quita la función  *********/
+    /***     seleccionada de la lista de funciones a representar         **********/
+    /*** Parámetros: e-> contiene los datos referentes al evento generado *********/
+    /*** devuelve: nada                                                   **********/
+    void botonQuitar_actionPerformed(ActionEvent e) {
+        if (listaFunciones.getItemCount() > 0) {
+            if (listaFunciones.getSelectedItem() != null) {
+                int i = listaFunciones.getSelectedIndex();
+                funcion.setText((String) listaFunciones.getSelectedItem());
+                listaArbol.removeElementAt(i);
+                color.setBackground((Color) listaColores.elementAt(i));
+                listaColores.removeElementAt(i);
+                listaFunciones.removeItemAt(listaFunciones.getSelectedIndex());
+            }
+        }
+    }
+
+    /*** Este método se ejecuta cuando se produce el evento de hacer click*********/
+    /***     sobre el control JComboBox marcado con la etiqueta Ptos.Corte. **********/
+    /***     Si está marcado se representan los puntos de corte de las   **********/
+    /***     funciones con el eje X.                                     **********/
+    /*** Parámetros: e-> contiene los datos referentes al evento generado *********/
+    /*** devuelve: nada                                                   **********/
+    void ponerPtosCorte_itemStateChanged(ItemEvent e) {
+        mcanvas.setPonerPuntosDeCorte(!mcanvas.getPonerPuntosDeCorte());
+        repintar();
+    }
+
+    void ponerNombresFunciones_itemStateChanged(ItemEvent e) {
+        //mcanvas.setPonerPuntosDeCorte(! mcanvas.getPonerPuntosDeCorte());
+        mcanvas.ponerNombresFunciones = !mcanvas.ponerNombresFunciones;
+        repintar();
+    }
+
+    /*** Este método se ejecuta cuando se pulsa la tecla intro en el     **********/
+    /***     cuadro de texto marcado con la etiqueta 'Añadir a la lista  **********/
+    /***     la Función:'. Añade la función actual contenida en el cuadro**********/
+    /***     de texto a la lista de funciones a representar              **********/
+    /*** Parámetros: e-> contiene los datos referentes al evento generado *********/
+    /*** devuelve: nada                                                   **********/
+    void funcion_actionPerformed(ActionEvent e) {
+        anadirFuncion();
+    }
+
+    void xIzda_spinBoxChangeEnd(JCSpinBoxEvent e) {
+        repintar();
+    }
+
+    void xDcha_spinBoxChangeEnd(JCSpinBoxEvent e) {
+        repintar();
+
+    }
+
+    void yInf_spinBoxChangeEnd(JCSpinBoxEvent e) {
+        repintar();
+    }
+
+    void ySup_spinBoxChangeEnd(JCSpinBoxEvent e) {
+        repintar();
+    }
+}
+

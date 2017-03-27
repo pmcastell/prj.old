@@ -1,0 +1,10 @@
+parameters p1, p2, p3;
+
+if (type(p1)!="M" || type(p2)!="M" || type(p3)!="M") {
+   return "Error alguno de los parámetros no era una matriz";
+}
+d12=distancia(p1,p2);
+d13=distancia(p1,p3);
+d23=distancia(p2,p3);
+sp=(d12+d13+d23)/2;
+return sqrt(sp*(sp-d12)*(sp-d13)*(sp-d23));

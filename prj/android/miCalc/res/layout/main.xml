@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Introduce expresión:" />
+
+    <MultiAutoCompleteTextView
+        android:id="@+id/expresion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:text="" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Resultado:" />
+
+    <EditText
+        android:id="@+id/resultado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/teclaSuma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+" />
+        <Button
+            android:id="@+id/teclaResta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-" />
+        <Button
+            android:id="@+id/teclaProduc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="*" />
+        <Button
+            android:id="@+id/teclaDiv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="/" />
+        <Button
+            android:id="@+id/teclaMod"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="%" />
+        <Button
+            android:id="@+id/teclaIgual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="=" />
+        <Button
+            android:id="@+id/teclaMenor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&lt;" />
+        <Button
+            android:id="@+id/teclaMayor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=">" />
+        <Button
+            android:id="@+id/teclaComillas"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="&quot;" />
+        <Button
+            android:id="@+id/teclaParentesisAbierto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(" />
+        <Button
+            android:id="@+id/teclaParentesisCerrado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=")" />
+                </LinearLayout>
+        
+        <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <Button
+            android:id="@+id/teclaLlaveAbierta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="{" />
+        <Button
+            android:id="@+id/teclaLlaveCerrada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="}" />
+        <Button
+            android:id="@+id/teclaCorCheteAbierto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="[" />
+        <Button
+            android:id="@+id/teclaCorcheteCerrado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="]" />
+
+        <Button
+            android:id="@+id/teclaComa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="," />
+            
+        <Button
+            android:id="@+id/teclaPuntoYcoma"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=";" />
+
+        <Button
+            android:id="@+id/teclaPunto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="." />
+        <Button
+            android:id="@+id/teclaAdmiracion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="!" />
+        <Button
+            android:id="@+id/teclaBarraVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="|" />
+         <Button
+            android:id="@+id/teclaPi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="π" />
+         <Button
+            android:id="@+id/teclaE"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="_e" />
+         <Button
+            android:id="@+id/teclaInt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="\?" />
+        
+
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/botonCalc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Calcular" />
+
+</LinearLayout>

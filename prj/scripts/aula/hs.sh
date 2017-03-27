@@ -1,0 +1,3 @@
+habla -n $* &
+hablaf -n $* &
+

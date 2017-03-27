@@ -1,0 +1,36 @@
+parameters a,b;
+
+if (!((type(a)=="D" || type(a)=="M") && type(b)=="M")) {
+   print("a=>",a," type(a):",type(a)," b=>",b," type(b): ",type(b));
+   return "Error: en los tipos de los parámetros";
+}
+
+if (type(a)=="M") {
+   if (len(a[0])!=len(b)) {
+      return "Error: núm.de columnas de a no coincide con núm.de filas de b";
+   }
+   dim res[len(a)][len(b[0])];
+   for(i=0; i<len(res); i++) {
+      for(j=0; j<len(res[0]); j++) {
+         res[i][j]=0;
+         for(k=0; k<len(a[0]); k++) {
+			   //print("i: ",i," j: ",j," k: ",k);
+				//print(a[i][k]);
+				//print(a);
+            res[i][j]=res[i][j]+a[i][k]*b[k][j];
+         }
+			//print("res[",i,"][",j,"]=",res[i][j]);
+			res[i][j]=redondeo(res[i][j],15);
+		   //print("res[",i,"][",j,"]=",res[i][j]);
+      }
+   }
+} else {
+   dim res[len(b)][len(b[0])];
+   for(i=0; i<len(res); i++) {
+      for(j=0; j<len(res[0]);j++) {
+         res[i][j]=a*b[i][j];
+      }
+   }
+}
+print(a,"   *   ",b,"   =   ",res);   
+return res;

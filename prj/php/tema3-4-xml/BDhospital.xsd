@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	version="0.2" xml:lang="es">
+	<xs:element name="BDhospital">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Hospital" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="hospital_cod" type="xs:integer" />
+						<xs:attribute name="nombre" type="xs:string" />
+						<xs:attribute name="direccion" type="xs:string" />
+						<xs:attribute name="telefono" type="tipoTelefono" />
+						<xs:attribute name="num_camas" type="xs:integer" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Sala" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="hospital_cod" type="xs:integer" />
+						<xs:attribute name="sala_cod" type="xs:integer" />
+						<xs:attribute name="nombre" type="tipoSala" />
+						<xs:attribute name="num_cama" type="xs:integer" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Plantilla (hospital_cod, sala_cod,empleado_num, apellido, funcion, 
+					turno, salario ); -->
+				<xs:element name="Plantilla" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="hospital_cod" type="xs:integer" />
+						<xs:attribute name="sala_cod" type="xs:integer" />
+						<xs:attribute name="empleado_num" type="xs:integer" />
+						<xs:attribute name="apellido" type="tipoApellido" />
+						<xs:attribute name="funcion" type="tipoFuncion" />
+						<xs:attribute name="turno" type="tipoTurno" />
+						<xs:attribute name="salario" type="xs:integer" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Ocupacion (inscripcion,hospital_cod, sala_cod, cama); -->
+				<xs:element name="Ocupacion" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="inscripcion" type="tipoCodigo3" />
+						<xs:attribute name="hospital_cod" type="xs:integer" />
+						<xs:attribute name="sala_cod" type="xs:integer" />
+						<xs:attribute name="cama" type="xs:integer" />
+					</xs:complexType>
+				</xs:element>
+				<!-- Doctor (hospital_cod, doctor_num, apellido,especialidad); -->
+				<xs:element name="Doctor" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="hospital_cod" type="xs:integer" />
+						<xs:attribute name="doctor_num" type="tipoCodigo3" />
+						<xs:attribute name="apellido" type="tipoApellido" />
+						<xs:attribute name="especialidad" type="tipoEspecialidad" />
+					</xs:complexType>
+				</xs:element>
+				<!-- enfermo (inscripcion,apellido,direccion,fecha_nac,s,nss); -->
+				<xs:element name="enfermo" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:attribute name="inscripcion" type="tipoCodigo3" />
+						<xs:attribute name="apellido" type="tipoApellido" />
+						<xs:attribute name="direccion" type="xs:string" />
+						<xs:attribute name="fecha_nac_dia" type="tipoDia" />
+						<xs:attribute name="fecha_nac_mes" type="tipoMes" />
+						<xs:attribute name="fecha_nac_año" type="tipoAño" />
+						<xs:attribute name="s" type="tipoSexo" />
+						<xs:attribute name="ss" type="tipoSS" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="tipoTelefono">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="[69][0-9]{8}"/>
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoSala">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Quirófano|Habitación|Consulta|Sala de Espera" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoFuncion">
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="Celador|Administrativo|Auxiliar Administrativo|Recepcionista|Médico|Cirujano|Oftalmólogo" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoApellido">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[A-ZÁ-ÚÑ][A-ZÁ-ÚÑ ]*" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoTurno">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="Mañana|Tarde|Noche" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoCodigo3">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="[0-9]{3}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoEspecialidad">
+		<xs:restriction base="xs:string">
+			<xs:pattern
+				value="Cirujano|Pediatra|Psiquiatra|Endocrino|Reumatólogo|Traumatólogo" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoDia">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="[0-2][0-9]|3[0-1]" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoMes">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="0[0-9]|1[0-2]" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoAño">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="[0-9]{4}" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoSexo">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="H|M" />
+		</xs:restriction>
+	</xs:simpleType>
+	<xs:simpleType name="tipoSS">
+        <xs:restriction base="xs:integer">
+            <xs:pattern value="[0-9]{12}" />
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="tipoNumCod">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="_[0-9]+" />
+        </xs:restriction>
+    </xs:simpleType>
+    
+</xs:schema>

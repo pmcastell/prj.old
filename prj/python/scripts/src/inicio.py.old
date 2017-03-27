@@ -1,0 +1,15 @@
+#!/usr/bin/python
+#'''
+#Created on 09/07/2012
+#
+#@author: usuario
+#'''
+
+import os
+os.system('/etc/init.d/network-manager start')
+os.system('encfs --public /m/.Mios /m/Mios')
+os.system('vpn')
+os.system('firewall')
+os.system('sudo -u usuario cumples')
+os.system('sudo -u usuario xflux -l 40')
+os.system('sudo -u usuario gedit /m/Mios/Personal/PENDIENTE.txt &')

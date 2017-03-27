@@ -1,0 +1,96 @@
+.menu {
+   float: left;
+   width: 200px;
+   border: 0px solid black;
+   margin: 10px;
+   margin-top: 0px;
+   margin-left: auto;
+   padding: 10px;
+}
+
+.derecha {
+	/*flooat: right;*/
+   padding: 10px;
+   padding-left: 200px;
+   margin: 10px;
+   margin-top: 0px;
+   margin-left: 20px;
+   margin-right: auto;
+   border: 0px solid black;
+   /*width: 779px;*/
+}
+
+.menu ul {
+   list-style-type : none ;
+   margin : 0px;
+   padding : 0px;
+   width : 200px;
+   font-family : Arial , sans-serif ;
+   font-size : 11pt;
+   border: 6px solid black;
+   border-top: 4px solid #aaa;
+   border-left: 4px solid #aaa;
+}
+/*.menu ul li {
+   background-color : #666;
+}
+*/
+.menu ul li a {
+   color: #ccc;
+   text-decoration : none ;
+   display : block ;
+   padding : 10px 10px 10px 20px;
+   background-color : #666;
+   border-bottom: 1px solid #aaa;
+   border-top: 1px solid #000;
+}
+
+.menu ul li a:hover, .pulsado {
+   background: #333;
+   /*border-left: 10px solid #333;*/
+   border-bottom: 1px solid #000;
+   border-top: 1px solid #aaa;
+   color: #fff;
+   text-decoration: underline;
+   padding-left: 30px;
+}
+
+form {
+	text-align:center;
+	border: 0px solid yellow;
+	text-decoration: underline;
+	font-size : large ;
+	color: #666;
+	background: #fff;
+}
+
+input,textarea {
+	/*font-size: large;*/
+	border: 2px solid #777 ;
+	border-top: 1px solid #111;
+	border-left: 1px solid #111;
+	color: black;
+	background: #fff;
+}
+
+input:focus, text-area:focus {
+	background : #eee;
+}
+
+table {
+	border: 0px solid black;
+	
+}
+
+table th {
+	text-align: right;
+	margin: 2px;
+}
+table td {
+	text-align: left;
+	margin: 2px;
+}
+
+.centro {
+	text-align: center;
+}

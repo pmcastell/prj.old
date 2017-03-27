@@ -1,0 +1,15 @@
+Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server
+	CheckHostIP no
+	UserKnownHostsFile /dev/null 
+	StrictHostKeyChecking no
+	Compression yes
+	Protocol 2
+	ProxyCommand none 
+	User lliurex	
+
+Host *
+	CheckHostIP no
+	Compression yes
+	Protocol 2
+	ProxyCommand connect -4 -S 127.0.0.1:9050 $(tor-resolve %h localhost:9050) %p
+

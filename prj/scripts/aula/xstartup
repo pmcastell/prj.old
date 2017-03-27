@@ -1,0 +1,20 @@
+#!/bin/sh
+
+# Uncomment the following two lines for normal desktop:
+# unset SESSION_MANAGER
+# exec /etc/X11/xinit/xinitrc
+
+#[ -x /etc/vnc/xstartup ] && exec /etc/vnc/xstartup
+[ -r $HOME/.Xresources ] && xrdb $HOME/.Xresources
+export DISPLAY=$(ps aux | grep -i Xvnc | grep -o "Xvnc4 :[0-9]" | tail -1 | awk '{print $2;}')
+xsetroot -solid grey
+#vncconfig -iconic &
+gnome-session &
+gnome-panel &
+#x-terminal-emulator -geometry 80x24+10+10 -ls -title "$VNCDESKTOP Desktop" &
+x-window-manager &
+#gnome-terminal &
+#nemo &
+dropbox start -i
+sleep 1
+$HOME/inicio.sh

@@ -1,0 +1,215 @@
+<Osejs version="3.3">
+<Osejs.Description>
+</Osejs.Description>
+<Osejs.Model>
+<Osejs.Model.FramesPerSecond>25</Osejs.Model.FramesPerSecond>
+<Osejs.Model.Autostart>true</Osejs.Model.Autostart>
+<Osejs.Model.Variables>
+<Osejs.Model.Variables.Page>
+<Type>VARIABLE_EDITOR</Type>
+<Name>Tabla Variables</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Variable>
+<Name>R</Name>
+<Value><![CDATA[5.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>R2</Name>
+<Value><![CDATA[R/5]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>x</Name>
+<Value><![CDATA[R]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>y</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>z</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>t</Name>
+<Value><![CDATA[0.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>dT</Name>
+<Value><![CDATA[0.001]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>w</Name>
+<Value><![CDATA[5.0]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>x2</Name>
+<Value><![CDATA[1.2*x]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>y2</Name>
+<Value><![CDATA[1.2*y]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name>z2</Name>
+<Value><![CDATA[1.2*z]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+<Variable>
+<Name></Name>
+<Value><![CDATA[]]></Value>
+<Type>double</Type>
+<Dimension></Dimension>
+<Comment><![CDATA[]]></Comment>
+</Variable>
+
+</Content>
+</Osejs.Model.Variables.Page>
+</Osejs.Model.Variables>
+<Osejs.Model.Initialization>
+</Osejs.Model.Initialization>
+<Osejs.Model.Evolution>
+<Osejs.Model.Evolution.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Página Evolución</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+t+=dT;
+]]></Code>
+
+</Content>
+</Osejs.Model.Evolution.Page>
+</Osejs.Model.Evolution>
+<Osejs.Model.Constraints>
+<Osejs.Model.Constraints.Page>
+<Type>CODE_EDITOR</Type>
+<Name>Página Ligaduras</Name>
+<Active>true</Active>
+<Visible>true</Visible>
+<Content>
+<Comment><![CDATA[]]></Comment>
+<Code><![CDATA[
+z=0;
+x=R*Math.cos(w*t);
+y=R*Math.sin(w*t);
+x2=x+R2*Math.cos(2*w*t);
+y2=y+R2*Math.sin(2*w*t);
+z2=z;
+]]></Code>
+
+</Content>
+</Osejs.Model.Constraints.Page>
+</Osejs.Model.Constraints>
+<Osejs.Model.Library>
+</Osejs.Model.Library>
+</Osejs.Model>
+<Osejs.View>
+<Osejs.View.Creation>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.Frame</Type>
+<Property name="name">Ventana</Property>
+<Property name="_ejs_mainWindow">true</Property>
+<Property name="title"><![CDATA[Ventana]]></Property>
+<Property name="layout"><![CDATA[border]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="size"><![CDATA[300,300]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Expanded>true</Expanded>
+<Type>Elements.DrawingPanel3D</Type>
+<Property name="name">PanelDibujo3D</Property>
+<Property name="parent">Ventana</Property>
+<Property name="position">center</Property>
+<Property name="minimumX"><![CDATA[-1.5*R]]></Property>
+<Property name="maximumX"><![CDATA[1.5*R]]></Property>
+<Property name="minimumY"><![CDATA[-1.5*R]]></Property>
+<Property name="maximumY"><![CDATA[1.5*R]]></Property>
+<Property name="minimumZ"><![CDATA[-1.5*R]]></Property>
+<Property name="maximumZ"><![CDATA[1.0*R]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Particula1</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[0.0]]></Property>
+<Property name="y"><![CDATA[0.0]]></Property>
+<Property name="z"><![CDATA[0.0]]></Property>
+<Property name="sizex"><![CDATA[R/5]]></Property>
+<Property name="sizey"><![CDATA[R/5]]></Property>
+<Property name="sizez"><![CDATA[R/5]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Particula2</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[x]]></Property>
+<Property name="y"><![CDATA[y]]></Property>
+<Property name="z"><![CDATA[0]]></Property>
+<Property name="sizex"><![CDATA[R/2/5]]></Property>
+<Property name="sizey"><![CDATA[R/2/5]]></Property>
+<Property name="sizez"><![CDATA[R/2/5]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Particle</Type>
+<Property name="name">Particula3</Property>
+<Property name="parent">PanelDibujo3D</Property>
+<Property name="x"><![CDATA[x2]]></Property>
+<Property name="y"><![CDATA[y2]]></Property>
+<Property name="z"><![CDATA[z2]]></Property>
+<Property name="sizex"><![CDATA[R/4/5]]></Property>
+<Property name="sizey"><![CDATA[R/4/5]]></Property>
+<Property name="sizez"><![CDATA[R/4/5]]></Property>
+<Property name="visible"><![CDATA[true]]></Property>
+<Property name="enabled"><![CDATA[true]]></Property>
+</Osejs.View.Creation.Element>
+<Osejs.View.Creation.Element>
+<Type>Elements.Panel</Type>
+<Property name="name">Panel</Property>
+<Property name="parent">Ventana</Property>
+<Property name="position">south</Property>
+<Property name="layout"><![CDATA[border]]></Property>
+</Osejs.View.Creation.Element>
+</Osejs.View.Creation>
+</Osejs.View>
+</Osejs>

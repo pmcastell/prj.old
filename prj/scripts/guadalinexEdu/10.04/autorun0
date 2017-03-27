@@ -1,0 +1,257 @@
+#!/bin/bash 
+andared() {
+echo "
+[connection]
+id=Andared
+uuid=8f0042f9-8d8f-454a-ac49-2d61dbca43ae
+type=802-11-wireless
+autoconnect=true
+timestamp=1234178143
+
+[802-11-wireless-security]
+key-mgmt=wpa-psk
+wep-tx-keyidx=0
+psk=6b629f4c299371737494c61b5a101693a2d4e9e1f3e1320f3ebf9ae379cecf32
+
+[ipv4]
+method=auto
+ignore-auto-routes=false
+ignore-auto-dns=false
+
+[802-11-wireless]
+ssid=65;110;100;97;114;101;100;
+mode=infrastructure
+channel=0
+rate=0
+tx-power=0
+mtu=0
+seen-bssids=00:21:29:a2:28:1c;
+security=802-11-wireless-security" > $MONTAJE/etc/NetworkManager/system-connections/Andared
+chmod 600 $MONTAJE/etc/NetworkManager/system-connections/Andared
+}
+zona1() {
+echo "
+[connection]
+id=Zona1
+uuid=db9c2dc3-ad5f-4c81-8aeb-be5639e6de8f
+type=802-11-wireless
+autoconnect=false
+timestamp=1403632803
+
+[802-11-wireless-security]
+key-mgmt=wpa-psk
+wep-tx-keyidx=0
+psk=648COLCH563ENSE
+wep-key-type=0
+
+[ipv4]
+method=auto
+ignore-auto-routes=false
+ignore-auto-dns=false
+dhcp-send-hostname=false
+never-default=false
+
+[802-11-wireless]
+ssid=90;111;110;97;49;
+mode=infrastructure
+channel=0
+rate=0
+tx-power=0
+mtu=0
+seen-bssids=00:22:f7:20:43:ca;
+security=802-11-wireless-security" > $MONTAJE/etc/NetworkManager/system-connections/Zona1
+chmod 600 $MONTAJE/etc/NetworkManager/system-connections/Zona1
+}
+
+zona2() {
+echo "
+[connection]
+id=Zona2
+uuid=d6126bda-a051-4fcf-8e08-9dd039477ee6
+type=802-11-wireless
+autoconnect=false
+timestamp=1403633592
+
+[802-11-wireless-security]
+key-mgmt=wpa-psk
+wep-tx-keyidx=0
+psk=648COLCH563ENSE
+wep-key-type=0
+
+[ipv4]
+method=auto
+ignore-auto-routes=false
+ignore-auto-dns=false
+dhcp-send-hostname=false
+never-default=false
+
+[802-11-wireless]
+ssid=90;111;110;97;50;
+mode=infrastructure
+channel=0
+rate=0
+tx-power=0
+mtu=0
+seen-bssids=00:22:f7:20:43:cb;
+security=802-11-wireless-security" > $MONTAJE/etc/NetworkManager/system-connections/Zona2
+chmod 600 $MONTAJE/etc/NetworkManager/system-connections/Zona2
+}
+tallerinfo() {
+echo "
+[connection]
+id=TALLER-INFORMATICA
+uuid=60f0c074-a749-457f-981a-0243aaf9898a
+type=802-11-wireless
+autoconnect=false
+timestamp=1403777806
+
+[802-11-wireless-security]
+key-mgmt=wpa-psk
+wep-tx-keyidx=0
+psk=infotaller
+wep-key-type=0
+
+[ipv4]
+method=auto
+ignore-auto-routes=false
+ignore-auto-dns=false
+dhcp-send-hostname=false
+never-default=false
+
+[802-11-wireless]
+ssid=84;65;76;76;69;82;45;73;78;70;79;82;77;65;84;73;67;65;
+mode=infrastructure
+channel=0
+rate=0
+tx-power=0
+mtu=0
+seen-bssids=5a:6d:8f:97:a5:77;
+security=802-11-wireless-security" > $MONTAJE/etc/NetworkManager/system-connections/TALLER-INFORMATICA
+chmod 600 $MONTAJE/etc/NetworkManager/system-connections/TALLER-INFORMATICA
+}
+guadaLinex10_04() {
+   FSA_GUADA=$(ls /livemnt/boot/fsImages/guadalinexEdu10.04/*.fsa)
+   fsarchiver restfs -v $FSA_GUADA id=0,dest=$DEV$PART_GUADA
+   MONTAJE=/mnt/guadalinexEdu
+   mkdir -p $MONTAJE
+
+   mount $DEV$PART_GUADA $MONTAJE 
+   if [ ! -f $MONTAJE/bin/zsh ];
+   then
+      cp /bin/zsh $MONTAJE/bin/ 
+   fi
+   mount --bind /dev $MONTAJE/dev 
+   mount --bind /dev/pts $MONTAJE/dev/pts 
+   mount --bind /proc $MONTAJE/proc 
+   mount --bind /sys $MONTAJE/sys 
+
+   chroot $MONTAJE grub-install --recheck $DEV 
+   ########################
+   ## poner timeout del grub a cero
+   sed -i "s/$(grep GRUB_TIMEOUT $MONTAJE/etc/default/grub)/GRUB_TIMEOUT=10/g" $MONTAJE/etc/default/grub
+
+   chroot $MONTAJE update-grub
+   chroot $MONTAJE update-grub2 
+
+   hdparm -f $DEV
+   sync
+   umount $MONTAJE/dev/pts 
+   umount $MONTAJE/dev 
+   umount $MONTAJE/proc 
+   umount $MONTAJE/sys 
+   ###################################################
+   #Crear el fstab
+   echo "# /etc/fstab: static file system information.
+   #
+   # Use 'blkid' to print the universally unique identifier for a
+   # device; this may be used with UUID= as a more robust way to name devices
+   # that works even if disks are added and removed. See fstab(5).
+   #
+   # <file system> <mount point>   <type>  <options>       <dump>  <pass>
+   proc            /proc           proc    nodev,noexec,nosuid 0       0
+   # / was on /dev/sda1 during installation" > $MONTAJE/etc/fstab
+   UUID=$(blkid | grep $DEV$PART_GUADA | cut -f 2 -d " ")
+   echo "$UUID     /               ext4    errors=remount-ro 0       1" >> $MONTAJE/etc/fstab
+   #UUID=37ab8c50-6e05-4bce-9dc0-aea538354e36 /               ext4    errors=remount-ro 0       1
+
+   echo "# swap was on /dev/sda5 during installation" >> /etc/fstab
+   UUID=$(blkid | grep $DEV$PART_SWAP | cut -f 2 -d " ")
+   echo "$UUID     none            swap    sw              0       0" >> $MONTAJE/etc/fstab
+   #UUID=da63144f-ed41-4c76-a733-9b090c1dcced none            swap    sw              0       0
+   ###################################################
+   ###################################################
+   #Borrar todas las redes inalámbricas anteriores y dejar solamente Andared
+   rm -f $MONTAJE/etc/NetworkManager/system-connections/*
+   andared
+   zona1
+   zona2
+   tallerinfo
+   umount $MONTAJE
+   sync
+}
+windows7() {
+   DIR_WIN=/livemnt/boot/fsImages/windows7
+   MONT_WIN=/tmp/windows7mnt
+   FSA_WIN7=$(ls $DIR_WIN/*.fsa)
+   fsarchiver restfs -v $FSA_WIN7 id=0,dest=$DEV$PART_WIN
+   sync
+   hdparm -f $DEV
+   mkdir $MONT_WIN
+   mount $DEV$PART_WIN $MONT_WIN
+   cat $DIR_WIN/BCD > $MONT_WIN/Boot/BCD
+   cat $DIR_WIN/BOOTSTAT.DAT > $MOUNT_WIN/Boot/BOOTSTAT.DAT
+   sync
+   hdparm -f $DEV
+   umount $MONT_WIN
+}
+DEV_ARRANQUE=$(mount | grep '/livemnt/boot' | awk '{print $1;}')
+DEV=$(ls /dev/sd* | egrep -v '[0-9]' | head -1)
+if [ "$DEV" = "" ];
+then
+   DEV=$(ls /dev/hd* | egrep -v '[0-9]' | head -1)
+fi
+if [ "$DEV" = "" ];
+then
+   echo No se encontró dispositivo donde instalar el S.O.
+   exit 1
+fi
+DEVSIZE=$(parted -s $DEV unit B print | grep -E "$DEV: [0-9]+" | cut -f 3 -d " " | tr -d B) 
+MEMSIZE=$(free | grep Mem | awk '{print $2;}')
+PART_WIN=1
+PART_SWAP=2
+PART_GUADA=3
+PART_MINT=4
+SISTEMAS=1
+parted $DEV --script -- mklabel msdos 
+if [ $SISTEMAS -eq 1 ];
+then
+   parted $DEV --script -- mkpart primary linux-swap 1 4%
+   parted $DEV --script -- mkpart primary ext4 4% -1
+   PART_SWAP=1
+   PART_GUADA=2
+elif [ $SISTEMAS -eq 2 ];
+then
+   parted $DEV --script -- mkpart primary ntfs 1 32%
+   parted $DEV --script -- mkpart primary linux-swap 32% 36%
+   parted $DEV --script -- mkpart primary ext4 36% -1
+else        
+   parted $DEV --script -- mkpart primary ntfs 1 32%
+   parted $DEV --script -- mkpart primary linux-swap 32% 36%
+   parted $DEV --script -- mkpart primary ext4 36% 68%
+   parted $DEV --script -- mkpart primary ext4 68% -1
+fi
+
+partprobe $DEV
+mkswap $DEV$PART_SWAP
+#echo fsarchiver -v -A -a -z 9 -s 640 -j 8 -c - savefs /c/COPIAS/ubuntu-sda5/ubuntu-sda5.fsa $DEV"1"
+#fsarchiver restfs -v $(ls /livemnt/boot/fsImages/*.fsa) id=0,dest=$DEV"1"
+if [ $SISTEMAS -gt 1 ];
+then
+   windows7
+fi
+if [ $SISTEMAS -gt 2 ];
+then
+   linuxMint
+fi      
+guadaLinex10_04
+poweroff

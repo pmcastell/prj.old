@@ -1,0 +1,43 @@
+ESPERA=300
+
+aulasrv1_TUN_OVP=no
+aulasrv1_TUN_OVP_IP=79.155.187.251
+aulasrv1_TUN_OVP_PORT=443
+aulasrv1_TUN_OVP_DEV=21
+
+aulasrv1_TUN_SSH=si
+aulasrv1_TUN_SSH_IP=79.155.187.251
+aulasrv1_TUN_SSH_PORT=443
+aulasrv1_TUN_SSH_DEV=22
+aulasrv1_TUN_SSH_CMD1="/sbin/route add -net 10.10.10.0/24 gw $TUN_SSH_DEV_IP; "
+aulasrv1_TUN_SSH_CMD2="/sbin/route add -net 10.2.1.0/24 gw $TUN_SSH_DEV_IP; "
+
+srv2aula_TUN_SSH=no
+srv2aula_TUN_SSH_IP=79.155.187.251
+srv2aula_TUN_SSH_PORT=443
+srv2aula_TUN_SSH_DEV=23
+srv2aula_TUN_SSH_CMD1="/sbin/route add -net 10.10.10.0/24 gw $TUN_SSH_DEV_IP; "
+srv2aula_TUN_SSH_CMD2="/sbin/route add -net 10.2.1.0/24 gw $TUN_SSH_DEV_IP; "
+
+iesinclan_TUN_OVP=no
+iesinclan_TUN_OVP_IP=79.155.187.251
+iesinclan_TUN_OVP_PORT=443
+iesinclan_TUN_OVP_DEV=24
+
+iesinclan_TUN_SSH=si
+iesinclan_TUN_SSH_IP=79.155.187.251
+iesinclan_TUN_SSH_PORT=443
+iesinclan_TUN_SSH_DEV=25
+iesinclan_TUN_SSH_CMD1="/sbin/route add -net 172.16.0.0/19 gw $TUN_SSH_DEV_IP; "
+iesinclan_TUN_SSH_CMD2="/sbin/route add -net 192.168.0.0/22 gw $TUN_SSH_DEV_IP; "
+
+ubu15_TUN_OVP=no
+ubu15_TUN_OVP_IP=79.155.187.251
+ubu15_TUN_OVP_PORT=443
+ubu15_TUN_OVP_DEV=26
+
+ubu15_TUN_SSH=si
+ubu15_TUN_SSH_IP=79.155.187.251
+ubu15_TUN_SSH_PORT=443
+ubu15_TUN_SSH_DEV=27
+

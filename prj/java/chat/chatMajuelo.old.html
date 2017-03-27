@@ -1,0 +1,90 @@
+	
+<SCRIPT language="javascript">
+//variables de configuraci&oacute;n
+tituloPagina="I.E.S. El Majuelo - web chat";
+colofFondoPagina="#006900"
+colorFondo="#EE7700"
+
+nombreCanal="majuelo";
+nick="invitado";
+urlAyuda="http://www.iesmajuelo.com";
+urlSalida="http://www.iesmajuelo.com";
+</SCRIPT>
+<HTML>
+   <HEAD>
+	<SCRIPT> document.write("<TITLE>"+tituloPagina+"</TITLE>");</SCRIPT>
+   </HEAD>
+   <SCRIPT> document.writeln("<BODY BGCOLOR="+colofFondoPagina+">");</SCRIPT>
+     <CENTER>
+	<H1>
+	  <U><SCRIPT>document.write(tituloPagina);</SCRIPT></U>
+	</H1>
+	<HR>
+	<TABLE BORDER=5>
+	<TR><TD>
+
+<script language="JavaScript">
+wApplet = 680;
+hApplet = 380;
+if(navigator.appName.indexOf("Nets") != -1)
+{
+        document.writeln("<div id=\"myapplet\" >"); // style=\"visibility=hidden\">");
+        document.writeln("<APPLET NAME=IrcApplet CODE=nat.irc.Principal.class "+
+                         "CODEBASE=. ARCHIVE=irc.jar WIDTH="+wApplet+" HEIGHT="+hApplet+">");
+        document.writeln("<param name=nick value="+nick+">"+
+        "<param name=idioma value=es>" + 
+        "<param name=consolaR value=128><param name=consolaG value=128>"+
+	"<param name=consolaB value=128><param name=mPropiosR value=29>"+
+	"<param name=mPropiosG value=163><param name=mPropiosB value=248>"+
+	"<param name=mOtrosR value=0><param name=mOtrosG value=0>"+
+	"<param name=mOtrosB value=0>");
+	document.writeln("<param name=ncanal value="+nombreCanal+">"+
+	"<param name=URLAyuda value="+urlAyuda+">"+
+	"<param name=URLSalida value="+urlSalida+">");
+	document.writeln("<param name=filtro value=3><param name=ctR value=0>"+
+  	"<param name=colorTexto value=#000000>"+
+	"<param name=colorFondoTexto value="+colorFondo+">"+
+	"<param name=colorFondo value="+colorFondo+">"+
+	"<param name=wApplet value="+wApplet+">"+
+	"<param name=hApplet value="+hApplet+"></APPLET>");
+}
+
+
+if(navigator.appName.indexOf("Exp") != -1)
+{
+      	document.writeln("<div id=\"myapplet\" >"); //style=\"visibility:hidden\">");
+	document.writeln("<APPLET NAME=IrcApplet CODE=nat.irc.Principal.class "+
+			 "CODEBASE=. ARCHIVE=irc.jar WIDTH="+wApplet+" HEIGHT="+hApplet+">");
+	document.writeln("<param name=consolaR value=128>");
+	document.writeln("<param name=consolaG value=128>");
+	document.writeln("<param name=consolaB value=128>");
+	document.writeln("<param name=mPropiosR value=29>");
+	document.writeln("<param name=mPropiosG value=163>");
+	document.writeln("<param name=mPropiosB value=248>");
+	document.writeln("<param name=mOtrosR value=0>");
+	document.writeln("<param name=mOtrosG value=0>");
+	document.writeln("<param name=mOtrosB value=0>");
+	document.writeln("<param name=nick value="+nick+">");
+	document.writeln("<param name=ncanal value="+nombreCanal+">");
+      	document.writeln("<param name=idioma value=es>");
+      	document.writeln("<param name=URLAyuda value="+urlAyuda+">");
+	document.writeln("<param name=URLSalida value="+urlSalida+">");
+	document.writeln("<param name=filtro value=3>");
+	document.writeln("<param name=colorTexto value=#000000>");
+	document.writeln("<param name=colorFondoTexto value="+colorFondo+">");
+	document.writeln("<param name=colorFondo value="+colorFondo+">");
+	document.writeln("<param name=wApplet value="+wApplet+">");
+	document.writeln("<param name=hApplet value="+hApplet+">");
+	document.writeln("</APPLET>");
+}
+
+
+document.writeln("</div>");
+
+
+
+</script>
+	</TABLE>
+    </CENTER>	
+  </BODY>
+</HTML>

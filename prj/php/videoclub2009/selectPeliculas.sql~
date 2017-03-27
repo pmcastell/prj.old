@@ -1,0 +1,18 @@
+SELECT PELICULA.titulo,PELICULA.anio,PELICULA.duracion,PELICULA.sinopsis,PELICULA.fichero_caratula,
+       PELICULA.fecha_adquisicion, ACTORES.nombre as actor, DIRECTORES.nombre as director, GENERO.nombre as genero
+ FROM 
+( 
+ (
+  (
+   (
+    (
+     (PELICULA JOIN director_pelicula ON PELICULA.id=director_pelicula.id_PELICULA)
+     JOIN ACTOR_DIRECTOR AS DIRECTORES ON director_pelicula.id_ACTOR_DIRECTOR=DIRECTORES.id
+    ) JOIN actor_pelicula ON PELICULA.id=actor_pelicula.id_PELICULA
+   ) JOIN ACTOR_DIRECTOR AS ACTORES ON actor_pelicula.id_ACTOR_DIRECTOR=ACTORES.id
+  ) JOIN genero_pelicula ON PELICULA.id=genero_pelicula.id_PELICULA 
+ ) JOIN GENERO on genero_pelicula.id_GENERO=GENERO.id
+)
+ORDER BY titulo,actor,director,genero CONCAT(apellido1,' ',apellido2,' ',nombre) as nombre_completo,
+
+

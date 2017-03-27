@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BDsms xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="BDsmsSchema.xsd">
+                                                             
+  <sms>
+    <telefono>954331122</telefono>
+    <fecha>2001-01-01</fecha>
+    <hora>12:00:00</hora>
+    <mensaje>mensaje</mensaje>
+    <coche>
+        <código>1</código>
+        <marca>Ford</marca>
+        <modelo>Focus</modelo>
+        <caballos>33</caballos>
+        <combustible>gasolina</combustible>
+        
+        
+    </coche>
+    <curso letra="A">16</curso>  	 
+	 
+  </sms>
+  <sms>
+  	<telefono>1</telefono>
+  	<fecha>2001-01-01	</fecha>
+  	<hora>13:00:01</hora>
+  	<mensaje>hola que tal</mensaje>
+  	   <coche>
+        <código>1</código>
+        <marca>Ford</marca>
+        <modelo>Focus</modelo>
+        <caballos>33</caballos>
+        <combustible>gasolina</combustible>
+        
+        
+    </coche>
+    <curso letra="A">16</curso>     
+  	
+  </sms>
+  
+  <sms>
+    <prueba>3</prueba>
+  </sms>
+</BDsms>

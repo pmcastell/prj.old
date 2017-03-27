@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal" >
+    <TextView
+        android:textColor="#FF0000"
+        android:textSize="24.5dp"
+        android:id="@+id/TextoBienvenida"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/hello" />
+
+    <Button
+        android:id="@+id/botonNavegar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Navegar" />
+
+    <Button
+        android:id="@+id/botonLlamar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Llamar" />
+
+    <Button
+        android:id="@+id/botonMaps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Buscar Google Maps" />
+
+    <EditText
+        android:id="@+id/txtBusca"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/botonMarcar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Marcar" />
+
+</LinearLayout>

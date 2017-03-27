@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	version="0.1" xml:lang="es">
+	<xs:element name="estructuraBD">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="nombreBD" type="tipoIdVal" />
+                <xs:element name="tabla" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="nombreTabla" />
+                        </xs:sequence>
+                        
+                    </xs:complexType>
+                </xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:simpleType name="tipoIdVal">
+		<xs:restriction base="xs:string">
+			<xs:pattern value="[a-zA-z][a-zA-Z0-9_]*"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

@@ -1,0 +1,5 @@
+#!/bin/bash
+if [ "$(wget http://iesninfo.esy.es/tunelOVPN.txt -O - 2> /dev/null)" = "si" ]; then
+   /usr/sbin/openvpn --connect-retry-max 3 --remote ubu.noip.me 443 --proto tcp-client tcp --dev tun4 --ifconfig 10.7.0.7 10.7.0.6 --port 443 --secret /home/franav/openvpn/key
+fi   
+

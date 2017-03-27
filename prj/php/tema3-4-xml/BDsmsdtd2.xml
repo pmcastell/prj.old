@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE BDsms SYSTEM "http://iesinclan.dyndns.org/franc/BDsms.dtd">
+<!-- 
+[
+<!ELEMENT BDsms (sms*)>
+<!ELEMENT sms (telefono,fecha,hora,mensaje)>
+<!ELEMENT telefono (#PCDATA)>
+<!ELEMENT fecha (#PCDATA)>
+<!ELEMENT hora (#PCDATA)>
+<!ELEMENT mensaje (#PCDATA)>
+
+]
+> -->
+<BDsms>
+	<sms>
+		<telefono>954112233</telefono>
+		<fecha>07/02/2012</fecha>
+		<hora>08:48:00</hora>
+		<mensaje>hola que tal va el XML</mensaje>
+		
+	</sms>
+</BDsms>

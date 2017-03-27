@@ -1,0 +1,22 @@
+parameters num,baseOrig,baseDest;
+   digitosValidos="0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+   baseMax=len(digitosValidos);
+   if (baseOrig<2 || baseOrig > baseMax || baseDest<2 || baseDest>baseMax) {
+      return "ERROR las bases permitidas son [2,"+baseMax+"]";
+   }
+   num=toupper(""+num);
+   baseOrig=eval(""+baseOrig);
+   baseDest=eval(""+baseDest);
+   valorDecimal=valorBase(num,baseOrig);
+   if (type(valorDecimal)=="S"|| baseDest==10) {
+      return ""+valorDecimal;
+   }
+   res="";
+   while(valorDecimal>0) {
+      resto=valorDecimal % baseDest;
+      valorDecimal=int(valorDecimal/baseDest);
+      //print(valorDecimal);
+      res=digitosValidos[resto]+res;
+   }
+return res;
+

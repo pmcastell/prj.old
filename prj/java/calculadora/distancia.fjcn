@@ -1,0 +1,7 @@
+parameters p1,p2;
+
+if (type(p1)!="M" || type(p2)!="M") {
+   return "Error p1 o p2 o ambas no son una matriz";
+}
+
+return sqrt((p2[0]-p1[0])^2+(p2[1]-p1[1])^2);

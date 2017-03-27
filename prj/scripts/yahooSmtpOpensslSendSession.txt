@@ -1,0 +1,190 @@
+Script iniciado (dom 01 may 2016 13:30:10 CEST
+)]0;usuario@ubuntu: ~usuario@ubuntu:~$ exitopenssl s_client -starttls smtp -crlf -connect smtp.mail.yahoo.com:587 -crlf -ign_eof
+CONNECTED(00000003)
+depth=3 C = US, O = "VeriSign, Inc.", OU = Class 3 Public Primary Certification Authority
+verify return:1
+depth=2 C = US, O = "VeriSign, Inc.", OU = VeriSign Trust Network, OU = "(c) 2006 VeriSign, Inc. - For authorized use only", CN = VeriSign Class 3 Public Primary Certification Authority - G5
+verify return:1
+depth=1 C = US, O = Symantec Corporation, OU = Symantec Trust Network, CN = Symantec Class 3 Secure Server CA - G4
+verify return:1
+depth=0 C = US, ST = California, L = Sunnyvale, O = Yahoo Inc., OU = Information Technology, CN = smtp.mail.yahoo.com
+verify return:1
+---
+Certificate chain
+ 0 s:/C=US/ST=California/L=Sunnyvale/O=Yahoo Inc./OU=Information Technology/CN=smtp.mail.yahoo.com
+   i:/C=US/O=Symantec Corporation/OU=Symantec Trust Network/CN=Symantec Class 3 Secure Server CA - G4
+ 1 s:/C=US/O=Symantec Corporation/OU=Symantec Trust Network/CN=Symantec Class 3 Secure Server CA - G4
+   i:/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=(c) 2006 VeriSign, Inc. - For authorized use only/CN=VeriSign Class 3 Public Primary Certification Authority - G5
+ 2 s:/C=US/O=VeriSign, Inc./OU=VeriSign Trust Network/OU=(c) 2006 VeriSign, Inc. - For authorized use only/CN=VeriSign Class 3 Public Primary Certification Authority - G5
+   i:/C=US/O=VeriSign, Inc./OU=Class 3 Public Primary Certification Authority
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIG8TCCBdmgAwIBAgIQGMsXWs4hgQ8R1B7Nk93ddzANBgkqhkiG9w0BAQsFADB+
+MQswCQYDVQQGEwJVUzEdMBsGA1UEChMUU3ltYW50ZWMgQ29ycG9yYXRpb24xHzAd
+BgNVBAsTFlN5bWFudGVjIFRydXN0IE5ldHdvcmsxLzAtBgNVBAMTJlN5bWFudGVj
+IENsYXNzIDMgU2VjdXJlIFNlcnZlciBDQSAtIEc0MB4XDTE1MDYyMzAwMDAwMFoX
+DTE2MDYyMjIzNTk1OVowgYoxCzAJBgNVBAYTAlVTMRMwEQYDVQQIDApDYWxpZm9y
+bmlhMRIwEAYDVQQHDAlTdW5ueXZhbGUxEzARBgNVBAoMCllhaG9vIEluYy4xHzAd
+BgNVBAsMFkluZm9ybWF0aW9uIFRlY2hub2xvZ3kxHDAaBgNVBAMME3NtdHAubWFp
+bC55YWhvby5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDF95jS
+b0FVGAGZzZX6ZFH37U3mWdnrgX/MtrDcwl3ZebBoF7hL8l8Tix+d95BPY+VHcisK
+5QH0zmByFfQ1hVexOyQDveLuKXqnTUkk54RFOsJQ9b8XR0VV4RrI9eZJzbGSELwQ
+e68f6Rad6UUAxhyCflFx00kvTUAhV8HdgYV+t7T1JJySTx2wblZFmCry6sb+oYyO
+kJs8wk7ketvrAkJgxEiGPTDeA9zqWDjug3PqdnI9kewqW3/+B+PGwp9Yxgc94g0a
+15Ugm4eXuAScCo9eQisxfI3A8WLDJd4UTJODPx1RL3tjsZUxsjbsQFIbAIsi3/qJ
+vsJUZdXZxjRy3X+JAgMBAAGjggNcMIIDWDCCAhAGA1UdEQSCAgcwggIDghNzbXRw
+Lm1haWwueWFob28uY29tghZzbXRwLm1haWwueWFob28uY29tLmFyghZzbXRwLm1h
+aWwueWFob28uY29tLmF1ghZzbXRwLm1haWwueWFob28uY29tLmJyghZzbXRwLm1h
+aWwueWFob28uY29tLmNughZzbXRwLm1haWwueWFob28uY29tLmhrghZzbXRwLm1h
+aWwueWFob28uY29tLm15ghZzbXRwLm1haWwueWFob28uY29tLnBoghZzbXRwLm1h
+aWwueWFob28uY29tLnNnghZzbXRwLm1haWwueWFob28uY29tLnR3ghZzbXRwLm1h
+aWwueWFob28uY29tLnZughVzbXRwLm1haWwueWFob28uY28uaWSCFXNtdHAubWFp
+bC55YWhvby5jby5pboIVc210cC5tYWlsLnlhaG9vLmNvLmtyghVzbXRwLm1haWwu
+eWFob28uY28udGiCFXNtdHAubWFpbC55YWhvby5jby51a4ISc210cC5tYWlsLnlh
+aG9vLmNhghJzbXRwLm1haWwueWFob28uY26CEnNtdHAubWFpbC55YWhvby5kZYIS
+c210cC5tYWlsLnlhaG9vLmZyghJzbXRwLm1haWwueWFob28uaXSCD3NtdHAueTdt
+YWlsLmNvbYIUc210cC5jb3JyZW8ueWFob28uZXMwCQYDVR0TBAIwADAOBgNVHQ8B
+Af8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMGEGA1UdIARa
+MFgwVgYGZ4EMAQICMEwwIwYIKwYBBQUHAgEWF2h0dHBzOi8vZC5zeW1jYi5jb20v
+Y3BzMCUGCCsGAQUFBwICMBkaF2h0dHBzOi8vZC5zeW1jYi5jb20vcnBhMB8GA1Ud
+IwQYMBaAFF9gz2GQVd+EQxSKYCqy9Xr0QxjvMCsGA1UdHwQkMCIwIKAeoByGGmh0
+dHA6Ly9zcy5zeW1jYi5jb20vc3MuY3JsMFcGCCsGAQUFBwEBBEswSTAfBggrBgEF
+BQcwAYYTaHR0cDovL3NzLnN5bWNkLmNvbTAmBggrBgEFBQcwAoYaaHR0cDovL3Nz
+LnN5bWNiLmNvbS9zcy5jcnQwDQYJKoZIhvcNAQELBQADggEBAKEi5wb35WHduE1r
+lIwjO+2PCa5pF2MoqRwdtczK4LOtyJwASm59ZpgVc2DQYkVL2DzYsU1QXnUTYUng
+h5uiZk7NFkEA7YQJzfPYh0/LeQwp9gpFrDhwYy/lVaqn9alhva5MQs7ruxHbTu8N
+r5493rnv094fJDrFflPGE2wFQkeR+sRecIUjrEtIeq0Ns8Ncbv6+sdb0lp5r+AFS
+C1gf7pQi46CWZox7cLcFAnEE+NDiy31+X9ZXSWdGXBYmHUBh27hnqmb5WXnQASNc
+I+yk3wpkzR/XiVYjzDH++gUeOkYESLtOvtSRLLpiYL+ngRGoCHe3brmEVAlhId4w
+C7nzUag=
+-----END CERTIFICATE-----
+subject=/C=US/ST=California/L=Sunnyvale/O=Yahoo Inc./OU=Information Technology/CN=smtp.mail.yahoo.com
+issuer=/C=US/O=Symantec Corporation/OU=Symantec Trust Network/CN=Symantec Class 3 Secure Server CA - G4
+---
+No client certificate CA names sent
+Peer signing digest: SHA512
+Server Temp Key: ECDH, P-256, 256 bits
+---
+SSL handshake has read 5169 bytes and written 476 bytes
+---
+New, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES128-GCM-SHA256
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES128-GCM-SHA256
+    Session-ID: 3A1D7B3AF12453EAA2F7C225960441E60ED10FEEB2A928741F6902CA3187F558
+    Session-ID-ctx: 
+    Master-Key: CA6235041A52C57FAAC1511F3B107DADE265792CA3653E8E06072AFA30BFA29D34705C07DF8C7049FA00927120C70B65
+    Key-Arg   : None
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 300 (seconds)
+    TLS session ticket:
+    0000 - 50 18 f3 09 82 9a a0 27-66 72 5d 08 86 49 82 20   P......'fr]..I. 
+    0010 - 12 79 73 bc 2a 7b f0 78-d9 38 05 52 54 a0 da bc   .ys.*{.x.8.RT...
+    0020 - f6 e2 e6 6f e5 bf 3f 98-b6 95 7e de fa 4f ec 88   ...o..?...~..O..
+    0030 - fc 51 d0 e5 44 7b 7f b7-4b 98 c8 e6 8b 12 3e 58   .Q..D{..K.....>X
+    0040 - 83 de dd e5 2a 9b 42 8b-41 f9 6b 85 b4 4d cf c9   ....*.B.A.k..M..
+    0050 - 05 e7 e5 93 9d 16 06 7f-03 ac d4 bb 7c cf 6e fc   ............|.n.
+    0060 - 61 ea 15 4e 41 ce fc 0c-ca c9 d2 fe 24 af 9c 59   a..NA.......$..Y
+    0070 - 06 74 83 5d 44 d0 43 1a-f8 81 b4 81 6a 96 f9 7a   .t.]D.C.....j..z
+    0080 - a9 7e 7f 07 86 51 6e e8-54 8a d1 39 e9 f4 b7 9f   .~...Qn.T..9....
+    0090 - 4b b1 6b ee 79 b0 45 f3-82 97 8d d2 ec cd fe a3   K.k.y.E.........
+
+    Start Time: 1462102217
+    Timeout   : 300 (sec)
+    Verify return code: 0 (ok)
+---
+250 STARTTLS
+
+ehlo pruebas8765
+250-smtp.mail.yahoo.com
+
+250-PIPELINING
+
+250-SIZE 41697280
+
+250-8 BITMIME
+
+250 AUTH PLAIN LOGIN XOAUTH2 XYMCOOKIE
+
+auth login
+334 VXNlcm5hbWU6
+
+cHJ1ZWJhczg3NjU=
+334 UGFzc3dvcmQ6
+
+MTVnYWxpbGVvNjQ=
+235 2.0.0 OK
+
+MAIL FROM: <pruebas8765@yahoo.es>
+250 OK , completed
+
+RCPT TO: <pruebas8765@yahoo.es>
+250 OK , completed
+
+data
+354 Start Mail. End with CRLF.CRLF
+
+From  : <pruebas8765@yahoo.es>
+To: <pruebas8765@yahoo.es>
+Subject: pruebas 13:1 31
+
+13:31
+.
+250 OK , completed
+
+quit
+221 Service Closing transmission
+
+closed
+]0;
+-------------------------------------------------
+RESUMEN:
+250 STARTTLS
+ehlo pruebas8765
+250-smtp.mail.yahoo.com
+250-PIPELINING
+250-SIZE 41697280
+250-8 BITMIME
+250 AUTH PLAIN LOGIN XOAUTH2 XYMCOOKIE
+
+auth login
+334 VXNlcm5hbWU6
+
+cHJ1ZWJhczg3NjU=
+334 UGFzc3dvcmQ6
+
+MTVnYWxpbGVvNjQ=
+235 2.0.0 OK
+
+MAIL FROM: <pruebas8765@yahoo.es>
+250 OK , completed
+
+RCPT TO: <pruebas8765@yahoo.es>
+250 OK , completed
+
+data
+354 Start Mail. End with CRLF.CRLF
+
+From  : <pruebas8765@yahoo.es>
+To: <pruebas8765@yahoo.es>
+Subject: pruebas 13:1 31
+
+13:31
+.
+250 OK , completed
+
+quit
+221 Service Closing transmission
+
+
+
+
+

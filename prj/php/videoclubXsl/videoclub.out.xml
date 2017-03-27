@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>Mis Películas Favoritas</title>
+<script type="text/javascript">
+		        var ventana;
+		        function abreFoto(foto) {
+		          ventana=window.open(foto.src,'caratulas','width=210,height=317');
+		        }
+		        function cierraFoto(foto) {
+		           //window.close('caratulas');
+		           ventana.close();
+		        }
+		     </script>
+<style>
+		        table {
+		           margin: auto;
+		        }
+		        th {
+		          background-color: yellow;
+		          border: none;
+		          border-bottom: 1px solid black;
+		          border-left: 1px solid black;
+		        }
+		        td {
+		           background-color: lightblue;
+		           border: none;
+		           padding-left: 5px;
+		           padding-right: 5px;
+		        }
+		        .derecha {
+		           text-align: right;
+		        }
+		        .centro {
+		           text-align: center;
+		        }
+		     </style>
+</head>
+<body>
+<table border="1">
+<tr>
+<th>Id</th>
+<th>Título</th>
+<th>Nacionalidad</th>
+<th>Productor</th>
+<th>Director</th>
+<th>Año</th>
+<th>Duración</th>
+<th>Género</th>
+<th>Foto</th>
+</tr>
+<tr>
+<td class="derecha">6</td>
+<td title="&#10;             Two men share an odd friendship while they care for their girlfriends who are both in deep comas. &#10;        ">Hable con ella</td>
+<td>ES</td>
+<td>Agustín Almodóvar    </td>
+<td>Pedro Almodóvar</td>
+<td class="derecha">2002</td>
+<td class="derecha">112</td>
+<td>
+<table>
+<tr>
+<td>Comedia</td>
+</tr>
+<tr>
+<td>Drama</td>
+</tr>
+</table>
+</td>
+<td class="centro">
+<a href="http://www.imdb.com/title/tt0287467/">
+<img src="fotos/hableConElla.jpg" onmouseover="abreFoto(this);" onmouseout="cierraFoto(this);" title="Hable con ella" width="10%" height="10%"/>
+</a>
+</td>
+</tr>
+<tr>
+<td class="derecha">7</td>
+<td title="&#10;             Maria, whose parents live in the country, cannot stand her father's authoritarian ways and moves to the city...&#10;        ">Solas</td>
+<td>ES</td>
+<td>Antonio P. Pérez</td>
+<td>Benito Zambrano</td>
+<td class="derecha">1999</td>
+<td class="derecha">101</td>
+<td>
+<table>
+<tr>
+<td>Drama</td>
+</tr>
+</table>
+</td>
+<td class="centro">
+<a href="http://www.imdb.com/title/tt0190798/">
+<img src="fotos/solas.jpg" onmouseover="abreFoto(this);" onmouseout="cierraFoto(this);" title="Solas" width="10%" height="10%"/>
+</a>
+</td>
+</tr>
+<tr>
+<td class="derecha">8</td>
+<td title="&#10;             Two young people meet in the 60's as a result of their devotion to John Lennon, and have a recurring relationship during &#10;             the next thirty years at the oddest of moments...&#10;        ">El Amor Perjudica Seriamente La Salud</td>
+<td>ES</td>
+<td>César Benítez</td>
+<td>Manuel Gómez Pereira</td>
+<td class="derecha">1996</td>
+<td class="derecha">117</td>
+<td>
+<table>
+<tr>
+<td>Comedia</td>
+</tr>
+<tr>
+<td>Romance</td>
+</tr>
+</table>
+</td>
+<td class="centro">
+<a href="http://www.imdb.com/title/tt0115536/">
+<img src="fotos/elAmorPerjudicaSeriamenteLaSalud.jpg" onmouseover="abreFoto(this);" onmouseout="cierraFoto(this);" title="El Amor Perjudica Seriamente La Salud" width="10%" height="10%"/>
+</a>
+</td>
+</tr>
+<tr>
+<td class="derecha">9</td>
+<td title="&#10;             Marina, a woman with a glass eye, has the bad luck to be the victim of an assault witnessed by Rafael...&#10;        ">La Buena Estrella</td>
+<td>ES</td>
+<td>Enrique Cerezo</td>
+<td>Ricardo Franco</td>
+<td class="derecha">1997</td>
+<td class="derecha">95</td>
+<td>
+<table>
+<tr>
+<td>Drama</td>
+</tr>
+</table>
+</td>
+<td class="centro">
+<a href="http://www.imdb.com/title/tt0118788/">
+<img src="fotos/laBuenaEstrella.jpg" onmouseover="abreFoto(this);" onmouseout="cierraFoto(this);" title="La Buena Estrella" width="10%" height="10%"/>
+</a>
+</td>
+</tr>
+<tr>
+<td class="derecha">10</td>
+<td title="&#10;            Galindo works in a bank. One day he convinces the other employees in the bank to plan a hold-up in the bank they are working... &#10;        ">Atraco A Las Tres</td>
+<td>ES</td>
+<td>José Alted</td>
+<td>José María Forqué</td>
+<td class="derecha">1962</td>
+<td class="derecha">92</td>
+<td>
+<table>
+<tr>
+<td>Comedia</td>
+</tr>
+</table>
+</td>
+<td class="centro">
+<a href="http://www.imdb.com/title/tt0055763/">
+<img src="fotos/atracoAlasTres.jpg" onmouseover="abreFoto(this);" onmouseout="cierraFoto(this);" title="Atraco A Las Tres" width="10%" height="10%"/>
+</a>
+</td>
+</tr>
+</table>
+</body>
+</html>

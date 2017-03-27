@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" version="0.1" xml:lang="es">
+	<xs:annotation>
+		<xs:documentation xml:lang="es-ES">
+			Esquema de ejemplo para el Tema 4
+			<a href="http://iesinclan.dyndns.org/franc/xmlej">LMSGI</a>
+			DOCUMENTO de ejemplo para el tema 4 ...........
+		</xs:documentation>
+		<xs:appinfo>
+			<help-text>Formato de sms transmisibles por el móvil</help-text>
+		</xs:appinfo>
+	</xs:annotation>
+	<xs:element name="BDsms">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="sms" maxOccurs="unbounded">
+					<xs:complexType>
+						<xs:choice>
+							<xs:sequence>
+								<xs:element name="prueba" type="xs:integer" />
+							</xs:sequence>
+							<xs:sequence>
+								<xs:element name="telefono" type="xs:integer"
+									maxOccurs="unbounded" />
+								<xs:element name="fecha" type="xs:date" />
+								<xs:element name="hora" type="xs:time" />
+								<xs:element name="mensaje" type="xs:string" />
+
+								<xs:element name="coche" type="TipoCoche" />
+								<xs:element name="curso">
+									<xs:complexType>
+										<xs:simpleContent>
+											<xs:extension base="tipoRestringido">
+												<xs:attribute name="letra">
+													<xs:simpleType>
+														<xs:restriction base="xs:string">
+															<xs:pattern value="[A-F]" />
+														</xs:restriction>
+													</xs:simpleType>
+												</xs:attribute>
+											</xs:extension>
+										</xs:simpleContent>
+									</xs:complexType>
+
+								</xs:element>
+
+							</xs:sequence>
+						</xs:choice>
+
+
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:group name="grupoCoche">
+		<xs:sequence>
+			<xs:element name="marca" type="xs:string" />
+			<xs:element name="modelo" type="xs:string" />
+			<xs:element name="caballos" type="xs:integer" />
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="TipoCoche">
+		<xs:sequence>
+			<xs:element name="código" type="xs:integer" />
+			<xs:group ref="grupoCoche" />
+			<xs:element name="combustible" type="xs:string" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:simpleType name="tipoRestringido">
+		<xs:restriction base="xs:integer">
+			<xs:pattern value="1[6-9]|2[0-4]"></xs:pattern>
+		</xs:restriction>
+	</xs:simpleType>
+</xs:schema>

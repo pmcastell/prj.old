@@ -1,0 +1,8 @@
+<html>
+  <title>Calculadora Cient&iacute;fica Programable</title>
+  <body>
+    <center>
+      <applet code="Mios.gravedad10_pkg.gravedad10Applet" archive="gravedad.jar" height="600" width="800">
+    </center>
+  </body>
+</html>

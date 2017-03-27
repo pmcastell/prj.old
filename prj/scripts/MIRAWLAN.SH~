@@ -1,0 +1,72 @@
+#
+#
+SO=$(uname)
+EXCEPT=$*
+#if [ "$(echo $* | grep -iE '\-[0-9]{1,3}')" != "" ] ;
+#then
+#   EXCEPT=9
+#   INTERFACE=$(netstat -rn | grep -E '(default|^0\.0\.0\.0)' | grep -oE '[^ ]*$')
+#elif [ "$1" = "" ];
+if [ "$(echo $* | grep -iE '\-[0-9]{1,3}')" != "" -o "$1" = "" ];
+then
+   #INTERFACE=$(route | grep default | awk '{print $8;}' | head -1)
+   #INTERFACE=$(netstat -rn | grep default | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}')
+   #INTERFACE=$(netstat -rn | grep default | grep -oE '.*[0-9]')
+   INTERFACE=$(netstat -rn | grep -E 'default' | grep -oE '[^ ]*$')
+   if [ "$INTERFACE" = "" ];
+   then
+   	INTERFACE=$(netstat -rn | grep -E '^0\.0\.0\.0' | grep -oE '[^ ]*$' | tail -1 )
+   fi
+   echo mierda
+else   
+   INTERFACE=$1
+fi   
+echo $INTERFACE
+if [ "$INTERFACE" = "" ];
+then
+   echo No encuentro ruta por la que salir
+   echo No encuentro ruta por la que salir | festival --tts
+fi
+echo $INTERFACE
+read pepe
+echo DIR_IP='ifconfig '$INTERFACE'| grep -oE ([0-9]{1,3}\.){3}[0-9]{1,3}| grep -v 255 | tail -1'
+DIR_IP=$(ifconfig $INTERFACE | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}'| grep -v 255 | tail -1)
+echo dirIP: $DIR_IP
+read pepe
+RED=$(echo $DIR_IP | awk -F\. '{print $1"."$2"."$3;}')
+echo $RED
+#echo DIR_IP: $DIR_IP red: $RED
+printf "\n"
+i=2
+#for((i=2; i<255; i++));
+while [ $i -lt 255 ];
+do
+   if [ "$(echo $EXCEPT | grep  '\-'$i)" = "" ];
+   then
+      #printf "\r   "
+      printf "\r$i"
+      #echo $i
+      #echo arping -I $INTERFACE -q -c 1 -w 0.1 $RED.$i #&> /dev/null
+      if [ "$SO" = "FreeBSD" ];
+      then
+         sudo arping -i $INTERFACE -q -c 1 -w 3000000  $RED.$i &> /dev/null
+      else
+         #echo 'arping -I '$INTERFACE' -q -c -w 0.5 '$RED'.'$i' \&\> //dev//null'
+         arping -I $INTERFACE -q -c 1 -w 0.3 $RED.$i &> /dev/null
+      fi
+      if [ $? -lt 1 ];
+      then
+         echo Esta conectado $RED.$i
+         hablaf Esta conectado $RED.$i &> /dev/null
+         date
+      fi
+      #resto=$(expr $i % 21)
+      #if [ $resto -eq 0 ];
+      #then
+      #   habla $i
+      #fi
+      #sleep 1
+   fi
+   i=$(expr $i + 1)
+done
+

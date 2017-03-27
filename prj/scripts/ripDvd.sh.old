@@ -1,0 +1,12 @@
+uso() {
+   echo $0 '<dir-VIDEO_TS> <fichero-salida>'
+   exit -1
+}
+
+
+if [ "$1" = "" -o "$2" = "" ];
+then
+   uso
+fi      
+
+mencoder -aspect 16:9 -vf crop=720:432:0:76,scale -zoom -xy 640 dvd://01 -dvd-device $1 -o $2 -oac mp3lame -lameopts cbr:br=128:vol=3.5 -ovc xvid -xvidencopts bitrate=2048

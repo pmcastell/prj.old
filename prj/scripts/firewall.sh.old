@@ -1,0 +1,55 @@
+iptables -F
+iptables -t nat -F
+#iptables -A INPUT -j ACCEPT -s 192.168.1.1
+#iptables -A INPUT -j ACCEPT -s 192.168.1.9
+#iptables -A INPUT -j ACCEPT -s 192.168.1.5
+ACCEPT="192.168.1.192/27 192.168.1.0/27 192.168.0.1 192.168.0.2 192.168.0.5 192.168.2.1 192.168.2.5 192.168.1.73"
+
+for a in $ACCCEPT; do
+   iptables -A INPUT -j ACCEPT -s $a
+done
+
+
+iptables -A INPUT -j ACCEPT -s 192.168.1.192/27
+iptables -A INPUT -j ACCEPT -s 192.168.1.0/27
+iptables -A INPUT -j DROP -s 192.168.1.0/24
+
+iptables -A INPUT -j ACCEPT -s 192.168.0.1
+iptables -A INPUT -j ACCEPT -s 192.168.0.2
+iptables -A INPUT -j ACCEPT -s 192.168.0.5
+iptables -A INPUT -j DROP -s 192.168.0.1/24
+
+iptables -A INPUT -j ACCEPT -s 192.168.2.1
+iptables -A INPUT -j ACCEPT -s 192.168.2.5
+iptables -A INPUT -j DROP -s 192.168.2.0/24
+
+iptables -A INPUT -j ACCEPT -s 192.168.44.0/24
+
+#iptables -A INPUT -j ACCEPT -s 10.1.1.192/27
+#iptables -A INPUT -j ACCEPT -s 10.1.1.0/28
+#iptables -A INPUT -j DROP -s 10.1.1.0/24
+
+iptables -A OUTPUT -j ACCEPT -d 192.168.1.192/27
+iptables -A OUTPUT -j ACCEPT -d 192.168.1.0/27
+iptables -A OUTPUT -j DROP -d 192.168.1.0/24
+
+iptables -A OUTPUT -j ACCEPT -d 192.168.0.1
+iptables -A OUTPUT -j ACCEPT -d 192.168.0.2
+iptables -A OUTPUT -j ACCEPT -d 192.168.0.5
+iptables -A OUTPUT -j DROP -d 192.168.0.0/24
+
+iptables -A OUTPUT -j ACCEPT -d 192.168.2.1
+iptables -A OUTPUT -j ACCEPT -d 192.168.2.5
+iptables -A OUTPUT -j DROP -d 192.168.2.0/24
+
+iptables -A OUTPUT -j ACCEPT -d 192.168.44.0/24
+
+
+iptables -A POSTROUTING -t nat -j MASQUERADE -s 172.16.71.0/24 
+#-o ath0
+#iptables -A POSTROUTING -t nat -j MASQUERADE -s 172.16.71.0/24 -o ath1
+iptables -A POSTROUTING -t nat -j MASQUERADE -s 192.168.44.0/24 
+#-o ath0
+#iptables -A POSTROUTING -t nat -j MASQUERADE -s 192.168.44.0/24 -o eth1 
+echo 1 >  /proc/sys/net/ipv4/ip_forward 
+

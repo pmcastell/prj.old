@@ -1,0 +1,14 @@
+#comandos como root
+/etc/init.d/network-manager start
+encfs --public /m/.Mios /m/Mios
+firewall
+aptitude update
+aptitude upgrade
+
+#como usuario usuario
+sudo -u usuario cumples
+sudo -u usuario xflux -l 40
+sudo -u usuario gedit /m/Mios/Personal/PENDIENTE.txt &
+#sudo -u usuario gnome-terminal &
+#ssh fjcn@shell.cjb.net
+sudo -u usuario $SHELL
