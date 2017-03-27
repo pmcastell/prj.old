@@ -1,7 +1,7 @@
 #!/bin/bash
 
 desmontaEncfs() {
-   DESMONTAR=$2; INTENTOS=1;
+   DESMONTAR=$1; INTENTOS=1;
    while [ "$(mount | grep encfs | grep $1)" != "" -a $INTENTOS -le 5 ]; do
    #while [ -f $FICHERO -a $INTENTOS -le 5 ]; do
       sudo eecho fusermount -u $DESMONTAR

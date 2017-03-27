@@ -25,10 +25,12 @@ case $1 in
       git rm -r $2
       git commit -m "Actualización Borrado: '$2' $(date -u +'%Y-%m-%d:%H:%M')"
       git push 
+      ;;
    borrarCache) 
       gir rm -r --cache $2
       git commit -m "Actualización Borrado: '$2' $(date -u +'%Y-%m-%d:%H:%M')"
       git push 
+      ;;
 esac      
       
       

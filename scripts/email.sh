@@ -42,10 +42,11 @@ if [ "$4" != "" ]; then
       shift
    done;
    echo -e "--${BOUNDARY}--\n" >> $FICHEROS_ADJUNTOS
-   echo -e "$CABECERAS" | (cat - && cat $FICHEROS_ADJUNTOS) | ssmtp $DEST
-   #echo -e "$CABECERAS\n$TEXTO\n" | (cat - && cat $FICHEROS_ADJUNTOS) > /tmp/pruebaCorreo.txt
+   #echo -e "$CABECERAS\n$TEXTO\n" | (cat - && cat $FICHEROS_ADJUNTOS) | ssmtp $DEST
+   echo -e "$CABECERAS\n$TEXTO\n" | (cat - && cat $FICHEROS_ADJUNTOS) > /tmp/pruebaCorreo.txt
    rm $FICHEROS_ADJUNTOS
 else
-   echo -e "$CABECERAS\n$TEXTO\n" | ssmtp $DEST
+   echo -ne "$CABECERAS\n$TEXTO" | ssmtp $DEST
+   #echo -e "$CABECERAS\n$TEXTO\n" | less
 fi   
    

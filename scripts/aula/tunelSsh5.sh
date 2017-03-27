@@ -125,6 +125,7 @@ procesarParametros() {
    TUN_OVP_DEV_IP="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.${TUN_OVP_DEV}"
    TUN_OVP_DEV_GW="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.1"
    TUN_OVP_IFCONFIG="$TUN_OVP_DEV_IP $TUN_OVP_DEV_GW"
+   rm $TEMP
 }
 if [ "$(whoami)" != "root" ]; then
    sudo $0 $*

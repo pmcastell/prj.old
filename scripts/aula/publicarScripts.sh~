@@ -3,6 +3,7 @@ publicarScripts() {
    for s in $2; do
       chmod +x,+r $s.$1
       sudo cp /home/franav/aula/$s.$1 /usr/local/bin/$s
+      sudo cp /home/franav/aula/$s.$1 /usr/local/bin/$s.$1
       sudo chmod +x,+r /usr/local/bin/$s
       #sudo ln -s /usr/local/bin/$s.$1 /usr/local/bin/$s
    done

@@ -64,7 +64,7 @@ for i in range(len(monedas)):
             cantidad/=100
         elif (monedas[i]==1):
             unidad=" céntimo."
-        elif (monedas[i]<100):
+        else: # (monedas[i]<100):
             unidad=" céntimos."
         print str(devMonedas[i])+tipoMoneda+" de "+str(cantidad)+unidad
         

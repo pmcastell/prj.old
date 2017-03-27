@@ -9,3 +9,4 @@ for IFACE in $IFACES; do
    sudo ip link set arp off $IFACE 
    sudo ip link set arp on $IFACE
 done
+sudo arp -n
