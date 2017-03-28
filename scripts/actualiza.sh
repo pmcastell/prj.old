@@ -1,4 +1,4 @@
-ACTUALIZADOR="apt-get -y "
+ACTUALIZADOR="apt -y "
 if [ "$(uname)" = "Linux" ];
 then
    sudo $ACTUALIZADOR -f install
