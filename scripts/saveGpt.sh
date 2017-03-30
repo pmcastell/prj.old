@@ -1,0 +1,19 @@
+#!/bin/bash
+uso() {
+   cat<<EOF
+   Uso: $0 <dispositivo> <fichero>
+   Salva la tabla de particiones GPT de <dispositivo> a <fichero>
+EOF
+   exit 1
+}   
+#where A is:
+[ ! -b $1 ] || [ "$2" = "" ] && uso
+B=$(parted -ms $1 print |tail -1|cut -b1)
+A=$((128*B+1024))
+dd if=$1 of=$2 bs=1 count=$A
+#dd if=GPT_TABLE of=/dev/sdb bs=1 count=A
+#partprobe /dev/sdb
+
+
+
+
