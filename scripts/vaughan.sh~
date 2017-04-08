@@ -25,7 +25,6 @@ PROTO="http"
 HOST="nodo05.cloud01.str:8057"
 HOST="vaughanradioweb.streaming-pro.com:8057"
 DOC="streamdemo_mp3.nsv"
-DOC=""
 
 
 if [ "$1" == "ssh" ];

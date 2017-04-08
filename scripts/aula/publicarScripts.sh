@@ -30,6 +30,7 @@ despiertaEpoptes
 ipFija
 movepath
 confProxy
+notifi
 ayuda"
 publicarScripts sh "$SCRIPTS"
 PYTHONS="aluPass"
