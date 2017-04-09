@@ -226,8 +226,8 @@ wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=ubu.
 /m/Mios/prj/scripts/dnsexit.sh iesinclan.linkpc.net
 /m/Mios/prj/scripts/dnsexit.sh avatar.linkpc.net
 /m/Mios/prj/scripts/dnsexit.sh ubuin.linkpc.net
-#/usr/bin/qbittorrent &
-#java -jar /m/jdown/JDownloader.jar &
+#/usr/bin/qbittorrent &>/dev/null &
+java -jar /m/jdown/JDownloader.jar&>/dev/null &
 #mata xflux
 #xflux -l 40 &
 sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &

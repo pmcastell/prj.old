@@ -1,5 +1,7 @@
+#!/bin/bash
+
 if [ "$1" = "" ]; then
-   echo uso: $0 '<url-a-descargar>'
+   echo uso: $0 '<url-a-descargar> [<limit-rate>]'
    exit 1
 fi   
 if [ "$2" != "" ]; then
