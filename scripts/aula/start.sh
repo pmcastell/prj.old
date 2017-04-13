@@ -59,7 +59,7 @@ for INDICE in $INDICES; do
    LINEA=$(cat $INDICE | grep GLOBAL_TUN_IP | head -1)
    LINEAS="GLOBAL_TUN_IP=$REAL_IP"
    sed -i "s/${LINEA}/${LINEAS}/g" $INDICE
-   for SERV in iesinclan aulasrv1  ubu ubu15 Free10; do
+   for SERV in iesinclan aula1srv aula2srv ubu ubu15 Free10; do
       sed -i "s/${SERV}_TUN_${1}=${CAD1}/${SERV}_TUN_${1}=${CAD2}/g" $INDICE
    done   
    sed -i "s/GLOBAL_TUN_${1}=${CAD1}/GLOBAL_TUN_${1}=${CAD2}/g" $INDICE

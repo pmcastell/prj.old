@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEBUG=false
+DEBUG=true
 
 uso() {
    echo uso: $0 '<remitente> <dest> <subject> <texto> [<ficheros-a-adjuntar>]' >&2

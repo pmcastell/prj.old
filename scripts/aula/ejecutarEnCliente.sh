@@ -99,6 +99,7 @@ echo '
 #Bloquear la unidad de dvd
 /usr/bin/eject -i on /dev/cdrom
 ' > /root/autoexec.sh
+chmod +x /root/autoexec.sh
 }
 #--------------------------------------------------------------------------------------------------------------------------------
 fich_rc_local() {
@@ -145,7 +146,7 @@ LABEL="cdrom_end"
 
 ' > /etc/udev/rules.d/60-cdrom_id.rules
 }
-fich_apt() {
+fich_apt_ubu() {
 echo 'deb http://mirror/llx1505 trusty main restricted universe multiverse
 deb http://mirror/llx1505 trusty-updates main restricted universe multiverse
 deb http://mirror/llx1505 trusty-security main restricted universe multiverse
@@ -163,9 +164,12 @@ deb http://mirror/llx1505 trusty-security main restricted universe multiverse
 #deb http://es.archive.ubuntu.com/ubuntu trusty-security main universe multiverse restricted
 ' > /etc/apt/sources.list
 }
-
-
-
+fich_crontab() {
+echo '
+15 15	* * *	root	/sbin/poweroff
+15 21	* * *	root	/sbin/poweroff
+' >> /etc/crontab
+}
 
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 ESTA=$(cat /etc/sudoers | grep "lliurex ALL = NOPASSWD: ALL")
@@ -173,7 +177,9 @@ if [ "$ESTA" = "" ]; then echo lliurex ALL = NOPASSWD: ALL >> /etc/sudoers; fi
 mkdir -p /home/lliurex/.ssh
 ssh_rsa
 ssh_config
-chown -R lliurex:lliurex /home/lliurex/.ssh
+chown -R lliurex:lliurex /home/lliurex
+sed -i 's/test -f \/etc\/ltsp_chroot || exit 0/#test -f \/etc\/ltsp_chroot || exit 0/g' /etc/init.d/epoptes-client
+sed -i 's/grep -qs "init=\/sbin\/init-ltsp" \/proc\/cmdline && exit 0/#grep -qs "init=\/sbin\/init-ltsp" \/proc\/cmdline && exit 0/g'
 pantalla_script
 fsarch_script
 hostname_script
@@ -182,10 +188,14 @@ unlockCd_script
 fich_rc_local
 fich_autoexec
 fich_60_cdrom_id.rules
+fich_crontab
 /usr/local/bin/hostname.sh
 #INSTALAR PAQUETES
-fich_apt
-realvnc
-#wireshar
+fich_apt_ubu
+apt update
+apt install wireshark
+#apt -f install intef-exe_2.1.2_all.deb
+#realvnc
 #liclipse
 fich_apt_noUbu
+
