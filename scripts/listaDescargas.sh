@@ -13,15 +13,17 @@ EOF
 descargas() {
 echo '
 #http://download.avg.com/filedir/inst/avg_arl_cdi_all_120_160420a12074.iso
-http://cznic.dl.osdn.jp/drbl/67430/drbl-live-xfce-2.5.1-16-amd64.iso
-http://cznic.dl.osdn.jp/clonezilla/67139/clonezilla-live-2.5.0-25-amd64.iso
-http://cdimage.kali.org/kali-2016.2/kali-linux-2016.2-amd64.iso
-https://install.avira-update.com/package/rs_avira/unix/int/rescue-system.iso
-http://www.downloadwireless.net/isos/wifislax64-1.0-final.iso
+#http://cznic.dl.osdn.jp/drbl/67430/drbl-live-xfce-2.5.1-16-amd64.iso
+#http://cznic.dl.osdn.jp/clonezilla/67139/clonezilla-live-2.5.0-25-amd64.iso
+#http://cdimage.kali.org/kali-2016.2/kali-linux-2016.2-amd64.iso
+#https://install.avira-update.com/package/rs_avira/unix/int/rescue-system.iso
+#http://www.downloadwireless.net/isos/wifislax64-1.0-final.iso
+http://ftp.cica.es/ubuntu/releases/17.04/ubuntu-17.04-desktop-amd64.iso
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"
 LIMIT="400"
+LIMIT="0"
 ([ "$1" = "-h" ] || [ "$1" = "--help" ]) && uso
 if [ -f $FICHERO_CLAVE ]; then DESCARGAR="$FICHERO_CLAVE";
 else

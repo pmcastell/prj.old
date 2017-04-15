@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEBUG=true
+DEBUG=false
 
 uso() {
    echo uso: $0 '<remitente> <dest> <subject> <texto> [<ficheros-a-adjuntar>]' >&2
@@ -39,6 +39,7 @@ else USUARIO=$(echo $REMITENTE | awk -F'@' '{print $1;}'); fi
 
 SMTP_SERVER="$($DIR_BASE/smtpServer.sh $DOMINIO)"
 PASSWORD=$($DIR_BASE/getMyPass.sh $USUARIO)
+echo "PASS: $PASSWORD, USUARIO: $USUARIO, DIR_BASE: $DIR_BASE"
 if [ "$($DIR_BASE/esAlfa.sh $PASSWORD)" = "false" ]; then echo no se pudo obtener la clave de envío; exit 2; fi
 FIFO="/tmp/fifo-$(date +'%Y%m%d%H%M%S')"
 mkfifo $FIFO

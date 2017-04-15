@@ -1,6 +1,6 @@
 #!/bin/bash
 . /scripts/debug.sh
-DEBUG=false
+DEBUG=true
 DIR_BASE=$(dirname $0)
 if [ "$1" = "" ]; then USU="mail" ; else USU="$1"; fi; debug USU: $USU
 if [ "$2" = "" ]; then FICHERO="indicepass.html"; else FICHERO=$2; fi; debug FICHERO: $FICHERO

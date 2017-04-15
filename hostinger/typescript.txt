@@ -1,0 +1,125 @@
+Script iniciado (mar 05 jul 2016 10:39:04 CEST
+)]0;usuario@ubuntu: ~/hostingerusuario@ubuntu:~/hostinger$ sudo vpn stop ; sudo /home/usuario/fin.sh  sayo[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Cexit[Ksudo syncffmpeg -i EverybodyWantsSome\!\!\(2016\)1080pBluRay\[DayT.se\].mp4 -qscale:v 6 EverybodyWantsSoome\!\!\(2016\)1080pBluRay\[DayT.se\].avi[Asudo sync[K
+[K[A[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[5Pexitsudo vpn stop ; sudo /home/usuario/fin.sh  sayo[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[Ksudo vpn stop ; sudo /home/usuario/fin.sh  sayo[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[C[K/scripts/smtpSend.sh hswjavier@gmail.com hswjavier@gmail.com hola4 hola4
+DIR_BASE: /scripts
+REMITENTE: hswjavier@gmail.com
+RECEPTOR: hswjavier@gmail.com
+SUBJECT: hola4
+TEXTO: hola4
+USUARIO: hswjavier
+PASSWORD: 15galileo64
+AUTHPLAIN:
+CONNECTED(00000003)
+---
+Certificate chain
+ 0 s:/C=US/ST=California/L=Mountain View/O=Google Inc/CN=smtp.gmail.com
+   i:/C=US/O=Google Inc/CN=Google Internet Authority G2
+ 1 s:/C=US/O=Google Inc/CN=Google Internet Authority G2
+   i:/C=US/O=GeoTrust Inc./CN=GeoTrust Global CA
+ 2 s:/C=US/O=GeoTrust Inc./CN=GeoTrust Global CA
+   i:/C=US/O=Equifax/OU=Equifax Secure Certificate Authority
+---
+Server certificate
+-----BEGIN CERTIFICATE-----
+MIIEgDCCA2igAwIBAgIIPufCkvJMxkAwDQYJKoZIhvcNAQELBQAwSTELMAkGA1UE
+BhMCVVMxEzARBgNVBAoTCkdvb2dsZSBJbmMxJTAjBgNVBAMTHEdvb2dsZSBJbnRl
+cm5ldCBBdXRob3JpdHkgRzIwHhcNMTYwNjIzMDkwMDQxWhcNMTYwOTE1MDgzMTAw
+WjBoMQswCQYDVQQGEwJVUzETMBEGA1UECAwKQ2FsaWZvcm5pYTEWMBQGA1UEBwwN
+TW91bnRhaW4gVmlldzETMBEGA1UECgwKR29vZ2xlIEluYzEXMBUGA1UEAwwOc210
+cC5nbWFpbC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCbtN7F
+C84ocDxrobaO9zg1RTz3xcWuF/Z1Ycrf+Ls141YmpI3Ii6t1EEUgUez2VPOioTwc
+DMYYGtb2zC5vJrgr0nkKMb4agYROXKLeIteQSY+b6SrGi4bGLF+jjw2lm/Fllm+o
+mwIUmTLb6a32odSv1imY2spnU4Bc8MeJXVnZ964kMiTBVedohqL0E7ZCmJNszKSp
+4f81ESIQBLI444/N2L6ByNwB9xzDKZX5HJrkfdVQCiX3zPU3tOAOaVGNfvUpJQWj
+0C2IXwCCjBbq4yE1+C+yMkkVXh7MprQoqIFKIpIEX66WygMFG9BBGmsHaP8Egd5E
+dNNgTle/oW7TK1zjAgMBAAGjggFLMIIBRzAdBgNVHSUEFjAUBggrBgEFBQcDAQYI
+KwYBBQUHAwIwGQYDVR0RBBIwEIIOc210cC5nbWFpbC5jb20waAYIKwYBBQUHAQEE
+XDBaMCsGCCsGAQUFBzAChh9odHRwOi8vcGtpLmdvb2dsZS5jb20vR0lBRzIuY3J0
+MCsGCCsGAQUFBzABhh9odHRwOi8vY2xpZW50czEuZ29vZ2xlLmNvbS9vY3NwMB0G
+A1UdDgQWBBRHLe1rdU70uH/iJ/W4mp68qBv3vzAMBgNVHRMBAf8EAjAAMB8GA1Ud
+IwQYMBaAFErdBhYbvPZotXb1gba7Yhq6WoEvMCEGA1UdIAQaMBgwDAYKKwYBBAHW
+eQIFATAIBgZngQwBAgIwMAYDVR0fBCkwJzAloCOgIYYfaHR0cDovL3BraS5nb29n
+bGUuY29tL0dJQUcyLmNybDANBgkqhkiG9w0BAQsFAAOCAQEAF8rEsccJ28gJ3Zz8
+jNOAt5W45WeNoAE8sUUXUr5vUua7jx0Be5Ww0srznAXQTWBHxI2QtD8+B8dJ1WLI
+oIKi8t3c/RbTw2YC7NYasSovWdXFLCBlZwdVpn7WV4wQ7VOkK84oU/Y66Rn5/MU4
+yKlp093VvmhwM618ns2fsNtKhISRiJTrvRzjSXagugn/fOlMQF4GltXksE1wQKbg
+93uOutppi72sdagZG/YMGvLVK6CWTZOsR9xCe1fJJRxgf1nWZ436pmQz7qA18B4n
+OikZBxUECLDlPtL1bUQ3TLO5w23MIPuspvxZ9cEoAF9XHQ8TGy1cU0VZuIftSv/V
+NKq+Vg==
+-----END CERTIFICATE-----
+subject=/C=US/ST=California/L=Mountain View/O=Google Inc/CN=smtp.gmail.com
+issuer=/C=US/O=Google Inc/CN=Google Internet Authority G2
+---
+No client certificate CA names sent
+Peer signing digest: SHA256
+Server Temp Key: ECDH, P-256, 256 bits
+---
+SSL handshake has read 3979 bytes and written 466 bytes
+---
+New, TLSv1/SSLv3, Cipher is ECDHE-RSA-AES128-GCM-SHA256
+Server public key is 2048 bit
+Secure Renegotiation IS supported
+Compression: NONE
+Expansion: NONE
+No ALPN negotiated
+SSL-Session:
+    Protocol  : TLSv1.2
+    Cipher    : ECDHE-RSA-AES128-GCM-SHA256
+    Session-ID: 958AA708095CF664D17B196D76B948FF218119D34D7150DA7F0E06568C237955
+    Session-ID-ctx: 
+    Master-Key: 70B7410BFD9889C430F95A745F4CAC3BE338994519754D0798192CEE41CFBAF96D24D0C1168E90AD3D6B3DAC2B33335A
+    Key-Arg   : None
+    PSK identity: None
+    PSK identity hint: None
+    SRP username: None
+    TLS session ticket lifetime hint: 100800 (seconds)
+    TLS session ticket:
+    0000 - 87 d0 a4 1e 03 03 0c 23-45 e0 ed e5 48 f5 73 bb   .......#E...H.s.
+    0010 - ea 74 1c 61 1d 3b 45 ef-05 39 20 ea 01 bb 85 08   .t.a.;E..9 .....
+    0020 - 14 f2 5c 18 f2 4d 07 d7-d2 ae fd ff 1d f3 bd 44   ..\..M.........D
+    0030 - d1 65 3a b9 75 92 e1 ec-26 ac bb 65 4f 0f 48 40   .e:.u...&..eO.H@
+    0040 - cf 12 d5 66 38 51 cd 1c-ca 81 0a 08 3e f1 ad 53   ...f8Q......>..S
+    0050 - e6 1a a1 21 75 e2 5b 8f-c2 4a f3 5f e4 50 92 6a   ...!u.[..J._.P.j
+    0060 - 8c 46 a1 c4 30 b8 19 9b-8c d9 19 6e b6 d2 49 cc   .F..0......n..I.
+    0070 - 05 12 1f b8 25 12 65 f8-9d aa 7f f6 01 9b d7 26   ....%.e........&
+    0080 - ce 61 c2 cd ab 9a f7 a1-ac 7d e2 e4 c0 d8 c5 c3   .a.......}......
+    0090 - af 44 f3 51 6a bf 0f 60-23 b3 b4 95 45 da d9 ec   .D.Qj..`#...E...
+    00a0 - a0 7f a4 5b                                       ...[
+
+    Start Time: 1467707967
+    Timeout   : 300 (sec)
+    Verify return code: 0 (ok)
+---
+ehlo hswjavier
+250-smtp.gmail.com at your service, [172.2.192.128]
+250-SIZE 35882577
+250-8BITMIME
+250-AUTH LOGIN PLAIN XOAUTH2 PLAIN-CLIENTTOKEN OAUTHBEARER XOAUTH
+250-ENHANCEDSTATUSCODES
+250-PIPELINING
+250-CHUNKING
+250 SMTPUTF8
+auth login
+334 VXNlcm5hbWU6
+aHN3amF2aWVy
+334 UGFzc3dvcmQ6
+MTVnYWxpbGVvNjQ=
+235 2.7.0 Accepted
+MAIL FROM: <hswjavier@gmail.com>
+250 2.1.0 OK g67sm5225710ywh.54 - gsmtp
+RCPT TO: <hswjavier@gmail.com>
+250 2.1.5 OK g67sm5225710ywh.54 - gsmtp
+data
+354  Go ahead g67sm5225710ywh.54 - gsmtp
+.
+250 2.0.0 OK 1467707999 g67sm5225710ywh.54 - gsmtp
+quit
+221 2.0.0 closing connection g67sm5225710ywh.54 - gsmtp
+]0;usuario@ubuntu: ~/hostingerusuario@ubuntu:~/hostinger$ 
+]0;usuario@ubuntu: ~/hostingerusuario@ubuntu:~/hostinger$ 
+]0;usuario@ubuntu: ~/hostingerusuario@ubuntu:~/hostinger$ 
+]0;usuario@ubuntu: ~/hostingerusuario@ubuntu:~/hostinger$ exit
+exit
+
+Script terminado (mar 05 jul 2016 10:40:10 CEST
+)
