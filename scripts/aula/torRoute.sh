@@ -48,7 +48,7 @@ while true; do
       if [ "$(ping -c 4 10.$i.$i.$i 2>&1 | grep '100% packet loss')" != "" ]; then
          while true; do
             #IP_TOR="$(tcpdump -c 1 -i $IFACE -n dst port 443 | awk '{print $3}' | awk -F'.' '{print $1"."$2"."$3"."$4;}')"
-            PAQUETE=$(tcpdump -c 1 -i $IFACE -n dst port 443 2>/dev/null)
+            PAQUETE=$(tcpdump -c 1 -i $IFACE -Q in -n dst port 443 2>/dev/null)
             if $DEBUG; then echo PAQUETE: $PAQUETE >&2; fi
             IP_TOR="$(echo $PAQUETE | egrep -o '([0-9]{1,3}\.){4}[0-9]{1,5} >' | awk '{print $1}' | awk -F'.' '{print $1"."$2"."$3"."$4;}')"
                if [ "$IP_TOR" != "" ] && [ "$(netstat -onatup | grep sslh | grep $IP_TOR)" = "" ]; then break; fi
