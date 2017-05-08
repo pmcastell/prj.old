@@ -44,8 +44,10 @@ XX/DUocuBEXKRpQCfdqCazCbgFR6gJVJStkseTluyEbY+OGe9//IeA==
 ' > /root/.ssh/id_rsa
 sudo cp /root/.ssh/id_rsa* /home/lliurex/.ssh/
 sudo chown -R lliurex:lliurex /home/lliurex
-sudo chmod 600 /root/.ssh/id_rsa
-sudo chmod 644 /root/.ssh/id_rsa.pub
+for U in "/root /home/lliurex"; do
+   sudo chmod 600 $U/.ssh/id_rsa
+   sudo chmod 644 $U/.ssh/id_rsa.pub
+done   
 }
 #--------------------------------------------------------------------------------------------------------------------------------
 ssh_config() {
@@ -260,8 +262,13 @@ fich_etc_profile() {
    appendSiNoEsta 'gsettings set com.canonical.indicator.sound visible true' '/etc/profile'
    appendSiNoEsta 'setxkbmap es' '/etc/profile'
 }
-
-
+epoptes() {
+   sed -i 's/lliurex-version -t client || exit 0/lliurex-version -t client #|| exit 0/g' /usr/sbin/epoptes-client
+   sed -i 's/> \/dev\/nul$/\&> \/dev\/null/g' /usr/sbin/epoptes-client
+}   
+firefox() {
+   appendSiNoEsta 'lockPref("network.proxy.type",5);' '/etc/firefox/syspref.js'
+}   
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 #ESTA=$(cat /etc/sudoers | grep "lliurex ALL = NOPASSWD: ALL")
 #if [ "$ESTA" = "" ]; then echo lliurex ALL = NOPASSWD: ALL >> /etc/sudoers; fi
@@ -282,6 +289,7 @@ fich_autoexec
 fich_60_cdrom_id.rules
 fich_crontab
 fich_etc_profile
+epoptes
 /usr/local/bin/hostname.sh
 #INSTALAR PAQUETES
 fich_apt_ubu
@@ -294,6 +302,6 @@ fich_apt_ubu
 #liclipse
 #scratch 2.0
 #instalar
-configScratch
-#fich_apt_noUbu
+#configScratch
+fich_apt_noUbu
 

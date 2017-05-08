@@ -20,7 +20,6 @@ ffmpeg -i input.mp4 -vcodec copy -acodec mp3 output.mkv
 ffmpeg -i input.mp4 -vf scale=1080x585 output.avi
 #para que se vean en la tele: (cambiamos formato de mp4 a avi, qscale:v (v se refiere a vídeo) mientras más grande sea el número menos #calidad tendrá el vídeo, entre 4 y 6 tiene buena calidad
 ffmpeg -i input.mp4 -qscale:v 4 output.avi
-PELI="VoiceFromTheStone" ;ffmpeg -i $PELI.mp4 -b:v 2500k -b:a 128k $PELI.avi
 #cambiar una pista de audio por otra (copy indica no volver a recodificar ninguno de los codecs, ni vídeo ni audio)
 ffmpeg -i input.mp4 -i audioInput.mp3 -map 0:v -map 1:a -codec copy -shortest output.mp4
 #normalizar audio

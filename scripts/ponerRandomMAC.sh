@@ -15,4 +15,4 @@ while true; do
    RAND_MAC=$(randomMAC) #echo probando: $RAND_MAC
    [ "$(sudo ifconfig $IFACE hw ether $RAND_MAC 2>&1 | grep 'No se puede asignar la direcci')" = "" ] && break
 done ; 
-sudo ifconfig $IFACE $ESTADO
+eecho sudo ifconfig $IFACE $ESTADO

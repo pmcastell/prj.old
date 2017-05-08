@@ -1,7 +1,9 @@
 #!/bin/bash
 uso() {
    cat<<EOF
-   Uso: $0 [--tun <tun-dev>] [--dest <host-destino>]
+   Uso: $0 [--tun <tun-dev>] [--dest <host-destino>] [--port <puerto>] [--rutas]
+   El parámetro rutas modifica la tabla de rutas para 10.2.1.0 y 10.10.10.0, si no se especifica no se añaden
+      dichas rutas
 EOF
    exit 1
 }      
