@@ -59,6 +59,7 @@ EXISTE=$(sudo ls $BASE_DIR/root/.ssh/id_rsa 2>/dev/null)
 if [ "$EXISTE" = "" ]; then
    TEMP=$(tempfile); privateKey > $TEMP
    sudo mv $TEMP $BASE_DIR/root/.ssh/id_rsa
+   sudo chmod 600 $BASE_DIR/root/.ssh/id_rsa
 else 
    echo "Error ya existe $BASE_DIR/root/.ssh/id_rsa. No se crea el fichero. Revísalo."
 fi      
@@ -66,6 +67,7 @@ EXISTE=$(sudo ls $BASE_DIR/root/.ssh/id_rsa.pub 2>/dev/null)
 if [ "$EXISTE" = "" ]; then
    TEMP=$(tempfile); publicKey > $TEMP     
    sudo mv $TEMP $BASE_DIR/root/.ssh/id_rsa.pub
+   sudo chmod 644 $BASE_DIR/root/.ssh/id_rsa.pub
 else
    echo "Error ya existe /root/.ssh/id_rsa.pub. No se crea el fichero. Revísalo."
 fi      
@@ -85,8 +87,8 @@ fi
 EOF
 
 sudo mv $TEMP $BASE_DIR/root/x11vncLtsp.sh
-
 sudo chmod +x,+r $BASE_DIR/root/x11vncLtsp.sh
+
 if [ "$(cat $BASE_DIR/etc/crontab | grep x11vncLtsp)" = "" ]; then
    sudo bash -c "echo \*/5 \*     \* \* \*   root  /root/x11vncLtsp.sh >> $BASE_DIR/etc/crontab"
 fi

@@ -1,13 +1,16 @@
 #!/bin/bash
 uso() {
    cat<<EOF
-   Uso: $0 [--tun <tun-dev>] [--dest <host-destino>]
+   Uso: $0 [--tun <tun-dev>] [--dest <host-destino>] [--port <puerto>] [--rutas]
+   El parámetro rutas modifica la tabla de rutas para 10.2.1.0 y 10.10.10.0, si no se especifica no se añaden
+      dichas rutas
 EOF
    exit 1
 }      
 DEST_HOST="ubuin.linkpc.net"
 DEST_PORT="443"
 TUN=38
+RUTAS=false;
 while [ "$1" != "" ]; do
    case $1 in
       --tun) 
@@ -38,6 +41,8 @@ fi
 
 if [ "$(/sbin/ifconfig -a | grep tun$TUN)" != "" ]; then
    sudo /sbin/ifconfig tun$TUN 10.$TUN.$TUN.$TUN/24 pointopoint 10.$TUN.$TUN.1 up &> /dev/null
+   sudo /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN.$TUN.0/24
+   sudo /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN.$TUN.0/24
 fi
 
 

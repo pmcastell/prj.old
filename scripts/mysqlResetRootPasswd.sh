@@ -3,7 +3,7 @@ if [ "$1" = "" ]; then
    exit 1
 fi
 espera_parada_mysql() {
-   while true do
+   while true; do
       sudo eecho /etc/init.d/mysql stop
       PR=$(ps aux | grep -i mysqld | grep -v grep | grep -v mysqlResetRootPasswd)
       echo PR: $PR

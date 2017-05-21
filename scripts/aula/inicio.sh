@@ -28,4 +28,4 @@ nemo &
 gnome-terminal &
 sleep 1
 wmctrl -a epoptes
-
+dconf write /org/gnome/gnome-panel/layout/toplevels/top-panel/orientation "'bottom'"

@@ -1,0 +1,43 @@
+#/etc/grub.d/50_mio
+echo '
+
+menuentry "Ubuntu-Live16.04-64bit" {
+ set gfxpayload=keep
+ loopback loop /ImagenesCdDvd/ubuntu-16.10-desktop-amd64.iso
+ linux (loop)/casper/vmlinuz.efi file=/cdrom/preseed/ubuntu.seed boot=casper iso-scan/filename=/ImagenesCdDvd/ubuntu-16.10-desktop-amd64.iso locale=es_ES console-setup/layoutcode=es bootkbd=es noeject noprompt persistent --
+ initrd (loop)/casper/initrd.lz
+}
+
+menuentry "Lliurex-Cliente-15.05-64bits" {
+ set gfxpayload=keep
+ loopback loop /ImagenesCdDvd/lliurex-client_amd64_1505_20170222.iso
+ linux (loop)/casper/vmlinuz file=/etc/lliurex.seed boot=casper iso-scan/filename=/ImagenesCdDvd/lliurex-client_amd64_1505_20170222.iso locale=es_ES console-setup/layoutcode=es bootkbd=es noeject noprompt persistent --
+ initrd (loop)/casper/initrd.lz
+}
+
+menuentry "Lliurex-Server-15.05-64bits" {
+ set gfxpayload=keep
+ loopback loop /ImagenesCdDvd/lliurex-servidor_amd64_1505_20170223_kernel4.iso
+ linux (loop)/casper/vmlinuz file=/etc/lliurex.seed boot=casper iso-scan/filename=/ImagenesCdDvd/lliurex-servidor_amd64_1505_20170223_kernel4.iso locale=es_ES console-setup/layoutcode=es bootkbd=es noeject noprompt persistent --
+ initrd (loop)/casper/initrd.lz
+}
+
+
+menuentry "Avira Rescue System" {
+   set gfxpayload=keep
+   loopback loop /ImagenesCdDvd/avira-rescue-system.iso
+   linux	(loop)/casper/vmlinuz  file=/preseed/ubuntu.seed boot=casper iso-scan/filename=/ImagenesCdDvd/avira-rescue-system.iso locale=es_ES console-setup/layoutcode=es bootkbd=es --
+	initrd (loop)/casper/initrd.lz
+}
+
+
+menuentry "Wifislax64 Live"  {
+  set gfxpayload=keep
+  loopback loop /ImagenesCdDvd/wifislax64-1.0-final.iso
+  linux (loop)/boot/vmlinuz iso-scan/filename=/ImagenesCdDvd/wifislax64-1.0-final.iso kbd=es tz=Europe/Madrid locale=es_ES.utf8 xkb=es rw
+  initrd (loop)/boot/initrd.xz
+}
+
+
+
+'

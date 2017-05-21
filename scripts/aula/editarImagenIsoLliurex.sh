@@ -83,6 +83,7 @@ find_path_cleanup()
     fi
     rmdir "$default_mountpoint" 2>/dev/null || true
 }' > ./scripts/lupin-helpers
+chmod a+x ./scripts/lupin-helpers
 }
 
 
@@ -135,6 +136,7 @@ able to reboot again and resume the installation.
 "
     fi
 fi' > ./scripts/casper-premount/20iso_scan
+chmod a+x ./scripts/casper-premount/20iso_scan
 }
 ORDER() {
 echo '/scripts/casper-premount/10driver_updates "$@"
@@ -142,23 +144,29 @@ echo '/scripts/casper-premount/10driver_updates "$@"
 /scripts/casper-premount/20iso_scan "$@"
 [ -e /conf/param.conf ] && . /conf/param.conf
 ' > scripts/casper-premount/ORDER
+chmod a+x scripts/casper-premount/ORDER
 }
-sudo mount -o loop lliurex...iso /g
+. /scripts/funcionesAux.sh
+[ "$1" = "" ] && uso $0 '<imagen-iso>' || IMG_ISO="$1"
+MONTAJE="/tmp/$(uuid)"
+mkdir $MONTAJE
+sudo mount -o loop $IMG_ISO /$MONTAJE
 mkdir /tmp/iso
-cp -av /g/ /tmp/iso
-mv /tmp/iso/g/* /tmp/iso/
-mv /tmp/iso/g/.* /tmp/iso/
-cd /tmp/iso
+cp -av $MONTAJE/. /tmp/iso
+chmod a+w /tmp/iso
 mkdir /tmp/isotemp
 cd /tmp/isotemp
-7z e -so ../iso/casper/initrd.lz | cpio -id
-lupin-helpers
+7za e -so ../iso/casper/initrd.lz | cpio -id
+lupin_helpers
 iso_scan
 ORDER
-find . | cpio -o -H newc | gzip -9 > ../newinitrd.gz
-cp ../newinitrd.gz /tmp/iso/casper/initrd.lz
-mkisofs -R -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o lliurex.iso /tmp/iso
+sudo bash -c 'find . | cpio -o -H newc | lzma -7 > /tmp/iso/casper/initrd.lz'
+cd /tmp/iso
+sudo mkisofs -R -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o /tmp/isotemp/$(basename $IMG_ISO) /tmp/iso
+sudo umount /$MONTAJE
 
+exit 0
 
+The "-b" flag makes the disk bootable, using "isolinux/isolinux.bin" as the boot file. The "-no-emul-boot", "-boot-load-size 4", and "-boot-info-table" all are extra settings for making the disk bootable. The "-c isolinux/boot.cat" is a packaging flag. The "-o /tmp/new.iso" is the file it will generate, and the last thing "/tmp/iso" specifies the files to put inside it. The "-R" makes sure the final ISO file is fully compliant.
 
 

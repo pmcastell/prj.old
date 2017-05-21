@@ -18,7 +18,8 @@ echo '
 #http://cdimage.kali.org/kali-2016.2/kali-linux-2016.2-amd64.iso
 #https://install.avira-update.com/package/rs_avira/unix/int/rescue-system.iso
 #http://www.downloadwireless.net/isos/wifislax64-1.0-final.iso
-http://ftp.cica.es/ubuntu/releases/17.04/ubuntu-17.04-desktop-amd64.iso
+#http://ftp.cica.es/ubuntu/releases/17.04/ubuntu-17.04-desktop-amd64.iso
+http://releases.lliurex.net/isos/15.05_64bits/lliurex-servidor_amd64_1505_20170223_kernel4.iso
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"

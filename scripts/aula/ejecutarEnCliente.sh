@@ -3,6 +3,7 @@
 appendSiNoEsta() {
    CAD="$1"
    FICH="$2"
+   [ ! -f "$FICH" ] && touch $FICH
    if [ "$(cat "$FICH" | grep -F "$CAD")" = "" ]; then
       echo "$CAD" >> "$FICH"
    fi
@@ -65,8 +66,8 @@ echo 'Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server
 }
 #--------------------------------------------------------------------------------------------------------------------------------
 pantalla_script() {
-echo 'sudo x11vnc -noshm -24to32 -connect_or_exit server:$1 -auth /var/run/lightdm/root/:0 -display :0' > /usr/local/bin/pantalla
-chmod +x /usr/local/bin/pantalla
+   echo 'sudo x11vnc -noshm -24to32 -connect_or_exit server:$1 -auth /var/run/lightdm/root/:0 -display :0' > /usr/local/bin/pantalla
+   chmod +x /usr/local/bin/pantalla
 }
 #--------------------------------------------------------------------------------------------------------------------------------
 fsarch_script() {
@@ -97,7 +98,7 @@ sudo sshfs lliurex@server:./imagenes /root/server
 [ $? -gt 0 ] || [ "$(mount | grep "/root/server")" = "" ] && errorMensa "error montando carpeta en servidor sshfs" 2
 [ -d "/root/server/$1" ] && errorMensa "ya existe una imagen con ese nombre" 3
 sudo mkdir "/root/server/$1"
-sudo fsarchiver -v -A -a -z 9 -s 640 -j 2 --exclude=/var/cache/apt/archives --exclude=/home savefs "/root/server/$1/$1.fsa" /dev/sda1
+sudo fsarchiver -v -A -a -z 9 -s 640 -j 2 --exclude=/var/cache/apt/archives savefs "/root/server/$1/$1.fsa" /dev/sda1
 sudo umount /root/server ' > /usr/local/bin/fsarch.sh
 chmod +x /usr/local/bin/fsarch.sh
 }
@@ -164,11 +165,20 @@ echo '
 #donde 999 son los 3 últimos dígitos de la Dir.IP. asignada por DHCP. También poner dicho nombre en /etc/hostname y añadirlo a
 #/etc/hosts como 127.0.0.1, además añadir a éste último fichero 10.10.10.11 moodle
 /usr/local/bin/hostname.sh
+
 #Bloquear la unidad de dvd
 /usr/bin/eject -i on /dev/cdrom
+
 #ejecutar x11vnc por si hay que conectarse directamente al equipo no a través del epoptes
-/usr/bin/x11vnc -auth /var/run/lightdm/root/:0 -forever -loop &> /dev/null &
+#lo comento porque parece que en los equipos con 1GB va lento
+##/usr/bin/x11vnc -auth /var/run/lightdm/root/:0 -forever -loop &> /dev/null &
+
+#activar wake on lan (por si acaso)
+#ethtool -s eth0 wol g
 ' > /root/autoexec.sh
+for IFACE in $(ifconfig | grep -E '^eth' | awk '{print $1;}' | awk -F ':' '{print $1;}' | uniq); do
+   echo "ethtool -s $IFACE wol g" >> /root/autoexec.sh
+done   
 chmod +x /root/autoexec.sh
 }
 #--------------------------------------------------------------------------------------------------------------------------------
@@ -235,8 +245,8 @@ deb http://mirror/llx1505 trusty-security main restricted universe multiverse
 ' > /etc/apt/sources.list
 }
 fich_crontab() {
-appendSiNoEsta '15 15   * * *   root    /sbin/poweroff' '/etc/crontab'
-appendSiNoEsta '15 21   * * *   root    /sbin/poweroff' '/etc/crontab'
+   appendSiNoEsta '15 15   * * *   root    /sbin/poweroff' '/etc/crontab'
+   appendSiNoEsta '15 21   * * *   root    /sbin/poweroff' '/etc/crontab'
 }
 
 configScratch() {
@@ -260,25 +270,37 @@ echo "<?xml version='1.0' encoding='UTF-8'?>
 
 fich_etc_profile() {
    appendSiNoEsta 'gsettings set com.canonical.indicator.sound visible true' '/etc/profile'
+   appendSiNoEsta 'gsettings set com.canonical.indicator.session user-show-menu false' '/etc/profile'
    appendSiNoEsta 'setxkbmap es' '/etc/profile'
+
+   #appendSiNoEsta 'gsettings set com.canonical.indicator.session suppress-restart-menuitem true' '/etc/profile'
+   #appendSiNoEsta 'gsettings set com.canonical.indicator.session suppress-shutdown-menuitem true' '/etc/profile'
 }
 epoptes() {
+   sed -i 's/^test -f \/etc\/ltsp_chroot || exit 0/#test -f \/etc\/ltsp_chroot || exit 0/g' /etc/init.d/epoptes-client
+   sed -i 's/^grep -qs "init=\/sbin\/init-ltsp" \/proc\/cmdline \&\& exit 0/#grep -qs "init=\/sbin\/init-ltsp" \/proc\/cmdline \&\& exit 0/g' /etc/init.d/epoptes-client
    sed -i 's/lliurex-version -t client || exit 0/lliurex-version -t client #|| exit 0/g' /usr/sbin/epoptes-client
    sed -i 's/> \/dev\/nul$/\&> \/dev\/null/g' /usr/sbin/epoptes-client
 }   
 firefox() {
    appendSiNoEsta 'lockPref("network.proxy.type",5);' '/etc/firefox/syspref.js'
 }   
+liclipse() {
+   sudo chmod -R 777 /usr/share/liclipse/configuration
+}   
+usuario_lliurex() {
+   appendSiNoEsta 'lliurex ALL = NOPASSWD: ALL' '/etc/sudoers'
+   mkdir -p /home/lliurex/.ssh
+   ssh_rsa
+   ssh_config
+   chown -R lliurex:lliurex /home/lliurex
+   for u in $(ls /home | grep -v lliurex); do
+      sudo rm -rf /home/$u
+   done   
+}
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 #ESTA=$(cat /etc/sudoers | grep "lliurex ALL = NOPASSWD: ALL")
 #if [ "$ESTA" = "" ]; then echo lliurex ALL = NOPASSWD: ALL >> /etc/sudoers; fi
-appendSiNoEsta 'lliurex ALL = NOPASSWD: ALL' '/etc/sudoers'
-mkdir -p /home/lliurex/.ssh
-ssh_rsa
-ssh_config
-chown -R lliurex:lliurex /home/lliurex
-sed -i 's/^test -f \/etc\/ltsp_chroot || exit 0/#test -f \/etc\/ltsp_chroot || exit 0/g' /etc/init.d/epoptes-client
-sed -i 's/^grep -qs "init=\/sbin\/init-ltsp" \/proc\/cmdline \&\& exit 0/#grep -qs "init=\/sbin\/init-ltsp" \/proc\/cmdline \&\& exit 0/g' /etc/init.d/epoptes-client
 pantalla_script
 fsarch_script
 hostname_script
@@ -291,6 +313,8 @@ fich_crontab
 fich_etc_profile
 epoptes
 firefox
+liclipse
+usuario_lliurex
 /usr/local/bin/hostname.sh
 #INSTALAR PAQUETES
 fich_apt_ubu
@@ -298,11 +322,11 @@ fich_apt_ubu
 #apt install wireshark
 #sudo apt install python-suds python-requests-oauthlib cssmin python-webassets
 #scp lliurex@server:./Descargas/*intef* /tmp/
-#sudo dpkg -i intef-exe_2.1.2_all.deb
+#sudo dpkg -i /tmp/intef-exe_2.1.2_all.deb
 #realvnc
 #liclipse
 #scratch 2.0
-#instalar
+#instalar con el zero-center
 #configScratch
 fich_apt_noUbu
 

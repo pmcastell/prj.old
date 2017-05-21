@@ -41,6 +41,8 @@ fi
 
 if [ "$(/sbin/ifconfig -a | grep tun$TUN)" != "" ]; then
    sudo /sbin/ifconfig tun$TUN 10.$TUN.$TUN.$TUN/24 pointopoint 10.$TUN.$TUN.1 up &> /dev/null
+   sudo /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN.$TUN.0/24 &> /dev/null
+   sudo /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN.$TUN.0/24
 fi
 
 

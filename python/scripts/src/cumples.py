@@ -60,7 +60,7 @@ cumples=[
       ['ubuin.noip.me','12-07-2016','C'],
       ['Dropbox Espacio tablet caduca','31-08-2016','C'],
       ['Cita Jorge Dentista Fenoll 18:30','17-01-2017','C'],
-      ['Cita Jorge Lily 12:55','08-05-2017','C']
+      ['Cita Jorge Lily 13:15','16-06-2017','C']
    ]
 def rellena(cadena,tam):
     for i in range(1,tam-len(cadena)):
