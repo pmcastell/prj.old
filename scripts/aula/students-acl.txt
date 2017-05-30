@@ -1,0 +1,19 @@
+# file: students/
+# owner: nobody
+# group: nogroup
+# flags: -s-
+user::rwx
+group::rwx
+group:admins:rwx
+group:teachers:rwx
+group:students:r-x
+mask::rwx
+other::---
+default:user::rwx
+default:group::rwx
+default:group:admins:rwx
+default:group:teachers:rwx
+default:group:students:---
+default:mask::rwx
+default:other::---
+

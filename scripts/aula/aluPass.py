@@ -95,19 +95,26 @@ def uso():
    print "-R cambia todas las contraseñas a los usuarios especificadas en <fichero-usuarios>"
    sys.exit(2)
 		
-	
+def toString(reg):
+   res=""
+   #for k in reg:
+      #res+=str(k).encode("utf-8")+": "+str(reg[k]).encode("utf-8")+" | "
+      #res+=str(k).encode("utf-8")+": "+str(reg[k])+" | "
+      #res+=k.encode("utf-8")+": "+reg[k].encode("utf-8")+" | "
+   res="uid: "+reg['uid']+" | passwd: "+reg['passwd']+" | nombre(cn+sn): "+reg['cn']+" "+reg['sn']  
+   return res.encode("utf-8")
 
 def buscarUsuario(user=None):
 	if (user==None and len(sys.argv)>2):
 		user=sys.argv[2]
 	allPasswords=c.get_all_passwords(u,"Golem")
-	encontrado=False
 	for i in range(len(allPasswords)):
 		regActual=allPasswords[i]
 		for key in regActual:
 			if (regActual[key].lower().find(user.lower())>=0):
-				print regActual
+				print toString(regActual)
 				encontrado=True
+				
 	if (not encontrado): print "No se ha encontrado ningún registro que contenga: "+user
 
 def _cambiaPassAlu(userid,userpass):
@@ -153,7 +160,7 @@ def restaurarPassAlumnos():
 
 # EDIT HERE #
 
-user="adminprofes"
+user="netadmin"
 password="nuci_admin"
 # ================= #
 u=(user,password)
@@ -171,7 +178,7 @@ try:
    #print "GOLEM USER_LIST..."
    #print c.get_student_list(u,"Golem")
    #print c.get_student_passwords(u,"Golem")
-   print "--------------------------------------------------------------"
+   print "------------------------------------------------------------------------------"
    if (len(sys.argv)<2):
       uso()
    if (sys.argv[1] == "-c"):
@@ -184,7 +191,7 @@ try:
    	restaurarPassAlumnos()
    else:
       uso()
-   print "--------------------------------------------------------------"
+   print "------------------------------------------------------------------------------"
 
 except Exception as e:
 	print e

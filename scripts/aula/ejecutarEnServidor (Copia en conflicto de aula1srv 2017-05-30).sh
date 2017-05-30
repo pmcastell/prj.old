@@ -298,10 +298,10 @@ appendSiNoEsta "#55 15  * * 1-5 root    /sbin/poweroff" '/etc/crontab'
 
 
 #Quitar del menú de inicio de sesión y del menú "logout" del escritorio la posibilidad de reiniciar o apagar el servidor
-crear_restrict_login_powermgmt_pkla 
+crear_restrict_login_powermgmt_pkla
 crear_profile_2
 #Instalar
-#sudo apt-get install festival wireshark etherwake arp-scan fsarchiver wmctrl xdotool encfs nautilus-dropbox
+#sudo apt-get install festival wireshark etherwake arp-scan fsarchiver encfs
 #scratch2
 #moodle
 #cambiar en get_max_upload_file_size/moodlelib.php la función get_max_upload_file_size poniendo como primera instrucción return return 31457280;
