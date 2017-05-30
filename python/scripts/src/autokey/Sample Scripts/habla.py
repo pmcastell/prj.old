@@ -7,7 +7,7 @@ import os, gtk
 #    # Python3
 #    import tkinter as tk
 
-def habla(voz="voice_JuntaDeAndalucia_es_pa_diphone",mensaje = None):
+def habla(voz="voice_JuntaDeAndalucia_es_pf_diphone",mensaje = None):
     if (mensaje==None):
        mensaje=clipboard.get_selection()
        ##root = tk.Tk()
@@ -17,13 +17,18 @@ def habla(voz="voice_JuntaDeAndalucia_es_pa_diphone",mensaje = None):
        ##mensaje = root.clipboard_get_selection()
     #for c in ["“","—"]:
     #   mensaje.replace(c,"")
+    mensaje=mensaje.encode("iso-8859-1")
+    mensaje=mensaje.replace("'","\\\'")
     mensadef=""
     for c in mensaje:
        if not c in ["“","—"]:
           mensadef+=c
-    mensaje=mensadef.encode("iso-8859-1")
-    comando="echo '("+voz+") (SayText \""+mensaje+"\")' | festival --pipe"
+    comando="echo $'("+voz+") (SayText \""+mensadef+"\")' | festival --pipe"
+    print comando
     os.system(comando)
+
+#habla(mensaje="Logans")
+
     
 #import pygtk
 #pygtk.require('2.0')

@@ -19,7 +19,8 @@ echo '
 #https://install.avira-update.com/package/rs_avira/unix/int/rescue-system.iso
 #http://www.downloadwireless.net/isos/wifislax64-1.0-final.iso
 #http://ftp.cica.es/ubuntu/releases/17.04/ubuntu-17.04-desktop-amd64.iso
-http://releases.lliurex.net/isos/15.05_64bits/lliurex-servidor_amd64_1505_20170223_kernel4.iso
+#http://releases.lliurex.net/isos/15.05_64bits/lliurex-servidor_amd64_1505_20170223_kernel4.iso
+http://downloadcenter.samsung.com/content/FM/201704/20170427160256419/T-JZL6DEUC_1169.2.exe
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"

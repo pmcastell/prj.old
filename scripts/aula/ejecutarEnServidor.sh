@@ -13,10 +13,21 @@ cp /etc/rc.local /etc/rc.local.orig
 cat /etc/rc.local.orig | grep -v '^exit' > /etc/rc.local
 
 echo "
+/root/autoexec.sh &
+
+exit 0" >> /etc/rc.local
+}
+crearAutoexec() {
+echo '#!/bin/bash
+
 /bin/echo 1 > /proc/sys/net/ipv4/ip_forward
 /sbin/iptables -A POSTROUTING -j MASQUERADE -s 10.2.1.0/24 -t nat
 
-exit 0" >> /etc/rc.local
+' > /root/autoexec.sh
+for IFACE in $(ifconfig | grep -E '^eth' | awk '{print $1;}' | awk -F ':' '{print $1;}' | uniq); do
+   echo "ethtool -s $IFACE wol g" >> /root/autoexec.sh
+done   
+chmod +x /root/autoexec.sh
 }
 
 crearDnsmasqConfAula2Srv() {
@@ -144,7 +155,7 @@ instalarTorPrivoxy() {
    echo "forward-socks4a / 127.0.0.1:9050 ." >> /etc/privoxy/config
 }
 crearSshConfig() {
-echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server
+echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server sa1 sa2 sp sb sm spt
 	CheckHostIP no
 	UserKnownHostsFile /dev/null 
 	StrictHostKeyChecking no
@@ -152,6 +163,7 @@ echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server
 	Protocol 2
 	ProxyCommand none 
 	User lliurex	
+	Forwardx11 yes
 
 
 Host *
@@ -162,6 +174,9 @@ Host *
 	Protocol 2
 	ProxyCommand connect -4 -S 127.0.0.1:9050 \$(tor-resolve %h localhost:9050) %p
 " > /root/.ssh/config
+mkdir -p /home/lliurex/.ssh &> /dev/null
+cp /root/.ssh/config /home/lliurex/.ssh/
+chown -R lliurex:lliurex /home/lliurex
 }
 crearX11VncRoot() {
 echo "if [ \"\$(ps aux | grep -i x11vnc | grep /var/run/lightdm | grep -v grep)\" = \"\" ]; then
@@ -184,7 +199,7 @@ do
    echo -n \"-----------------------\" >> /root/fallosMontajeSdb1.txt
 done" > /root/comprobarMontajeNet.sh
 chmod +x /root/comprobarMontajeNet.sh
-echo "*/1     * * * * root    /root/comprobarMontajeNet.sh &> /dev/null &" >> /etc/crontab
+appendSiNoEsta "*/1     * * * * root    /root/comprobarMontajeNet.sh &> /dev/null &" >> /etc/crontab
 
 }
 cambiarConfigSamba() {
@@ -197,7 +212,7 @@ echo "
     writable = yes
     printable = no
     valid users = jualeo01 jatalaveram alexonrubia franav lliurex" > /etc/samba/sambaMio
-echo -e "\ninclude = /etc/samba/sambaMio" >> /etc/samba/smb.conf    
+appendSiNoEsta "include = /etc/samba/sambaMio" '/etc/samba/smb.conf    '
 }
 crearNetworkInterfacesAulaSrv_old() {
 cp /etc/network/interfaces /etc/network/interfaces.0
@@ -261,6 +276,7 @@ appendSiNoEsta '/usr/local/bin/profile-2.sh &' '/etc/profile'
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?;fi  
 
 crearRcLocal
+crearAutoexec
 if [ "$(/sbin/ifconfig eth0 | grep 'e0:cb:4e:2c:a2:62')" != "" ]; then crearDnsmasqConfAula2Srv; crearNetworkInterfacesAulaSrv 12; fi
 if [ "$(/sbin/ifconfig eth0 | grep 'c8:3a:35:d0:f8:fc')" != "" ]; then crearDnsmasqConfAula1Srv; crearNetworkInterfacesAulaSrv 11; fi
 sed -i "s/sleep/#sleep/g" /etc/init/failsafe.conf
@@ -271,17 +287,24 @@ crearSshConfig
 #crear ejecución de x11vnc
 crearX11VncRoot
 #comprobar el montaje de /net que falla bastantes veces
-crearComprobarMontajeNet
+###crearComprobarMontajeNet
 #cambiar config samba
 cambiarConfigSamba
+crearNetworkInterfacesAulaSrv_old
 #Actualizar mirror del aula/sistema a las 11 de la mañana
 appendSiNoEsta "00 11 * * *	root	/usr/sbin/lliurex-mirror update" '/etc/crontab'
+appendSiNoEsta "#00 02  * * 1-5 root    /sbin/poweroff" '/etc/crontab'
+appendSiNoEsta "#55 15  * * 1-5 root    /sbin/poweroff" '/etc/crontab'
+
+
 #Quitar del menú de inicio de sesión y del menú "logout" del escritorio la posibilidad de reiniciar o apagar el servidor
 crear_restrict_login_powermgmt_pkla
 crear_profile_2
 #Instalar
-#sudo apt-get install festival
-#sudo apt-get install wireshark
+#sudo apt-get install festival wireshark etherwake arp-scan fsarchiver
 #scratch2
 #moodle
+#cambiar en get_max_upload_file_size/moodlelib.php la función get_max_upload_file_size poniendo como primera instrucción return return 31457280;
+sudo lliurex-mirror set_architecture_all
+sudo /usr/sbin/lliurex-mirror update &>/dev/null &
 

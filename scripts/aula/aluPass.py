@@ -101,13 +101,14 @@ def buscarUsuario(user=None):
 	if (user==None and len(sys.argv)>2):
 		user=sys.argv[2]
 	allPasswords=c.get_all_passwords(u,"Golem")
+	encontrado=False
 	for i in range(len(allPasswords)):
 		regActual=allPasswords[i]
 		for key in regActual:
 			if (regActual[key].lower().find(user.lower())>=0):
 				print regActual
-				return
-	print "No se ha encontrado ningún registro que contenga: "+user
+				encontrado=True
+	if (not encontrado): print "No se ha encontrado ningún registro que contenga: "+user
 
 def _cambiaPassAlu(userid,userpass):
 	if (c.change_student_password(u,"Golem",userid,userpass)):
