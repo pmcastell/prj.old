@@ -1,0 +1,8 @@
+/home/
+/net/OpenSysClone
+/net/server-sync/home/students
+/net/server-sync/home/teachers
+/net/mirror
+/opt/ClienteSemiLigero
+/opt/ltsp/images
+/TMP

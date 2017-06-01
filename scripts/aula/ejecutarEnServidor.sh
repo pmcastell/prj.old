@@ -260,16 +260,22 @@ ResultActive=no
 ' >> /etc/polkit-1/localauthority/50-local.d/restrict-login-powermgmt.pkla
 }
 crear_profile_2() {
-echo '
-#!/bin/sh
+echo '#!/bin/sh
 sleep 120
-/usr/bin/gsettings set com.canonical.indicator.sound visible true &
 /usr/bin/setxkbmap es &
-/usr/bin/gsettings set com.canonical.indicator.session suppress-restart-menuitem true & 
-/usr/bin/gsettings set com.canonical.indicator.session suppress-shutdown-menuitem true &
+/usr/bin/gsettings set com.canonical.indicator.sound visible true &> /dev/null &
+/usr/bin/gsettings set com.canonical.indicator.session suppress-restart-menuitem true &> /dev/null & 
+/usr/bin/gsettings set com.canonical.indicator.session suppress-shutdown-menuitem true &> /dev/null &
+/usr/bin/gsettings set com.canonical.indicator.session user-show-menu false &> /dev/null &
+/usr/bin/gsettings set com.canonical.notify-osd gravity 2 &> /dev/null &
+
+/usr/bin/dconf write /com/canonical/indicator/sound visible true &> /dev/null &
+/usr/bin/dconf write /com/canonical/indicator/session suppress-restart-menuitem true &> /dev/null & 
+/usr/bin/dconf write /com/canonical/indicator/session suppress-shutdown-menuitem true &> /dev/null &
+/usr/bin/dconf write /com/canonical/indicator/session user-show-menu false &> /dev/null &
 ' > /usr/local/bin/profile-2.sh
 chmod +x /usr/local/bin/profile-2.sh
-appendSiNoEsta '/usr/local/bin/profile-2.sh &' '/etc/profile'
+appendSiNoEsta '/usr/local/bin/profile-2.sh &>/dev/null &' '/etc/profile'
 }
 ############################################################
 

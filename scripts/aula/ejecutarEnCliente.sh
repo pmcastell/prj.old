@@ -269,12 +269,19 @@ echo "<?xml version='1.0' encoding='UTF-8'?>
 }
 
 fich_etc_profile() {
-   appendSiNoEsta 'gsettings set com.canonical.indicator.sound visible true' '/etc/profile'
-   appendSiNoEsta 'gsettings set com.canonical.indicator.session user-show-menu false' '/etc/profile'
-   appendSiNoEsta 'setxkbmap es' '/etc/profile'
+echo '#!/bin/sh
+sleep 120
+/usr/bin/setxkbmap es &
+/usr/bin/gsettings set com.canonical.indicator.sound visible true &> /dev/null &
+/usr/bin/gsettings set com.canonical.indicator.session user-show-menu false &> /dev/null &
+/usr/bin/dconf write /com/canonical/indicator/sound visible true &> /dev/null &
+/usr/bin/dconf write /com/canonical/indicator/session user-show-menu false &> /dev/null &
+#/usr/bin/gsettings set com.canonical.indicator.session suppress-restart-menuitem true &> /dev/null &
+#/usr/bin/gsettings set com.canonical.indicator.session suppress-shutdown-menuitem true &> /dev/null &
+' > /usr/local/bin/profile-2.sh
+chmod +x /usr/local/bin/profile-2.sh
+appendSiNoEsta '/usr/local/bin/profile-2.sh &' '/etc/profile'
 
-   #appendSiNoEsta 'gsettings set com.canonical.indicator.session suppress-restart-menuitem true' '/etc/profile'
-   #appendSiNoEsta 'gsettings set com.canonical.indicator.session suppress-shutdown-menuitem true' '/etc/profile'
 }
 epoptes() {
    sed -i 's/^test -f \/etc\/ltsp_chroot || exit 0/#test -f \/etc\/ltsp_chroot || exit 0/g' /etc/init.d/epoptes-client
