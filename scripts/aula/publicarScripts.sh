@@ -27,6 +27,7 @@ imprime
 enrutamiento
 echoColor
 despiertaEpoptes
+despiertaAulaEpoptes
 ipFija
 movepath
 confProxy

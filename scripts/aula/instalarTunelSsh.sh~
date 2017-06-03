@@ -23,6 +23,10 @@ Host *
 	Protocol 2
 	ProxyCommand connect -4 -S 127.0.0.1:9050 \$(tor-resolve %h localhost:9050) %p
 " >> /root/.ssh/config
+if [ "$(cat /etc/ssh/sshd_config | grep 'PermitTunnel')" != "" ]; then
+   sed '/PermitTunnel/d' /etc/ssh/sshd_config
+fi   
+echo PermitTunnel yes >> /etc/ssh/sshd_config
 }
 
 sshRsa() {
@@ -87,7 +91,7 @@ instalaScriptTunelSsh() {
    wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
    TEMP=$(tempfile)
    if [ "$(sudo crontab -l | grep -i 'no crontab')" != "" ] || [ "$(sudo crontab -l)" = "" ]; then crontab_encabezado > $TEMP; fi 
-   (cat $TEMP; sudo crontab -l | grep -v tunelSsh6 ; echo '*/5 *   *   *   *    root  /root/tunelSsh6.sh &> /dev/null' ) | sudo crontab -
+   (cat $TEMP; sudo crontab -l | grep -v tunelSsh6 ; echo '*/5 *   *   *   *    /root/tunelSsh6.sh &> /dev/null' ) | sudo crontab -
    chmod +x /root/tunelSsh6.sh
    chmod +x /root/sshTun.sh
    rm $TEMP

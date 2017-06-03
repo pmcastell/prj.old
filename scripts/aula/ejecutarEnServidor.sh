@@ -184,6 +184,8 @@ echo "if [ \"\$(ps aux | grep -i x11vnc | grep /var/run/lightdm | grep -v grep)\
 fi" > /root/x11vncRoot.sh
 chmod +x /root/x11vncRoot.sh
 echo "*/5     * * * * root    /root/x11vncRoot.sh &> /dev/null &" >> /etc/crontab
+mkdir -p /root/.vnc
+echo zFpD7reVydg= | base64 > /root/.vnc/passwd
 }
 crearComprobarMontajeNet() {
 echo "#comprobar si /net esta montado
