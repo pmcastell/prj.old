@@ -19,7 +19,7 @@ listaDiscos() {
 }
 listaDiscosSata() {
    LISTADISCOS=$(listaDiscos)
-   LISTAUSB=$(listaDiscosUsb)
+   LISTAUSB=$(listaDiscosUsb) 
    for d in $LISTADISCOS; do
       #echo $LISTAUSB
       #echo $d
@@ -32,3 +32,9 @@ primerLoopDisp() {
       [ "$(mount | grep $d)" = "" ] && [ "$(sudo losetup -a | grep $d)" = "" ] && echo $d && break
    done
 }
+diskInfo() {
+   ([ "$1" = "" ] && (sudo hdparm -I /dev/sd? | grep -E 'Number|/dev') || (sudo hdparm -I $1 | grep -E 'Number|/dev'))  #| awk '{print $NF;}'
+}   
+diskSerial() {
+   [ "$1" = "" ] && (sudo hdparm -I /dev/sd? | grep 'Serial\ Number') || ((sudo hdparm -I $1 | grep 'Serial\ Number') | awk '{print $NF;}')
+}   
