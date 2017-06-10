@@ -38,8 +38,8 @@ $(echoColor Yellow sudo confProxy) <on|off> --> Activa o desactiva el proxy en l
 $(echoColor Yellow echoColor) <color> <texto> ---> imprime texto en el color indicado que puede ser:    
       Black, Red, Green, Orange, Blue , Purple , Cyan, LightGray, DarkGray, LightRed, LightGreen, 
       Yellow, LightBlue, LightPurple, LightCyan, White
-$(echoColor Yellow espejo) ---> Uso: espejo <on|off>. On: hace que el monitor se ponga en espejo con el proyector\off: desactiva el proyector
 $(echoColor Yellow ayuda)  ---> imprime esta ayuda
+$(echoColor Yellow espejo) ---> Uso: espejo <on|off>. On: hace que el monitor se ponga en espejo con el proyector\off: desactiva el proyector
 \n-------------------------------------------------------------------------------------
 Esto es to, eso es to, eso es todo amigos!!!
 $(echoColor LightCyan @F.J.Criado)

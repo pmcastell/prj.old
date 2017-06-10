@@ -32,6 +32,7 @@ ipFija
 movepath
 confProxy
 notifi
+espejo
 ayuda"
 publicarScripts sh "$SCRIPTS"
 PYTHONS="aluPass"

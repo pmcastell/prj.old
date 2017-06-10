@@ -18,7 +18,7 @@ EOF
 #también lo metemos en /etc/rc.local
 sudo bash -c 'echo /sbin/ethtool -s eth0 wol g >> /etc/rc.local'
 sudo mv $TEMP $BASE_DIR/etc/ltsp/wolfix
-sudo chmod +x,+r $BASE_DIR/etc/ltsp/wolfix
+sudo chmod a+rx $BASE_DIR/etc/ltsp/wolfix
 sudo chown 0:0 $BASE_DIR/etc/ltsp/wolfix
 #/var/lib/tftpboot/ltsp/lts.conf es un enlace a /var/lib/tftpboot/ltsp/i386/lts.conf
 if [ "$(sudo cat /var/lib/tftpboot/ltsp/lts.conf | grep RCFILE_01 | grep wolfix)" = "" ]; then
@@ -52,21 +52,18 @@ sudo bash -c "echo ltspadmin  ALL = NOPASSWD: ALL >> $BASE_DIR/etc/sudoers"
 #claves ssh para no tener que poner la clave al iniciar sesión
 sudo mkdir -p $BASE_DIR/home/ltspadmin/.ssh
 LTSPADMIN_ID=$(cat $BASE_DIR/etc/passwd | grep ltspadmin | awk -F':' '{print $3":"$4;}')
-sudo bash -c "echo $(publicKey) > $BASE_DIR/home/ltspadmin/.ssh/authorized_keys" 
+#sudo bash -c "echo $(publicKey) > $BASE_DIR/home/ltspadmin/.ssh/authorized_keys" 
+sudo bash -c ". /scripts/aula/instiKeys.sh && publicKey $BASE_DIR/home/ltspadmin/.ssh/authorized_keys" 
 sudo chown -R $LTSPADMIN_ID $BASE_DIR/home/ltspadmin
 sudo mkdir -p $BASE_DIR/root/.ssh 
-EXISTE=$(sudo ls $BASE_DIR/root/.ssh/id_rsa 2>/dev/null)
-if [ "$EXISTE" = "" ]; then
-   TEMP=$(tempfile); privateKey > $TEMP
-   sudo mv $TEMP $BASE_DIR/root/.ssh/id_rsa
+if [ "$(sudo ls $BASE_DIR/root/.ssh/id_rsa 2>/dev/null)" = "" ]; then
+   sudo bash -c ". /scripts/aula/instiKeys.sh && privateKey > $BASE_DIR/root/.ssh/id_rsa"
    sudo chmod 600 $BASE_DIR/root/.ssh/id_rsa
 else 
    echo "Error ya existe $BASE_DIR/root/.ssh/id_rsa. No se crea el fichero. Revísalo."
 fi      
-EXISTE=$(sudo ls $BASE_DIR/root/.ssh/id_rsa.pub 2>/dev/null)
-if [ "$EXISTE" = "" ]; then
-   TEMP=$(tempfile); publicKey > $TEMP     
-   sudo mv $TEMP $BASE_DIR/root/.ssh/id_rsa.pub
+if [ "$(sudo ls $BASE_DIR/root/.ssh/id_rsa.pub 2>/dev/null)" = "" ]; then
+   sudo bash -c ". /scripts/aula/instiKeys.sh && publicKey > $BASE_DIR/root/.ssh/id_rsa.pub"
    sudo chmod 644 $BASE_DIR/root/.ssh/id_rsa.pub
 else
    echo "Error ya existe /root/.ssh/id_rsa.pub. No se crea el fichero. Revísalo."
@@ -93,9 +90,7 @@ if [ "$(cat $BASE_DIR/etc/crontab | grep x11vncLtsp)" = "" ]; then
    sudo bash -c "echo \*/5 \*     \* \* \*   root  /root/x11vncLtsp.sh >> $BASE_DIR/etc/crontab"
 fi
 sudo mkdir -p $BASE_DIR/root/.vnc
-TEMP=$(tempfile)
-echo igRDkZ7OtW8= | base64 -d > $TEMP
-sudo mv $TEMP $BASE_DIR/root/.vnc/passwd
+sudo bash -c "echo igRDkZ7OtW8= | base64 -d > $BASE_DIR/root/.vnc/passwd"
 sudo chown -R 0:0 $BASE_DIR/root
 
 sudo chroot $BASE_DIR

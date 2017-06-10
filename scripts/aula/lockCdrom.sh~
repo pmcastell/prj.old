@@ -8,6 +8,11 @@ uso() {
 EOF
    exit 1
 }
-[ "$1" != "on" ] && [ "$1" != "off" ] && uso
-/usr/bin/eject -i $1 /dev/cdrom
-
+[ "$1" != "on" ] && [ "$1" != 
+if [ "$1" = "on" ]; then
+   /usr/bin/eject -i on /dev/cdrom
+elif [ "$1" = "off" ]; then
+   /usr/bin/eject -i off /dev/cdrom
+else
+   uso
+fi

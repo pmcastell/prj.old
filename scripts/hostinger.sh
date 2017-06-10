@@ -4,7 +4,7 @@
 
 
 usuario() {
-[ "$2" = "" ] && CAMPO="1" || CAMPO="$2"
+[ "$2" = "" ] && CAMPO="$1" || CAMPO="2"
 echo '
 u301616277  ftp.inkscape.esy.es  (reg6543@gmail.com)
 u358816555  ftp.limpress.esy.es  (reg6543@gmail.com)
@@ -19,8 +19,9 @@ u964077031  ftp.ganimedes.esy.es (reg65432@gmail.com)
 [ "$(usuario $1)" == "" ] && Usuario inexistente && exit 2
 USUARIO=$(usuario $1)
 CLAVE=$(/scripts/getMyPass.sh hostinger)
+[ "$CLAVE" = "" ] && CLAVE="$(cat /m/Mios/Personal/Privado/AgendasClaves/genClavesIndicePass.sh | grep -i hostinger | head -1 | awk '{print $2;}')"
 LFTP='lftp -e "'"set ssl:verify-certificate no;"'" '
-[ "$2" = "" ] && eval $LFTP $USUARIO:$CLAVE@$(usuario $1 2) || eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";quit\""
+[ "$2" = "" ] && echo eval $LFTP $USUARIO:$CLAVE@$(usuario $1 2) || eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";quit\""
 
 exit 0
 
