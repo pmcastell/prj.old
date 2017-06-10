@@ -16,7 +16,8 @@ ethtool -s eth0 wol g
 # EOF
 EOF
 #también lo metemos en /etc/rc.local
-sudo bash -c 'echo /sbin/ethtool -s eth0 wol g >> /etc/rc.local'
+sudo sed -i 's/exit 0/\/sbin\/ethtool -s eth0 wol g/g' $BASE_DIR/etc/rc.local
+sudo bash -c "echo exit 0 >> $BASE_DIR/etc/rc.local"
 sudo mv $TEMP $BASE_DIR/etc/ltsp/wolfix
 sudo chmod a+rx $BASE_DIR/etc/ltsp/wolfix
 sudo chown 0:0 $BASE_DIR/etc/ltsp/wolfix
@@ -53,7 +54,7 @@ sudo bash -c "echo ltspadmin  ALL = NOPASSWD: ALL >> $BASE_DIR/etc/sudoers"
 sudo mkdir -p $BASE_DIR/home/ltspadmin/.ssh
 LTSPADMIN_ID=$(cat $BASE_DIR/etc/passwd | grep ltspadmin | awk -F':' '{print $3":"$4;}')
 #sudo bash -c "echo $(publicKey) > $BASE_DIR/home/ltspadmin/.ssh/authorized_keys" 
-sudo bash -c ". /scripts/aula/instiKeys.sh && publicKey $BASE_DIR/home/ltspadmin/.ssh/authorized_keys" 
+sudo bash -c ". /scripts/aula/instiKeys.sh && publicKey > $BASE_DIR/home/ltspadmin/.ssh/authorized_keys" 
 sudo chown -R $LTSPADMIN_ID $BASE_DIR/home/ltspadmin
 sudo mkdir -p $BASE_DIR/root/.ssh 
 if [ "$(sudo ls $BASE_DIR/root/.ssh/id_rsa 2>/dev/null)" = "" ]; then
@@ -98,7 +99,7 @@ sudo adduser ltspadmin
 sudo gpasswd -a ltspadmin adm 
 sudo gpasswd -a ltspadmin lpadmin
 sudo chmod +s /sbin/reboot	
-sudo apt-get install ethtool arp-scan
+sudo apt-get install ethtool openssh-server arp-scan
 exit
 
 
