@@ -13,4 +13,4 @@
 ##else    
 ##   echo '(voice_JuntaDeAndalucia_es_sf_diphone)' '(SayText "'"$LINEA"'")' | festival --pipe &> /dev/null
 ##fi   
-habla -v voice_JuntaDeAndalucia_es_sf_diphone $@
+habla -v voice_JuntaDeAndalucia_es_sf_diphone $*
