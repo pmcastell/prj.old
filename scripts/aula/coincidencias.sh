@@ -51,8 +51,7 @@ while [ "$LINEA1" != "" ]; do
    [ "$DEBUG" = 1 ] && echo echo LINEA1: $LINEA1
    [ "$DEBUG" = 1 ] && echo echo LINEA2: $LINEA2
    [ "$DEBUG" = 1 ] && read </dev/tty
-   if [ "$MD51" != "$MD52" ]; then LINEA1=$LINEA2; continue;
-   else
+   if [ "$MD51" != "$MD52" ]; then LINEA1=$LINEA2; continue; else
       #echo $LINEA >> $SALIDA
       while [ "$MD51" = "$MD52" ]; do
          if [ "$USU1" != "$USU2" ]; then #"$LINEA1" != "$LINEA2" -a 

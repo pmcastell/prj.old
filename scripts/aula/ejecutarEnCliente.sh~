@@ -129,6 +129,8 @@ EOF
 }
 
 if [ "$1" = "-h" ]; then uso; fi  
+[ "$(lliurex-version) | grep -i server)" != "" ] && exit 4
+[ "$(hostname) | grep -i srv)" != "" ] && exit 4
 if [ "$(/usr/bin/whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi    
 INTERFAZ=$(/sbin/ifconfig | /bin/grep -E "^eth" | /usr/bin/awk '\'\{print \$1\;\}\'')
 DIR="10\.2\.1\."
@@ -274,8 +276,8 @@ sleep 120
 /usr/bin/setxkbmap es &
 /usr/bin/gsettings set com.canonical.indicator.sound visible true &> /dev/null &
 /usr/bin/gsettings set com.canonical.indicator.session user-show-menu false &> /dev/null &
-/usr/bin/dconf write com.canonical.indicator.sound visible true &> /dev/null &
-/usr/bin/dconf write com.canonical.indicator.session user-show-menu false &> /dev/null &
+/usr/bin/dconf write /com/canonical/indicator/sound visible true &> /dev/null &
+/usr/bin/dconf write /com/canonical/indicator/session user-show-menu false &> /dev/null &
 #/usr/bin/gsettings set com.canonical.indicator.session suppress-restart-menuitem true &> /dev/null &
 #/usr/bin/gsettings set com.canonical.indicator.session suppress-shutdown-menuitem true &> /dev/null &
 ' > /usr/local/bin/profile-2.sh

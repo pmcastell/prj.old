@@ -2,7 +2,7 @@ sshConfig() {
 if [ "$1" = "yellowcircle" ]; then
    echo "Host localhost 127.0.0.1 172.18.163.*" > /root/.ssh/config
 elif [ "$1" = "insti" ]; then
-   echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server
+   echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server sp sa1 sa2 st sp2 sb sm spt sh
 	User lliurex"  > /root/.ssh/config
 else 
    echo "Host localhost 127.0.0.1" > /root/.ssh/config

@@ -2,7 +2,6 @@ uso() {
    echo uso: $0 '<dir-ip> (10.10.10.x)'
    exit 1
 }
-[ "$(whoami)" = "" ] && sudo $0 $@; exit $?; fi
 if [ "$#" -lt 1 ]; then uso; fi
    
 ETH=$(ifconfig | grep -E ^eth | head -2 | tail -1)

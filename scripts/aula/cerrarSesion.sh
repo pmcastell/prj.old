@@ -6,4 +6,5 @@ uso() {
    exit 1
 }
 if [ $# -lt 2 ]; then uso; fi
-ssh lliurex@pc$1 sudo pkill -u $2
+[ "$(echo $1 | egrep -o '^[0-9]+$')" != "" ] && PCNAME="pc${1}" || PCNAME="$1"
+ssh lliurex@${PCNAME} sudo pkill -u $2

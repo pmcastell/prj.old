@@ -3,6 +3,7 @@
 . /scripts/uso.sh
 [ "$1" = "" ] && uso "Uso: $0 <pais>\nCarga en firefox los urls si los hubiera del país de vpngate"
 TEMP="/tmp/vpngate_tmp.txt"
+[ "$1" = "-new" ] && rm $TEMP &> /dev/null && shift
 [ "$(find $TEMP -mmin -5)" = "" ] && wget -O $TEMP http://www.vpngate.net/en/ 
 clear
 URLS=$(cat $TEMP | xmllint --html --xpath "//table[@id='vg_hosts_table_id']/tr[contains(td,'$1')]/td/a[contains(@href,'openvpn')]/@href" --format - 2> /dev/null | sed -e 's/href=/\n/g')

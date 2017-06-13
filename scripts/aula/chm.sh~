@@ -1,6 +1,6 @@
 uso() {
    echo uso: $0 '<directorio> <permisos>'
-   echo Ejemplo: $0 /tmp/mio/pepe a+rx
+   echo Ejemplo: $0 /tmp/mio/pepe +r,+x
    exit 1
 }   
 if [ "$1" = "" -o "$2" = "" ]; then uso; fi

@@ -22,5 +22,7 @@ gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-ac-type log
 #gsettings set org.gnome.desktop.screensaver ubuntu-lock-on-suspend false
 
 
-
-echo $USER > /tmp/usuario.txt
+TEMP=$(tempfile)
+rm $TEMP
+TEMP="${TEMP}${USER}"
+echo $USER > $TEMP

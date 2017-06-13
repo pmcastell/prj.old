@@ -129,6 +129,8 @@ EOF
 }
 
 if [ "$1" = "-h" ]; then uso; fi  
+[ "$(lliurex-version) | grep -i server)" != "" ] && exit 4
+[ "$(hostname) | grep -i srv)" != "" ] && exit 4
 if [ "$(/usr/bin/whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi    
 INTERFAZ=$(/sbin/ifconfig | /bin/grep -E "^eth" | /usr/bin/awk '\'\{print \$1\;\}\'')
 DIR="10\.2\.1\."
@@ -308,6 +310,9 @@ usuario_lliurex() {
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
 #ESTA=$(cat /etc/sudoers | grep "lliurex ALL = NOPASSWD: ALL")
 #if [ "$ESTA" = "" ]; then echo lliurex ALL = NOPASSWD: ALL >> /etc/sudoers; fi
+[ "$(lliurex-version) | grep -i server)" != "" ] && exit 4
+[ "$(hostname) | grep -i srv)" != "" ] && exit 4
+[ "$(ifconfig -a | grep '10\.2\.1\.254')" != "" ] && exit 4
 pantalla_script
 fsarch_script
 hostname_script

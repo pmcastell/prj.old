@@ -19,7 +19,7 @@ else
    MAX_RES1=$(listaMonitoresRes | grep $MONITOR1 | awk '{print $2;}')
    MAX_RES2=$(listaMonitoresRes | grep $MONITOR2 | awk '{print $2;}')
    if [ "$2" = "on" ]; then
-      /usr/bin/xrandr --output $MONITOR1 --mode $MAX_RES1 --output $MONITOR2 --mode $MAX_RES2 --left-of $MONITOR1
+      /usr/bin/xrandr --output $MONITOR1 --mode $MAX_RES1 --output $MONITOR2 --mode $MAX_RES2 --left-of $MONITOR1      
    else 
       /usr/bin/xrandr --output $MONITOR1 --off --output $MONITOR2 --mode $MAX_RES2
    fi

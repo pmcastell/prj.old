@@ -146,6 +146,7 @@ echo '/scripts/casper-premount/10driver_updates "$@"
 ' > scripts/casper-premount/ORDER
 chmod a+x scripts/casper-premount/ORDER
 }
+
 . /scripts/funcionesAux.sh
 [ "$1" = "" ] && uso $0 '<imagen-iso>' || IMG_ISO="$1"
 MONTAJE="/tmp/$(uuid)"

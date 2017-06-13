@@ -10,6 +10,8 @@ EOF
 }
 
 if [ "$1" = "-h" ]; then uso; fi  
+[ "$(lliurex-version) | grep -i server)" != "" ] && exit 4
+[ "$(hostname) | grep -i srv)" != "" ] && exit 4
 if [ "$(/usr/bin/whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi    
 INTERFAZ=$(/sbin/ifconfig | /bin/grep -E "^eth" | /usr/bin/awk '{print $1;}')
 DIR="10\.2\.1\."
@@ -28,6 +30,12 @@ fi
 if [ "$(/bin/cat /etc/hosts | /bin/grep pc${PCNUM})" = "" ]; then
    /bin/cp /etc/hosts /tmp/hosts.old
    echo "127.0.0.1   localhost pc${PCNUM}" > /etc/hosts
-   echo "10.10.10.11 moodle" >> /etc/hosts
-   /bin/cat /tmp/hosts.old | grep -v 127.0.0 | grep -v 127.0.1 | grep -v moodle >> /etc/hosts
+   /bin/cat /tmp/hosts.old | grep -v 127.0.0 | grep -v 127.0.1  >> /etc/hosts
 fi
+if [ "$(/bin/cat /etc/hosts | /bin/grep moodle)" = "" ]; then
+   /bin/cp /etc/hosts /tmp/hosts.old
+   echo "10.10.10.11 moodle" > /etc/hosts
+   /bin/cat /tmp/hosts.old | grep -v moodle >> /etc/hosts
+fi
+rm /tmp/hosts.old &> /dev/null
+

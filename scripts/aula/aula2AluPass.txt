@@ -1,4 +1,4 @@
-alu2 | alu2016
+alu2 | alu20
 marbaz | EMZ8
 genvaz | lfir
 lunfra | lAYi
@@ -22,8 +22,8 @@ sanpas | san123456
 paorio | soakedinbleach05
 irecen | irene1699
 aripow | Chiqui16
-aarsan | alumne
-alumne | alumne2016
+aarsan | 2001aamahu
+alumne | alumne
 alumno | alumno2016
 halsan | itati06
 juacla | 965873850
@@ -94,7 +94,7 @@ jesand | blasan2805
 jorbus | jorge2001
 joateu | alumne
 paurod | alumne
-iricab | alumne
+iricab | irisbleda
 iolbon | iolaopdc
 iolcar | mSgE
 lorbor | nairissa
@@ -119,7 +119,7 @@ neslaz | n1513
 davcri | panorama
 diealv | elfiera210
 alvalv | Ga3x
-miqcan | SDyx
+miqcan | 231104
 asifer | asifer
 ignher | sonso123
 amapaz | alumne
@@ -196,14 +196,14 @@ razcri | x5yn
 nevreb | acdc
 gabmar01 | alumne
 yascev | alumne
-abddan | scootordie
+abddan | abdelilah
 fabchi | dubayork99
 jossol | teteover73
 danhas | dY1x
 migcas | miguel70
-marvil | masa145
+marvil | Massa.145
 sofaar | umWR
-davbaz | davbaz1234
+davbaz | callofduty
 raugal | alumne
 raumar | alumne
 jhomor | alumne
@@ -214,7 +214,7 @@ marsiv | alumne
 perher | ZatW
 emimar | alumne
 cynmar | marina4
-gerort | YqAM
+gerort | alumne
 nesort | QDcx
 sebhid | 3rdp
 samnog01 | S1Ti
@@ -272,7 +272,7 @@ borcat | dado1234
 natlla | diDE
 luidie | onepiece5701
 rubfoo | Zlf0
-josbal | alumne
+josbal | josepfra.121
 aleaba | fgh5
 leorui | alumne
 danalf | 5151aa
@@ -298,10 +298,10 @@ salesc | alumne
 urkest | 13012001
 isagar | alumne
 adrlop | lope7991
-brapla | brandon
+brapla | 1234
 joarod | alumne
 crirod | cris2112
-marsot | uZiy
+marsot | alumne
 ivasuc | alumne
 marvic | alumne
 alican | wkHO
@@ -387,7 +387,7 @@ verbla | KDr7
 marhid | Pacopepe19
 danrui | danrui
 yichon | 2514y
-lorcou | alumne
+lorcou | loreneta14
 jiahu | sk3Q
 crisim | 5053
 desroz | alumne
@@ -456,14 +456,14 @@ albmat | polito123
 sarteu | alumne
 joamar | polopiner
 carcad | 600227383
-roxgav | 30a2000r
+roxgav | 300800r
 vicalb | alumne
-tomazn | 2522001t
+tomazn | alumne
 danher | alumne
 juapar | kiraylaia
 vanrei | alumne
 lourom | alumne
-antave | africa
+antave | antonia
 adrgom | 1234
 joegom01 | 1QtO
 joegom | joegom1
@@ -486,7 +486,7 @@ alfpro | alumne
 pabser01 | R2i5
 adrser | Q0no
 juasol | youtube
-jessor | alumne
+jessor | jessor
 albtir | alumne
 jacdia | alumne
 pailow | alumne
@@ -512,7 +512,7 @@ rammag | 12091108
 sopman | alumne
 gemmor | LXik
 andreg | m16j14a25c27
-leilop | SAOu
+leilop | alumne
 giucro | polikarpus1
 sermon01 | XSbk
 alerod02 | alumne
@@ -590,7 +590,7 @@ domriv | alumne
 marsan | alumne
 evaval | facebook.com
 marval01 | alumne
-nicgen | alumne
+nicgen | pandepipas
 adrcli | Vrz7
 marval | timichurri
 ioamun | 6HIK
@@ -609,7 +609,7 @@ albuhl | alba.u1502
 josmar | salami123
 razmag | informaticamola
 migfra | alumne
-donnie | alumne
+donnie | Donovan0.
 lauest | 7654
 darivo | cu0G
 marrom01 | Navarro10
@@ -633,8 +633,8 @@ noelor | 06101998noe
 clalor | molo
 naymar | jSrY
 mansan | C5Q7
-vicper | alumne
-larorz | Zmjx
+vicper | vicentney
+larorz | alumne
 riccue | patata
 marrey01 | AEu4
 serpoz | eWnI
@@ -661,7 +661,7 @@ diedev | alumne
 joafer | mk48
 josgad | favaloso
 paugen | JgV5
-lorgen | lemayan
+lorgen | alumne
 ainllo | 0tyu
 xavllo | nala
 monlop | alumne
@@ -690,10 +690,10 @@ inegom | inegom
 albgom | alumne
 inepon | 5awetozt
 marand | HkUo
-demfer | 12345
+demfer | alumne
 adrfer | enanos2016
 ivamar01 | GSm7
-profesor | profesor
+profesor | profe2017
 xavsmi | qaos
 lorsmi | rockandroll
 catpin | alumne
@@ -831,7 +831,7 @@ vicesc | alumne
 aleizq | 00rian00
 marjim01 | mMOs
 hajtah | 5Q7s
-oustah | 12345
+oustah | 1234
 souezr | 123456
 shetar | ctnk
 davato | varadero32
@@ -876,7 +876,7 @@ alvucl | cG7X
 aitucl | 1234
 jesbun | amsterdam66
 nandam | 654321
-elihoe | yRB8
+elihoe | cocacola
 roshoe | alumne
 shosta | 9876
 mostaa | alumne

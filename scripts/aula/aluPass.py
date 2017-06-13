@@ -108,6 +108,7 @@ def buscarUsuario(user=None):
 	if (user==None and len(sys.argv)>2):
 		user=sys.argv[2]
 	allPasswords=c.get_all_passwords(u,"Golem")
+	encontrado=False
 	for i in range(len(allPasswords)):
 		regActual=allPasswords[i]
 		for key in regActual:

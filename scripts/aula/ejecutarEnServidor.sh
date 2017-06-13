@@ -155,7 +155,7 @@ instalarTorPrivoxy() {
    echo "forward-socks4a / 127.0.0.1:9050 ." >> /etc/privoxy/config
 }
 crearSshConfig() {
-echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server sa1 sa2 sp sb sm spt
+echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server sp sa1 sa2 sp2 st sp2 sb sm spt
 	CheckHostIP no
 	UserKnownHostsFile /dev/null 
 	StrictHostKeyChecking no
