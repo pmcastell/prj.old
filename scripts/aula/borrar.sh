@@ -1,6 +1,6 @@
 borrar() {
-AULA=/scripts/aula/bak
-SCRIPTS_AULA_BAK=/scripts/aula/
+AULA=/scripts/aula
+SCRIPTS_AULA_BAK=/scripts/aula/bak
 SCRIPTS_BAK=/scripts/BAK
 SCRIPTS_OVPN=/scripts/openvpn
 SCRIPTS_VMS=/scripts/vms
@@ -13,6 +13,7 @@ $AULA/config.ubu15
 $AULA/copiaTrabajosClase.sh
 $AULA/copiaTrabajosClase2.sh
 $AULA/correoConexion.txt
+$AULA/_e.sh
 $AULA/gmail.sh
 $AULA/inicio.sh
 $AULA/instalarTunelSsh.sh

@@ -20,7 +20,8 @@ elif [ "$1" = ON -o "$1" = "on" ]; then
       shift
    done
    for SITIO in $LISTA_DE_SITIOS_BLOQUEADOS; do
-      if [ "$(cat /etc/hosts | grep $SITIO)" = "" ]; then
+      if [ "$(cat /etc/hosts | grep $SITIO)" = "" ];
+      then
          echo 127.0.0.1 $SITIO >> /etc/hosts
       fi
    done

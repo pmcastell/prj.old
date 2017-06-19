@@ -1,6 +1,6 @@
 borrar() {
 AULA=/scripts/aula
-SCRIPTS_AULA_BAK=/scripts/aula/
+SCRIPTS_AULA_BAK=/scripts/aula/bak
 SCRIPTS_BAK=/scripts/BAK
 SCRIPTS_OVPN=/scripts/openvpn
 SCRIPTS_VMS=/scripts/vms

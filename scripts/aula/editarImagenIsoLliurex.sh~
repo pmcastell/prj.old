@@ -146,6 +146,7 @@ echo '/scripts/casper-premount/10driver_updates "$@"
 ' > scripts/casper-premount/ORDER
 chmod a+x scripts/casper-premount/ORDER
 }
+
 . /scripts/funcionesAux.sh
 [ "$1" = "" ] && uso $0 '<imagen-iso>' || IMG_ISO="$1"
 MONTAJE="/tmp/$(uuid)"
@@ -156,7 +157,7 @@ cp -av $MONTAJE/. /tmp/iso
 chmod a+w /tmp/iso
 mkdir /tmp/isotemp
 cd /tmp/isotemp
-7za e -so ../iso/casper/initrd.lz | cpio -id
+7za e -so ../iso/casper/initrd.lz | cpio -idv
 lupin_helpers
 iso_scan
 ORDER
@@ -164,7 +165,10 @@ sudo bash -c 'find . | cpio -o -H newc | lzma -7 > /tmp/iso/casper/initrd.lz'
 cd /tmp/iso
 sudo mkisofs -R -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o /tmp/isotemp/$(basename $IMG_ISO) /tmp/iso
 sudo umount /$MONTAJE
-
+echo deberías hacer:
+echo rm -rf /tmp/iso
+echo cp /tmp/isotemp/$(basenamme $IMG_ISO) /destino
+echo rm -rf /tmp/isotemp
 exit 0
 
 The "-b" flag makes the disk bootable, using "isolinux/isolinux.bin" as the boot file. The "-no-emul-boot", "-boot-load-size 4", and "-boot-info-table" all are extra settings for making the disk bootable. The "-c isolinux/boot.cat" is a packaging flag. The "-o /tmp/new.iso" is the file it will generate, and the last thing "/tmp/iso" specifies the files to put inside it. The "-R" makes sure the final ISO file is fully compliant.

@@ -8,7 +8,7 @@ EOF
 }
 
 if [ "$1" = "" ]; then uso; fi
-if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit $?; fi
+if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 
 if [ "$1" = "on" ]; then
    echo 'function FindProxyForURL(url,host)

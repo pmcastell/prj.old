@@ -22,7 +22,7 @@ while read l; do
       MAC=$(echo $l | awk -F'=' '{print $2;}' | awk -F',' '{print $1;}')
       IP=$(echo $l | awk -F'=' '{print $2;}' | awk -F',' '{print $3;}')
       #sudo arp -s $IP $MAC #&> /dev/null;
-      sudo etherwake -b $MAC &
+      sudo etherwake -i eth0 -b $MAC &
       sudo wakeonlan $MAC &> /dev/null &
    fi
 done  < /etc/dnsmasq.conf 

@@ -54,6 +54,7 @@ cumples=[
       ["JUAN JOSE","19-03-2007",'S'],
       ['MARI MEDICO','17-05-2011','C'],
       ['CERTFICADO FNMT, no olvides desactivar navegación privada en firefox','01-11-2020','C'],
+      ['CERTIFICADO JORGE Y MAMÁ, no olvides desactivar navegación privada en firefox','14-12-2017','C'],
       ['RENOVAR SEGURO COCHE DOMICILIACION','29-06-2016','C'],
       ['REENVÍO DE CORRESPONDENCIA POSTAL','29-01-2017','C'],
       ['CURSOS INTEF 2ª ED','15-06-2016','S'],

@@ -1,0 +1,8 @@
+#!/bin/bash
+DEBUG=false
+debug() {
+   if $DEBUG; then echo "$@" >&2; fi
+}   
+
+DEBUG=true
+debug curl -u $username:$password --silent "https://mail.google.com/mail/feed/atom" 

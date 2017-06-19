@@ -1,7 +1,7 @@
-#copiar
+#copiar en servidor de origen
 /usr/sbin/slapcat -v -l /home/backup/ldap.diff
 
-#restaurar
+#restaurar en servidor de destino
 /etc/init.d/slapd stop
 cd /var/lib/ldap
 rm -rf *

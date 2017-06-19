@@ -1,5 +1,6 @@
 uso() {
    echo uso: $0 '<directorio> <permisos>'
+   echo Cambia los permisos a un directorio y a todos sus ancestros hasta llegar al raíz
    echo Ejemplo: $0 /tmp/mio/pepe a+rx
    exit 1
 }   

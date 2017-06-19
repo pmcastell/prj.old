@@ -16,6 +16,7 @@ echo RED: $RED
 echo INI: $INI
 
 for((i=0;i<$NUM;i++)); do
-   echo ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no ConnectTimeout=5 lliurex@${RED}.$(( $INI + $i )) sudo $1 > /dev/stderr
+   #echo "i: $i. INI: $INI. INI+i: $(( $INI + $i ))"
+   echo ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=5 lliurex@${RED}.$(( $INI + $i )) sudo $1 > /dev/stderr
    ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=5 lliurex@${RED}.$(( $INI + $i )) sudo $1 2>/dev/null &
 done   
