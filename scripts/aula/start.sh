@@ -74,7 +74,7 @@ done
 $DIR_BASE_HOSTINGER/actualiza2.sh
 TEMP=$(tempfile)
 for INDICE in $INDICES; do
-   wget -O - http://ubuin.hopto.org/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
+   wget -O - http://scratch.hol.es/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
    if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then 
       habla -n "Error en fichero: $INDICE. Voy a Borrarlo"; ERROR=true;
       lftp  ftp://u964077031.ganimedes:$(/scripts/getMyPass.sh hostinger)@ftp.ganimedes.esy.es -e "set ssl:verify-certificate no; rm indice6.html;bye" 

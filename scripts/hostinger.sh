@@ -10,7 +10,7 @@ u448936479  ftp.lcalc.esy.es     (reg6543@gmail.com)
 u121767690  ftp.lwriter.esy.es   (reg6543@gmail.com)
 u647043786  ftp.scratch.hol.es   (infosmr2@gmail.com)
 u964077031  ftp.ganimedes.esy.es (reg65432@gmail.com)
-u635975412  ftp.javi-moodle.esy.es (correo6543@gmail.com)
+u588702550  ftp.javi-moodle.esy.es (correo6543@gmail.com)
 ' | grep $1 | awk '{print $'${CAMPO}';}'
 }
 
@@ -21,7 +21,7 @@ USUARIO=$(usuario $1 1)
 CLAVE=$(/scripts/getMyPass.sh hostinger)
 [ "$CLAVE" = "" ] && CLAVE="$(cat /m/Mios/Personal/Privado/AgendasClaves/genClavesIndicePass.sh | grep -i hostinger | head -1 | awk '{print $2;}')"
 LFTP='lftp -e "'"set ssl:verify-certificate no;"'" '
-[ "$2" = "" ] && eval $LFTP $USUARIO:$CLAVE@$(usuario $1 2) || eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put mirror -R "$2";quit\""
+[ "$2" = "" ] && eval $LFTP $USUARIO:$CLAVE@$(usuario $1 2) || eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";quit\""
 
 exit 0
 
