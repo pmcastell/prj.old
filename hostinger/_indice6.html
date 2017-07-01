@@ -19,13 +19,14 @@ ubu14_TUN_OVP_IP=$GLOBAL_TUN_IP
 ubu14_TUN_OVP_PORT=$GLOBAL_TUN_PORT
 ubu14_TUN_OVP_DEV=26
 
-aula1srv_TUN_SSH="$GLOBAL_TUN_SSH"
-aula1srv_TUN_SSH_IP="$GLOBAL_TUN_IP"
-aula1srv_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
-aula1srv_TUN_SSH_DEV="11"
-aula1srv_TUN_SSH_RED="10.$aula1srv_TUN_SSH_DEV.$aula1srv_TUN_SSH_DEV"
-aula1srv_TUN_SSH_DEV_IP="$aula1srv_TUN_SSH_RED.$aula1srv_TUN_SSH_DEV"
-aula1srv_TUN_SSH_CMD="/sbin/route add -net 10.10.10.0/24 gw $aula1srv_TUN_SSH_DEV_IP; /sbin/route add -net 10.2.1.0/24 gw $aula1srv_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $aula1srv_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $aula1srv_TUN_SSH_RED.0/24; "
+aula1srv_TUN_SSH=si
+aula1srv_TUN_SSH_IP=$GLOBAL_TUN_IP
+aula1srv_TUN_SSH_PORT=$GLOBAL_TUN_PORT
+aula1srv_TUN_SSH_DEV=11
+aula1srv_TUN_SSH_CMD1="/sbin/route add -net 10.10.10.0/24 gw $TUN_SSH_DEV_IP; "
+aula1srv_TUN_SSH_CMD2="/sbin/route add -net 10.2.1.0/24 gw $TUN_SSH_DEV_IP; "
+aula1srv_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24 &> /dev/null; "
+aula1srv_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
 
 aula2srv_TUN_SSH=$GLOBAL_TUN_SSH
 aula2srv_TUN_SSH_IP=$GLOBAL_TUN_IP
@@ -108,4 +109,4 @@ reg6543_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$
 reg6543_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
 
 
-MD5SUM=c96977c22824a52bbfaa16d686936eb3
+MD5SUM=c266b61e31d054e186ed6a2514b3e541

@@ -2,7 +2,7 @@ sshConfig() {
 if [ "$1" = "yellowcircle" ]; then
    echo "Host localhost 127.0.0.1 172.18.163.*" > /root/.ssh/config
 elif [ "$1" = "insti" ]; then
-   echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server
+   echo "Host 10.2.1.* pc1* pc2* 10.10.10.* localhost 127.0.0.1 172.18.161.* server sp sa1 sa2 st sp2 sb sm spt sh
 	User lliurex"  > /root/.ssh/config
 else 
    echo "Host localhost 127.0.0.1" > /root/.ssh/config
@@ -87,14 +87,16 @@ echo "# Edit this file to introduce tasks to be run by cron.
 # m h  dom mon dow   command"
 }
 instalaScriptTunelSsh() {
-   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
+   SCRIPT="tunelSsh6.sh"
+   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/$SCRIPT -O /root/$SCRIPT
    wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
    TEMP=$(tempfile)
    if [ "$(sudo crontab -l | grep -i 'no crontab')" != "" ] || [ "$(sudo crontab -l)" = "" ]; then crontab_encabezado > $TEMP; fi 
-   (cat $TEMP; sudo crontab -l | grep -v tunelSsh6 ; echo '*/5 *   *   *   *    /root/tunelSsh6.sh &> /dev/null' ) | sudo crontab -
-   chmod +x /root/tunelSsh6.sh
-   chmod +x /root/sshTun.sh
+   (cat $TEMP; sudo crontab -l | grep -v tunelSsh6 ; echo '*/5 *   *   *   *    /root/$SCRIPT &> /dev/null' ) | sudo crontab -
    rm $TEMP
+   chmod +x /root/$SCRIPT
+   chmod +x /root/sshTun.sh
+   
 }
 aptSourcesList() {
    S1="deb http://es.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted"

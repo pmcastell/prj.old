@@ -87,13 +87,14 @@ echo "# Edit this file to introduce tasks to be run by cron.
 # m h  dom mon dow   command"
 }
 instalaScriptTunelSsh() {
-   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/tunelSsh6.sh -O /root/tunelSsh6.sh
+   SCRIPT="tunelSsh6.sh"
+   wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/$SCRIPT -O /root/$SCRIPT
    wget https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/sshTun.sh -O /root/sshTun.sh
    TEMP=$(tempfile)
    if [ "$(sudo crontab -l | grep -i 'no crontab')" != "" ] || [ "$(sudo crontab -l)" = "" ]; then crontab_encabezado > $TEMP; fi 
-   (cat $TEMP; sudo crontab -l | grep -v tunelSsh6 ; echo '*/5 *   *   *   *    /root/tunelSsh6.sh &> /dev/null' ) | sudo crontab -
+   (cat $TEMP; sudo crontab -l | grep -v tunelSsh6 ; echo '*/5 *   *   *   *    /root/$SCRIPT &> /dev/null' ) | sudo crontab -
    rm $TEMP
-   chmod +x /root/tunelSsh6.sh
+   chmod +x /root/$SCRIPT
    chmod +x /root/sshTun.sh
    
 }

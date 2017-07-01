@@ -82,7 +82,7 @@ obtenerFichero() {
    FICHERO=$1
    TEMP=$2
    NUM_LINEAS_MIN=50
-   URLS="http://gani.linkpc.net/$FICHERO http://ubuin.hopto.org/$FICHERO http://xyz.hit.to/$FICHERO http://ganimedes.esy.es/$FICHERO"
+   URLS="http://scratch.hol.es/$FICHERO http://xyz.hit.to/$FICHERO http://ubuin.hopto.org/$FICHERO http://ganimedes.esy.es/$FICHERO"
    for URL in $URLS; do
       if [ "$(which torsocks)" != "" ]; then PROXY_CMD="$(which torsocks)"; else PROXY_CMD=""; fi
       $PROXY_CMD wget -O - $URL 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
@@ -110,7 +110,7 @@ borrarParametros() {
       fi
    done
 }   
-procesarParametros() {
+___procesarParametros() {
    borrarParametros
    TEMP=$(tempfile)
    HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
@@ -120,7 +120,7 @@ procesarParametros() {
       if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E "(^$HOSTNAME|^GLOBAL)")" != "" ]; then
          VAR=$(echo $LINEA | awk -F'=' '{print $1;}')
          VALOR=$(echo $LINEA | awk -F'=' '{print $2;}')
-         if [ "$(echo $VALOR | egrep '^\$')" != "" -a "$(eval echo ${VALOR})" != "" ]; then
+         if [ "$(echo $VALOR | grep -E '^\$')" != "" -a "$(eval echo ${VALOR})" != "" ]; then
             #if $DEBUG; then echo EVAL: $(eval echo ${VALOR}); fi
             export $VAR="$(eval echo ${VALOR})"
          else
@@ -142,6 +142,32 @@ procesarParametros() {
       export TUN_SSH_CMD="$TUN_SSH_CMD $(eval echo \$$VAR_NAME)"
    done
    export TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD); debug TUN_SSH_CMD: $TUN_SSH_CMD
+   #OVPN
+   export TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
+   export TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)
+   export TUN_OVP_PORT=$(eval echo \$${HOSTNAME}_TUN_OVP_PORT)
+   export TUN_OVP_DEV=$(eval echo \$${HOSTNAME}_TUN_OVP_DEV)
+   export TUN_OVP_DEV_IP="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.${TUN_OVP_DEV}"
+   export TUN_OVP_DEV_GW="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.1"
+   export TUN_OVP_IFCONFIG="$TUN_OVP_DEV_IP $TUN_OVP_DEV_GW"
+   rm $TEMP
+}
+procesarParametros() {
+   borrarParametros
+   TEMP=$(tempfile)
+   TEMP2=$(tempfile)
+   HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
+   if $DEBUG; then HOSTNAME="aula2srv"; fi
+   obtenerFichero indice6.html $TEMP
+   . $TEMP
+   #SSH
+   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH); debug TUN_SSH: $TUN_SSH
+   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP); debug TUN_SSH_IP: $TUN_SSH_IP
+   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT); debug TUN_SSH_PORT: $TUN_SSH_PORT
+   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV); debug TUN_SSH_DEV: $TUN_SSH_PORT
+   export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"; debug TUN_SSH_DEV_IP: $TUN_SSH_DEV_IP
+   export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"; debug TUN_SSH_DEV_GW: $TUN_SSH_DEV_GW
+   export TUN_SSH_CMD=$(eval echo \$${HOSTNAME}_TUN_SSH_CMD); debug TUN_SSH_CMD: $TUN_SSH_CMD
    #OVPN
    export TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
    export TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)

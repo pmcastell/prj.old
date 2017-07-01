@@ -129,6 +129,6 @@ alias ltsp23='export SSHUSER="ltspadmin"; sshh $SSHUSER@ltsp23'
 alias scf='sshpass -p $(/scripts/aula/claves.sh franav) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 alias scfp='sshpass -p $(/scripts/aula/claves.sh fcriadon) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 alias scl='sshpass -p $(/scripts/aula/claves.sh ltspadmin) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-
+complete -W "ganimedes inkscape limpress lcalc lwriter scratch javi-moodle" -o bashdefault -o default 'hostinger'
 
 #PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
