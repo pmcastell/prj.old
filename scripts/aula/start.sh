@@ -26,10 +26,10 @@ ponerMD5() {
    fi
 }
 encuentraDir() {
-   if [ -d /home/usuario/hostinger ]; then
-      echo /home/usuario/hostinger
-   elif [ -d /home/franav/hostinger ]; then
-      echo /home/franav/hostinger;
+   if [ -d /home/usuario/$1 ]; then
+      echo /home/usuario/$1
+   elif [ -d /home/franav/$1 ]; then
+      echo /home/franav/$1;
    fi
 }
 
@@ -71,10 +71,10 @@ done
 #echo $PASSWD > $DIR_BASE_HOSTINGER/indicep.html
 /m/Mios/Personal/Privado/AgendasClaves/genClavesIndicePass.sh
 #cd $DIR_BASE_HOSTINGER
-$DIR_BASE_HOSTINGER/actualiza2.sh
+$DIR_BASE_HOSTINGER/actualiza2.sh "$INDICES $DIR_BASE_HOSTINGER/indicepass.html"
 TEMP=$(tempfile)
 for INDICE in $INDICES; do
-   wget -O - http://scratch.hol.es/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
+   wget -O - https://ganimedes.000webhostapp.com/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
    if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then 
       habla -n "Error en fichero: $INDICE. Voy a Borrarlo"; ERROR=true;
       lftp  ftp://u964077031.ganimedes:$(/scripts/getMyPass.sh hostinger)@ftp.ganimedes.esy.es -e "set ssl:verify-certificate no; rm indice6.html;bye" 

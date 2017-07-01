@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEBUG=false
+DEBUG=true
 debug() {
    if $DEBUG; then echo "$@" >&2; fi
 }   
@@ -82,10 +82,10 @@ obtenerFichero() {
    FICHERO=$1
    TEMP=$2
    NUM_LINEAS_MIN=50
-   URLS="http://scratch.hol.es/$FICHERO http://xyz.hit.to/$FICHERO http://ubuin.hopto.org/$FICHERO http://ganimedes.esy.es/$FICHERO"
+   URLS="https://ganimedes.000webhostapp.com/ http://scratch.hol.es/ http://xyz.hit.to/ http://ubuin.hopto.org/ http://ganimedes.esy.es/"
    for URL in $URLS; do
       if [ "$(which torsocks)" != "" ]; then PROXY_CMD="$(which torsocks)"; else PROXY_CMD=""; fi
-      $PROXY_CMD wget -O - $URL 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
+      $PROXY_CMD wget -O - $URL/$FICHERO 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
       if [ "$(cat $TEMP)" = "" ];then continue; fi
       NUM_LINEAS=$(cat $TEMP | wc -l)
       if [ "$NUM_LINEAS" -le $NUM_LINEAS_MIN ];then continue; fi
@@ -93,6 +93,7 @@ obtenerFichero() {
       MD52=$(cat $TEMP | grep MD5SUM | awk -F'=' '{print $2;}')
       if [ "$MD51" = "$MD52" ]; then NUM_LINEAS=$(($NUM_LINEAS - 1)); break; fi
    done
+
    if [ "$NUM_LINEAS" != "" ] && [ "$NUM_LINEAS" -gt $NUM_LINEAS_MIN ]; then
       TEMP2=$(tempfile)
       cat $TEMP | head  -$NUM_LINEAS > $TEMP2
