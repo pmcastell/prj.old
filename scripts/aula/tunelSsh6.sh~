@@ -29,6 +29,9 @@ f1c2e0997d44749047fa2eb4bb83e9e5
 ce9bad387185bc12de4fa7be77ee5fab
 -----END OpenVPN Static key V1-----" > /root/key
    fi
+}  
+hostNAME() {
+   echo $(hostname|awk -F'.' '{print $1;}')
 }   
 tunelOVPN () {
    ovpnKEY
@@ -49,10 +52,10 @@ tunelSSH() {
    #for VAR in PORT IP DEV DEV_GW DEV_IP CMD; do eval TUN_SSH_${VAR}=\"$(eval echo \"$(eval echo \$TUN_SSH_${VAR})\")\"; done
    for((i=1;i<=10;i++)); do
       #echo Intento de conexión: $i
-      /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p $TUN_SSH_PORT root@$TUN_SSH_IP -w $TUN_SSH_DEV:$TUN_SSH_DEV -CTf bash -c \'"/bin/ls; /bin/sleep 5; /sbin/ifconfig tun$TUN_SSH_DEV  $TUN_SSH_DEV_GW/24 pointopoint $TUN_SSH_DEV_IP up; /bin/sleep 3; $TUN_SSH_CMD" \'
-      /sbin/ifconfig tun$TUN_SSH_DEV $TUN_SSH_DEV_IP/24 pointopoint $TUN_SSH_DEV_GW up &> /dev/null
-      /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24 &> /dev/null
-      /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24
+      echo /usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p $TUN_SSH_PORT root@$TUN_SSH_IP -w $TUN_SSH_DEV:$TUN_SSH_DEV -CTf bash -c \'"/bin/ls; /bin/sleep 5; /sbin/ifconfig tun$TUN_SSH_DEV  $TUN_SSH_DEV_GW/24 pointopoint $TUN_SSH_DEV_IP up; /bin/sleep 3; $TUN_SSH_CMD" \'
+      echo /sbin/ifconfig tun$TUN_SSH_DEV $TUN_SSH_DEV_IP/24 pointopoint $TUN_SSH_DEV_GW up &> /dev/null
+      echo /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24 &> /dev/null
+      echo /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.0/24
       if $(conexionActiva $TUN_SSH_DEV_GW); then break; fi
       if [ "$(( $i % 3 ))" = "0" ]; then sudo service tor restart; /bin/sleep 10; fi
    done
@@ -96,17 +99,20 @@ obtenerFichero() {
 
    if [ "$NUM_LINEAS" != "" ] && [ "$NUM_LINEAS" -gt $NUM_LINEAS_MIN ]; then
       TEMP2=$(tempfile)
-      cat $TEMP | head  -$NUM_LINEAS > $TEMP2
+      HOST_NAME=$(hostNAME)
+      if $DEBUG; then HOST_NAME="aula2srv"; fi
+      cat $TEMP | head  -$NUM_LINEAS | grep -E "(^$HOST_NAME|^GLOBAL)" > $TEMP2
       rm $TEMP
       mv $TEMP2 $TEMP
    else
       exit
    fi
 }  
+ 
 borrarParametros() {
-   HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
+   HOST_NAME=$(hostNAME)
    for v in $(env); do 
-      if [ "$(echo $v  | grep -E "(^$HOSTNAME|^GLOBAL)")" != "" ]; then
+      if [ "$(echo $v  | grep -E "(^$HOST_NAME|^GLOBAL)")" != "" ]; then
          unset $(echo $v | awk -F'=' '{print $1;}')
       fi
    done
@@ -114,11 +120,11 @@ borrarParametros() {
 ___procesarParametros() {
    borrarParametros
    TEMP=$(tempfile)
-   HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
-   if $DEBUG; then HOSTNAME="srv2aula"; fi
+   HOST_NAME=$(hostNAME)
+   if $DEBUG; then HOST_NAME="aula2srv"; fi
    obtenerFichero indice6.html $TEMP
    while read LINEA; do 
-      if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E "(^$HOSTNAME|^GLOBAL)")" != "" ]; then
+      if [ "$LINEA" != "" -a "$(echo $LINEA | grep -E "(^$HOST_NAME|^GLOBAL)")" != "" ]; then
          VAR=$(echo $LINEA | awk -F'=' '{print $1;}')
          VALOR=$(echo $LINEA | awk -F'=' '{print $2;}')
          if [ "$(echo $VALOR | grep -E '^\$')" != "" -a "$(eval echo ${VALOR})" != "" ]; then
@@ -131,23 +137,23 @@ ___procesarParametros() {
       fi
    done < $TEMP
    #SSH
-   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH); debug TUN_SSH: $TUN_SSH
-   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP); debug TUN_SSH_IP: $TUN_SSH_IP
-   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT); debug TUN_SSH_PORT: $TUN_SSH_PORT
-   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV); debug TUN_SSH_DEV: $TUN_SSH_PORT
+   export TUN_SSH=$(eval echo \$${HOST_NAME}_TUN_SSH); debug TUN_SSH: $TUN_SSH
+   export TUN_SSH_IP=$(eval echo \$${HOST_NAME}_TUN_SSH_IP); debug TUN_SSH_IP: $TUN_SSH_IP
+   export TUN_SSH_PORT=$(eval echo \$${HOST_NAME}_TUN_SSH_PORT); debug TUN_SSH_PORT: $TUN_SSH_PORT
+   export TUN_SSH_DEV=$(eval echo \$${HOST_NAME}_TUN_SSH_DEV); debug TUN_SSH_DEV: $TUN_SSH_PORT
    export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"; debug TUN_SSH_DEV_IP: $TUN_SSH_DEV_IP
    export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"; debug TUN_SSH_DEV_GW: $TUN_SSH_DEV_GW
    export TUN_SSH_CMD=""
    for((i=1;i<=10;i++)); do 
-      VAR_NAME="${HOSTNAME}_TUN_SSH_CMD${i}"
+      VAR_NAME="${HOST_NAME}_TUN_SSH_CMD${i}"
       export TUN_SSH_CMD="$TUN_SSH_CMD $(eval echo \$$VAR_NAME)"
    done
    export TUN_SSH_CMD=$(eval echo $TUN_SSH_CMD); debug TUN_SSH_CMD: $TUN_SSH_CMD
    #OVPN
-   export TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
-   export TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)
-   export TUN_OVP_PORT=$(eval echo \$${HOSTNAME}_TUN_OVP_PORT)
-   export TUN_OVP_DEV=$(eval echo \$${HOSTNAME}_TUN_OVP_DEV)
+   export TUN_OVP=$(eval echo \$${HOST_NAME}_TUN_OVP)
+   export TUN_OVP_IP=$(eval echo \$${HOST_NAME}_TUN_OVP_IP)
+   export TUN_OVP_PORT=$(eval echo \$${HOST_NAME}_TUN_OVP_PORT)
+   export TUN_OVP_DEV=$(eval echo \$${HOST_NAME}_TUN_OVP_DEV)
    export TUN_OVP_DEV_IP="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.${TUN_OVP_DEV}"
    export TUN_OVP_DEV_GW="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.1"
    export TUN_OVP_IFCONFIG="$TUN_OVP_DEV_IP $TUN_OVP_DEV_GW"
@@ -156,27 +162,27 @@ ___procesarParametros() {
 procesarParametros() {
    borrarParametros
    TEMP=$(tempfile)
-   HOSTNAME=$(hostname|awk -F'.' '{print $1;}')
-   if $DEBUG; then HOSTNAME="aula2srv"; fi
+   HOST_NAME=$(hostNAME)
+   if $DEBUG; then HOST_NAME="aula2srv"; fi
    obtenerFichero indice6.html $TEMP
    . $TEMP
    #SSH
-   export TUN_SSH=$(eval echo \$${HOSTNAME}_TUN_SSH); debug TUN_SSH: $TUN_SSH
-   export TUN_SSH_IP=$(eval echo \$${HOSTNAME}_TUN_SSH_IP); debug TUN_SSH_IP: $TUN_SSH_IP
-   export TUN_SSH_PORT=$(eval echo \$${HOSTNAME}_TUN_SSH_PORT); debug TUN_SSH_PORT: $TUN_SSH_PORT
-   export TUN_SSH_DEV=$(eval echo \$${HOSTNAME}_TUN_SSH_DEV); debug TUN_SSH_DEV: $TUN_SSH_PORT
+   export TUN_SSH=$(eval echo \$${HOST_NAME}_TUN_SSH); debug TUN_SSH: $TUN_SSH
+   export TUN_SSH_IP=$(eval echo \$${HOST_NAME}_TUN_SSH_IP); debug TUN_SSH_IP: $TUN_SSH_IP
+   export TUN_SSH_PORT=$(eval echo \$${HOST_NAME}_TUN_SSH_PORT); debug TUN_SSH_PORT: $TUN_SSH_PORT
+   export TUN_SSH_DEV=$(eval echo \$${HOST_NAME}_TUN_SSH_DEV); debug TUN_SSH_DEV: $TUN_SSH_DEV
    export TUN_SSH_DEV_IP="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.${TUN_SSH_DEV}"; debug TUN_SSH_DEV_IP: $TUN_SSH_DEV_IP
    export TUN_SSH_DEV_GW="10.${TUN_SSH_DEV}.${TUN_SSH_DEV}.1"; debug TUN_SSH_DEV_GW: $TUN_SSH_DEV_GW
-   export TUN_SSH_CMD=$(eval echo \$${HOSTNAME}_TUN_SSH_CMD); debug TUN_SSH_CMD: $TUN_SSH_CMD
+   export TUN_SSH_CMD=$(eval echo \$${HOST_NAME}_TUN_SSH_CMD); debug TUN_SSH_CMD: $TUN_SSH_CMD
    #OVPN
-   export TUN_OVP=$(eval echo \$${HOSTNAME}_TUN_OVP)
-   export TUN_OVP_IP=$(eval echo \$${HOSTNAME}_TUN_OVP_IP)
-   export TUN_OVP_PORT=$(eval echo \$${HOSTNAME}_TUN_OVP_PORT)
-   export TUN_OVP_DEV=$(eval echo \$${HOSTNAME}_TUN_OVP_DEV)
+   export TUN_OVP=$(eval echo \$${HOST_NAME}_TUN_OVP)
+   export TUN_OVP_IP=$(eval echo \$${HOST_NAME}_TUN_OVP_IP)
+   export TUN_OVP_PORT=$(eval echo \$${HOST_NAME}_TUN_OVP_PORT)
+   export TUN_OVP_DEV=$(eval echo \$${HOST_NAME}_TUN_OVP_DEV)
    export TUN_OVP_DEV_IP="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.${TUN_OVP_DEV}"
    export TUN_OVP_DEV_GW="10.${TUN_OVP_DEV}.${TUN_OVP_DEV}.1"
    export TUN_OVP_IFCONFIG="$TUN_OVP_DEV_IP $TUN_OVP_DEV_GW"
-   rm $TEMP
+   echo rm $TEMP
 }
 
 if [ "$(whoami)" != "root" ]; then sudo $0 "$@"; exit 0; fi  
@@ -219,7 +225,7 @@ exit 0
       #VAR=$(echo $LINEA | awk -F'=' '{print $1;}');
       #VAL=$(echo $LINEA | awk -F'=' '{print $2;}');
       #$EXPORT; 
-      if [ "$LINEA" != "" -a "$(echo $LINEA | grep $HOSTNAME | grep -v grep)" != "" ]; then export $LINEA; fi
+      if [ "$LINEA" != "" -a "$(echo $LINEA | grep $HOST_NAME | grep -v grep)" != "" ]; then export $LINEA; fi
       #echo "VAR: $VAR ,  VAL: $VAL"
       #echo $EXPORT
    done < $TEMP

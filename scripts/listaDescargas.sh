@@ -20,7 +20,8 @@ echo '
 #http://www.downloadwireless.net/isos/wifislax64-1.0-final.iso
 #http://ftp.cica.es/ubuntu/releases/17.04/ubuntu-17.04-desktop-amd64.iso
 #http://releases.lliurex.net/isos/15.05_64bits/lliurex-servidor_amd64_1505_20170223_kernel4.iso
-http://downloadcenter.samsung.com/content/FM/201704/20170427160256419/T-JZL6DEUC_1169.2.exe
+#http://downloadcenter.samsung.com/content/FM/201704/20170427160256419/T-JZL6DEUC_1169.2.exe
+https://netix.dl.sourceforge.net/project/systemrescuecd/sysresccd-x86/5.0.2/systemrescuecd-x86-5.0.2.iso
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"

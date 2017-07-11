@@ -49,9 +49,26 @@ appendCrontab() {
    #(cat $TEMP; sudo crontab -l 2>&1 | grep -v tunelSsh6 ; echo '*/5 *   *   *   *    /root/tunelSsh6.sh &> /dev/null' ) | sudo crontab -
    rm $TEMP
 }   
-
-
-
-
-
+uuid() {
+   #9f0f0692-5f52-11e7-bd87-73727a1c258e
+   HEX_DIGITS=(0 1 2 3 4 5 6 7 8 9 a b c d e f)
+   UUID=""
+   for((i=1;i<=8;i++)); do
+      R=${HEX_DIGITS[$(( RANDOM % 16 ))]};
+      UUID="${UUID}${R}"
+   done
+   UUID="${UUID}-"
+   for((i=1;i<=3;i++)); do
+      for((j=1;j<=4;j++)); do
+         R=${HEX_DIGITS[$(( RANDOM % 16 ))]};
+         UUID="${UUID}${R}"
+      done
+      UUID="${UUID}-"
+   done
+   for((i=1;i<=12;i++)); do
+      R=${HEX_DIGITS[$(( RANDOM % 16 ))]};
+      UUID="${UUID}${R}"
+   done
+   echo yi $UUID
+}   
 

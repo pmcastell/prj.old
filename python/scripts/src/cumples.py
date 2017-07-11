@@ -44,14 +44,8 @@ cumples=[
       ["DIA DEL PADRE","19-03-2007",'S'],
       ["DIA DE LA MADRE","01-05-2016",'S'],
 
-
-      ["ESTHER","01-07-2006",'S'],
       ["CRISTINA","24-07-2006",'S'],
 
-      ["JUAN JOSE","05-07-1958",'C'],
-      ["MARIA","08-09-2006",'S'],
-      ["FATIMA","17-12-2006",'C'],
-      ["JUAN JOSE","19-03-2007",'S'],
       ['MARI MEDICO','17-05-2011','C'],
       ['CERTFICADO FNMT, no olvides desactivar navegación privada en firefox','01-11-2020','C'],
       ['CERTIFICADO JORGE Y MAMÁ, no olvides desactivar navegación privada en firefox','14-12-2017','C'],

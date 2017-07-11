@@ -96,7 +96,6 @@ instalaScriptTunelSsh() {
    rm $TEMP
    chmod +x /root/$SCRIPT
    chmod +x /root/sshTun.sh
-   
 }
 aptSourcesList() {
    S1="deb http://es.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted"

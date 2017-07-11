@@ -21,9 +21,18 @@ javi-moodle files.000webhost.com (reg65432@gmail.com)
 [ "$(usuario $1)" == "" ] && Usuario inexistente && exit 2
 USUARIO=$(usuario $1 1)
 CLAVE=$(/scripts/getMyPass.sh hostinger)
-[ "$CLAVE" = "" ] && CLAVE="$(cat /m/Mios/Personal/Privado/AgendasClaves/genClavesIndicePass.sh | grep -i hostinger | head -1 | awk '{print $2;}')"
+[ "$CLAVE" = "" ] && CLAVE="$(/scripts/getMyPass.sh hostinger)"
 LFTP='lftp -e "'"set ssl:verify-certificate no;"'" '
-[ "$2" = "" ] && eval $LFTP $USUARIO:$CLAVE@$(usuario $1 2) || eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";mv "$(basename $2)" public_html/;quit\""
+if [ "$2" = "" ]; then
+   eval $LFTP $USUARIO:$CLAVE@$(usuario $1 2) 
+else 
+   SITIO=$(usuario "$1" 2)
+   if [ "$(echo $SITIO | grep -i webhost)" != "" ]; then
+      eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";mv "$(basename $2)" public_html/;quit\""
+   else
+      eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";quit\""
+   fi
+fi   
 
 exit 0
 
