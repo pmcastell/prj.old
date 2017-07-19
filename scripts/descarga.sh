@@ -10,5 +10,5 @@ if [ "$2" != "" ]; then
 fi   
 ls -l /tmtmt/kdkdkdkd &> /dev/null
 while [ $? -gt 0 ]; do 
-   wget -c --timeout=10 $LIMIT $1
+   wget --no-check-certificate -c --timeout=10 $LIMIT $1
 done

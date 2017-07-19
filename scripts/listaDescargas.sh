@@ -21,7 +21,8 @@ echo '
 #http://ftp.cica.es/ubuntu/releases/17.04/ubuntu-17.04-desktop-amd64.iso
 #http://releases.lliurex.net/isos/15.05_64bits/lliurex-servidor_amd64_1505_20170223_kernel4.iso
 #http://downloadcenter.samsung.com/content/FM/201704/20170427160256419/T-JZL6DEUC_1169.2.exe
-https://netix.dl.sourceforge.net/project/systemrescuecd/sysresccd-x86/5.0.2/systemrescuecd-x86-5.0.2.iso
+#https://netix.dl.sourceforge.net/project/systemrescuecd/sysresccd-x86/5.0.2/systemrescuecd-x86-5.0.2.iso
+http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"
@@ -36,7 +37,8 @@ fi
 while read d; do
    [ "$d" = "" ] || [ "${d:0:1}" = "#" ] && continue
    MAQUINA=$(echo $d | awk -F'/' '{print $3;}')
-   sudo route add -host $MAQUINA gw r1
+   #echo "MAQUINA: $MAQUINA"
+   eecho sudo route add -host $MAQUINA gw r1
    descarga "$d" "$LIMIT"
-   sudo route del -host $MAQUINA
+   eecho sudo route del -host $MAQUINA
 done < $DESCARGAR

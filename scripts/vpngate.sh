@@ -21,7 +21,12 @@ echo ""
 echo "-------------------------------------------------------------------------------------------------------------------------"
 I=0   
 for u in $URLS; do 
-   echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g'; echo " --- "${SA[$I]}
+   VPN_FILE=$(echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
+   #echo VPN_FILE: $VPN_FILE
+   #echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g'; echo " --- "${SA[$I]}
+   OVPN_URL=$(curl "$VPN_FILE" 2>/dev/null | xmllint --html --xpath "//a/@href[contains(.,'.ovpn') and contains(.,'udp')]" - | sed -e 's/href="/\n/g' | tail -1 | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
+   #curl "http://www.vpngate.net/${OVPN_FILE}" 2> /dev/null >
+   echo "http://www.vpngate.net/${OVPN_URL}" echo " --- "${SA[$I]}
    I=$(($I+1))
    #echo "I: $I. SA: $SA, SA[$I]: ${SA[$I]}"
 done  

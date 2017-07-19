@@ -3,7 +3,8 @@
 . /scripts/uso.sh
 [ "$1" = "" ] && uso "Uso: $0 <pais>\nCarga en firefox los urls si los hubiera del país de vpngate"
 TEMP="/tmp/vpngate_tmp.txt"
-[ "$(find $TEMP -mmin -10)" = "" ] && wget -O $TEMP http://www.vpngate.net/en/ 
+[ "$1" = "-new" ] && rm $TEMP &> /dev/null && shift
+[ "$(find $TEMP -mmin -5)" = "" ] && wget -O $TEMP http://www.vpngate.net/en/ 
 clear
 URLS=$(cat $TEMP | xmllint --html --xpath "//table[@id='vg_hosts_table_id']/tr[contains(td,'$1')]/td/a[contains(@href,'openvpn')]/@href" --format - 2> /dev/null | sed -e 's/href=/\n/g')
 I=0
@@ -20,7 +21,12 @@ echo ""
 echo "-------------------------------------------------------------------------------------------------------------------------"
 I=0   
 for u in $URLS; do 
-   echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g'; echo " --- "${SA[$I]}
+   VPN_FILE=$(echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
+   #echo VPN_FILE: $VPN_FILE
+   #echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g'; echo " --- "${SA[$I]}
+   OVPN_URL=$(curl "$VPN_FILE" 2>/dev/null | xmllint --html --xpath "//a/@href[contains(.,'.ovpn') and contains(.,'udp')]" - | sed -e 's/href="/\n/g' | tail -1 | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
+   #curl "http://www.vpngate.net/${OVPN_FILE}" 2> /dev/null >
+   echo "http://www.vpngate.net/${OVPN_URL}" 2> /dev/null 
    I=$(($I+1))
    #echo "I: $I. SA: $SA, SA[$I]: ${SA[$I]}"
 done  

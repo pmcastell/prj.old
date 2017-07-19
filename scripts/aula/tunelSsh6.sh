@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DEBUG=true
+DEBUG=false
 debug() {
    if $DEBUG; then echo "$@" >&2; fi
 }   
@@ -65,7 +65,7 @@ mata() {
    CUENTA=0
    while true; do 
       PID=$(ps ax | grep '6:6' | grep -v grep | awk '{print $1;}')
-      if [ "$PID" = "" ]; then PID=$(/bin/ps  ax | /bin/grep -i tun15 | /bin/grep -v /bin/grep | /usr/bin/awk '{print $1;}'); fi
+      if [ "$PID" = "" ]; then PID=$(/bin/ps  ax | /bin/grep ssh | /bin/grep -i tun | /bin/grep -v /bin/grep | /usr/bin/awk '{print $1;}'); fi
       if [ "$PID" = "" -o $CUENTA -gt 10 ]; then break; fi 
       if [ $CUENTA -lt 5 ]; then SENIAL="-TERM"; else SENIAL="-9"; fi
       kill $SENIAL $PID
