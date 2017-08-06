@@ -1,5 +1,5 @@
 #!/bin/bash
- 
+PRINCIPAL="ganimedes.atwebpages.com"
 uso() {
    echo uso: $0 '<SSH|OVP>' '<si|no>'
    echo SSH pone en marcha tunel SSH

@@ -13,6 +13,7 @@ ganimedes   files.000webhost.com (correo6543@gmail.com)
 u964077031  ftp.ganimedes.esy.es (reg65432@gmail.com)
 u588702550  ftp.javi-moodle.esy.es (correo6543@gmail.com)
 javi-moodle files.000webhost.com (reg65432@gmail.com)
+2413052     ganimedes.atwebpages.com (reg6543@gmail.com)
 ' | grep $1 | head -1 | awk '{print $'${CAMPO}';}'
 }
 
@@ -29,6 +30,8 @@ else
    SITIO=$(usuario "$1" 2)
    if [ "$(echo $SITIO | grep -i webhost)" != "" ]; then
       eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";mv "$(basename $2)" public_html/;quit\""
+   elif [ "$(echo $SITIO | grep -i atwebpages)" != "" ]; then
+      eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"cd ganimedes.atwebpages.com; put "$2";quit\""
    else
       eval "$LFTP $USUARIO:$CLAVE@$(usuario "$1" 2) -e \"put "$2";quit\""
    fi

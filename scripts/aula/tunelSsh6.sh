@@ -85,7 +85,7 @@ obtenerFichero() {
    FICHERO=$1
    TEMP=$2
    NUM_LINEAS_MIN=50
-   URLS="https://ganimedes.000webhostapp.com/ http://scratch.hol.es/ http://xyz.hit.to/ http://ubuin.hopto.org/ http://ganimedes.esy.es/"
+   URLS="http://ganimedes.atwebpages.com/ http://ubuin.hopto.org/ http://ubuin.ddns.net/ https://ganimedes.000webhostapp.com/ http://scratch.hol.es/ http://xyz.hit.to/  http://ganimedes.esy.es/"
    for URL in $URLS; do
       if [ "$(which torsocks)" != "" ]; then PROXY_CMD="$(which torsocks)"; else PROXY_CMD=""; fi
       $PROXY_CMD wget -O - $URL/$FICHERO 2> /dev/null | base64 -d | openssl enc -d -aes-256-ctr -k "clave$(date -u +'%Y-%m-%d')" > $TEMP
