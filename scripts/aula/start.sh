@@ -1,5 +1,5 @@
 #!/bin/bash
-PRINCIPAL="ganimedes.atwebpages.com"
+PRINCIPAL="http://ganimedes.atwebpages.com"
 uso() {
    echo uso: $0 '<SSH|OVP>' '<si|no>'
    echo SSH pone en marcha tunel SSH
@@ -74,10 +74,10 @@ done
 $DIR_BASE_HOSTINGER/actualiza2.sh "$INDICES $DIR_BASE_HOSTINGER/indicepass.html"
 TEMP=$(tempfile)
 for INDICE in $INDICES; do
-   wget -O - https://$PRINCIPAL/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
+   wget -O - $PRINCIPAL/$(basename $INDICE) 2>/dev/null | $DIR_BASE/desencriptar.sh > $TEMP
    if [ "$(md5sum $TEMP | cut -f1 -d ' ')" != "$(md5sum $INDICE|cut -f1 -d ' ')" ]; then 
       habla -n "Error en fichero: $INDICE. Voy a Borrarlo"; ERROR=true;
-      lftp  ftp://u964077031.ganimedes:$(/scripts/getMyPass.sh hostinger)@ftp.ganimedes.esy.es -e "set ssl:verify-certificate no; rm indice6.html;bye" 
+      echo lftp  ftp://u964077031.ganimedes:$(/scripts/getMyPass.sh hostinger)@ftp.ganimedes.esy.es -e "set ssl:verify-certificate no; rm indice6.html;bye" 
       sudo $0 $@
       exit $?
    fi
