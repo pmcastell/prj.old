@@ -60,6 +60,7 @@ def pid_exists(pid):
             raise
     else:
         return True
+    
 def conexionActiva(host):
     nPings=4; timeout=2
     # Ping parameters as function of OS
@@ -81,20 +82,57 @@ def derive_key_and_iv(password, salt, key_length, iv_length):
     return d[:key_length], d[key_length:key_length+iv_length]
 
 
-def deBase64(inf,outf):
+def base64Dec(inf,outf):
     inf=open(inf,"r")
     outf=open(outf,"wb")
-    for l in inf:
-        outf.write(base64.b64decode(l))
-    outf.close()
-    inf.close()
+    base64.decode(inf,outf)
+    #for l in inf:
+    #    outf.write(base64.b64decode(l))
+    #outf.close()
+    #inf.close()
+
+def base64Enc(inf,outf):
+    inf=open(inf,"r")
+    outf=open(outf,"wb")
+    base64.encode(inf,outf)
+    #for l in inf:
+    #    outf.write(base64.b64encode(l)+"\n")
+    #outf.close()
+    #inf.close()
+
+
+def encryptCTR(inf, outf, password, key_length=32, base64=True,padding=False):
+    bs = AES.block_size
+    salt = Random.new().read(bs - len('Salted__'))
+    key, iv = derive_key_and_iv(password, salt, key_length, bs)
+    ctr=Counter.new(bs*8,initial_value=long(iv.encode("hex"),16))
+    cipher = AES.new(key, AES.MODE_CTR, counter = ctr)
+    in_file=open(inf,"r")
+    out_file=open(outf,"w")
+    out_file.write('Salted__' + salt)
+    finished = False
+    while not finished:
+        chunk = in_file.read(1024 * bs)
+        if len(chunk) == 0 or len(chunk) % bs != 0:
+            if (padding):
+                padding_length = (bs - len(chunk) % bs) or bs
+                chunk += padding_length * chr(padding_length)
+            finished = True
+        out_file.write(cipher.encrypt(chunk))
+    in_file.close()
+    out_file.close()
+    if (base64):
+        tmpFile=tempfile.mktemp()
+        base64Enc(outf,tmpFile)
+        os.remove(outf)
+        os.rename(tmpFile,outf)
 
 def decryptCTR(in_file="/tmp/indice6.html", out_file=None, 
                password="clave"+time.strftime("%Y-%m-%d"), key_length=32,
                base64=True,padding=False):
     if (base64):
         tmpFile=tempfile.mktemp()
-        deBase64(in_file,tmpFile)
+        base64Dec(in_file,tmpFile)
         in_file=tmpFile
     in_file=open(in_file,"rb")
     if (out_file==None):
@@ -285,12 +323,13 @@ def main():
             else:
                 mata(parametros['TUN_SSH_DEV'])
                 tunelSSH(parametros)
+        print "Durmiendo"
         try:
             time.sleep(int(parametros['GLOBAL_ESPERA']))
         except:
             time.sleep(300) 
             
              
-    
-main()
+if ( __name__ == '__main__'):    
+    main()
 
