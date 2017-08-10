@@ -88,8 +88,8 @@ def base64Dec(inf,outf):
     base64.decode(inf,outf)
     #for l in inf:
     #    outf.write(base64.b64decode(l))
-    #outf.close()
-    #inf.close()
+    outf.close()
+    inf.close()
 
 def base64Enc(inf,outf):
     inf=open(inf,"r")
@@ -97,11 +97,11 @@ def base64Enc(inf,outf):
     base64.encode(inf,outf)
     #for l in inf:
     #    outf.write(base64.b64encode(l)+"\n")
-    #outf.close()
-    #inf.close()
+    outf.close()
+    inf.close()
 
 
-def encryptCTR(inf, outf, password, key_length=32, base64=True,padding=False):
+def encryptCTR(inf, outf, password="clave"+time.strftime("%Y-%m-%d"), key_length=32, base64=True,padding=False):
     bs = AES.block_size
     salt = Random.new().read(bs - len('Salted__'))
     key, iv = derive_key_and_iv(password, salt, key_length, bs)
@@ -162,8 +162,7 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
        out_file.close()
 
 
-def obtenerFicheroIndice(urls=None,salida=None):
-    indice="indice6.html"
+def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
     if (urls==None):
         urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
           "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
@@ -296,12 +295,15 @@ def tunelSSH(parametros):
             print c
             os.system(c)
 
-def main():
+def debeSerAdmin():
     usuario=username()
     if DEBUG: usuario="root"
     if (usuario!="root" and not usuario.lower().startswith("admin")):
         print "Debes ejecutar este programa como administrador."
         sys.exit(1)
+
+def loopTunel():
+    debeSerAdmin()
     pidfile=tempfile.gettempdir()+"/"+md5(os.path.basename(sys.argv[0])).digest().encode("hex")
     if (os.path.isfile(pidfile)):
         pid=open(pidfile,"r").read();
@@ -309,7 +311,6 @@ def main():
         else: os.remove(pidfile)
     
     pdf=open(pidfile,"w"); pdf.write(str(os.getpid())); pdf.close()
-    
     horaComienzo=time.strftime("%H")
     conexionEstablecida=False
     while (horaComienzo==time.strftime("%H")):
@@ -328,8 +329,168 @@ def main():
             time.sleep(int(parametros['GLOBAL_ESPERA']))
         except:
             time.sleep(300) 
-            
+
+def numLineas(filename):
+    import mmap
+    f = open(filename, "r+")
+    buf = mmap.mmap(f.fileno(), 0)
+    lines = 0
+    readline = buf.readline
+    l=buf.readline()
+    penUltLinea=""
+    while l:
+        lines += 1
+        penUltLinea=l
+        l=buf.readline()
+    f.close()
+    return (lines,penUltLinea)
+
+def numLineas2(filename):
+    for n,l in enumerate(open(filename,"r")):
+        pass
+    return (n,l)
+
+def ficheroReplace(fichName,buscada,reemplaza):
+    import fileinput
+    for line in fileinput.input(fichName, inplace=True):
+        print "%s" % (line.replace(buscada,reemplaza)),
+
+def ficheroAppend(fichName,text):
+    with open(fichName,"a") as fichero:
+        if (text[-1]=="\n" or text[-1]=="\r"):
+            fichero.write(text)
+        else:
+            fichero.write(text+"\n")
+
+def ponerMD5(fichero):
+    numLin,ultLin=numLineas(fichero)
+    if (ultLin.upper().startswith("MD5SUM")):
+        MD5=md5Lineas(fichero,numLin-1)
+        if (ultLin!="MD5SUM="+MD5+"\n"):
+            ficheroReplace(fichero,ultLin,"MD5SUM="+MD5+"\n")
+    else:
+        MD5=md5Lineas(fichero,numLin)
+        ficheroAppend(fichero,"MD5SUM="+MD5)
+#     MD51=md5Lineas(fichero,numLin-1)
+#     MD52=ultLin[:-1].split("=")
+#     print "MD51: "+MD51+" MD52: "+MD52
+#     if (MD51!=MD52[1]):
+#         if (MD52[0]=="MD5SUM"):
+#             ficheroReplace(fichero,"MD5SUM="+MD52,"MD5SUM="+MD51)
+#         else:
+
+def direccionIp(real=True):
+    if (os.path.isfile("/tmp/direccionIpReal.txt")):
+        return open("/tmp/direccionIpReal.txt","r").read()
+    import netifaces
+    servicioIp="http://ipinfo.io"
+    cont=0
+    while True:
+        if (cont>10): return None
+        datos=eval(requests.get(servicioIp).content)
+        if (not real): return datos
+        if (datos and datos['country']=="ES"): break
+        debeSerAdmin()
+        router=netifaces.gateways()['default'][2][0]
+        os.system("sudo -S route add -host ipinfo.io gw "+router)
+        cont+=1
+    if (cont>0):
+        cont=0; err=1;
+        while (cont<10 and err!=0):
+            err=os.system("sudo -S route del -host ipinfo.io")
+    with open("/tmp/direccionIpReal.txt","w") as fDirIp:
+        fDirIp.write(datos['ip'])
+    return datos['ip']
+
+def cambiaParametrosIndice(fichName,parametros):
+    import fileinput
+    for line in fileinput.input(fichName, inplace=True):
+        for k in parametros.keys():
+            if (line.startswith(k)):
+                line=k+"="+parametros[k]+"\n"
+                break
+        print "%s" % (line),
+
+def obtenerClavesFtp():
+    res={}
+    if (os.path.isfile("\scripts\hostinger.sh")):
+        fClaves="\scripts\hostinger.sh"
+    elif (os.path.isfile("/scripts/hostinger.sh")):
+        fClaves="/scripts/hostinger.sh"
+    else:
+        fClaves=None
+    if (fClaves==None):
+        #claves=listadoDeClaves()
+        pass
+    else:
+        fc=open(fClaves,"r")
+        for l in fc:
+            if (l.endswith("###\n")):
+                datosHost=l.split()
+                res[datosHost[0]+":"+datosHost[1]]=datosHost
+        fc.close()
+    return res
+                
+
+def subirFtp(fich):
+    import ftplib
+    claves=obtenerClavesFtp()
+    for k in claves.keys():
+        try:
+            ftp = ftplib.FTP(claves[k][1],claves[k][0],"basura68")
+            ftp.cwd(claves[k][2])
+            resp=ftp.storbinary('STOR '+os.path.basename(fich), open(fich,"rb"))
+            print "Subiendo: "+fich+" a: "+str(claves[k])
+            #if (not resp.startswith("226")):
+        except:
+            print "Error transfiriendo: "+fich+" a "+claves[k][1]
+        
+def comprobarSubidaCorrecta(fichParam):
+    tmpFile=tempfile.mktemp()
+    obtenerFicheroIndice(salida=tmpFile)
+    with open(tmpFile,"r") as fContSubido:
+        contenidoSubido=fContSubido.read()
+    md51=md5(contenidoSubido).digest().encode("hex")
+    md52=md5(open(fichParam).read()).digest().encode("hex")
+    if (md51!=md52):
+        print "Error en fichero subido"
+    else:
+        print "Fichero subido correctamente"
+    
+        
+def subirFicheros():
+    #./tunelSsh.py --start <SSH|OVPN> <si|no> [<dir-base>]
+    service=sys.argv[2]
+    habilitar=sys.argv[3]
+    if (len(sys.argv)<5):
+        dirBase="/home/usuario/hostinger"
+    else:
+        dirBase=sys.argv[4]
+    indices=("indice6.html","indice5.html")
+    indices=("indice6.html",)
+    realIp=direccionIp()
+    for indice in indices:
+        fichParam=dirBase+"/"+indice; fichParamTemp=tempfile.gettempdir()+"/"+indice
+        cambiaParametrosIndice(fichParam,{'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp})
+        encryptCTR(fichParam,fichParamTemp)
+        subirFtp(fichParamTemp)
+        comprobarSubidaCorrecta(fichParam)
+        
+
+def start():
+    subirFicheros()
              
-if ( __name__ == '__main__'):    
-    main()
+if ( __name__ == '__main__'):
+#     if DEBUG: 
+#         sys.argv.append("--start")
+#         sys.argv.append("SSH")
+#         sys.argv.append("si")
+#         sys.argv.append("/home/usuario/hostinger")
+    
+    #loopTunel() 
+    if (len(sys.argv)>1):
+        if (sys.argv[1]=="--start"):
+            start()
+    else:
+        main()
 

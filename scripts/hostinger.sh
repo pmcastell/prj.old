@@ -4,16 +4,16 @@
 usuario() {
 [ "$2" = "" ] && CAMPO="2" || CAMPO="$2"
 echo '
-u301616277  ftp.inkscape.esy.es  (reg6543@gmail.com)
-u358816555  ftp.limpress.esy.es  (reg6543@gmail.com)
-u448936479  ftp.lcalc.esy.es     (reg6543@gmail.com)
-u121767690  ftp.lwriter.esy.es   (reg6543@gmail.com)
-u647043786  ftp.scratch.hol.es   (infosmr2@gmail.com)
-ganimedes   files.000webhost.com (correo6543@gmail.com)
-u964077031  ftp.ganimedes.esy.es (reg65432@gmail.com)
-u588702550  ftp.javi-moodle.esy.es (correo6543@gmail.com)
-javi-moodle files.000webhost.com (reg65432@gmail.com)
-2413052     ganimedes.atwebpages.com (reg6543@gmail.com)
+u301616277  ftp.inkscape.esy.es      /public_html              (reg6543@gmail.com)
+u358816555  ftp.limpress.esy.es      /public_html              (reg6543@gmail.com)
+u448936479  ftp.lcalc.esy.es         /public_html              (reg6543@gmail.com)
+u121767690  ftp.lwriter.esy.es       /public_html              (reg6543@gmail.com)
+u647043786  ftp.scratch.hol.es       /public_html              (infosmr2@gmail.com)
+ganimedes   files.000webhost.com     /public_html              (correo6543@gmail.com)  ###
+u964077031  ftp.ganimedes.esy.es     /public_html              (reg65432@gmail.com)    ###
+u588702550  ftp.javi-moodle.esy.es   /public_html              (correo6543@gmail.com)  ###
+javi-moodle files.000webhost.com     /public_html              (reg65432@gmail.com)    ###
+2413052     ganimedes.atwebpages.com /ganimedes.atwebpages.com (reg6543@gmail.com)     ###
 ' | grep $1 | head -1 | awk '{print $'${CAMPO}';}'
 }
 
