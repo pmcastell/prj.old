@@ -22,7 +22,9 @@ echo '
 #http://releases.lliurex.net/isos/15.05_64bits/lliurex-servidor_amd64_1505_20170223_kernel4.iso
 #http://downloadcenter.samsung.com/content/FM/201704/20170427160256419/T-JZL6DEUC_1169.2.exe
 #https://netix.dl.sourceforge.net/project/systemrescuecd/sysresccd-x86/5.0.2/systemrescuecd-x86-5.0.2.iso
-http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
+#http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
+#http://www.mediafire.com/file/5yndrs88pie88nz/wifislax64-1.1-final.iso
+http://www.downloadwireless.net/isos/wifislax64-1.1-final.iso
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"

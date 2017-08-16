@@ -20,7 +20,7 @@ while true; do
          hablaf -n se ha perdido la conexión 
          (sleep 1 && wmctrl -F -a "Conexion Perdida" -b add,above) &
          (zenity --info --title="Conexion Perdida" --text="Se ha perdido la conexión")
-         sudo kill -HUP $(pgrep wpa_supplicant); sudo ifconfig $INTERFAZ 192.168.1.27/24 && sudo route add default gw r1; 
+         #sudo kill -HUP $(pgrep wpa_supplicant); sudo ifconfig $INTERFAZ 192.168.1.27/24 && sudo route add default gw r1; 
          #zenity --info --text="Se ha perdido la conexión" &
        
          #hablaf -n se ha perdido la conexión && sleep 1

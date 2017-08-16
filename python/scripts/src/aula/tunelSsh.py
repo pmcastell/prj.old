@@ -17,8 +17,9 @@ from Crypto import Random
 from Crypto.Util import Counter
 import sys
 import os
+import re
 
-DEBUG=True
+DEBUG=False
 
 def debug(*mensa):
     global DEBUG
@@ -57,7 +58,7 @@ def pid_exists(pid):
         else:
             # According to "man 2 kill" possible error values are
             # (EINVAL, EPERM, ESRCH)
-            raise
+            return False
     else:
         return True
     
@@ -161,8 +162,32 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
     if (out_file!=sys.stdout):
        out_file.close()
 
-
+def obtenerFicheroRed(urls,salida,nombre=""):
+    for url in urls:
+        try:
+            r=requests.get(url+nombre)
+            break
+        except: r=None
+    if (r==None or r.status_code!=200):
+        return False
+    out=open(salida,"w")
+    out.write(r.content)
+    out.close()
+    return True
+    
+    
 def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
+    if (urls==None):
+        urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
+          "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
+    outfile = tempfile.mktemp()
+    if (obtenerFicheroRed(urls,outfile,indice)):
+        return decryptCTR(outfile,salida)
+    else:
+        return ""
+    
+        
+def ___obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
     if (urls==None):
         urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
           "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
@@ -173,7 +198,7 @@ def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
         except: r=None
             
     if (r==None or r.status_code!=200):
-        return "Error"
+        return False
     outfile = tempfile.mktemp()
     out=open(outfile,"w")
     out.write(r.content)
@@ -210,7 +235,7 @@ def commandsMata(dev):
     while True:
         #err,out=commands.getstatusoutput("ps awwx | grep -i ssh | grep '\-w' | grep -v grep")
         err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
-        print "err: "+str(err)+"out: "+str(out)
+        print "err: "+str(err)+"out: "+str(out)+" dev: "+str(dev)
         if (err==0 and out!=""):
             if (cont<10):
                 os.kill(int(out),signal.SIGTERM)
@@ -285,15 +310,17 @@ def username():
     return getpass.getuser()
 
 def tunelSSH(parametros):
-    commands=[]
-    commands.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+parametros['TUN_SSH_PORT']+" root@"+parametros['TUN_SSH_IP']+" -w "+parametros['TUN_SSH_DEV']+":"+parametros['TUN_SSH_DEV']+" -CTf bash -c \'/bin/ls; /bin/sleep 5; /sbin/ifconfig tun"+parametros['TUN_SSH_DEV']+"  "+parametros['TUN_SSH_DEV_GW']+"/24 pointopoint "+parametros['TUN_SSH_DEV_IP']+" up; /bin/sleep 3; "+parametros['TUN_SSH_CMD']+" \'")
-    commands.append("/sbin/ifconfig tun"+parametros['TUN_SSH_DEV']+" "+parametros['TUN_SSH_DEV_IP']+"/24 pointopoint "+parametros['TUN_SSH_DEV_GW']+" up &> /dev/null")
-    commands.append("/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10."+parametros['TUN_SSH_DEV']+"."+parametros['TUN_SSH_DEV']+".0/24 &> /dev/null")
-    commands.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+parametros['TUN_SSH_DEV']+"."+parametros['TUN_SSH_DEV']+".0/24")
-    for i in range(1,2):
-        for c in commands:
-            print c
-            os.system(c)
+    comandos=[]
+    comandos.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+parametros['TUN_SSH_PORT']+" root@"+parametros['TUN_SSH_IP']+" -w "+parametros['TUN_SSH_DEV']+":"+parametros['TUN_SSH_DEV']+" -CTf bash -c \'/bin/ls; /bin/sleep 5; /sbin/ifconfig tun"+parametros['TUN_SSH_DEV']+"  "+parametros['TUN_SSH_DEV_GW']+"/24 pointopoint "+parametros['TUN_SSH_DEV_IP']+" up; /bin/sleep 3; "+parametros['TUN_SSH_CMD']+" \'")
+    comandos.append("/sbin/ifconfig tun"+parametros['TUN_SSH_DEV']+" "+parametros['TUN_SSH_DEV_IP']+"/24 pointopoint "+parametros['TUN_SSH_DEV_GW']+" up &> /dev/null")
+    comandos.append("/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10."+parametros['TUN_SSH_DEV']+"."+parametros['TUN_SSH_DEV']+".0/24 &> /dev/null")
+    comandos.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+parametros['TUN_SSH_DEV']+"."+parametros['TUN_SSH_DEV']+".0/24")
+    for i in range(10):
+        for i in range(len(comandos)):
+            print comandos[i]
+            os.system(comandos[i])
+            if (i==0): time.sleep(1)
+        if conexionActiva(parametros['TUN_SSH_DEV_GW']): break
 
 def debeSerAdmin():
     usuario=username()
@@ -313,8 +340,8 @@ def loopTunel():
     pdf=open(pidfile,"w"); pdf.write(str(os.getpid())); pdf.close()
     horaComienzo=time.strftime("%H")
     conexionEstablecida=False
+    parametros={}
     while (horaComienzo==time.strftime("%H")):
-        parametros={}
         if (not conexionEstablecida):
             parametros=procesarParametros()
         conexionEstablecida=False
@@ -324,11 +351,14 @@ def loopTunel():
             else:
                 mata(parametros['TUN_SSH_DEV'])
                 tunelSSH(parametros)
-        print "Durmiendo"
         try:
+            print "Durmiendo:",parametros['GLOBAL_ESPERA']
             time.sleep(int(parametros['GLOBAL_ESPERA']))
         except:
+            print "Durmiendo: 300"
             time.sleep(300) 
+        print "Fin Durmiendo"
+    print "Saliendo"
 
 def numLineas(filename):
     import mmap
@@ -381,7 +411,9 @@ def ponerMD5(fichero):
 
 def direccionIp(real=True):
     if (os.path.isfile("/tmp/direccionIpReal.txt")):
-        return open("/tmp/direccionIpReal.txt","r").read()
+        ip=open("/tmp/direccionIpReal.txt","r").read()
+        if (re.match("([0-9]{1,3}\.){3}[0-9]{1,3}$",ip)):
+            return ip
     import netifaces
     servicioIp="http://ipinfo.io"
     cont=0
@@ -402,12 +434,14 @@ def direccionIp(real=True):
         fDirIp.write(datos['ip'])
     return datos['ip']
 
-def cambiaParametrosIndice(fichName,parametros):
+def cambiarParametrosIndice(fichName,parametros):
     import fileinput
     for line in fileinput.input(fichName, inplace=True):
         for k in parametros.keys():
             if (line.startswith(k)):
-                line=k+"="+parametros[k]+"\n"
+                line=k+"="+parametros[k]
+                if (parametros[k][-1]!="\n"):
+                    line+="\n"
                 break
         print "%s" % (line),
 
@@ -460,8 +494,10 @@ def comprobarSubidaCorrecta(fichParam):
         
 def subirFicheros():
     #./tunelSsh.py --start <SSH|OVPN> <si|no> [<dir-base>]
-    service=sys.argv[2]
-    habilitar=sys.argv[3]
+    if (len(sys.argv)<4):
+        service="SSH"; habilitar="si"
+    else:
+        service=sys.argv[2]; habilitar=sys.argv[3]
     if (len(sys.argv)<5):
         dirBase="/home/usuario/hostinger"
     else:
@@ -471,7 +507,8 @@ def subirFicheros():
     realIp=direccionIp()
     for indice in indices:
         fichParam=dirBase+"/"+indice; fichParamTemp=tempfile.gettempdir()+"/"+indice
-        cambiaParametrosIndice(fichParam,{'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp})
+        cambiarParametrosIndice(fichParam,{'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp})
+        ponerMD5(fichParam)
         encryptCTR(fichParam,fichParamTemp)
         subirFtp(fichParamTemp)
         comprobarSubidaCorrecta(fichParam)
@@ -479,18 +516,33 @@ def subirFicheros():
 
 def start():
     subirFicheros()
+
+def sshConfig(target):
+    pass
+    
+    
+def instalarTunel():
+    debeSerAdmin()
+    if (len(sys.argv)>=2):
+        target=sys.argv[2]
+    else:
+        target="insti"
+    sshConfig(target)
              
 if ( __name__ == '__main__'):
-#     if DEBUG: 
-#         sys.argv.append("--start")
-#         sys.argv.append("SSH")
-#         sys.argv.append("si")
-#         sys.argv.append("/home/usuario/hostinger")
-    
-    #loopTunel() 
+    if DEBUG: 
+        sys.argv.append("--start")
+        sys.argv.append("SSH")
+        sys.argv.append("si")
+        sys.argv.append("/home/usuario/hostinger")
+     
     if (len(sys.argv)>1):
         if (sys.argv[1]=="--start"):
             start()
-    else:
-        main()
+        elif (sys.argv[1]=="--getconf"):
+            obtenerFicheroIndice()
+        elif (sys.argv[1]=="--install"):
+            instalarTunel()
+    elif (not DEBUG):
+        loopTunel()
 

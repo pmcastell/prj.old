@@ -14,6 +14,7 @@ mata alive
 sudo vpn stop
 desmontaEncfs "/m/Mios"
 desmontaEncfs "/l/virtualbox"
+fusermount -u /home/usuario/googleDrive
 if [ "$(ps aux | grep 'VBoxHeadless --comment Free' | grep -v grep)" != "" ]; then
    /m/Mios/prj/scripts/freeB.sh stop
 fi   

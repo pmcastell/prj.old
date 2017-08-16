@@ -1,10 +1,23 @@
 #!/bin/bash
-
+codPais() {
+   PAIS="$1";shift
+   while [ "$1" != "" ]; do  
+      PAIS="${PAIS} $1"; shift; 
+   done
+   while read L; do
+      P=$(echo $L | awk '{for(i=1;i<=(NF-4);i++) printf "%s ",$i;}')
+      if [ "$P" = "$PAIS " ]; then
+         echo $L | awk '{ print tolower($(NF-3));}'
+         return
+      fi
+   done < /scripts/codigosPaises.txt
+}  
+ 
 . /scripts/uso.sh
 [ "$1" = "" ] && uso "Uso: $0 <pais>\nCarga en firefox los urls si los hubiera del país de vpngate"
 TEMP="/tmp/vpngate_tmp.txt"
 [ "$1" = "-new" ] && rm $TEMP &> /dev/null && shift
-[ "$(find $TEMP -mmin -5)" = "" ] && wget -O $TEMP http://www.vpngate.net/en/ 
+[ "$(find $TEMP -mmin -5)" = "" ] && descarga -O $TEMP http://www.vpngate.net/en/ 
 clear
 URLS=$(cat $TEMP | xmllint --html --xpath "//table[@id='vg_hosts_table_id']/tr[contains(td,'$1')]/td/a[contains(@href,'openvpn')]/@href" --format - 2> /dev/null | sed -e 's/href=/\n/g')
 I=0
@@ -27,10 +40,16 @@ for u in $URLS; do
    OVPN_URL=$(curl "$VPN_FILE" 2>/dev/null | xmllint --html --xpath "//a/@href[contains(.,'.ovpn') and contains(.,'udp')]" - | sed -e 's/href="/\n/g' | tail -1 | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
    #curl "http://www.vpngate.net/${OVPN_FILE}" 2> /dev/null >
    OVPN_IP=$(echo $OVPN_URL | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | awk '{print $1;}' | head -1)
-   if [ "$(ls -l /home/usuario/freeVpns/ | grep $OVPN_IP)" != "" ]; then
-      echo "Ya existe:    http://www.vpngate.net/${OVPN_URL}" echo " --- "${SA[$I]}
-   else
-      echo "No existe:    http://www.vpngate.net/${OVPN_URL}" echo " --- "${SA[$I]}
+   echo "OVPN_IP: $OVPN_IP"
+   if [ "$OVPN_IP" != "" ]; then
+      VPNGATE_URL="http://www.vpngate.net/${OVPN_URL}"
+      if [ "$(ls -l /home/usuario/freeVpns/ | grep $OVPN_IP)" != "" ]; then
+         echo "Ya existe:    $VPNGATE_URL" echo " --- "${SA[$I]}
+      else
+         echo "No existe:    $VPNGATE_URL" echo " --- "${SA[$I]}
+         PAIS=$(codPais $1)
+         descarga -q --show-progress -O "/home/usuario/freeVpns/${PAIS}-$(basename $VPNGATE_URL)" "$VPNGATE_URL"
+      fi
    fi
    I=$(($I+1))
    #echo "I: $I. SA: $SA, SA[$I]: ${SA[$I]}"

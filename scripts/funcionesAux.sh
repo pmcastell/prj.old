@@ -69,6 +69,28 @@ uuid() {
       R=${HEX_DIGITS[$(( RANDOM % 16 ))]};
       UUID="${UUID}${R}"
    done
-   echo yi $UUID
+   echo $UUID
 }   
+espacios() {
+   CAD=$1
+   n=$2
+   ns=$(( $n - ${#CAD}))
+   for((i=0;i<$ns;i++)); do
+      CAD="$CAD "
+   done
+   echo "$CAD"
+}
+codPais() {
+   PAIS="$1";shift
+   while [ "$1" != "" ]; do  
+      PAIS="${PAIS} $1"; shift; 
+   done
+   while read L; do
+      P=$(echo $L | awk '{for(i=1;i<=(NF-4);i++) printf "%s ",$i;}')
+      if [ "$P" = "$PAIS " ]; then
+         echo $L | awk '{ print tolower($(NF-3));}'
+         return
+      fi
+   done < /scripts/codigosPaises.txt
+}  
 

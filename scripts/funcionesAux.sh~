@@ -69,6 +69,15 @@ uuid() {
       R=${HEX_DIGITS[$(( RANDOM % 16 ))]};
       UUID="${UUID}${R}"
    done
-   echo yi $UUID
+   echo $UUID
 }   
+espacios() {
+   CAD=$1
+   n=$2
+   ns=$(( $n - ${#CAD}))
+   for((i=0;i<$ns;i++)); do
+      CAD="$CAD "
+   done
+   echo "$CAD"
+}
 
