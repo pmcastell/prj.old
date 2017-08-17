@@ -38,8 +38,15 @@ while true; do
          resucita
          (sleep 1 && wmctrl -F -a "Conexion Perdida" -b add,above) &
          (zenity --info --title="Conexion Perdida" --text="Se ha perdido la conexión")
+         
+         #zenity --info --text="Se ha perdido la conexión" &
+       
+         #hablaf -n se ha perdido la conexión && sleep 1
+         #hablaf -n se ha perdido la conexión && sleep 1
+         #hablaf -n se ha perdido la conexión && sleep 1
          PID=$(ps ax | grep openvpn | grep -v grep | grep -v sudo | grep -v sh  | awk '{print $1;}')
-         #if [ "$PID" = "" ]; then
+         #if [ "$PID" = "" ];
+         #then
             for ((i=1;i<=5;i++)); do
                ####sudo vpn stop
                sleep 1

@@ -4,22 +4,13 @@
 # Fecha creación: 17 jul. 2017
 # autor: usuario
 
-import requests
-import base64
-import tempfile
-import time
-import socket
-import platform
-import subprocess
+import requests, base64, tempfile, time, socket, platform, subprocess, sys, os, re
 from hashlib import md5
 from Crypto.Cipher import AES
 from Crypto import Random
 from Crypto.Util import Counter
-import sys
-import os
-import re
 
-DEBUG=False
+DEBUG=True
 
 def debug(*mensa):
     global DEBUG
@@ -163,6 +154,8 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
        out_file.close()
 
 def obtenerFicheroRed(urls,salida,nombre=""):
+    if (type(urls)==str):
+        urls=[urls]
     for url in urls:
         try:
             r=requests.get(url+nombre)
@@ -517,10 +510,66 @@ def subirFicheros():
 def start():
     subirFicheros()
 
-def sshConfig(target):
-    pass
+def sshConfig(target="insti",usuario=None):
+    import zipfile, pwd, grp, stat
+    if (usuario==None): usuario=username()
+    url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/root_ssh.zip"
+    dest="/"+usuario+"/.ssh/"
+    if DEBUG: dest="/tmp/pr4/"
+    if (not os.path.exists(dest)): os.mkdir(dest)
+    salida=dest+"root_ssh.zip"
+    if (not obtenerFicheroRed(url,salida)):
+        print "Error obteniendo fichero"
+        sys.exit(4)
+    zipfile.ZipFile(salida).extractall(pwd='tunelSsh',path=dest)   
+    if (target=="yellowcircle"):
+        busca="Host pc1* pc2* 10.* localhost 127.0.0.1 172.18.161.* server sp sa1 sa2 st sp2 sb sm spt sh"
+        ficheroReplace(path+"config",busca,"Host localhost 127.0.0.1 172.18.163.*")
+    uid = pwd.getpwnam(usuario).pw_uid
+    gid = grp.getgrnam(usuario).gr_gid
+    os.chown(dest, uid, gid)
+    for file in os.listdir(dest):
+        os.chown(dest+file, uid, gid)
+        os.chmod(dest+file,stat.S_IRUSR | stat.S_IWUSR)
+
+    def cabeceraCrontab():
+        return """# Edit this file to introduce tasks to be run by cron.
+#
+# Each task to run has to be defined through a single line
+# indicating with different fields when the task will be run
+# and what command to run for the task
+#
+# To define the time you can provide concrete values for
+# minute (m), hour (h), day of month (dom), month (mon),
+# and day of week (dow) or use '*' in these fields (for 'any').#
+# Notice that tasks will be started based on the cron's system
+# daemon's notion of time and timezones.
+#
+# Output of the crontab jobs (including errors) is sent through
+# email to the user the crontab file belongs to (unless redirected).
+#
+# For example, you can run a backup of all your user accounts
+# at 5 a.m every week with:
+# 0 5 * * 1 tar -zcf /var/backups/home.tgz /home/
+#
+# For more information see the manual pages of crontab(5) and cron(8)
+#
+# m h  dom mon dow   command
+"""
+
+def ponerCrontab():
+    tmpFile=tempfile.mktemp()   
+    err,out=commands.getstatusoutput("sudo crontab -l > "+tmpFile)
+    if ("no crontab" in out):
+        with open(tmpFile,"w") as salida:
+            salida.write(cabeceraCrontab())
+    os.system("sudo echo '*/5 * * * *     /root/tunelSsh.py &> /dev/null' >> "+tmpFile)
+    os.system("sudo crontab < "+tmpFile)
+    os.system("sudo rm "+tmpFile)
     
+def aptSourcesList():
     
+
 def instalarTunel():
     debeSerAdmin()
     if (len(sys.argv)>=2):
@@ -528,13 +577,16 @@ def instalarTunel():
     else:
         target="insti"
     sshConfig(target)
-             
+    ponerCrontab()
+    aptSourcesList()
+    os.system("sudo apt-get -y install tor connect-proxy vnc4server wireshark")     
+        
 if ( __name__ == '__main__'):
-    if DEBUG: 
-        sys.argv.append("--start")
-        sys.argv.append("SSH")
-        sys.argv.append("si")
-        sys.argv.append("/home/usuario/hostinger")
+#     if DEBUG: 
+#         sys.argv.append("--start")
+#         sys.argv.append("SSH")
+#         sys.argv.append("si")
+#         sys.argv.append("/home/usuario/hostinger")
      
     if (len(sys.argv)>1):
         if (sys.argv[1]=="--start"):
@@ -545,4 +597,3 @@ if ( __name__ == '__main__'):
             instalarTunel()
     elif (not DEBUG):
         loopTunel()
-
