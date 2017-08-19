@@ -5,9 +5,10 @@ cambiarIface() {
     if [ $NUM_IFACES -gt 1 ]; then
        for IFACE in $IFACES; do
           IP=$(ifconfig $IFACE | grep inet  | grep -v inet6 | awk -F':' '{print $2;}' | awk '{print $1;}')
-          RED=$(g $IP | awk -F'.' '{print $1"."$2"."$3;}')
+          RED=$(echo $IP | awk -F'.' '{print $1"."$2"."$3;}')
           ROUTER=$(route -n | grep $IFACE | grep -E ^0.0.0.0 | awk '{print $2;}')
-          if [ "$(ping -c 4 $ROUTER 2>&1 | grep '100% packet loss')" != "" ]; then continue; else break; fi
+          echo "NUM_IFACES: $NUM_IFACES - IP: $IP - RED: $RED - ROUTER: $ROUTER"
+          if [ "$ROUTER" != "" ] && [ "$(ping -c 4 $ROUTER 2>&1 | grep '100% packet loss')" = "" ]; then break; else continue; fi
        done
     else
        IFACE=$IFACES

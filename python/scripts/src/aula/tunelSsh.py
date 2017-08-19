@@ -4,13 +4,14 @@
 # Fecha creación: 17 jul. 2017
 # autor: usuario
 
-import requests, base64, tempfile, time, socket, platform, subprocess, sys, os, re
+import base64, tempfile, time, socket, platform, subprocess, sys, os, re
+import signal, commands, errno, urllib
 from hashlib import md5
 from Crypto.Cipher import AES
 from Crypto import Random
 from Crypto.Util import Counter
 
-DEBUG=True
+DEBUG=False
 
 def debug(*mensa):
     global DEBUG
@@ -21,7 +22,6 @@ def debug(*mensa):
     print imprimir
 
 def pid_exists(pid):
-    import errno
     """Check whether pid exists in the current process table.
     UNIX only.
     """
@@ -39,19 +39,18 @@ def pid_exists(pid):
         raise ValueError('invalid PID 0')
     try:
         os.kill(pid, 0)
-    except os.error as err:
-        if err.errno == errno.ESRCH:
+    except os.error as error:
+        if error.errno == errno.ESRCH:
             # ESRCH == No such process
             return False
-        elif err.errno == errno.EPERM:
+        elif error.errno == errno.EPERM:
             # EPERM clearly means there's a process to deny access to
             return True
         else:
             # According to "man 2 kill" possible error values are
             # (EINVAL, EPERM, ESRCH)
             return False
-    else:
-        return True
+    return True
     
 def conexionActiva(host):
     nPings=4; timeout=2
@@ -158,13 +157,14 @@ def obtenerFicheroRed(urls,salida,nombre=""):
         urls=[urls]
     for url in urls:
         try:
-            r=requests.get(url+nombre)
+            #content=requests.get(url+nombre)
+            r=urllib.urlopen(url+nombre)
             break
         except: r=None
-    if (r==None or r.status_code!=200):
+    if (r==None or r.code!=200):
         return False
     out=open(salida,"w")
-    out.write(r.content)
+    out.write(r.read())
     out.close()
     return True
     
@@ -200,7 +200,7 @@ def ___obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
     return decryptCTR(outfile,salida)
 
 def psutilMata(dev):
-    import psutil,os,signal,time
+    import psutil
     encontrado=False
     for pid in psutil.pids():
         p=psutil.Process(pid)
@@ -222,7 +222,6 @@ def psutilMata(dev):
             
 
 def commandsMata(dev):
-    import commands, signal
     #proc = subprocess.Popen(["pgrep", process_name], stdout=subprocess.PIPE) 
     cont=0
     while True:
@@ -230,10 +229,25 @@ def commandsMata(dev):
         err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
         print "err: "+str(err)+"out: "+str(out)+" dev: "+str(dev)
         if (err==0 and out!=""):
-            if (cont<10):
-                os.kill(int(out),signal.SIGTERM)
-            else:
-                os.kill(int(out),signal.SIGKILL)
+            try:
+                if (cont<10):
+                    os.kill(int(out),signal.SIGTERM)
+                else:
+                    os.kill(int(out),signal.SIGKILL)
+            except os.error as error:
+                if error.errno == errno.ESRCH:
+                    # ESRCH == No such process
+                    print "No Existe el Proceso"
+                    return False
+                elif error.errno == errno.EPERM:
+                    # EPERM clearly means there's a process to deny access to
+                    print "Permiso Denegado"
+                    return True
+                else:
+                    # According to "man 2 kill" possible error values are
+                    # (EINVAL, EPERM, ESRCH)
+                    print "Error: ",errno
+                    return False 
         else:
             break 
         cont+=1  
@@ -302,18 +316,24 @@ def username():
     import getpass
     return getpass.getuser()
 
-def tunelSSH(parametros):
-    comandos=[]
-    comandos.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+parametros['TUN_SSH_PORT']+" root@"+parametros['TUN_SSH_IP']+" -w "+parametros['TUN_SSH_DEV']+":"+parametros['TUN_SSH_DEV']+" -CTf bash -c \'/bin/ls; /bin/sleep 5; /sbin/ifconfig tun"+parametros['TUN_SSH_DEV']+"  "+parametros['TUN_SSH_DEV_GW']+"/24 pointopoint "+parametros['TUN_SSH_DEV_IP']+" up; /bin/sleep 3; "+parametros['TUN_SSH_CMD']+" \'")
-    comandos.append("/sbin/ifconfig tun"+parametros['TUN_SSH_DEV']+" "+parametros['TUN_SSH_DEV_IP']+"/24 pointopoint "+parametros['TUN_SSH_DEV_GW']+" up &> /dev/null")
-    comandos.append("/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10."+parametros['TUN_SSH_DEV']+"."+parametros['TUN_SSH_DEV']+".0/24 &> /dev/null")
-    comandos.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+parametros['TUN_SSH_DEV']+"."+parametros['TUN_SSH_DEV']+".0/24")
-    for i in range(10):
-        for i in range(len(comandos)):
-            print comandos[i]
-            os.system(comandos[i])
+def tunelSSH(param):
+    DEV=param['TUN_SSH_DEV']; DEV_IP=param['TUN_SSH_DEV_IP'];DEV_GW=param['TUN_SSH_DEV_GW']
+    CMD=param['TUN_SSH_CMD']; IP=param['TUN_SSH_IP']; PORT=param['TUN_SSH_PORT']
+    cmds=[]
+    #cmds.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+PORT+" root@"+IP+" -w "+DEV+":"+DEV+" -CTf bash -c \'/bin/ls; /bin/sleep 5; /sbin/ifconfig tun"+DEV+"  "+DEV_GW+"/24 pointopoint "+DEV_IP+" up; /bin/sleep 3; "+CMD+" \'")
+    cmds.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+PORT+" root@"+IP+" -w "+DEV+":"+DEV+" -CTf bash -c \'/bin/ls; /bin/sleep 5; /sbin/ip addr add local "+DEV_GW+"/24 remote "+DEV_IP+"/24 dev tun"+DEV+"; /sbin/ip link set dev tun"+DEV+" up; /bin/sleep 3; "+CMD+" \'")
+    #cmds.append("/sbin/ifconfig tun"+DEV+" "+DEV_IP+"/24 pointopoint "+DEV_GW+"/24 up &> /dev/null")
+    #ip a add local 10.16.16.2/24 remote 10.16.16.16/24 dev tun16
+    cmds.append("/sbin/ip addr add local "+DEV_IP+"/24 remote "+DEV_GW+"/24 dev tun"+DEV)
+    cmds.append("/sbin/ip link set tun"+DEV+" up")
+    cmds.append("/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24 &> /dev/null")
+    cmds.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24")
+    for j in range(10):
+        for i in range(len(cmds)):
+            print cmds[i]
+            os.system(cmds[i])
             if (i==0): time.sleep(1)
-        if conexionActiva(parametros['TUN_SSH_DEV_GW']): break
+        if conexionActiva(param['TUN_SSH_DEV_GW']): break
 
 def debeSerAdmin():
     usuario=username()
@@ -385,6 +405,19 @@ def ficheroAppend(fichName,text):
         else:
             fichero.write(text+"\n")
 
+def ficheroContiene(fichname,text):
+    with open(fichname,"r") as fichero:
+        for l in fichero:
+            if text in l:
+                return True
+    return False
+
+def appendSiNoEsta(fichname,text):
+    if (ficheroContiene(fichname,text)):
+        return False
+    else:
+        ficheroAppend(fichname,text)
+        
 def ponerMD5(fichero):
     numLin,ultLin=numLineas(fichero)
     if (ultLin.upper().startswith("MD5SUM")):
@@ -515,7 +548,7 @@ def sshConfig(target="insti",usuario=None):
     if (usuario==None): usuario=username()
     url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/root_ssh.zip"
     dest="/"+usuario+"/.ssh/"
-    if DEBUG: dest="/tmp/pr4/"
+    #if DEBUG: dest="/tmp/pr4/"
     if (not os.path.exists(dest)): os.mkdir(dest)
     salida=dest+"root_ssh.zip"
     if (not obtenerFicheroRed(url,salida)):
@@ -532,8 +565,8 @@ def sshConfig(target="insti",usuario=None):
         os.chown(dest+file, uid, gid)
         os.chmod(dest+file,stat.S_IRUSR | stat.S_IWUSR)
 
-    def cabeceraCrontab():
-        return """# Edit this file to introduce tasks to be run by cron.
+def cabeceraCrontab():
+    return """# Edit this file to introduce tasks to be run by cron.
 #
 # Each task to run has to be defined through a single line
 # indicating with different fields when the task will be run
@@ -555,21 +588,43 @@ def sshConfig(target="insti",usuario=None):
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
+
 """
 
 def ponerCrontab():
     tmpFile=tempfile.mktemp()   
-    err,out=commands.getstatusoutput("sudo crontab -l > "+tmpFile)
+    err,out=commands.getstatusoutput("sudo crontab -l")
     if ("no crontab" in out):
         with open(tmpFile,"w") as salida:
-            salida.write(cabeceraCrontab())
-    os.system("sudo echo '*/5 * * * *     /root/tunelSsh.py &> /dev/null' >> "+tmpFile)
+            salida.write(cabeceraCrontab()+"\n")
+    else:
+        os.system("sudo crontab -l > "+tmpFile)
+    appendSiNoEsta(tmpFile,"*/5 * * * *     /root/tunelSsh.py &> /dev/null\n")
     os.system("sudo crontab < "+tmpFile)
     os.system("sudo rm "+tmpFile)
     
-def aptSourcesList():
-    
+def lliurexUbuntuRepo():
+    return [["deb http://es.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted",True],
+     ["deb http://es.archive.ubuntu.com/ubuntu trusty-updates main universe multiverse restricted",True],
+     ["deb http://es.archive.ubuntu.com/ubuntu trusty-security main universe multiverse restricted",True]
+    ]
 
+def aptSourcesList(sources="/etc/apt/sources.list"):
+    lineas=lliurexUbuntuRepo(); cont=len(lineas)
+    with open(sources,"r") as fs:
+        for s in fs:
+            print s
+            if (len(s.strip()) and s.strip()[0]!="#"):
+                for l in lineas:
+                    if (l[0] in s):
+                        l[1]=False
+                        cont-=1
+    if (cont>0):
+        with open(sources,"a") as fs:
+            for l in lineas:
+                if (l[1]):
+                    fs.write(l[0]+"\n")
+                
 def instalarTunel():
     debeSerAdmin()
     if (len(sys.argv)>=2):
@@ -579,21 +634,17 @@ def instalarTunel():
     sshConfig(target)
     ponerCrontab()
     aptSourcesList()
-    os.system("sudo apt-get -y install tor connect-proxy vnc4server wireshark")     
-        
+    os.system("sudo apt-get update; sudo apt-get -y install tor connect-proxy vnc4server")     
+
 if ( __name__ == '__main__'):
-#     if DEBUG: 
-#         sys.argv.append("--start")
-#         sys.argv.append("SSH")
-#         sys.argv.append("si")
-#         sys.argv.append("/home/usuario/hostinger")
-     
-    if (len(sys.argv)>1):
-        if (sys.argv[1]=="--start"):
-            start()
-        elif (sys.argv[1]=="--getconf"):
-            obtenerFicheroIndice()
-        elif (sys.argv[1]=="--install"):
-            instalarTunel()
-    elif (not DEBUG):
-        loopTunel()
+    #if DEBUG: sys.argv=[sys.argv[0],"--start","SSH","si","/home/usuario/hostinger"]
+    if (not DEBUG):
+        if (len(sys.argv)>1):
+            if (sys.argv[1]=="--start"):
+                start()
+            elif (sys.argv[1]=="--getconf"):
+                obtenerFicheroIndice()
+            elif (sys.argv[1]=="--install"):
+                instalarTunel()
+        elif (not DEBUG):
+            loopTunel()
