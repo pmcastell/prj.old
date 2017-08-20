@@ -5,7 +5,7 @@
 # autor: usuario
 
 import base64, tempfile, time, socket, platform, subprocess, sys, os, re
-import signal, commands, errno, urllib
+import signal, subprocess, errno, requests
 from hashlib import md5
 from Crypto.Cipher import AES
 from Crypto import Random
@@ -19,7 +19,7 @@ def debug(*mensa):
         imprimir=""
         for m in mensa:
             imprimir+=m
-    print imprimir
+    print(imprimir)
 
 def pid_exists(pid):
     """Check whether pid exists in the current process table.
@@ -68,7 +68,7 @@ def hostname():
 def derive_key_and_iv(password, salt, key_length, iv_length):
     d = d_i = ''
     while len(d) < key_length + iv_length:
-        d_i = md5(d_i + password + salt).digest()
+        d_i = str(md5(d_i + password + salt).digest())
         d += d_i
     return d[:key_length], d[key_length:key_length+iv_length]
 
@@ -158,15 +158,14 @@ def obtenerFicheroRed(urls,salida,nombre=""):
     for url in urls:
         try:
             #content=requests.get(url+nombre)
-            r=urllib.urlopen(url+nombre)
+            r=requests.get(url+nombre)
             break
         except: r=None
-    if (r==None or r.code!=200):
+    if (r==None or r.status_code!=200):
         return False
     out=open(salida,"w")
-    out.write(r.read())
-    if (salida!="/dev/stdout"):
-        out.close()
+    out.write(str(r.content))
+    out.close()
     return True
     
     
@@ -181,24 +180,6 @@ def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
         return ""
     
         
-def ___obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
-    if (urls==None):
-        urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
-          "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
-    for url in urls:
-        try: 
-            r=requests.get(url+indice);  
-            break
-        except: r=None
-            
-    if (r==None or r.status_code!=200):
-        return False
-    outfile = tempfile.mktemp()
-    out=open(outfile,"w")
-    out.write(r.content)
-    out.close()
-    #return encryptDecryptCtr256Shell(r.content,"clave"+time.strftime("%Y-%m-%d"),'d',hostname())
-    return decryptCTR(outfile,salida)
 
 def psutilMata(dev):
     import psutil
@@ -227,8 +208,11 @@ def commandsMata(dev):
     cont=0
     while True:
         #err,out=commands.getstatusoutput("ps awwx | grep -i ssh | grep '\-w' | grep -v grep")
-        err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
-        print "err: "+str(err)+"out: "+str(out)+" dev: "+str(dev)
+        #err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
+        cmd="pgrep -u root -f ssh.*-w.16"
+        proc=subprocess.Popen(cmd.split(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        out,salida=proc.communicate(); err=proc.returncode
+        print("err: "+str(err)+"out: "+str(out)+" dev: "+str(dev))
         if (err==0 and out!=""):
             try:
                 if (cont<10):
@@ -238,16 +222,16 @@ def commandsMata(dev):
             except os.error as error:
                 if error.errno == errno.ESRCH:
                     # ESRCH == No such process
-                    print "No Existe el Proceso"
+                    print("No Existe el Proceso")
                     return False
                 elif error.errno == errno.EPERM:
                     # EPERM clearly means there's a process to deny access to
-                    print "Permiso Denegado"
+                    print("Permiso Denegado")
                     return True
                 else:
                     # According to "man 2 kill" possible error values are
                     # (EINVAL, EPERM, ESRCH)
-                    print "Error: ",errno
+                    print("Error: ",errno)
                     return False 
         else:
             break 
@@ -331,7 +315,7 @@ def tunelSSH(param):
     cmds.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24")
     for j in range(10):
         for i in range(len(cmds)):
-            print cmds[i]
+            print(cmds[i])
             os.system(cmds[i])
             if (i==0): time.sleep(1)
         if conexionActiva(param['TUN_SSH_DEV_GW']): break
@@ -340,7 +324,7 @@ def debeSerAdmin():
     usuario=username()
     if DEBUG: usuario="root"
     if (usuario!="root" and not usuario.lower().startswith("admin")):
-        print "Debes ejecutar este programa como administrador."
+        print("Debes ejecutar este programa como administrador.")
         sys.exit(1)
 
 def loopTunel():
@@ -366,13 +350,13 @@ def loopTunel():
                 mata(parametros['TUN_SSH_DEV'])
                 tunelSSH(parametros)
         try:
-            print "Durmiendo:",parametros['GLOBAL_ESPERA']
+            print("Durmiendo:",parametros['GLOBAL_ESPERA'])
             time.sleep(int(parametros['GLOBAL_ESPERA']))
         except:
-            print "Durmiendo: 300"
+            print("Durmiendo: 300")
             time.sleep(300) 
-        print "Fin Durmiendo"
-    print "Saliendo"
+        print("Fin Durmiendo")
+    print("Saliendo")
 
 def numLineas(filename):
     import mmap
@@ -397,7 +381,7 @@ def numLineas2(filename):
 def ficheroReplace(fichName,buscada,reemplaza):
     import fileinput
     for line in fileinput.input(fichName, inplace=True):
-        print "%s" % (line.replace(buscada,reemplaza)),
+        print("%s" % (line.replace(buscada,reemplaza)),)
 
 def ficheroAppend(fichName,text):
     with open(fichName,"a") as fichero:
@@ -470,7 +454,7 @@ def cambiarParametrosIndice(fichName,parametros):
                 if (parametros[k][-1]!="\n"):
                     line+="\n"
                 break
-        print "%s" % (line),
+        print("%s" % (line),)
 
 def obtenerClavesFtp():
     res={}
@@ -501,10 +485,10 @@ def subirFtp(fich):
             ftp = ftplib.FTP(claves[k][1],claves[k][0],"basura68")
             ftp.cwd(claves[k][2])
             resp=ftp.storbinary('STOR '+os.path.basename(fich), open(fich,"rb"))
-            print "Subiendo: "+fich+" a: "+str(claves[k])
+            print("Subiendo: "+fich+" a: "+str(claves[k]))
             #if (not resp.startswith("226")):
         except:
-            print "Error transfiriendo: "+fich+" a "+claves[k][1]
+            print("Error transfiriendo: "+fich+" a "+claves[k][1])
         
 def comprobarSubidaCorrecta(fichParam):
     tmpFile=tempfile.mktemp()
@@ -514,9 +498,9 @@ def comprobarSubidaCorrecta(fichParam):
     md51=md5(contenidoSubido).digest().encode("hex")
     md52=md5(open(fichParam).read()).digest().encode("hex")
     if (md51!=md52):
-        print "Error en fichero subido"
+        print("Error en fichero subido")
     else:
-        print "Fichero subido correctamente"
+        print("Fichero subido correctamente")
     
         
 def subirFicheros():
@@ -553,7 +537,7 @@ def sshConfig(target="insti",usuario=None):
     if (not os.path.exists(dest)): os.mkdir(dest)
     salida=dest+"root_ssh.zip"
     if (not obtenerFicheroRed(url,salida)):
-        print "Error obteniendo fichero"
+        print("Error obteniendo fichero")
         sys.exit(4)
     zipfile.ZipFile(salida).extractall(pwd='tunelSsh',path=dest)   
     if (target=="yellowcircle"):
@@ -594,7 +578,9 @@ def cabeceraCrontab():
 
 def ponerCrontab():
     tmpFile=tempfile.mktemp()   
-    err,out=commands.getstatusoutput("sudo crontab -l")
+    #err,out=commands.getstatusoutput("sudo crontab -l")
+    proc=subprocess.Popen("sudo crontab -l".split(),stdout=subprocess.PIPE,stderr=subproces.PIPE)
+    out,err=proc.communicate()
     if ("no crontab" in out):
         with open(tmpFile,"w") as salida:
             salida.write(cabeceraCrontab()+"\n")
@@ -614,7 +600,7 @@ def aptSourcesList(sources="/etc/apt/sources.list"):
     lineas=lliurexUbuntuRepo(); cont=len(lineas)
     with open(sources,"r") as fs:
         for s in fs:
-            print s
+            print(s)
             if (len(s.strip()) and s.strip()[0]!="#"):
                 for l in lineas:
                     if (l[0] in s):
