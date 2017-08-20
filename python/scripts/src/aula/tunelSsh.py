@@ -165,7 +165,8 @@ def obtenerFicheroRed(urls,salida,nombre=""):
         return False
     out=open(salida,"w")
     out.write(r.read())
-    out.close()
+    if (salida!="/dev/stdout"):
+        out.close()
     return True
     
     
@@ -358,7 +359,7 @@ def loopTunel():
         if (not conexionEstablecida):
             parametros=procesarParametros()
         conexionEstablecida=False
-        if (len(parametros)>0 and parametros['TUN_SSH']=="si"):
+        if (len(parametros)>0 and 'TUN_SSH' in parametros.keys() and parametros['TUN_SSH']=="si"):
             if (conexionActiva(parametros['TUN_SSH_DEV_GW'])):
                 conexionEstablecida=True
             else:
@@ -634,7 +635,7 @@ def instalarTunel():
     sshConfig(target)
     ponerCrontab()
     aptSourcesList()
-    os.system("sudo apt-get update; sudo apt-get -y install tor connect-proxy vnc4server")     
+    os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
 
 if ( __name__ == '__main__'):
     #if DEBUG: sys.argv=[sys.argv[0],"--start","SSH","si","/home/usuario/hostinger"]
