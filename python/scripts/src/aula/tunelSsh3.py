@@ -5,13 +5,13 @@
 # autor: usuario
 
 import base64, tempfile, time, socket, platform, subprocess, sys, os, re
-import signal, subprocess, errno, requests
+import signal, subprocess, errno, requests, random
 from hashlib import md5
 from Crypto.Cipher import AES
 from Crypto import Random
 from Crypto.Util import Counter
 
-DEBUG=False
+DEBUG=True
 
 def debug(*mensa):
     global DEBUG
@@ -19,34 +19,58 @@ def debug(*mensa):
         imprimir=""
         for m in mensa:
             imprimir+=m
-    print(imprimir)
+        print(imprimir)
     
 def randomString(lon):
-    import random
     res=""
     while(lon>0):
         res+=chr(random.randint(0,255))
         lon-=1    
     return res
-        
+
+def randomByteArray(lon):
+    res=bytearray()
+    while(lon>0):
+        res.append(random.randint(0,255))
+        lon-=1
+    return res
+            
 
 def hexChar(c):
     c=int(c)
     letras=['a','b','c','d','e','f']
-    if (c>10):
+    if (c>=10):
         return letras[c-10]
     else:
         return str(c)
-        
+
+def toByteArray(cad):
+    res=bytearray()
+    for c in cad:
+        if (type(c)==int):
+            res.append(c)
+        else:
+            res.append(ord(c))
+    return res        
+
+def byteArrayToStr(barr):
+    res=""
+    for o in barr:
+        if (type(o)==str):
+            res+=o
+        elif (type(o)==int):
+            res+=chr(o)
+        else:
+            raise TypeError
+    return res
 
 def hexEncode(cad):
     res=""
     if (type(cad)==str):
-        cad=bytearray(cad)
+        cad=toByteArray(cad)
     for c in cad:
         res+=hexChar(c/16)+hexChar(c%16)
     return res
-
 
 def pid_exists(pid):
     """Check whether pid exists in the current process table.
@@ -78,7 +102,7 @@ def pid_exists(pid):
             # (EINVAL, EPERM, ESRCH)
             return False
     return True
-    
+
 def conexionActiva(host):
     nPings=4; timeout=2
     # Ping parameters as function of OS
@@ -89,16 +113,19 @@ def conexionActiva(host):
     #return os.system("ping " + parameters + " " + host) == 0
     return subprocess.Popen(cmd).wait()==0
 
+
 def hostname():
     return socket.gethostname().split(".")[0]
 
 def derive_key_and_iv(password, salt, key_length, iv_length):
+    if (type(password)==str): password=toByteArray(password)
+    if (type(salt)==str): salt=toByteArray(salt)
     d = d_i = b''
     while len(d) < key_length + iv_length:
-        print("Tipo d_i: "+str(type(d_i))+" Tipo password: "+str(type(password))+" Tipo salt: "+str(type(salt)))
-        break
-        #d_i = md5(d_i + password + salt).digest()
-        #d += d_i
+        #print("Tipo d_i: "+str(type(d_i))+" Tipo password: "+str(type(password))+" Tipo salt: "+str(type(salt)))
+        #break
+        d_i = md5(d_i + password + salt).digest()
+        d += d_i
     return d[:key_length], d[key_length:key_length+iv_length]
 
 
@@ -112,7 +139,7 @@ def base64Dec(inf,outf):
     inf.close()
 
 def base64Enc(inf,outf):
-    inf=open(inf,"r")
+    inf=open(inf,"rb")
     outf=open(outf,"wb")
     base64.encode(inf,outf)
     #for l in inf:
@@ -124,13 +151,12 @@ def base64Enc(inf,outf):
 def encryptCTR(inf, outf, password="clave"+time.strftime("%Y-%m-%d"), key_length=32, base64=True,padding=False):
     bs = AES.block_size
     salt = Random.new().read(bs - len('Salted__'))
-    if (type(password)==str): password=password.encode("utf-8")
     key, iv = derive_key_and_iv(password, salt, key_length, bs)
-    ctr=Counter.new(bs*8,initial_value=long(iv.encode("hex"),16))
+    ctr=Counter.new(bs*8,initial_value=int(hexEncode(iv),16))
     cipher = AES.new(key, AES.MODE_CTR, counter = ctr)
     in_file=open(inf,"r")
-    out_file=open(outf,"w")
-    out_file.write('Salted__' + salt)
+    out_file=open(outf,"wb")
+    out_file.write(b'Salted__' + salt)
     finished = False
     while not finished:
         chunk = in_file.read(1024 * bs)
@@ -166,7 +192,7 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
     #print "key: "+key.encode("hex")
     #print "iv: "+iv.encode("hex")
     #sys.exit(0)
-    ctr=Counter.new(bs*8,initial_value=long(iv.encode("hex"),16))
+    ctr=Counter.new(bs*8,initial_value=int(hexEncode(iv),16))
     cipher = AES.new(key, AES.MODE_CTR, counter = ctr)
     next_chunk = ''
     finished = False
@@ -177,7 +203,7 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
                 padding_length = ord(chunk[-1])
                 chunk = chunk[:-padding_length]
             finished = True
-        out_file.write(chunk)
+        out_file.write(byteArrayToStr(chunk))
     in_file.close()
     if (out_file!=sys.stdout):
        out_file.close()
@@ -194,8 +220,13 @@ def obtenerFicheroRed(urls,salida,nombre=""):
     if (r==None or r.status_code!=200):
         return False
     out=open(salida,"w")
-    out.write(str(r.content))
-    out.close()
+    if (type(r.content)==bytes or type(r.content)==bytearray):
+        contenido=byteArrayToStr(r.content)
+    else:
+        contenido=r.content
+    out.write(contenido)
+    if (salida!="/dev/stdout"):
+        out.close()
     return True
     
     
@@ -208,6 +239,35 @@ def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
         return decryptCTR(outfile,salida)
     else:
         return ""
+
+def osMata(pid):
+    if (not pid_exists(pid)):
+        return False
+    cont=0
+    while (pid_exists(pid) and cont<20):
+        try:
+            if (cont<10):
+                os.kill(pid,signal.SIGTERM)
+            else:
+                os.kill(pid,signal.SIGKILL)
+        except os.error as error:
+            if error.errno == errno.ESRCH:
+                # ESRCH == No such process
+                print(str(error))
+                print("No Existe el Proceso")
+                return False
+            elif error.errno == errno.EPERM:
+                # EPERM clearly means there's a process to deny access to
+                print("Permiso Denegado")
+                return True
+            else:
+                # According to "man 2 kill" possible error values are
+                # (EINVAL, EPERM, ESRCH)
+                print("Error: ",errno)
+                return False
+        cont+=1
+        time.sleep(0.5) 
+    return True
     
 def psutilMata(dev):
     import psutil
@@ -218,20 +278,34 @@ def psutilMata(dev):
             encontrado=True
             break
     if (not encontrado):
+        print("No Encontrado")
         return
-    cont=0
-    while (pid in psutil.pids() and cont<20):
-        if (cont<10):
-            #print "Enviando SIGTERM a "+str(pid)
-            os.kill(pid,signal.SIGTERM)
-        else:
-            #print "Enviando SIGKILL a "+str(pid)
-            os.kill(pid,signal.SIGKILL)
-        cont+=1
-        time.sleep(1) 
-            
+    osMata(pid)
+#     cont=0
+#     while (pid in psutil.pids() and cont<20):
+#         if (cont<10):
+#             #print "Enviando SIGTERM a "+str(pid)
+#             os.kill(pid,signal.SIGTERM)
+#         else:
+#             #print "Enviando SIGKILL a "+str(pid)
+#             os.kill(pid,signal.SIGKILL)
+#         cont+=1
+#         time.sleep(1) 
+             
 
-def commandsMata(dev):
+def commandsMata2(dev):
+    #proc = subprocess.Popen(["pgrep", process_name], stdout=subprocess.PIPE) 
+    #err,out=commands.getstatusoutput("ps awwx | grep -i ssh | grep '\-w' | grep -v grep")
+    #err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
+    cmd="pgrep -u root -f ssh.*-w.16"
+    proc=subprocess.Popen(cmd.split(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    out,salida=proc.communicate(); err=proc.returncode
+    print("err: "+str(err)+"out: "+str(out)+" dev: "+str(dev))
+    if (err==0 and out!=""):
+        os.mata(int(out))
+
+
+def commandsMata2(dev):
     #proc = subprocess.Popen(["pgrep", process_name], stdout=subprocess.PIPE) 
     cont=0
     while True:
@@ -272,6 +346,8 @@ def mata(dev):
     except:
         commandsMata(dev)        
 
+###+++
+
 def procesarParametros():
     from collections import OrderedDict
     tmpFile=tempfile.mktemp()
@@ -290,7 +366,8 @@ def procesarParametros():
     for k in res.keys():
         res[k]=res[k].replace('"','')
     for k in res.keys():
-        for k2,v in res.iteritems():
+        #for k2,v in res.iteritems():
+        for k2,v in res.items():
             var="$"+k
             if var in v:
                 pos=v.find(var)
@@ -314,16 +391,16 @@ def procesarParametros():
         pass
     return parametros
 
-def md5Lineas(file,numLineas):
+def md5Lineas(file,nlineas):
     f=open(file,"r")
     lineas=""
     cont=1
     for l in f:
         lineas+=l
         cont+=1
-        if (cont>numLineas): break
+        if (cont>nlineas): break
     f.close()    
-    return md5(lineas).digest().encode("hex")        
+    return md5(toByteArray(lineas)).hexdigest()        
 
 def username():
     import getpass
@@ -344,7 +421,7 @@ def tunelSSH(param):
     for j in range(10):
         for i in range(len(cmds)):
             print(cmds[i])
-            os.system(cmds[i])
+            if not DEBUG: os.system(cmds[i])
             if (i==0): time.sleep(1)
         if conexionActiva(param['TUN_SSH_DEV_GW']): break
 
@@ -357,7 +434,8 @@ def debeSerAdmin():
 
 def loopTunel():
     debeSerAdmin()
-    pidfile=tempfile.gettempdir()+"/"+md5(os.path.basename(sys.argv[0]).encode("utf-8")).digest().hex()
+    rmd5Name=md5(toByteArray(os.path.basename(sys.argv[0]))).hexdigest()
+    pidfile=tempfile.gettempdir()+"/"+md5Name
     if (os.path.isfile(pidfile)):
         pid=open(pidfile,"r").read();
         if (pid_exists(pid)): sys.exit(2)
@@ -387,6 +465,14 @@ def loopTunel():
     print("Saliendo")
 
 def numLineas(filename):
+    cont=0; ult=""
+    with open(filename,"r") as f:
+        for l in f:
+            cont+=1
+            ult=l
+    return (cont,ult)
+
+def numLineas2(filename):
     import mmap
     f = open(filename, "r+")
     buf = mmap.mmap(f.fileno(), 0)
@@ -401,7 +487,7 @@ def numLineas(filename):
     f.close()
     return (lines,penUltLinea)
 
-def numLineas2(filename):
+def numLineas3(filename):
     for n,l in enumerate(open(filename,"r")):
         pass
     return (n,l)
@@ -409,7 +495,7 @@ def numLineas2(filename):
 def ficheroReplace(fichName,buscada,reemplaza):
     import fileinput
     for line in fileinput.input(fichName, inplace=True):
-        print("%s" % (line.replace(buscada,reemplaza)),)
+        print("%s" % (line.replace(buscada,reemplaza)),end="")
 
 def ficheroAppend(fichName,text):
     with open(fichName,"a") as fichero:
@@ -482,7 +568,7 @@ def cambiarParametrosIndice(fichName,parametros):
                 if (parametros[k][-1]!="\n"):
                     line+="\n"
                 break
-        print("%s" % (line),)
+        print("%s" % (line),end="")
 
 def obtenerClavesFtp():
     res={}
@@ -523,8 +609,8 @@ def comprobarSubidaCorrecta(fichParam):
     obtenerFicheroIndice(salida=tmpFile)
     with open(tmpFile,"r") as fContSubido:
         contenidoSubido=fContSubido.read()
-    md51=md5(contenidoSubido).digest().encode("hex")
-    md52=md5(open(fichParam).read()).digest().encode("hex")
+    md51=md5(contenidoSubido).hexdigest()
+    md52=md5(open(fichParam).read()).hexdigest()
     if (md51!=md52):
         print("Error en fichero subido")
     else:

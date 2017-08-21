@@ -22,26 +22,27 @@ echo '
 #http://releases.lliurex.net/isos/15.05_64bits/lliurex-servidor_amd64_1505_20170223_kernel4.iso
 #http://downloadcenter.samsung.com/content/FM/201704/20170427160256419/T-JZL6DEUC_1169.2.exe
 #https://netix.dl.sourceforge.net/project/systemrescuecd/sysresccd-x86/5.0.2/systemrescuecd-x86-5.0.2.iso
-http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
+#http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
+#http://www.mediafire.com/file/5yndrs88pie88nz/wifislax64-1.1-final.iso
+http://www.downloadwireless.net/isos/wifislax64-1.1-final.iso
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"
 LIMIT="400"
 LIMIT="0"
 ([ "$1" = "-h" ] || [ "$1" = "--help" ]) && uso
-if [ -f $FICHERO_CLAVE ]; then DESCARGAR="$FICHERO_CLAVE";
+if [ -f $FICHERO_CLAVE ]; then DESCARGAR="$FICHERO_CLAVE"; 
 else
    DESCARGAR=$(tempfile)
-   [ "$1" = "" ] &&   descargas > $DESCARGAR || DESCARGAR="$1"
+   [ "$1" = "" ] &&   descargas > $DESCARGAR || echo "$1" > $DESCARGAR
 fi   
 while read d; do
    [ "$d" = "" ] || [ "${d:0:1}" = "#" ] && continue
    MAQUINA=$(echo $d | awk -F'/' '{print $3;}')
    #echo "MAQUINA: $MAQUINA"
-   echo route add -host $MAQUINA gw r1
-      echo hola
-   exit
+   echo hola
+   eecho sudo route add -host $MAQUINA gw r1
 
-   descarga "$d" "$LIMIT"
+   echo descarga "--limit-rate $LIMIT" "$d"
    eecho sudo route del -host $MAQUINA
 done < $DESCARGAR

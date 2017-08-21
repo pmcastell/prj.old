@@ -31,16 +31,18 @@ FICHERO_CLAVE="listaFicheros.txt"
 LIMIT="400"
 LIMIT="0"
 ([ "$1" = "-h" ] || [ "$1" = "--help" ]) && uso
-if [ -f $FICHERO_CLAVE ]; then DESCARGAR="$FICHERO_CLAVE";
+if [ -f $FICHERO_CLAVE ]; then DESCARGAR="$FICHERO_CLAVE"; 
 else
    DESCARGAR=$(tempfile)
-   [ "$1" = "" ] &&   descargas > $DESCARGAR || DESCARGAR="$1"
+   [ "$1" = "" ] &&   descargas > $DESCARGAR || echo "$1" > $DESCARGAR
 fi   
 while read d; do
    [ "$d" = "" ] || [ "${d:0:1}" = "#" ] && continue
    MAQUINA=$(echo $d | awk -F'/' '{print $3;}')
    #echo "MAQUINA: $MAQUINA"
+   echo hola
    eecho sudo route add -host $MAQUINA gw r1
-   descarga "$d" "$LIMIT"
+
+   eecho descarga "--limit-rate $LIMIT" "$d"
    eecho sudo route del -host $MAQUINA
 done < $DESCARGAR

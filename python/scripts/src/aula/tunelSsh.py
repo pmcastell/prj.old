@@ -1,26 +1,26 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+ 
 # Fecha creación: 17 jul. 2017
 # autor: usuario
-
+ 
 import base64, tempfile, time, socket, platform, subprocess, sys, os, re
-import signal, subprocess, errno, requests
+import signal, commands, errno, urllib
 from hashlib import md5
 from Crypto.Cipher import AES
 from Crypto import Random
 from Crypto.Util import Counter
-
+ 
 DEBUG=False
-
+ 
 def debug(*mensa):
     global DEBUG
     if DEBUG:
         imprimir=""
         for m in mensa:
             imprimir+=m
-    print(imprimir)
-
+    print imprimir
+ 
 def pid_exists(pid):
     """Check whether pid exists in the current process table.
     UNIX only.
@@ -51,7 +51,7 @@ def pid_exists(pid):
             # (EINVAL, EPERM, ESRCH)
             return False
     return True
-    
+     
 def conexionActiva(host):
     nPings=4; timeout=2
     # Ping parameters as function of OS
@@ -61,18 +61,18 @@ def conexionActiva(host):
     # Pinging
     #return os.system("ping " + parameters + " " + host) == 0
     return subprocess.Popen(cmd).wait()==0
-
+ 
 def hostname():
     return socket.gethostname().split(".")[0]
-
+ 
 def derive_key_and_iv(password, salt, key_length, iv_length):
     d = d_i = ''
     while len(d) < key_length + iv_length:
-        d_i = str(md5(d_i + password + salt).digest())
+        d_i = md5(d_i + password + salt).digest()
         d += d_i
     return d[:key_length], d[key_length:key_length+iv_length]
-
-
+ 
+ 
 def base64Dec(inf,outf):
     inf=open(inf,"r")
     outf=open(outf,"wb")
@@ -81,7 +81,7 @@ def base64Dec(inf,outf):
     #    outf.write(base64.b64decode(l))
     outf.close()
     inf.close()
-
+ 
 def base64Enc(inf,outf):
     inf=open(inf,"r")
     outf=open(outf,"wb")
@@ -90,8 +90,8 @@ def base64Enc(inf,outf):
     #    outf.write(base64.b64encode(l)+"\n")
     outf.close()
     inf.close()
-
-
+ 
+ 
 def encryptCTR(inf, outf, password="clave"+time.strftime("%Y-%m-%d"), key_length=32, base64=True,padding=False):
     bs = AES.block_size
     salt = Random.new().read(bs - len('Salted__'))
@@ -117,7 +117,7 @@ def encryptCTR(inf, outf, password="clave"+time.strftime("%Y-%m-%d"), key_length
         base64Enc(outf,tmpFile)
         os.remove(outf)
         os.rename(tmpFile,outf)
-
+ 
 def decryptCTR(in_file="/tmp/indice6.html", out_file=None, 
                password="clave"+time.strftime("%Y-%m-%d"), key_length=32,
                base64=True,padding=False):
@@ -151,24 +151,25 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
     in_file.close()
     if (out_file!=sys.stdout):
        out_file.close()
-
+ 
 def obtenerFicheroRed(urls,salida,nombre=""):
     if (type(urls)==str):
         urls=[urls]
     for url in urls:
         try:
             #content=requests.get(url+nombre)
-            r=requests.get(url+nombre)
+            r=urllib.urlopen(url+nombre)
             break
         except: r=None
-    if (r==None or r.status_code!=200):
+    if (r==None or r.code!=200):
         return False
     out=open(salida,"w")
-    out.write(str(r.content))
-    out.close()
+    out.write(r.read())
+    if (salida!="/dev/stdout"):
+        out.close()
     return True
-    
-    
+     
+     
 def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
     if (urls==None):
         urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
@@ -178,9 +179,27 @@ def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
         return decryptCTR(outfile,salida)
     else:
         return ""
-    
-        
-
+     
+         
+def ___obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
+    if (urls==None):
+        urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
+          "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
+    for url in urls:
+        try: 
+            r=requests.get(url+indice);  
+            break
+        except: r=None
+             
+    if (r==None or r.status_code!=200):
+        return False
+    outfile = tempfile.mktemp()
+    out=open(outfile,"w")
+    out.write(r.content)
+    out.close()
+    #return encryptDecryptCtr256Shell(r.content,"clave"+time.strftime("%Y-%m-%d"),'d',hostname())
+    return decryptCTR(outfile,salida)
+ 
 def psutilMata(dev):
     import psutil
     encontrado=False
@@ -201,18 +220,15 @@ def psutilMata(dev):
             os.kill(pid,signal.SIGKILL)
         cont+=1
         time.sleep(1) 
-            
-
+             
+ 
 def commandsMata(dev):
     #proc = subprocess.Popen(["pgrep", process_name], stdout=subprocess.PIPE) 
     cont=0
     while True:
         #err,out=commands.getstatusoutput("ps awwx | grep -i ssh | grep '\-w' | grep -v grep")
-        #err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
-        cmd="pgrep -u root -f ssh.*-w.16"
-        proc=subprocess.Popen(cmd.split(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        out,salida=proc.communicate(); err=proc.returncode
-        print("err: "+str(err)+"out: "+str(out)+" dev: "+str(dev))
+        err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
+        print "err: "+str(err)+"out: "+str(out)+" dev: "+str(dev)
         if (err==0 and out!=""):
             try:
                 if (cont<10):
@@ -222,28 +238,28 @@ def commandsMata(dev):
             except os.error as error:
                 if error.errno == errno.ESRCH:
                     # ESRCH == No such process
-                    print("No Existe el Proceso")
+                    print "No Existe el Proceso"
                     return False
                 elif error.errno == errno.EPERM:
                     # EPERM clearly means there's a process to deny access to
-                    print("Permiso Denegado")
+                    print "Permiso Denegado"
                     return True
                 else:
                     # According to "man 2 kill" possible error values are
                     # (EINVAL, EPERM, ESRCH)
-                    print("Error: ",errno)
-                    return False 
+                    print "Error: ",errno
+                    return False
         else:
-            break 
-        cont+=1  
-
+            break
+        cont+=1 
+ 
 def mata(dev):
     try:
         import psutil
         psutilMata(dev)
     except:
         commandsMata(dev)        
-
+ 
 def procesarParametros():
     from collections import OrderedDict
     tmpFile=tempfile.mktemp()
@@ -285,7 +301,7 @@ def procesarParametros():
     except:
         pass
     return parametros
-
+ 
 def md5Lineas(file,numLineas):
     f=open(file,"r")
     lineas=""
@@ -296,11 +312,11 @@ def md5Lineas(file,numLineas):
         if (cont>numLineas): break
     f.close()    
     return md5(lineas).digest().encode("hex")        
-
+ 
 def username():
     import getpass
     return getpass.getuser()
-
+ 
 def tunelSSH(param):
     DEV=param['TUN_SSH_DEV']; DEV_IP=param['TUN_SSH_DEV_IP'];DEV_GW=param['TUN_SSH_DEV_GW']
     CMD=param['TUN_SSH_CMD']; IP=param['TUN_SSH_IP']; PORT=param['TUN_SSH_PORT']
@@ -315,18 +331,18 @@ def tunelSSH(param):
     cmds.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24")
     for j in range(10):
         for i in range(len(cmds)):
-            print(cmds[i])
+            print cmds[i]
             os.system(cmds[i])
             if (i==0): time.sleep(1)
         if conexionActiva(param['TUN_SSH_DEV_GW']): break
-
+ 
 def debeSerAdmin():
     usuario=username()
     if DEBUG: usuario="root"
     if (usuario!="root" and not usuario.lower().startswith("admin")):
-        print("Debes ejecutar este programa como administrador.")
+        print "Debes ejecutar este programa como administrador."
         sys.exit(1)
-
+ 
 def loopTunel():
     debeSerAdmin()
     pidfile=tempfile.gettempdir()+"/"+md5(os.path.basename(sys.argv[0])).digest().encode("hex")
@@ -334,7 +350,7 @@ def loopTunel():
         pid=open(pidfile,"r").read();
         if (pid_exists(pid)): sys.exit(2)
         else: os.remove(pidfile)
-    
+     
     pdf=open(pidfile,"w"); pdf.write(str(os.getpid())); pdf.close()
     horaComienzo=time.strftime("%H")
     conexionEstablecida=False
@@ -350,14 +366,14 @@ def loopTunel():
                 mata(parametros['TUN_SSH_DEV'])
                 tunelSSH(parametros)
         try:
-            print("Durmiendo:",parametros['GLOBAL_ESPERA'])
+            print "Durmiendo:",parametros['GLOBAL_ESPERA']
             time.sleep(int(parametros['GLOBAL_ESPERA']))
         except:
-            print("Durmiendo: 300")
+            print "Durmiendo: 300"
             time.sleep(300) 
-        print("Fin Durmiendo")
-    print("Saliendo")
-
+        print "Fin Durmiendo"
+    print "Saliendo"
+ 
 def numLineas(filename):
     import mmap
     f = open(filename, "r+")
@@ -372,37 +388,37 @@ def numLineas(filename):
         l=buf.readline()
     f.close()
     return (lines,penUltLinea)
-
+ 
 def numLineas2(filename):
     for n,l in enumerate(open(filename,"r")):
         pass
     return (n,l)
-
+ 
 def ficheroReplace(fichName,buscada,reemplaza):
     import fileinput
     for line in fileinput.input(fichName, inplace=True):
-        print("%s" % (line.replace(buscada,reemplaza)),)
-
+        print "%s" % (line.replace(buscada,reemplaza)),
+ 
 def ficheroAppend(fichName,text):
     with open(fichName,"a") as fichero:
         if (text[-1]=="\n" or text[-1]=="\r"):
             fichero.write(text)
         else:
             fichero.write(text+"\n")
-
+ 
 def ficheroContiene(fichname,text):
     with open(fichname,"r") as fichero:
         for l in fichero:
             if text in l:
                 return True
     return False
-
+ 
 def appendSiNoEsta(fichname,text):
     if (ficheroContiene(fichname,text)):
         return False
     else:
         ficheroAppend(fichname,text)
-        
+         
 def ponerMD5(fichero):
     numLin,ultLin=numLineas(fichero)
     if (ultLin.upper().startswith("MD5SUM")):
@@ -419,7 +435,7 @@ def ponerMD5(fichero):
 #         if (MD52[0]=="MD5SUM"):
 #             ficheroReplace(fichero,"MD5SUM="+MD52,"MD5SUM="+MD51)
 #         else:
-
+ 
 def direccionIp(real=True):
     if (os.path.isfile("/tmp/direccionIpReal.txt")):
         ip=open("/tmp/direccionIpReal.txt","r").read()
@@ -444,7 +460,7 @@ def direccionIp(real=True):
     with open("/tmp/direccionIpReal.txt","w") as fDirIp:
         fDirIp.write(datos['ip'])
     return datos['ip']
-
+ 
 def cambiarParametrosIndice(fichName,parametros):
     import fileinput
     for line in fileinput.input(fichName, inplace=True):
@@ -454,8 +470,8 @@ def cambiarParametrosIndice(fichName,parametros):
                 if (parametros[k][-1]!="\n"):
                     line+="\n"
                 break
-        print("%s" % (line),)
-
+        print "%s" % (line),
+ 
 def obtenerClavesFtp():
     res={}
     if (os.path.isfile("\scripts\hostinger.sh")):
@@ -475,8 +491,8 @@ def obtenerClavesFtp():
                 res[datosHost[0]+":"+datosHost[1]]=datosHost
         fc.close()
     return res
-                
-
+                 
+ 
 def subirFtp(fich):
     import ftplib
     claves=obtenerClavesFtp()
@@ -485,11 +501,11 @@ def subirFtp(fich):
             ftp = ftplib.FTP(claves[k][1],claves[k][0],"basura68")
             ftp.cwd(claves[k][2])
             resp=ftp.storbinary('STOR '+os.path.basename(fich), open(fich,"rb"))
-            print("Subiendo: "+fich+" a: "+str(claves[k]))
+            print "Subiendo: "+fich+" a: "+str(claves[k])
             #if (not resp.startswith("226")):
         except:
-            print("Error transfiriendo: "+fich+" a "+claves[k][1])
-        
+            print "Error transfiriendo: "+fich+" a "+claves[k][1]
+         
 def comprobarSubidaCorrecta(fichParam):
     tmpFile=tempfile.mktemp()
     obtenerFicheroIndice(salida=tmpFile)
@@ -498,11 +514,11 @@ def comprobarSubidaCorrecta(fichParam):
     md51=md5(contenidoSubido).digest().encode("hex")
     md52=md5(open(fichParam).read()).digest().encode("hex")
     if (md51!=md52):
-        print("Error en fichero subido")
+        print "Error en fichero subido"
     else:
-        print("Fichero subido correctamente")
-    
-        
+        print "Fichero subido correctamente"
+     
+         
 def subirFicheros():
     #./tunelSsh.py --start <SSH|OVPN> <si|no> [<dir-base>]
     if (len(sys.argv)<4):
@@ -523,11 +539,11 @@ def subirFicheros():
         encryptCTR(fichParam,fichParamTemp)
         subirFtp(fichParamTemp)
         comprobarSubidaCorrecta(fichParam)
-        
-
+         
+ 
 def start():
     subirFicheros()
-
+ 
 def sshConfig(target="insti",usuario=None):
     import zipfile, pwd, grp, stat
     if (usuario==None): usuario=username()
@@ -537,7 +553,7 @@ def sshConfig(target="insti",usuario=None):
     if (not os.path.exists(dest)): os.mkdir(dest)
     salida=dest+"root_ssh.zip"
     if (not obtenerFicheroRed(url,salida)):
-        print("Error obteniendo fichero")
+        print "Error obteniendo fichero"
         sys.exit(4)
     zipfile.ZipFile(salida).extractall(pwd='tunelSsh',path=dest)   
     if (target=="yellowcircle"):
@@ -549,7 +565,7 @@ def sshConfig(target="insti",usuario=None):
     for file in os.listdir(dest):
         os.chown(dest+file, uid, gid)
         os.chmod(dest+file,stat.S_IRUSR | stat.S_IWUSR)
-
+ 
 def cabeceraCrontab():
     return """# Edit this file to introduce tasks to be run by cron.
 #
@@ -573,14 +589,12 @@ def cabeceraCrontab():
 # For more information see the manual pages of crontab(5) and cron(8)
 #
 # m h  dom mon dow   command
-
+ 
 """
-
+ 
 def ponerCrontab():
     tmpFile=tempfile.mktemp()   
-    #err,out=commands.getstatusoutput("sudo crontab -l")
-    proc=subprocess.Popen("sudo crontab -l".split(),stdout=subprocess.PIPE,stderr=subproces.PIPE)
-    out,err=proc.communicate()
+    err,out=commands.getstatusoutput("sudo crontab -l")
     if ("no crontab" in out):
         with open(tmpFile,"w") as salida:
             salida.write(cabeceraCrontab()+"\n")
@@ -589,18 +603,18 @@ def ponerCrontab():
     appendSiNoEsta(tmpFile,"*/5 * * * *     /root/tunelSsh.py &> /dev/null\n")
     os.system("sudo crontab < "+tmpFile)
     os.system("sudo rm "+tmpFile)
-    
+     
 def lliurexUbuntuRepo():
     return [["deb http://es.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted",True],
      ["deb http://es.archive.ubuntu.com/ubuntu trusty-updates main universe multiverse restricted",True],
      ["deb http://es.archive.ubuntu.com/ubuntu trusty-security main universe multiverse restricted",True]
     ]
-
+ 
 def aptSourcesList(sources="/etc/apt/sources.list"):
     lineas=lliurexUbuntuRepo(); cont=len(lineas)
     with open(sources,"r") as fs:
         for s in fs:
-            print(s)
+            print s
             if (len(s.strip()) and s.strip()[0]!="#"):
                 for l in lineas:
                     if (l[0] in s):
@@ -611,7 +625,7 @@ def aptSourcesList(sources="/etc/apt/sources.list"):
             for l in lineas:
                 if (l[1]):
                     fs.write(l[0]+"\n")
-                
+                 
 def instalarTunel():
     debeSerAdmin()
     if (len(sys.argv)>=2):
@@ -622,7 +636,7 @@ def instalarTunel():
     ponerCrontab()
     aptSourcesList()
     os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
-
+ 
 if ( __name__ == '__main__'):
     #if DEBUG: sys.argv=[sys.argv[0],"--start","SSH","si","/home/usuario/hostinger"]
     if (not DEBUG):
