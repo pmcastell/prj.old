@@ -18,7 +18,7 @@ def debug(*mensa):
     if DEBUG:
         imprimir=""
         for m in mensa:
-            imprimir+=m
+            imprimir+=str(m)
         print(imprimir)
     
 def randomString(lon):
@@ -346,8 +346,6 @@ def mata(dev):
     except:
         commandsMata(dev)        
 
-###+++
-
 def procesarParametros():
     from collections import OrderedDict
     tmpFile=tempfile.mktemp()
@@ -391,16 +389,26 @@ def procesarParametros():
         pass
     return parametros
 
+
+
 def md5Lineas(file,nlineas):
     f=open(file,"r")
-    lineas=""
+    lineas=bytearray()
     cont=1
+    pyth3=(int(sys.version[0])>2)
     for l in f:
-        lineas+=l
+        debug("l: ",l," type(l): ",type(l)," type(lineas): ",type(lineas))
+        if (pyth3):
+            lb=l.encode()
+        else:
+            lb=toByteArray(l)
+        for c in lb:
+            lineas.append(c)
         cont+=1
         if (cont>nlineas): break
+    debug("len(lineas):",len(lineas))
     f.close()    
-    return md5(toByteArray(lineas)).hexdigest()        
+    return md5(lineas).hexdigest()        
 
 def username():
     import getpass
@@ -434,7 +442,7 @@ def debeSerAdmin():
 
 def loopTunel():
     debeSerAdmin()
-    rmd5Name=md5(toByteArray(os.path.basename(sys.argv[0]))).hexdigest()
+    md5Name=md5(toByteArray(os.path.basename(sys.argv[0]))).hexdigest()
     pidfile=tempfile.gettempdir()+"/"+md5Name
     if (os.path.isfile(pidfile)):
         pid=open(pidfile,"r").read();
@@ -448,6 +456,7 @@ def loopTunel():
     while (horaComienzo==time.strftime("%H")):
         if (not conexionEstablecida):
             parametros=procesarParametros()
+            debug("Parametros:",parametros)
         conexionEstablecida=False
         if (len(parametros)>0 and 'TUN_SSH' in parametros.keys() and parametros['TUN_SSH']=="si"):
             if (conexionActiva(parametros['TUN_SSH_DEV_GW'])):
@@ -455,6 +464,7 @@ def loopTunel():
             else:
                 mata(parametros['TUN_SSH_DEV'])
                 tunelSSH(parametros)
+        debug("conexionEstablecida:",conexionEstablecida) 
         try:
             print("Durmiendo:",parametros['GLOBAL_ESPERA'])
             time.sleep(int(parametros['GLOBAL_ESPERA']))
@@ -492,10 +502,24 @@ def numLineas3(filename):
         pass
     return (n,l)
 
+def ficheroLine(fichName,nlin):
+    res=""
+    with open(fichName,"r") as f:
+        cont=1
+        for l in f:
+            if (cont==nlin):
+                res=l
+                break
+            cont+=1
+    return res
+    
+
 def ficheroReplace(fichName,buscada,reemplaza):
     import fileinput
     for line in fileinput.input(fichName, inplace=True):
-        print("%s" % (line.replace(buscada,reemplaza)),end="")
+        line=line.replace(buscada,reemplaza)
+        if (line[-1]=="\n"): line=line[:-1]
+        print("%s" % (line))
 
 def ficheroAppend(fichName,text):
     with open(fichName,"a") as fichero:
@@ -516,6 +540,7 @@ def appendSiNoEsta(fichname,text):
         return False
     else:
         ficheroAppend(fichname,text)
+        return True
         
 def ponerMD5(fichero):
     numLin,ultLin=numLineas(fichero)
@@ -565,10 +590,12 @@ def cambiarParametrosIndice(fichName,parametros):
         for k in parametros.keys():
             if (line.startswith(k)):
                 line=k+"="+parametros[k]
-                if (parametros[k][-1]!="\n"):
-                    line+="\n"
+                if (line[-1]=="\n"):
+                    line=line[:-1]
+#                 if (parametros[k][-1]!="\n"):
+#                     line+="\n"
                 break
-        print("%s" % (line),end="")
+        print("%s" % (line))
 
 def obtenerClavesFtp():
     res={}
@@ -647,7 +674,7 @@ def sshConfig(target="insti",usuario=None):
     if (usuario==None): usuario=username()
     url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/root_ssh.zip"
     dest="/"+usuario+"/.ssh/"
-    #if DEBUG: dest="/tmp/pr4/"
+    if DEBUG: dest="/tmp/pr4/"
     if (not os.path.exists(dest)): os.mkdir(dest)
     salida=dest+"root_ssh.zip"
     if (not obtenerFicheroRed(url,salida)):
