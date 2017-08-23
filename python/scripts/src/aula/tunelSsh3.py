@@ -5,7 +5,7 @@
 # autor: usuario
 
 import base64, tempfile, time, socket, platform, subprocess, sys, os, re
-import signal, subprocess, errno, requests, random
+import signal, subprocess, errno, random
 from hashlib import md5
 from Crypto.Cipher import AES
 from Crypto import Random
@@ -208,7 +208,7 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
     if (out_file!=sys.stdout):
        out_file.close()
 
-def obtenerFicheroRed(urls,salida,nombre=""):
+def obtenerFicheroRed2(urls,salida=None,nombre="",tipo="asc"):
     if (type(urls)==str):
         urls=[urls]
     for url in urls:
@@ -219,11 +219,48 @@ def obtenerFicheroRed(urls,salida,nombre=""):
         except: r=None
     if (r==None or r.status_code!=200):
         return False
-    out=open(salida,"w")
-    if (type(r.content)==bytes or type(r.content)==bytearray):
+    if (tipo=="asc" and type(r.content)==bytes or type(r.content)==bytearray):
         contenido=byteArrayToStr(r.content)
     else:
         contenido=r.content
+    if (salida==None): return contenido
+    if (tipo=="asc"):
+        out=open(salida,"w")
+    else:
+        out=open(salida,"wb")
+    out.write(contenido)
+    if (salida!="/dev/stdout"):
+        out.close()
+    return True
+
+
+def obtenerFicheroRed(urls,salida=None,nombre="",tipo="asc"):
+    if (type(urls)==str):
+        urls=[urls]
+    pyth3=(int(sys.version[0])>2)
+    if (pyth3):
+        import urllib
+        opener=urllib.request.build_opener()
+    else:
+        import urllib2
+        opener=urllib2.build_opener()
+    opener.addheaders = [('User-Agent', 'curl/7.47.0')]
+    for url in urls:
+        try:
+            #content=requests.get(url+nombre)
+            r=opener.open(url+nombre)
+            break
+        except: r=None
+    if (r==None or r.code!=200):
+        return False
+    contenido=r.read()
+    if (tipo=="asc" and type(contenido)==bytes or type(contenido)==bytearray):
+        contenido=byteArrayToStr(contenido)
+    if (salida==None): return contenido
+    if (tipo=="asc"):
+        out=open(salida,"w")
+    else:
+        out=open(salida,"wb")
     out.write(contenido)
     if (salida!="/dev/stdout"):
         out.close()
@@ -293,7 +330,7 @@ def psutilMata(dev):
 #         time.sleep(1) 
              
 
-def commandsMata2(dev):
+def commandsMata(dev):
     #proc = subprocess.Popen(["pgrep", process_name], stdout=subprocess.PIPE) 
     #err,out=commands.getstatusoutput("ps awwx | grep -i ssh | grep '\-w' | grep -v grep")
     #err,out=commands.getstatusoutput("pgrep -u root -f 'ssh.*-w"+str(dev)+"'")
@@ -558,8 +595,44 @@ def ponerMD5(fichero):
 #         if (MD52[0]=="MD5SUM"):
 #             ficheroReplace(fichero,"MD5SUM="+MD52,"MD5SUM="+MD51)
 #         else:
-
-def direccionIp(real=True):
+def direccionIp(real=True,getDict=False,nuevo=False):
+    if (not nuevo and real and not getDict and os.path.isfile("/tmp/direccionIpReal.txt")):
+        ip=open("/tmp/direccionIpReal.txt","r").read()
+        if (re.match("([0-9]{1,3}\.){3}[0-9]{1,3}$",ip)):
+            if (ip[-1]=="\n"):
+                ip=ip[:-1]
+            return ip
+    servicioIp="ipinfo.io"
+    if (real):
+        router=os.popen("ip route | grep default | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
+        sIps=os.popen("dig "+servicioIp+" | grep A | grep IN | grep -vE '^;' | awk '{print $NF;}'").read().split("\n")
+        for dirIp in sIps:
+            if (dirIp!=""):
+                #os.system("sudo -S route add -host "+dirIp+" gw "+router)
+                os.system("route add -host "+dirIp+" gw "+router)
+    datos={}
+    for i in range(10):
+        resp=obtenerFicheroRed("http://"+servicioIp)
+        if (resp):
+            datos=eval(resp)
+            break
+    if (real):
+        for dirIp in sIps:
+            if (dirIp!=""):
+                #os.system("sudo -S route del -host "+dirIp)
+                os.system("route del -host "+dirIp)
+    if (len(datos)>0):
+        if (getDict):
+            return datos
+        else:
+            return datos['ip']
+        if (real and nuevo):
+            with open("/tmp/direccionIpReal.txt","w") as fDirIp:
+                fDirIp.write(datos['ip'])
+    else:
+        return ""
+        
+def direccionIp2(real=True):
     if (os.path.isfile("/tmp/direccionIpReal.txt")):
         ip=open("/tmp/direccionIpReal.txt","r").read()
         if (re.match("([0-9]{1,3}\.){3}[0-9]{1,3}$",ip)):
@@ -574,28 +647,33 @@ def direccionIp(real=True):
         if (datos and datos['country']=="ES"): break
         debeSerAdmin()
         router=netifaces.gateways()['default'][2][0]
-        os.system("sudo -S route add -host ipinfo.io gw "+router)
+        #os.system("sudo -S route add -host ipinfo.io gw "+router)
+        os.system("route add -host ipinfo.io gw "+router)
         cont+=1
     if (cont>0):
         cont=0; err=1;
         while (cont<10 and err!=0):
-            err=os.system("sudo -S route del -host ipinfo.io")
+            #err=os.system("sudo -S route del -host ipinfo.io")
+            err=os.system("route del -host ipinfo.io")
     with open("/tmp/direccionIpReal.txt","w") as fDirIp:
         fDirIp.write(datos['ip'])
     return datos['ip']
 
 def cambiarParametrosIndice(fichName,parametros):
     import fileinput
-    for line in fileinput.input(fichName, inplace=True):
+    for linea in fileinput.input(fichName, inplace=True):
         for k in parametros.keys():
-            if (line.startswith(k)):
-                line=k+"="+parametros[k]
-                if (line[-1]=="\n"):
-                    line=line[:-1]
-#                 if (parametros[k][-1]!="\n"):
-#                     line+="\n"
+            if (linea.startswith(k)):
+                linea=k+"="+parametros[k]
                 break
-        print("%s" % (line))
+        while (linea!="" and linea[-1]=="\n"):
+            linea=linea[:-1]
+        print("%s" % (linea))
+
+
+def obtenerFicheroGitHub(fichero,fichDest,tipo="asc",
+                         url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/"):
+    return obtenerFicheroRed(url,fichDest,fichero,tipo)
 
 def obtenerClavesFtp():
     res={}
@@ -604,7 +682,8 @@ def obtenerClavesFtp():
     elif (os.path.isfile("/scripts/hostinger.sh")):
         fClaves="/scripts/hostinger.sh"
     else:
-        fClaves=None
+        obtenerFicheroGitHub("hostinger.sh","/tmp/hostinger.sh")
+        fClaves="/tmp/hostinger.sh"
     if (fClaves==None):
         #claves=listadoDeClaves()
         pass
@@ -635,9 +714,9 @@ def comprobarSubidaCorrecta(fichParam):
     tmpFile=tempfile.mktemp()
     obtenerFicheroIndice(salida=tmpFile)
     with open(tmpFile,"r") as fContSubido:
-        contenidoSubido=fContSubido.read()
+        contenidoSubido=toByteArray(fContSubido.read())
     md51=md5(contenidoSubido).hexdigest()
-    md52=md5(open(fichParam).read()).hexdigest()
+    md52=md5(toByteArray(open(fichParam).read())).hexdigest()
     if (md51!=md52):
         print("Error en fichero subido")
     else:
@@ -677,10 +756,11 @@ def sshConfig(target="insti",usuario=None):
     if DEBUG: dest="/tmp/pr4/"
     if (not os.path.exists(dest)): os.mkdir(dest)
     salida=dest+"root_ssh.zip"
-    if (not obtenerFicheroRed(url,salida)):
+    #if (not obtenerFicheroRed(url,salida)):
+    if (not obtenerFicheroGitHub("aula/root_ssh.zip",salida,"bin")):
         print("Error obteniendo fichero")
         sys.exit(4)
-    zipfile.ZipFile(salida).extractall(pwd='tunelSsh',path=dest)   
+    zipfile.ZipFile(salida).extractall(pwd=b'tunelSsh',path=dest)   
     if (target=="yellowcircle"):
         busca="Host pc1* pc2* 10.* localhost 127.0.0.1 172.18.161.* server sp sa1 sa2 st sp2 sb sm spt sh"
         ficheroReplace(path+"config",busca,"Host localhost 127.0.0.1 172.18.163.*")
@@ -717,19 +797,24 @@ def cabeceraCrontab():
 
 """
 
-def ponerCrontab():
+def ponerCrontab(linea):
     tmpFile=tempfile.mktemp()   
     #err,out=commands.getstatusoutput("sudo crontab -l")
-    proc=subprocess.Popen("sudo crontab -l".split(),stdout=subprocess.PIPE,stderr=subproces.PIPE)
-    out,err=proc.communicate()
+    #proc=subprocess.Popen("sudo crontab -l".split(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    proc=subprocess.Popen("crontab -l".split(),stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+    err,out=proc.communicate()
+    out=byteArrayToStr(out); err=byteArrayToStr(err)
     if ("no crontab" in out):
         with open(tmpFile,"w") as salida:
             salida.write(cabeceraCrontab()+"\n")
     else:
-        os.system("sudo crontab -l > "+tmpFile)
-    appendSiNoEsta(tmpFile,"*/5 * * * *     /root/tunelSsh.py &> /dev/null\n")
-    os.system("sudo crontab < "+tmpFile)
-    os.system("sudo rm "+tmpFile)
+        #os.system("sudo crontab -l > "+tmpFile)
+        os.system("crontab -l > "+tmpFile)
+    appendSiNoEsta(tmpFile,linea)
+    #os.system("sudo crontab < "+tmpFile)
+    os.system("crontab < "+tmpFile)
+    #os.system("sudo rm "+tmpFile)
+    os.system("rm "+tmpFile)
     
 def lliurexUbuntuRepo():
     return [["deb http://es.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted",True],
@@ -741,7 +826,7 @@ def aptSourcesList(sources="/etc/apt/sources.list"):
     lineas=lliurexUbuntuRepo(); cont=len(lineas)
     with open(sources,"r") as fs:
         for s in fs:
-            print(s)
+            debug(s)
             if (len(s.strip()) and s.strip()[0]!="#"):
                 for l in lineas:
                     if (l[0] in s):
@@ -760,9 +845,10 @@ def instalarTunel():
     else:
         target="insti"
     sshConfig(target)
-    ponerCrontab()
+    ponerCrontab("*/5 * * * *     /root/tunelSsh.py &> /dev/null\n")
     aptSourcesList()
-    os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
+    #os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
+    os.system("apt-get update; apt-get --allow-unauthenticated -y install tor connect-proxy")
 
 if ( __name__ == '__main__'):
     #if DEBUG: sys.argv=[sys.argv[0],"--start","SSH","si","/home/usuario/hostinger"]
@@ -774,5 +860,5 @@ if ( __name__ == '__main__'):
                 obtenerFicheroIndice()
             elif (sys.argv[1]=="--install"):
                 instalarTunel()
-        elif (not DEBUG):
+        else:
             loopTunel()
