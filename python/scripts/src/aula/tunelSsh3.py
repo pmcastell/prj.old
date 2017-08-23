@@ -456,11 +456,11 @@ def tunelSSH(param):
     CMD=param['TUN_SSH_CMD']; IP=param['TUN_SSH_IP']; PORT=param['TUN_SSH_PORT']
     cmds=[]
     #cmds.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+PORT+" root@"+IP+" -w "+DEV+":"+DEV+" -CTf bash -c \'/bin/ls; /bin/sleep 5; /sbin/ifconfig tun"+DEV+"  "+DEV_GW+"/24 pointopoint "+DEV_IP+" up; /bin/sleep 3; "+CMD+" \'")
-    cmds.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+PORT+" root@"+IP+" -w "+DEV+":"+DEV+" -CTf bash -c \'/bin/ls; /bin/sleep 5; /sbin/ip addr add local "+DEV_GW+"/24 remote "+DEV_IP+"/24 dev tun"+DEV+"; /sbin/ip link set dev tun"+DEV+" up; /bin/sleep 3; "+CMD+" \'")
+    cmds.append("/usr/bin/ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o ConnectTimeout=10 -p "+PORT+" root@"+IP+" -w "+DEV+":"+DEV+" -CTf bash -c \'/bin/ls; /bin/sleep 5; ip addr add local "+DEV_GW+"/24 remote "+DEV_IP+"/24 dev tun"+DEV+"; ip link set dev tun"+DEV+" up; /bin/sleep 3; "+CMD+" \'")
     #cmds.append("/sbin/ifconfig tun"+DEV+" "+DEV_IP+"/24 pointopoint "+DEV_GW+"/24 up &> /dev/null")
     #ip a add local 10.16.16.2/24 remote 10.16.16.16/24 dev tun16
-    cmds.append("/sbin/ip addr add local "+DEV_IP+"/24 remote "+DEV_GW+"/24 dev tun"+DEV)
-    cmds.append("/sbin/ip link set tun"+DEV+" up")
+    cmds.append("ip addr add local "+DEV_IP+"/24 remote "+DEV_GW+"/24 dev tun"+DEV)
+    cmds.append("ip link set tun"+DEV+" up")
     cmds.append("/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24 &> /dev/null")
     cmds.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24")
     for j in range(10):
@@ -849,6 +849,7 @@ def instalarTunel():
     aptSourcesList()
     #os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
     os.system("apt-get update; apt-get --allow-unauthenticated -y install tor connect-proxy ssh")
+    #if (os.name==sysresccd): modprobe tun; emerge pycrypto; 
 
 if ( __name__ == '__main__'):
     #if DEBUG: sys.argv=[sys.argv[0],"--start","SSH","si","/home/usuario/hostinger"]

@@ -1,6 +1,6 @@
 uso() {
    
-   echo uso: $0 '<actualizar|clonar|commit|borrar>'
+   echo uso: $0 '<actualizar|clonar|commit|borrar|descargardir>'
    echo uso: $0 borrar '<carpeta-a-borrar>'
    echo uso: $0 clonar '<git-a-clonar>'
    exit 1
@@ -31,6 +31,7 @@ case $1 in
       git commit -m "Actualización Borrado: '$2' $(date -u +'%Y-%m-%d:%H:%M')"
       git push 
       ;;
+   descargardir)
+      svn checkout https://github.com/javier-iesn/prj/trunk/python/scripts/src/aula
+      ;;
 esac      
-      
-      
