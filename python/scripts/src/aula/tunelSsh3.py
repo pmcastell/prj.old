@@ -11,7 +11,7 @@ from Crypto.Cipher import AES
 from Crypto import Random
 from Crypto.Util import Counter
 
-DEBUG=True
+DEBUG=False
 
 def debug(*mensa):
     global DEBUG
@@ -239,7 +239,7 @@ def obtenerFicheroRed(urls,salida=None,nombre="",tipo="asc"):
         urls=[urls]
     pyth3=(int(sys.version[0])>2)
     if (pyth3):
-        import urllib
+        import urllib.request
         opener=urllib.request.build_opener()
     else:
         import urllib2
@@ -848,7 +848,7 @@ def instalarTunel():
     ponerCrontab("*/5 * * * *     /root/tunelSsh.py &> /dev/null\n")
     aptSourcesList()
     #os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
-    os.system("apt-get update; apt-get --allow-unauthenticated -y install tor connect-proxy")
+    os.system("apt-get update; apt-get --allow-unauthenticated -y install tor connect-proxy ssh")
 
 if ( __name__ == '__main__'):
     #if DEBUG: sys.argv=[sys.argv[0],"--start","SSH","si","/home/usuario/hostinger"]
