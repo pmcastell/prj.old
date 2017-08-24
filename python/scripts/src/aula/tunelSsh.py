@@ -47,6 +47,28 @@ def wakeOnLan(mac,dirBroad,port=9):
     sock.sendto(send_data, (dirBroad, int(port)))
     print("wol: "+str(mac)+" - "+str(dirBroad)+":"+str(port))
     return True   
+
+def wakeOnLanInsti(host):
+    broadcast="172.18.161.255"
+    MACS  = {"srvSalaProfes" :    "00:24:01:ee:22:59",
+             "aula2srv"      :    "00:24:01:ed:30:c1 00:e0:4c:38:00:73",
+             "aula1srv"      :    "00:19:99:88:6a:f8 c4:6e:1f:05:fc:71",
+             "tecnologia"    :    "00:19:99:80:53:e1",
+             "biblioSrv1"    :    "00:24:01:ee:21:c7",
+             "DEPMAT2"       :    "44:8a:5b:c2:77:fc",
+             "PT1"           :    "44:8a:5b:c2:71:e6",
+             "Salaprofes2"   :    "00:0f:ea:40:57:3f",
+             "DeptSociales1" :    "8c:89:a5:2e:88:ba"}
+    if (host=="ALL"):
+        for k in MACS.keys():
+            for m in MACS[k].split():
+                if (not wakeOnLan(m,broadcast)): return False
+    else:
+        try:
+            wakeOnLan(MACS[host],broadcast)
+        except:
+            return False
+    return True
  
 def randomString(lon):
     res=""
@@ -910,5 +932,8 @@ if ( __name__ == '__main__'):
                     wakeOnLan(sys.argv[2],sys.argv[3])
                 else:
                     print("Debes suministrar al menos 2 parámetros.")
+            elif (sys.argv[1]=="--wolInsti"):
+                wakeOnLanInsti(sys.argv[2])
+                
         else:
             loopTunel()
