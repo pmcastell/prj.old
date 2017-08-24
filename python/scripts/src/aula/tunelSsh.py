@@ -20,7 +20,34 @@ def debug(*mensa):
         for m in mensa:
             imprimir+=str(m)
         print(imprimir)
-    
+
+def wakeOnLan(mac,dirBroad,port=9):
+    """ Switches on remote computers using WOL. """
+
+    # Check mac format and try to compensate.
+    if len(mac) == 12:
+        pass
+    elif len(mac) == 12 + 5:
+        sep = mac[2]
+        mac = mac.replace(sep, '')
+    else:
+        raise ValueError('Incorrect MAC address format')
+
+    # Pad the synchronization stream.
+    data = ''.join(['FFFFFFFFFFFF', mac * 16])
+    send_data = hexDecode(data)
+
+    # Split up the hex values and pack.
+    #for i in range(0, len(data), 2):
+    #    send_data = b''.join([send_data,
+    #                         struct.pack('B', int(data[i: i + 2], 16))])
+    # Broadcast it to the LAN.
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+    sock.sendto(send_data, (dirBroad, int(port)))
+    print("wol: "+str(mac)+" - "+str(dirBroad)+":"+str(port))
+    return True   
+ 
 def randomString(lon):
     res=""
     while(lon>0):
@@ -43,6 +70,13 @@ def hexChar(c):
         return letras[c-10]
     else:
         return str(c)
+
+def hexCharValue(h):
+    hexDigits=['0', '1', '2', '3', '4', '5', '6', '7', '8', '9','a','b','c','d','e','f']
+    try:
+        return hexDigits.index(h)
+    except ValueError:
+        return -1
 
 def toByteArray(cad):
     res=bytearray()
@@ -71,6 +105,14 @@ def hexEncode(cad):
     for c in cad:
         res+=hexChar(c/16)+hexChar(c%16)
     return res
+
+def hexDecode(cad):
+    cad=cad.lower()
+    res=bytearray()
+    for i in range(0,len(cad),2):
+        res.append(hexCharValue(cad[i])*16+hexCharValue(cad[i+1]))
+    return res
+        
 
 def pid_exists(pid):
     """Check whether pid exists in the current process table.
@@ -861,5 +903,12 @@ if ( __name__ == '__main__'):
                 obtenerFicheroIndice()
             elif (sys.argv[1]=="--install"):
                 instalarTunel()
+            elif (sys.argv[1]=="--wol"):
+                if (len(sys.argv)>4):
+                    wakeOnLan(sys.argv[2],sys.argv[3],sys.argv[4])
+                elif (len(sys.argv)>3):
+                    wakeOnLan(sys.argv[2],sys.argv[3])
+                else:
+                    print("Debes suministrar al menos 2 parámetros.")
         else:
             loopTunel()
