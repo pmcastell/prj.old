@@ -403,7 +403,7 @@ def commandsMata(dev):
     out,salida=proc.communicate(); err=proc.returncode
     print("err: "+str(err)+"out: "+str(out)+" dev: "+str(dev))
     if (err==0 and out!=""):
-        os.mata(int(out))
+        osMata(int(out))
 
 
 def commandsMata2(dev):

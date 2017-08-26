@@ -24,7 +24,8 @@ echo '
 #https://netix.dl.sourceforge.net/project/systemrescuecd/sysresccd-x86/5.0.2/systemrescuecd-x86-5.0.2.iso
 #http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
 #http://www.mediafire.com/file/5yndrs88pie88nz/wifislax64-1.1-final.iso
-http://www.downloadwireless.net/isos/wifislax64-1.1-final.iso
+#http://www.downloadwireless.net/isos/wifislax64-1.1-final.iso
+https://az792536.vo.msecnd.net/vms/VMBuild_20170320/VirtualBox/MSEdge/MSEdge.Win10.RS2.VirtualBox.zip
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"
