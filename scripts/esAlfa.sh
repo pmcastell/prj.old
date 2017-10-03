@@ -1,7 +1,7 @@
 #!/bin/bash
 uso() {
    echo uso: $0 '<cadena>'
-   Indica si todos los caracteres de la cadena son alfanuméricos
+   echo Indica si todos los caracteres de la cadena son alfanuméricos
    exit 1
 }
 

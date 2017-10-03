@@ -21,8 +21,9 @@ espera() {
       if $DEBUG; then infor COD: "|$COD|" "-" COD2: "|$COD2|" ; fi
       if [ "$COD" = "$COD2" ]; then break; fi
    done < $FIFO
-   if $DEBUG; then infor COD: "|$COD|" "-" COD2: "|$COD2|" ; fi
+   if $DEBUG; then infor Salgo de espera COD: "|$COD|" "-" COD2: "|$COD2|" ; fi
 }   
+
    
 if [ $# -lt 4 ]; then uso; fi
 
@@ -34,7 +35,7 @@ SUBJECT="$3"
 TEXTO="$4"
 
 DOMINIO=$(echo $REMITENTE | awk -F'@' '{print $2;}')
-if [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ]; then USUARIO=$REMITENTE; 
+if [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ] || [ "$DOMINIO" = "gmx.es" ]; then USUARIO=$REMITENTE; 
 else USUARIO=$(echo $REMITENTE | awk -F'@' '{print $1;}'); fi
 
 SMTP_SERVER="$($DIR_BASE/smtpServer.sh $DOMINIO)"
@@ -43,6 +44,7 @@ PASSWORD=$($DIR_BASE/getMyPass.sh $USUARIO)
 if [ "$($DIR_BASE/esAlfa.sh $PASSWORD)" = "false" ]; then echo no se pudo obtener la clave de envío; exit 2; fi
 FIFO="/tmp/fifo-$(date +'%Y%m%d%H%M%S')"
 mkfifo $FIFO
+
 
 #AUTHPLAIN=$($DIR_BASE/authPlain.sh $USUARIO $PASSWORD)
 
@@ -57,6 +59,7 @@ if [ "$(wget --timeout=10 --tries=1 -O - http://portquiz.net:$(echo $SMTP_SERVER
 else 
    PROXY_CMD=""; if $DEBUG; then infor sin proxy ; fi
 fi
+
 
 (
 espera 250

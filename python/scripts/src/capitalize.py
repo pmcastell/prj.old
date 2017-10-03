@@ -55,7 +55,7 @@ def capitalize():
          if (ch=="."):
             change=True
          elif (ch==" " or ch=="\t" or ch=="\n" ):
-            pass
+            change=True 
          else:
             change=False
 

@@ -1,6 +1,6 @@
 #!/bin/bash
 DEST=/l/miL/gitPrj
-[ ! -f /l/pagefile.sys ] && echo No está montada l && exit
+[ ! -d /l/miL/Libros ] && echo No está montada l && exit
 if [ ! -d $DEST ]; then
    mkdir $DEST
    cd $DEST

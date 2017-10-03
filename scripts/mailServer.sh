@@ -10,13 +10,13 @@ if [ "$2" = "" ] || [ "$2" = "smtp" ]; then
    elif [ "$DOMINIO" = "yahoo.com" ] || [ "$DOMINIO" = "yahoo.es" ]; then MAIL_SERVER="smtp.mail.yahoo.com:587"; 
    elif [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ]; then MAIL_SERVER="smtp.live.com:587";
    elif [ "$DOMINIO" = "gva.es" ]; then MAIL_SERVER="smtp.gva.es:587"; 
-   elif [ "$DOMINIO" = "gmx.es" ]; then MAIL_SERVER="mx01.gmx.net:587"; fi
+   elif [ "$DOMINIO" = "gmx.es" ]; then MAIL_SERVER="mail.gmx.es:587"; fi
 elif [ "$2" = "pop3" ]; then
    if   [ "$DOMINIO" = "gmail.com" ]; then MAIL_SERVER="pop.gmail.com:995"; 
    elif [ "$DOMINIO" = "yahoo.com" ] || [ "$DOMINIO" = "yahoo.es" ]; then MAIL_SERVER="pop.mail.yahoo.com:995"; 
    elif [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ]; then MAIL_SERVER="pop3.live.com:995";
    elif [ "$DOMINIO" = "gva.es" ]; then MAIL_SERVER="pop3.gva.es:995"; 
-   elif [ "$DOMINIO" = "gmx.es" ]; then MAIL_SERVER="mx01.gmx.net:995"; fi
+   elif [ "$DOMINIO" = "gmx.es" ]; then MAIL_SERVER="pop.gmx.es:995"; fi
 fi
    
 echo $MAIL_SERVER
