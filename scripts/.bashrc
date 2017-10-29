@@ -130,5 +130,6 @@ alias scf='sshpass -p $(/scripts/aula/claves.sh franav) scp -o UserKnownHostsFil
 alias scfp='sshpass -p $(/scripts/aula/claves.sh fcriadon) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 alias scl='sshpass -p $(/scripts/aula/claves.sh ltspadmin) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
 complete -W "ganimedes inkscape limpress lcalc lwriter scratch javi-moodle" -o bashdefault -o default 'hostinger'
-
+alias nem="nemo --no-desktop "
 #PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
+alias n='ncal -M -C $(date +%Y)'

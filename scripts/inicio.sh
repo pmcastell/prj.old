@@ -108,17 +108,23 @@ casaBiblio() {
    else
       WIFACE=$(interfaces | grep wlan | tail -1)
    fi
+   sudo /m/Mios/prj/scripts/ponerRandomMAC.sh $WIFACE
    RED=192.168.1
    sudo eecho mata wpa_supplicant &>/dev/null
    sudo ifconfig $WIFACE up
    if [ "$DONDE" = "9" ]; then 
       sudo eecho wpa_supplicant -B -i $WIFACE  -c /var/lib/wicd/configurations/5057a8671925 -Dwext & #/m/Mios/.../wicd/BIBLIO1 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep vodafone53D2)" != "" ]; then
+      RED=192.168.0
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/vodafone53D2 -Dwext &
    elif [ "$(sudo iwlist $WIFACE scan | grep MOVISTAR_E360)" != "" ]; then
       sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/MOVISTAR_E360 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep MARINA24)" != "" ]; then
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /var/lib/wicd/configurations/f863949068f3 -Dwext &
    elif [ "$(sudo iwlist $WIFACE scan | grep Orange-B215)" != "" ]; then
       sudo eecho wpa_supplicant -B -i $WIFACE -c /var/lib/wicd/configurations/1cc63c66b217 -Dwext &
    elif [ "$(sudo iwlist $WIFACE scan | grep JAZZTEL_FCC0)" != "" ]; then
-      sudo wpa_supplicant -B -i wlan20 -c /var/lib/wicd/configurations/00173f54fcc2 -Dwext
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /var/lib/wicd/configurations/00173f54fcc2 -Dwext &
       #sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/mio -Dwext &
    fi
    if [ "$DONDE" = "9" ]; then configEth $WIFACE DHCP; 
@@ -134,22 +140,40 @@ casaBiblio() {
    sudo firewall #echo cambiando dns #nameservers
    ifconfig $WIFACE
 }
+comun() {
+   [ "$DONDE" != "2" ] && cumples &
+   if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
+       /home/usuario/.dropbox-dist/dropboxd &
+   else
+       echo no se inicia dropbox no está montada la unidad /m
+   fi    
+   sleep 5
+   sudo /scripts/tap0.sh
+   sudo actualiza &
+   mount /l
+   sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &
+   wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=ubu.noip.me&myip=$(dirIp)" &
+   /m/Mios/prj/scripts/dnsexit.sh ubuin.linkpc.net &
+   /m/Mios/prj/scripts/duckdns.sh ubuin $(realIp) &
+}
+
 ################################################################################################################################
 #if [ "$(whoami)" != "root" ]; then
 #   sudo $0 $*
 #   exit
 #fi   
 #apagamos bluetooth ##sudo hciconfig hci0 down
-sudo rfkill block bluetooth
+#sudo rfkill block bluetooth
 #quitamos proxy 
 gsettings set org.gnome.system.proxy mode 'none'
 #montamos /m/Mios encriptada
 while [ ! -f /m/Mios/prj/scripts/redJunta.sh ]; do
    sudo encfs --public /m/.Mios /m/Mios
 done
+autokey-gtk &>/dev/null &
 #Parámetros de vpnbook
 if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="de233"; fi
-sudo /m/Mios/prj/scripts/hwEther.sh
+#sudo /m/Mios/prj/scripts/hwEther.sh
 DONDE=$(menu Casa Ciclos ESO Wifi CasaCable CasaVpn Tic CasaWifi Biblioteca)
 pararServicios
 sudo /m/Mios/prj/scripts/vpn.sh stop &> /dev/null
@@ -159,9 +183,17 @@ case $DONDE in
        sudo firewall
        ;;
     2) #Ciclos
-       sudo /m/Mios/prj/scripts/redInstiCable.sh
-       /usr/bin/x11vnc -rfbport 5900 -reopen  -viewonly -shared  -forever -loop &
+       ###sudo /m/Mios/prj/scripts/redInstiCable.sh
+       ###/usr/bin/x11vnc -rfbport 5900 -reopen  -viewonly -shared  -forever -loop &
+       IFACE="$(ip a | grep -E '^[0-9]+' | grep -v "lo:" | awk -F':' '{print $2;}')"
+       [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && IP_ADDR="172.124.117.100/16"  || IP_ADDR="172.124.117.99/16" 
+       sudo ip a add $IP_ADDR dev $IFACE
+       sudo ip route add default via 172.124.1.10
        sudo firewall
+       comun
+       sudo /etc/init.d/epoptes start
+       /usr/bin/epoptes &
+       exit 0
        ;;
     3) #ESO
        eecho sudo wpa_supplicant -B -i $(interfaces | grep wlan  | grep -v grep) -c /m/Mios/Personal/wpa/TALLER-INFORMATICA2 &
@@ -209,33 +241,38 @@ case $DONDE in
     8|9) #CasaWifi o Biblioteca wifi
        casaBiblio
        ;;
+    
 esac
-#dirIp > /tmp/dirIp
-#como usuario usuario
-cumples &
-if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
-    /home/usuario/.dropbox-dist/dropboxd &
-else
-    echo no se inicia dropbox no está montada la unidad /m
-fi    
-sleep 5
-sudo actualiza &
-#/m/Mios/prj/scripts/dynDns.sh
-wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=ubu.noip.me&myip=$(dirIp)"
-/m/Mios/prj/scripts/dnsexit.sh ubuntu64.linkpc.net
-/m/Mios/prj/scripts/dnsexit.sh iesinclan.linkpc.net
-/m/Mios/prj/scripts/dnsexit.sh avatar.linkpc.net
-/m/Mios/prj/scripts/dnsexit.sh ubuin.linkpc.net
-#/usr/bin/qbittorrent &>/dev/null &
-java -jar /m/jdown/JDownloader.jar&>/dev/null &
-#mata xflux
-#xflux -l 40 &
-sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &
-#sudo -u usuario gnome-terminal &
-#ssh fjcn@shell.cjb.net
+TMP_DIRIP="/tmp/direccionIpReal.txt"
+while true; do
+   DIR_IP=$(dirIp)
+   echo "DIR_IP: $DIR_IP"
+   echo -n $DIR_IP > $TMP_DIRIP
+   if [ "$(cat $TMP_DIRIP | egrep -o '([0-9]{1,3}\.){3}[0-9]{1,3}')" != "" ]; then break; fi
+done    
+#deshabilitar el botón de apertura del grabador de dvd
+/usr/bin/eject -i on /dev/sr0
+comun
 sudo alive &> /dev/null &
+#deshabilitar el botón de apertura del grabador de dvd
+/usr/bin/eject -i on /dev/sr0
 sudo -u usuario $SHELL
 
+
+
+#/m/Mios/prj/scripts/dynDns.sh
+
+#/m/Mios/prj/scripts/dnsexit.sh ubuntu64.linkpc.net &
+#/m/Mios/prj/scripts/dnsexit.sh iesinclan.linkpc.net &
+#/m/Mios/prj/scripts/dnsexit.sh avatar.linkpc.net &
+
+#/usr/bin/qbittorrent &>/dev/null &
+#java -jar /m/jdown/JDownloader.jar&>/dev/null &
+#mata xflux
+#xflux -l 40 &
+
+#sudo -u usuario gnome-terminal &
+#ssh fjcn@shell.cjb.net
 
 
 #######################################################################################

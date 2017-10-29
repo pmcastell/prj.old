@@ -1,5 +1,5 @@
 GLOBAL_ESPERA=30
-GLOBAL_TUN_IP=83.32.102.140
+GLOBAL_TUN_IP=85.136.243.1
 GLOBAL_TUN_PORT=443
 GLOBAL_TUN_SSH=si
 GLOBAL_TUN_OVP=no
@@ -48,6 +48,14 @@ biblioSrv1_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
 biblioSrv1_TUN_SSH_RED="10.$biblioSrv1_TUN_SSH_DEV.$biblioSrv1_TUN_SSH_DEV"
 biblioSrv1_TUN_SSH_DEV_IP="$biblioSrv1_TUN_SSH_RED.$biblioSrv1_TUN_SSH_DEV"
 biblioSrv1_TUN_SSH_CMD="/sbin/route add -net 10.10.10.0/24 gw $biblioSrv1_TUN_SSH_DEV_IP; /sbin/route add -net 10.2.1.0/24 gw $biblioSrv1_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $biblioSrv1_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $biblioSrv1_TUN_SSH_RED.0/24; "
+
+pc199_TUN_SSH_DEV="15"
+pc199_TUN_SSH="$GLOBAL_TUN_SSH"
+pc199_TUN_SSH_IP="$GLOBAL_TUN_IP"
+pc199_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
+pc199_TUN_SSH_RED="10.$pc199_TUN_SSH_DEV.$pc199_TUN_SSH_DEV"
+pc199_TUN_SSH_DEV_IP="$pc199_TUN_SSH_RED.$pc199_TUN_SSH_DEV"
+pc199_TUN_SSH_CMD="/sbin/route add -net 10.10.10.0/24 gw $pc199_TUN_SSH_DEV_IP; /sbin/route add -net 10.2.1.0/24 gw $pc199_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $pc199_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $pc199_TUN_SSH_RED.0/24; "
 
 DEPMAT2_TUN_SSH_DEV="16"
 DEPMAT2_TUN_SSH="$GLOBAL_TUN_SSH"
@@ -107,4 +115,4 @@ reg6543_TUN_SSH_CMD1="/sbin/route add -net 172.17.8.0/24 gw $TUN_SSH_DEV_IP; "
 reg6543_TUN_SSH_CMD3="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24 &> /dev/null; "
 reg6543_TUN_SSH_CMD4="/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.$TUN_SSH_DEV.$TUN_SSH_DEV.0/24; "
 
-MD5SUM=5267856647f0eea03bc476cdf5eb2df6
+MD5SUM=b614e672c8456ca4b7383e75df58269f

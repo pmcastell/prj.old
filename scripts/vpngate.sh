@@ -35,9 +35,9 @@ echo "--------------------------------------------------------------------------
 I=0   
 for u in $URLS; do 
    VPN_FILE=$(echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
-   #echo VPN_FILE: $VPN_FILE
+   echo VPN_FILE: $VPN_FILE
    #echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g'; echo " --- "${SA[$I]}
-   OVPN_URL=$(curl "$VPN_FILE" 2>/dev/null | xmllint --html --xpath "//a/@href[contains(.,'.ovpn') and contains(.,'udp')]" - | sed -e 's/href="/\n/g' | tail -1 | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
+   OVPN_URL=$(curl "$VPN_FILE" 2>/dev/null | xmllint --html --xpath "//a/@href[contains(.,'.ovpn') and (contains(.,'udp') or contains(.,'tcp'))]" - | sed -e 's/href="/\n/g' | tail -1 | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
    #curl "http://www.vpngate.net/${OVPN_FILE}" 2> /dev/null >
    OVPN_IP=$(echo $OVPN_URL | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | awk '{print $1;}' | head -1)
    echo "OVPN_IP: $OVPN_IP"

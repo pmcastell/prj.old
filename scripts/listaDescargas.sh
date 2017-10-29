@@ -25,7 +25,10 @@ echo '
 #http://cdimage.kali.org/kali-2017.1/kali-linux-2017.1-amd64.iso
 #http://www.mediafire.com/file/5yndrs88pie88nz/wifislax64-1.1-final.iso
 #http://www.downloadwireless.net/isos/wifislax64-1.1-final.iso
-https://az792536.vo.msecnd.net/vms/VMBuild_20170320/VirtualBox/MSEdge/MSEdge.Win10.RS2.VirtualBox.zip
+#https://az792536.vo.msecnd.net/vms/VMBuild_20170320/VirtualBox/MSEdge/MSEdge.Win10.RS2.VirtualBox.zip
+#ftp://ftp.cica.es/ubuntu/cdimage/releases/17.10/release/ubuntu-17.10-live-server-amd64.iso
+#ftp://ftp.cica.es/mirrors/Linux/ubuntu/releases/17.10/ubuntu-17.10-desktop-amd64.iso
+ftp://ghostbsd.org/pub/GhostBSD/releases/amd64/ISO-IMAGES/10.3-RELEASE/GhostBSD10.3-RELEASE-20160829-214135-mate-amd64.iso
 '
 }
 FICHERO_CLAVE="listaFicheros.txt"

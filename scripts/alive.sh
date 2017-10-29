@@ -7,8 +7,9 @@ resucita() {
       INTERFAZ=$(iwconfig 2>&1 | grep -v "no wireless" | grep ESSID | grep -v "ESSID:off" | awk '{print $1;}')
       [ "$INTERFAZ" != "" ] && break
    done
-   sudo ifconfig $INTERFAZ 192.168.1.27/24 up
-   sudo route add default gw r1
+   RED=$(ip a show dev $INTERFAZ | grep inet | grep -v inet6 | awk '{print $2;}' | awk -F'/' '{print $1;}')
+   sudo ifconfig $INTERFAZ ${RED}.27/24 up
+   sudo route add default gw ${RED}.1
    sleep 1
    ping -c 4 r1
    sudo pkill --signal SIGHUP openvpn
@@ -22,7 +23,7 @@ while true; do
    if [ "$GATEWAY" = "" -a -f /etc/rc.d/routing ];    then
       sudo /etc/rc.d/routing restart
    fi
-   DNS1=$(cat /etc/resolv.conf | grep -i nameserver | grep -v '#' | grep -v grep | head -1 | awk -Fnameserver '{print $2;}')
+   DNS1=$(cat /etc/resolv.conf | grep -i nameserver | grep -v '#' | grep -v grep | head -1 | awk -F'nameserver' '{print $2;}')
    #INTERFAZ=$(interfaces | grep -i eth | head -1)
    INTERFAZ=$(netstat -rn | grep -E '^0.0.0.0|default' | tail -1 | awk '{ print $NF; }')
    eecho sudo arping -I $INTERFAZ -c 4 $GATEWAY
@@ -30,7 +31,7 @@ while true; do
    #DNS1=squid
    ping -c 4 $DNS1
    #ping -c 4 80.58.0.33
-   if [ $? -gt 0 ];    then
+   if [ $? -gt 4 ];    then
       ERRORES=$(expr $ERRORES + 1) 
       if [ $ERRORES -gt 0 ]; then
          hablaf -n se ha perdido la conexión 

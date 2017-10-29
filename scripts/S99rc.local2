@@ -1,0 +1,11 @@
+##!/bin/bash
+#bash -c /m/Mios/prj/scripts/hwEther.sh
+#if [ "$(ifconfig -a | grep eth4)" != "" -a "$(ifconfig -a | grep wlan4)" != "" ];
+#then
+#   bash -c '/m/Mios/prj/scripts/redCasaCable.sh 192.168.0.6'
+#else
+#   bash -c /m/Mios/prj/scripts/redInstiCable.sh
+#fi      
+
+
+
