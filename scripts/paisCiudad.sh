@@ -27,7 +27,7 @@ function repetir() {
    echo $CAD
 }   
 function separador() {
-   echo $(repetir - 100)
+   repetir - 100
 }      
 #LISTA=$(wget --no-check-certificate -O - https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
 LISTA=$(curl https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
