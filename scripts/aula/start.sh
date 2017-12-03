@@ -52,7 +52,7 @@ INDICES="$DIR_BASE_HOSTINGER/indice6.html $DIR_BASE_HOSTINGER/indice5.html"
 #PWD=$(pwd)
 for INDICE in $INDICES; do
    #INDICE=/tmp/indice4.html
-   REAL_IP=""
+   REAL_IP="$3"
    while [ "$(echo $REAL_IP | grep -E '([0-9]{1,3}\.){3}[0-9]{1,3}')" = "" ]; do
       REAL_IP=$(realIp| head -1 | awk '{print $1;}')
    done 

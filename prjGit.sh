@@ -1,6 +1,6 @@
 #!/bin/bash
-DEST=/l/miL/gitPrj
-[ ! -d /l/miL/Libros ] && echo No está montada l && exit
+DEST=/l/gitPrj
+[ ! -d $DEST ] && echo No está montada l && exit
 if [ ! -d $DEST ]; then
    mkdir $DEST
    cd $DEST

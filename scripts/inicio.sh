@@ -14,18 +14,6 @@ pararServicios() {
    done
    sudo /m/Mios/prj/scripts/mata.sh wpa_supplicant &> /dev/null
 }
-################################################################################################################################ 
-nameservers() {
-   sudo rm $RESOLV
-   for i in $1; do
-      sudo bash -c 'echo nameserver '$i' >> '$RESOLV
-   done #sudo bash -c 'echo nameserver 172.16.1.9 > '$RESOLV #sudo bash -c 'echo nameserver 8.8.8.8 >> '$RESOLV
-   route -n
-   cat $RESOLV
-   ping -c 2 $(cat $RESOLV | grep nameserver | head -1 | awk '{print $2;}')
-   ping -c 2 $(cat $RESOLV | grep nameserver | tail -1 | awk '{print $2;}')
-   echo "Dir. IP.: $(dirIp2)" $(pais)
-}
 ################################################################################################################################
 configEth() {
     if [ "$2" = "DHCP" ]; then (sudo dhclient $1 &); return; fi
@@ -35,6 +23,22 @@ configEth() {
     sudo eecho route add default gw $GW
     nameservers "$DNS"
     sudo firewall
+}
+ipConfig() {
+   if [ "$2" = "DHCP" ]; then (sudo dhclient $1 &); return; fi
+   if [ "$1" != "" ] && [ "$2" != "" ] && [ "$3" != "" ] && [ "$4" != "" ]; then
+      IFACE=$1; IP_ADDR="$2/$3"; GW=$4; 
+      #MASK=$3; DNS="$5"
+   else
+      IFACE="$(ip a | grep -E '^[0-9]+' | grep -v "lo:" | awk -F':' '{print $2;}' | grep -v tap | head -1)"
+      [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && IP_ADDR="172.124.117.100/16"  || IP_ADDR="172.124.117.99/16" 
+      GW="172.124.1.10"
+   fi
+   for IP in $(ip a show dev $IFACE | grep inet | awk '{print $2;}'); do sudo ip a del $IP dev $IFACE; done
+   sudo ip a add $IP_ADDR dev $IFACE
+   sudo ip route add default via $GW
+   sudo sed -i '/ server/d' /etc/hosts
+   sudo bash -c "echo $(echo $IP_ADDR | awk -F'/' '{print $1;}')     server >> /etc/hosts"
 }
 
 ################################################################################################################################
@@ -110,7 +114,7 @@ casaBiblio() {
    fi
    sudo /m/Mios/prj/scripts/ponerRandomMAC.sh $WIFACE
    RED=192.168.1
-   sudo eecho mata wpa_supplicant &>/dev/null
+   sudo mata wpa_supplicant &>/dev/null
    sudo ifconfig $WIFACE up
    if [ "$DONDE" = "9" ]; then 
       sudo eecho wpa_supplicant -B -i $WIFACE  -c /var/lib/wicd/configurations/5057a8671925 -Dwext & #/m/Mios/.../wicd/BIBLIO1 -Dwext &
@@ -128,7 +132,7 @@ casaBiblio() {
       #sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/mio -Dwext &
    fi
    if [ "$DONDE" = "9" ]; then configEth $WIFACE DHCP; 
-   else configEth $WIFACE "$RED.27" 24 "$RED.1"; ###sudo ifconfig $IFACE:1 172.16.254.7/24; 
+   else ipConfig $WIFACE "$RED.27" 24 "$RED.1"; ###sudo ifconfig $IFACE:1 172.16.254.7/24; 
    fi
    ULTIMA_OVPN=$(cat /home/usuario/.bash_history | grep 'sudo openvpn --config' | tail -1)
    if [ "$ULTIMA_OVPN" = "" ]; then
@@ -141,18 +145,23 @@ casaBiblio() {
    ifconfig $WIFACE
 }
 comun() {
-   [ "$DONDE" != "2" ] && cumples &
+   if [ "$DONDE" != "2" ]; then 
+      cumples &
+      [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
+      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &
+   fi
+   [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && orage
+   
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
        /home/usuario/.dropbox-dist/dropboxd &
    else
        echo no se inicia dropbox no está montada la unidad /m
    fi    
-   sleep 5
+   mount /l
+   sleep 3
    sudo /scripts/tap0.sh
    sudo actualiza &
-   mount /l
-   sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &
-   wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=ubu.noip.me&myip=$(dirIp)" &
+   wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=ubu.noip.me&myip=$(dirIp)" 2>/dev/null &
    /m/Mios/prj/scripts/dnsexit.sh ubuin.linkpc.net &
    /m/Mios/prj/scripts/duckdns.sh ubuin $(realIp) &
 }
@@ -170,12 +179,13 @@ gsettings set org.gnome.system.proxy mode 'none'
 while [ ! -f /m/Mios/prj/scripts/redJunta.sh ]; do
    sudo encfs --public /m/.Mios /m/Mios
 done
-autokey-gtk &>/dev/null &
+[ "$(pgrep autokey-gtk)" = "" ] && (autokey-gtk &>/dev/null &)
 #Parámetros de vpnbook
 if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="de233"; fi
 #sudo /m/Mios/prj/scripts/hwEther.sh
+sudo ls &> /dev/null
+sudo pararServicios &
 DONDE=$(menu Casa Ciclos ESO Wifi CasaCable CasaVpn Tic CasaWifi Biblioteca)
-pararServicios
 sudo /m/Mios/prj/scripts/vpn.sh stop &> /dev/null
 case $DONDE in
     1) #Casa
@@ -185,14 +195,14 @@ case $DONDE in
     2) #Ciclos
        ###sudo /m/Mios/prj/scripts/redInstiCable.sh
        ###/usr/bin/x11vnc -rfbport 5900 -reopen  -viewonly -shared  -forever -loop &
-       IFACE="$(ip a | grep -E '^[0-9]+' | grep -v "lo:" | awk -F':' '{print $2;}')"
-       [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && IP_ADDR="172.124.117.100/16"  || IP_ADDR="172.124.117.99/16" 
-       sudo ip a add $IP_ADDR dev $IFACE
-       sudo ip route add default via 172.124.1.10
+       sudo killall dhclient
+       ipConfig
        sudo firewall
        comun
        sudo /etc/init.d/epoptes start
-       /usr/bin/epoptes &
+       #/usr/bin/epoptes &
+       /scripts/epoptesInsti.sh &
+       $SHELL 
        exit 0
        ;;
     3) #ESO
@@ -240,6 +250,13 @@ case $DONDE in
        ;;
     8|9) #CasaWifi o Biblioteca wifi
        casaBiblio
+       comun
+       #deshabilitar el botón de apertura del grabador de dvd
+       /usr/bin/eject -i on /dev/sr0
+       sudo alive &> /dev/null &
+       #deshabilitar el botón de apertura del grabador de dvd
+       /usr/bin/eject -i on /dev/sr0
+       java -jar /m/jdown/JDownloader.jar &> /dev/null &
        ;;
     
 esac
@@ -250,13 +267,26 @@ while true; do
    echo -n $DIR_IP > $TMP_DIRIP
    if [ "$(cat $TMP_DIRIP | egrep -o '([0-9]{1,3}\.){3}[0-9]{1,3}')" != "" ]; then break; fi
 done    
-#deshabilitar el botón de apertura del grabador de dvd
-/usr/bin/eject -i on /dev/sr0
-comun
-sudo alive &> /dev/null &
-#deshabilitar el botón de apertura del grabador de dvd
-/usr/bin/eject -i on /dev/sr0
 sudo -u usuario $SHELL
+
+#######################################################################################
+############### cuidado! no poner nada debajo, no se ejecutará ########################
+#######################################################################################
+
+
+
+################################################################################################################################ 
+nameservers() {
+   sudo rm $RESOLV
+   for i in $1; do
+      sudo bash -c 'echo nameserver '$i' >> '$RESOLV
+   done #sudo bash -c 'echo nameserver 172.16.1.9 > '$RESOLV #sudo bash -c 'echo nameserver 8.8.8.8 >> '$RESOLV
+   route -n
+   cat $RESOLV
+   ping -c 2 $(cat $RESOLV | grep nameserver | head -1 | awk '{print $2;}')
+   ping -c 2 $(cat $RESOLV | grep nameserver | tail -1 | awk '{print $2;}')
+   echo "Dir. IP.: $(dirIp2)" $(pais)
+}
 
 
 
@@ -273,11 +303,6 @@ sudo -u usuario $SHELL
 
 #sudo -u usuario gnome-terminal &
 #ssh fjcn@shell.cjb.net
-
-
-#######################################################################################
-############### cuidado! no poner nada debajo, no se ejecutará ########################
-#######################################################################################
 
 
 

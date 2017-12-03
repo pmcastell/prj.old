@@ -10,32 +10,34 @@ ACCEPT="172.16.1.0/27
 10.9.9.0/24  
 172.16.145.0/24 
 10.10.10.0/24
-192.168.1.1 
+192.168.1.1
+192.168.1.27 
 192.168.0.1 
 172.16.254.0/24 
 172.18.161.0/24
 172.18.162.0/24
 192.168.10.0/24
+172.124.240.0/24
+172.124.117.0/24
+172.124.1.0/24
 $ACCEPT"
+DROP="172.124.0.0/16 192.168.0.0/16 172.16.0.0/16 $DROP"
+MASQUERADE="10.9.9.0/24 192.168.44.0/24 10.1.1.0/24 10.10.10.0/24 172.16.145.0/24 $MASQUERADE"
+
 
 if [ "$1" != "" -a "$1" != "-accept" -a "$1" != "-drop" ]; then
    CURSO=$1
 fi
-if [ "$CURSO" = "DAM1" ]; then
-   ACCEPT="172.16.4.0/24 "$ACCEPT
-elif [ "$CURSO" = "SMR1" ]; then
-   ACCEPT="172.16.2.0/24 "$ACCEPT
+if [ "$CURSO" = "ciclo1" ]; then
+   ACCEPT="172.124.116.0/24 $ACCEPT"
+elif [ "$CURSO" = "ciclo2" ]; then
+   ACCEPT="172.124.117.0/24 $ACCEPT"
 elif [ "$CURSO" = "SMR2" ]; then   
-   ACCEPT="172.16.3.0/24 "$ACCEPT
-elif [ "$CURSO" = "DAM2" ]; then
-   ACCEPT="172.16.6.0/24 "$ACCEPT   
-elif [ "$CURSO" = "ESO" ]; then
-   ACCEPT="192.168.254.0/24 "$ACCEPT
+   ACCEPT="172.16.3.0/24 $ACCEPT"
 else
    echo ACEEPT: $ACCEPT; ACCEPT=$ACCEPT;   
 fi
-DROP="192.168.0.0/16 172.16.0.0/16 $DROP"
-MASQUERADE="10.9.9.0/24 192.168.44.0/24 10.1.1.0/24 10.10.10.0/24 172.16.145.0/24 $MASQUERADE"
+
 for a in $ACCEPT; do
    sudo iptables -A INPUT -j ACCEPT -s $a
 done
