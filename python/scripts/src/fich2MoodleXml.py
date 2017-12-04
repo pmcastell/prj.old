@@ -6,8 +6,11 @@
 
 import sys
 
+def reemplaza(cad):
+    return cad.replace("<m>","&lt;b>&lt;i>").replace("</m>","&lt;/i>&lt;/b>")
+
 def question(qname,quest,answers):
-    quest=quest.replace("<m>","<b><i>").replace("</m>","</i></b>")
+    quest=reemplaza(quest)
     correctas=0
     for a in answers:
         if (a[0]=="#"):
@@ -19,7 +22,8 @@ def question(qname,quest,answers):
     if (correctas==1): single="true" 
     else: single="false"
     fraction=1.0/correctas*100
-    fratIncorrect=1.0/incorrectas*100
+    if (incorrectas==0): fratIncorrect=0
+    else: fratIncorrect=1.0/incorrectas*100
     if (fratIncorrect>fraction): fratIncorrect=fraction
     if (fraction==int(fraction)): fraction=int(fraction)
     else: fraction=round(fraction,5)
@@ -28,17 +32,18 @@ def question(qname,quest,answers):
     questXml="""    <question type='multichoice'>
         <name><text>{}</text></name>
         <questiontext format='html'>
-            <text><![CDATA[{}]]></text>
+            <text>{}></text>
         </questiontext>
         <defaultgrade>1.0000000</defaultgrade>
         <single>{}</single>
-        <shuffleanswers>true</shuffleanswers>""".format(qname,quest,single)
+        <shuffleanswers>1</shuffleanswers>""".format(qname,quest,single)
     for a in answers:
         if (a[0]=="#"):
             fr=fraction
             a=a[1:]
         else:
             fr=-fratIncorrect
+        a=reemplaza(a)
         questXml+="""\n        <answer fraction='{}' format='html'><text>{}</text></answer>""".format(fr,a)
     questXml+="""\n    </question>"""
     return questXml            
