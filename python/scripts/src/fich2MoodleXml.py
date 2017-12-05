@@ -32,7 +32,7 @@ def question(qname,quest,answers):
     questXml="""    <question type='multichoice'>
         <name><text>{}</text></name>
         <questiontext format='html'>
-            <text>{}></text>
+            <text>{}</text>
         </questiontext>
         <defaultgrade>1.0000000</defaultgrade>
         <single>{}</single>
