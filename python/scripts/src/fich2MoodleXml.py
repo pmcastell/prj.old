@@ -9,7 +9,7 @@ import sys
 def reemplaza(cad):
     return cad.replace("<m>","&lt;b>&lt;i>").replace("</m>","&lt;/i>&lt;/b>")
 
-def question(qname,quest,answers):
+def question(qname,quest,answers,positivo=False):
     quest=reemplaza(quest)
     correctas=0
     for a in answers:
@@ -29,6 +29,7 @@ def question(qname,quest,answers):
     else: fraction=round(fraction,5)
     if (fratIncorrect==int(fratIncorrect)): fratIncorrect=int(fratIncorrect)
     else: fratIncorrect=round(fratIncorrect,5)
+    if (positivo): fratIncorrect=0
     questXml="""    <question type='multichoice'>
         <name><text>{}</text></name>
         <questiontext format='html'>
@@ -58,12 +59,18 @@ def cabecera(category):
     </question>""".format(category)
 
 def uso():
-    print("Uso: {} <nombre-fichero-cuestionario-txt>".format(sys.argv[0]))
+    print("Uso: {} [-p] <nombre-fichero-cuestionario-txt>".format(sys.argv[0]))
     sys.exit(1)
 
-#if (len(sys.argv)<2): uso()
-#entrada=open(sys.argv[1],"r")
-entrada=open("/m/tmp/preguntas/Examen-Temas-1-2-SIN","r")
+if (len(sys.argv)<2): uso()
+if (sys.argv[1]=="-p"): 
+    positivo=True
+    entrada=open(sys.argv[2],"r")
+else: 
+    positivo=False
+    entrada=open(sys.argv[1],"r")
+
+#entrada=open("/m/tmp/preguntas/Examen-Temas-1-2-SIN","r")
 l=entrada.readline()
 while (l):
     if (l[0]=="#" or l[0]=="\n"): l=entrada.readline(); continue
@@ -81,7 +88,7 @@ while (l):
     while (l and (l[0]==" " or l[0]=="\t")):
         answers.append(l.strip())
         l=entrada.readline()
-    print(question(qname,quest,answers))
+    print(question(qname,quest,answers,positivo))
     
 print("</quiz>")
 
