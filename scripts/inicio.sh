@@ -150,8 +150,7 @@ comun() {
       [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
       sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &
    fi
-   [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && orage
-   
+   [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && (orage&)
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
        /home/usuario/.dropbox-dist/dropboxd &
    else
@@ -160,7 +159,6 @@ comun() {
    mount /l
    sleep 3
    sudo /scripts/tap0.sh
-   sudo actualiza &
    wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=ubu.noip.me&myip=$(dirIp)" 2>/dev/null &
    /m/Mios/prj/scripts/dnsexit.sh ubuin.linkpc.net &
    /m/Mios/prj/scripts/duckdns.sh ubuin $(realIp) &
@@ -183,7 +181,7 @@ done
 #Parámetros de vpnbook
 if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="de233"; fi
 #sudo /m/Mios/prj/scripts/hwEther.sh
-sudo ls &> /dev/null
+ sudo ls &> /dev/null
 sudo pararServicios &
 DONDE=$(menu Casa Ciclos ESO Wifi CasaCable CasaVpn Tic CasaWifi Biblioteca)
 sudo /m/Mios/prj/scripts/vpn.sh stop &> /dev/null
@@ -198,7 +196,7 @@ case $DONDE in
        sudo killall dhclient
        ipConfig
        sudo firewall
-       comun
+       comun &
        sudo /etc/init.d/epoptes start
        #/usr/bin/epoptes &
        /scripts/epoptesInsti.sh &
@@ -250,15 +248,16 @@ case $DONDE in
        ;;
     8|9) #CasaWifi o Biblioteca wifi
        casaBiblio
-       comun
+       comun &
        #deshabilitar el botón de apertura del grabador de dvd
        /usr/bin/eject -i on /dev/sr0
        sudo alive &> /dev/null &
        #deshabilitar el botón de apertura del grabador de dvd
        /usr/bin/eject -i on /dev/sr0
        java -jar /m/jdown/JDownloader.jar &> /dev/null &
+       /usr/bin/qbittorrent &>/dev/null &
+       sudo actualiza 
        ;;
-    
 esac
 TMP_DIRIP="/tmp/direccionIpReal.txt"
 while true; do
