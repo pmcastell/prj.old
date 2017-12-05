@@ -46,13 +46,13 @@ def question(qname,quest,answers,positivo=False):
             fr=-fratIncorrect
         a=reemplaza(a)
         questXml+="""\n        <answer fraction='{}' format='html'><text>{}</text></answer>""".format(fr,a)
+    if (single=="true"):
+        questXml+="""\n        <answer fraction='0' format='html'><text>&lt;span style='color: red; text-decoration: underline; font-weight: bold;'>Dejar la pregunta en blanco&lt;/span></text></answer>"""
     questXml+="""\n    </question>"""
     return questXml            
 
 def cabecera(category):
-    return """<?xml version="1.0" encoding="UTF-8"?>
-<quiz>
-    <question type="category">
+    return """    <question type="category">
         <category>
             <text>{}</text>
         </category>
@@ -62,31 +62,41 @@ def uso():
     print("Uso: {} [-p] <nombre-fichero-cuestionario-txt>".format(sys.argv[0]))
     sys.exit(1)
 
-if (len(sys.argv)<2): uso()
-if (sys.argv[1]=="-p"): 
-    positivo=True
-    entrada=open(sys.argv[2],"r")
-else: 
-    positivo=False
-    entrada=open(sys.argv[1],"r")
 
-#entrada=open("/m/tmp/preguntas/Examen-Temas-1-2-SIN","r")
+entrada=None
+entrada=open("/m/tmp/preguntas/pruebas/p1.txt","r")
+positivo=False
+if (entrada==None):
+    if (len(sys.argv)<2): uso()
+    if (sys.argv[1]=="-p"): 
+        positivo=True
+        entrada=open(sys.argv[2],"r")
+    else: 
+        positivo=False
+        entrada=open(sys.argv[1],"r")
+
+
+print("""<?xml version="1.0" encoding="UTF-8"?>
+<quiz>""");
 l=entrada.readline()
 while (l):
-    if (l[0]=="#" or l[0]=="\n"): l=entrada.readline(); continue
-    if (l.startswith("Category")):
-        category=l[8:].strip()
-        print(cabecera(category))
-        l=entrada.readline()
-        continue
-    if (l[0]==" " or l[0]=="\t"):
-        print("Error hay respuestas antes que preguntas");sys.exit(2)
-    posEsp=l.index(" ")
+    if (l[0]=="\n"): l=entrada.readline(); continue
+    if (l[0]=="#"): print("<!-- "+l.strip()+" -->"); l=entrada.readline(); continue
+    if (l.startswith("Category")): category=l[8:].strip(); print(cabecera(category)); l=entrada.readline(); continue
+    if (l[0]==" " or l[0]=="\t"): print("Error hay respuestas antes que preguntas");sys.exit(2)
+    posEsp=l.find(" ")
     qname=l[:posEsp].strip()
     quest=l[posEsp:].strip()
     l=entrada.readline(); answers=[]
     while (l and (l[0]==" " or l[0]=="\t")):
-        answers.append(l.strip())
+        if (l.find("<pre>")>=0):
+            l=l.strip()
+            while(l.find("</pre>")<0):
+                l+=entrada.readline()
+            l=l.replace("<pre>","&lt;pre>").replace("</pre>","&lt;/pre>")
+            answers.append(l)
+        else:
+            answers.append(l.strip())
         l=entrada.readline()
     print(question(qname,quest,answers,positivo))
     
