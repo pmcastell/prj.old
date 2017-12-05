@@ -94,6 +94,7 @@ while (l):
             while(l.find("</pre>")<0):
                 l+=entrada.readline()
             l=l.replace("<pre>","&lt;pre>").replace("</pre>","&lt;/pre>")
+            l+="&lt;hr/>"
             answers.append(l)
         else:
             answers.append(l.strip())
