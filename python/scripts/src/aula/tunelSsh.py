@@ -174,8 +174,8 @@ def conexionActiva(host):
     else: parameters = "-c "+str(nPings)+" -W "+str(timeout)
     cmd=['ping',parameters,host]
     # Pinging
-    #return os.system("ping " + parameters + " " + host) == 0
-    return subprocess.Popen(cmd).wait()==0
+    return os.system("ping " + parameters + " " + host) == 0
+    #return subprocess.Popen(cmd).wait()==0
 
 
 def hostname():
@@ -802,7 +802,7 @@ def subirFicheros():
     realIp=direccionIp()
     for indice in indices:
         fichParam=dirBase+"/"+indice; fichParamTemp=tempfile.gettempdir()+"/"+indice
-        cambiarParametrosIndice(fichParam,{'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp})
+        cambiarParametrosIndice(fichParam,{'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp, 'GLOBAL_TUN_PORT': '443'})
         ponerMD5(fichParam)
         encryptCTR(fichParam,fichParamTemp)
         subirFtp(fichParamTemp)

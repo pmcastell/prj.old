@@ -64,7 +64,7 @@ def uso():
 
 
 entrada=None
-entrada=open("/m/tmp/preguntas/pruebas/p1.txt","r")
+#entrada=open("/m/tmp/preguntas/pruebas/p1.txt","r")
 positivo=False
 if (entrada==None):
     if (len(sys.argv)<2): uso()
@@ -91,6 +91,7 @@ while (l):
     while (l and (l[0]==" " or l[0]=="\t")):
         if (l.find("<pre>")>=0):
             l=l.strip()
+            #l="&lt;hr/>"+l
             while(l.find("</pre>")<0):
                 l+=entrada.readline()
             l=l.replace("<pre>","&lt;pre>").replace("</pre>","&lt;/pre>")
