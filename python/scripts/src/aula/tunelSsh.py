@@ -802,7 +802,9 @@ def subirFicheros():
     realIp=direccionIp()
     for indice in indices:
         fichParam=dirBase+"/"+indice; fichParamTemp=tempfile.gettempdir()+"/"+indice
-        cambiarParametrosIndice(fichParam,{'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp, 'GLOBAL_TUN_PORT': '443'})
+        newParams={'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp, 'GLOBAL_TUN_PORT': '443'}
+        print(newParams)
+        cambiarParametrosIndice(fichParam,newParams)
         ponerMD5(fichParam)
         encryptCTR(fichParam,fichParamTemp)
         subirFtp(fichParamTemp)
