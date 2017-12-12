@@ -11,6 +11,16 @@ def reemplaza(cad):
                 '</m>': "&lt;/span>",
                 '<': "&lt;"
                 }
+    initEtiq=-1
+    while (True):
+        initEtiq=cad.find("<",initEtiq+1)
+        if (initEtiq<0): break
+        if (cad[initEtiq+1]=="/"): initEtiq+=1; continue
+        finEtiq=cad.find(">",initEtiq+1)
+        if (finEtiq>=0):
+            etiqueta=cad[initEtiq+1:finEtiq]
+        if (cad.find("</"+etiqueta+">")<0):
+            cad=cad.replace("<"+etiqueta+">","&amp;lt;"+etiqueta+">")
     ini=cad.find("<imagen>")
     if (ini>=0):
         fin=cad.find("</imagen>")
@@ -89,7 +99,7 @@ def uso():
     sys.exit(1)
 
 entrada=None
-entrada=open("/m/tmp/preguntas/pruebas/p2.txt","r")
+#entrada=open("/m/tmp/preguntas/pruebas/p2.txt","r")
 positivo=False
 if (entrada==None):
     if (len(sys.argv)<2): uso()
