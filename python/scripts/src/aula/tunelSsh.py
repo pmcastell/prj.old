@@ -912,7 +912,7 @@ def instalarTunel():
         target="insti"
     sshConfig(target)
     ponerCrontab("*/5 * * * *     /root/tunelSsh.py &> /dev/null\n")
-    aptSourcesList()
+    #aptSourcesList()
     #os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
     os.system("apt-get update; apt-get --allow-unauthenticated -y install tor connect-proxy ssh")
     #if (os.name==sysresccd): modprobe tun; emerge pycrypto; 
