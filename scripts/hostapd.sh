@@ -12,7 +12,7 @@ TEMP=$(tempfile)
 cat<<EOF > $TEMP
 #uth_algs=1
 beacon_int=50
-channel=3
+channel=6
 country_code=ES
 disassoc_low_ack=1
 driver=nl80211

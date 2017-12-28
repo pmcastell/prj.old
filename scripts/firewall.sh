@@ -57,6 +57,8 @@ echo 1 >  /proc/sys/net/ipv4/ip_forward
 sudo iptables -nL
 sudo iptables -t nat -nL
 
+echo "ACCEPT: $ACCEPT"
+exit
 #sudo iptables -A PREROUTING -t nat -p tcp -m tcp -d 192.168.1.6/32 --dport 25 -j DNAT --to-destination 10.10.10.9:25
 #sudo iptables -A OUTPUT -m owner --gid-owner noi -j DROP
 #sudo iptables -A OUTPUT -m owner --uid noi -j DROP

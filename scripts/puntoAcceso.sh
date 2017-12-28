@@ -13,13 +13,13 @@ EOF
 fichConf() {
 cat<<EOF
 #uth_algs=1
-beacon_int=50
-channel=3
+#beacon_int=50
+channel=6
 country_code=ES
 disassoc_low_ack=1
 driver=nl80211
 hw_mode=g
-ht_capab=[HT40+][HT40-][SHORT-GI-40][RX-STBC1]
+#ht_capab=[HT40+][HT40-][SHORT-GI-40][RX-STBC1]
 ieee80211d=1
 ieee80211n=1
 interface=$WLAN
@@ -44,7 +44,8 @@ fi
 if [ "$RANGO1" = "" ]; then RANGO1=25; fi
 if [ "$RANGO2" = "" ]; then RANGO2=50; fi 
 fichConf > $TEMP
-sudo /usr/sbin/hostapd $TEMP &> /dev/null &
+sudo /usr/sbin/hostapd $TEMP  &
+#&> /dev/null &
 
 #if [ "$1" != "" ]; then RED="$1"; else RED="172.16.2"; fi
 #if [ "$2" != "" ]; then IFACE="$2"; else IFACE="wlan20"; fi
@@ -53,5 +54,6 @@ sudo dnsmasq --interface="$WLAN" --bind-interfaces --dhcp-range=$RED.$RANGO1,$RE
 sudo firewall -accept $RED.0/24 &> /dev/null
 sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
 sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s $RED.0/24
-rm $TEMP
+#rm $TEMP
+echo $TEMP
 
