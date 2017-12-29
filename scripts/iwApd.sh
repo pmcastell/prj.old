@@ -9,7 +9,8 @@ crearIface() {
    eecho sudo iw dev $IFACE interface add $NAME type $TYPE
    if [ "$(ifconfig -a | grep $NAME)" = "" ]; then 
       MAC=$(ip -o link | grep "${IFACE}:" | awk '{print $(NF-2);}')
-      IFACE2=$(ip -o link | grep $MAC | grep -v $IFACE | awk -F':' '{print $2;}')
+      MAC_ORIG=$(ethtool -P $IFACE | awk '{print $NF;}')
+      IFACE2=$(ip -o link | grep -E "($MAC|$MAC_ORIG)" | grep -v $IFACE | awk -F':' '{print $2;}')
       eecho sudo ip link set $IFACE2 name $NAME
    fi
 }   
