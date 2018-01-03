@@ -659,6 +659,21 @@ def ponerMD5(fichero):
 #         if (MD52[0]=="MD5SUM"):
 #             ficheroReplace(fichero,"MD5SUM="+MD52,"MD5SUM="+MD51)
 #         else:
+def cambiarRutaSitio(sitio):
+    router=os.popen("ip route | grep default | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
+    sIps=os.popen("dig "+sitio+" | grep A | grep IN | grep -vE '^;' | awk '{print $NF;}'").read().split("\n")
+    for dirIp in sIps:
+        if (dirIp!=""):
+            #os.system("sudo -S route add -host "+dirIp+" gw "+router)
+            os.system("route add -host "+dirIp+" gw "+router)
+    return sIps
+
+def borrarRutasSitio(sIps):
+    for dirIp in sIps:
+        if (dirIp!=""):
+            #os.system("sudo -S route del -host "+dirIp)
+            os.system("route del -host "+dirIp)
+
 def direccionIp(real=True,getDict=False,nuevo=False):
     if (not nuevo and real and not getDict and os.path.isfile("/tmp/direccionIpReal.txt")):
         ip=open("/tmp/direccionIpReal.txt","r").read()
@@ -668,12 +683,8 @@ def direccionIp(real=True,getDict=False,nuevo=False):
             return ip
     servicioIp="ipinfo.io"
     if (real):
-        router=os.popen("ip route | grep default | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}'").read()
-        sIps=os.popen("dig "+servicioIp+" | grep A | grep IN | grep -vE '^;' | awk '{print $NF;}'").read().split("\n")
-        for dirIp in sIps:
-            if (dirIp!=""):
-                #os.system("sudo -S route add -host "+dirIp+" gw "+router)
-                os.system("route add -host "+dirIp+" gw "+router)
+        sIps=cambiarRutaSitio(servicioIp)
+        
     datos={}
     for i in range(10):
         resp=obtenerFicheroRed("http://"+servicioIp)
@@ -681,10 +692,7 @@ def direccionIp(real=True,getDict=False,nuevo=False):
             datos=eval(resp)
             break
     if (real):
-        for dirIp in sIps:
-            if (dirIp!=""):
-                #os.system("sudo -S route del -host "+dirIp)
-                os.system("route del -host "+dirIp)
+        borrarRutasSitio(sIps)
     if (len(datos)>0):
         if (getDict):
             return datos
@@ -766,10 +774,12 @@ def subirFtp(fich):
     claves=obtenerClavesFtp()
     for k in claves.keys():
         try:
+            sIps=cambiarRutaSitio(claves[k][1])
             ftp = ftplib.FTP(claves[k][1],claves[k][0],"basura68")
             ftp.cwd(claves[k][2])
             resp=ftp.storbinary('STOR '+os.path.basename(fich), open(fich,"rb"))
-            print("Subiendo: "+fich+" a: "+str(claves[k]))
+            borrarRutasSitio(sIps)
+            print("Subido: "+fich+" a: "+str(claves[k]))
             #if (not resp.startswith("226")):
         except:
             print("Error transfiriendo: "+fich+" a "+claves[k][1])
@@ -916,6 +926,7 @@ def instalarTunel():
     #os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
     os.system("apt-get update; apt-get --allow-unauthenticated -y install tor connect-proxy ssh")
     #if (os.name==sysresccd): modprobe tun; emerge pycrypto; 
+
 
 if ( __name__ == '__main__'):
     #if DEBUG: sys.argv=[sys.argv[0],"--start","SSH","si","/home/usuario/hostinger"]

@@ -1,12 +1,12 @@
 #!/bin/bash
 cambiarIface() {
     IFACES=$(ip a | grep 'state UP' | grep -oE '(wlan[0-9]+|eth[0-9]+)')
-    NUM_IFACES=$($IFACES | wc -l)
+    NUM_IFACES=$(ip a | grep 'state UP' | grep -oE '(wlan[0-9]+|eth[0-9]+)' | wc -l)
     if [ $NUM_IFACES -gt 1 ]; then
        for IFACE in $IFACES; do
-          IP=$(ip -4 a show $IFACE | grep inet | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -1)
+          IP=$(ifconfig $IFACE | grep inet  | grep -v inet6 | awk -F':' '{print $2;}' | awk '{print $1;}')
           RED=$(echo $IP | awk -F'.' '{print $1"."$2"."$3;}')
-          ROUTER=$(route -n | grep $IFACE | grep -E '^0\.0\.0\.0' | awk '{print $2;}')
+          ROUTER=$(route -n | grep $IFACE | grep -E ^0.0.0.0 | awk '{print $2;}')
           echo "NUM_IFACES: $NUM_IFACES - IP: $IP - RED: $RED - ROUTER: $ROUTER"
           if [ "$ROUTER" != "" ] && [ "$(ping -c 4 $ROUTER 2>&1 | grep '100% packet loss')" = "" ]; then break; else continue; fi
        done
@@ -29,7 +29,7 @@ toggleVoice() {
    
    
 if [ "$1" = "" ]; then IFACE=wlan20; else IFACE=$1; fi
-if [ "$2" = "" ]; then DEVS="9 11 12 15 16 17 88"; else DEVS=$2; fi
+if [ "$2" = "" ]; then DEVS="22 23 28 32"; else DEVS=$2; fi
 
 trap cambiarIface SIGHUP
 trap toggleVoice SIGTRAP
@@ -39,12 +39,11 @@ trap toggleVoice SIGTRAP
 
 TEMP="/tmp/rutasNuevas.txt"
 GATEWAY="$(route -n | grep -vE tun[0-9]+$ | grep ^0\.0\.0\.0 | awk '{print $2;}')"
-SSHD="sslh"
 HABLAR="NO"
 DEBUG="false"
 
-if [ "$(whoami)" != "root" ]; then sudo $0 $@; exit $?; fi
 if [ ! -f $TEMP ]; then touch $TEMP; fi
+if [ "$(whoami)" != "root" ]; then sudo $0 $*; fi
 while true; do
    for i in $DEVS; do
       if [ "$(ping -c 4 10.$i.$i.$i 2>&1 | grep '100% packet loss')" != "" ]; then
@@ -53,11 +52,11 @@ while true; do
             PAQUETE=$(tcpdump -c 1 -i $IFACE -Q in -n dst port 443 2>/dev/null)
             if $DEBUG; then echo PAQUETE: $PAQUETE >&2; fi
             IP_TOR="$(echo $PAQUETE | egrep -o '([0-9]{1,3}\.){4}[0-9]{1,5} >' | awk '{print $1}' | awk -F'.' '{print $1"."$2"."$3"."$4;}')"
-               if [ "$IP_TOR" != "" ] && [ "$(netstat -onatup | grep $SSHD | grep $IP_TOR)" = "" ]; then break; fi
+               if [ "$IP_TOR" != "" ] && [ "$(netstat -onatup | grep sslh | grep $IP_TOR)" = "" ]; then break; fi
             sleep 1;
          done
          
-         DIR_IP_LOCAL="$(ip -4 a show $IFACE | grep inet | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | head -1)"
+         DIR_IP_LOCAL="$(ifconfig $IFACE | grep inet | head -1 | awk '{print $2;}' | awk -F':' '{print $2;}')"
          if $DEBUG; then echo $IP_TOR entrante >&2; fi
          if [ "$(echo $IP_TOR | awk -F'.' '{print $1;}')" = "127" ]; then continue; fi
          if [ "$(echo $IP_TOR | awk -F'.' '{print $1$2;}')" = "192168" ]; then continue; fi
@@ -65,7 +64,7 @@ while true; do
             sudo route add -host $IP_TOR gw $GATEWAY
             if $DEBUG; then echo route add -host $IP_TOR gw $GATEWAY >&2; fi
             if [ "$HABLAR" = "SI" ]; then  habla -n Se ha añadido la ruta $IP_TOR; fi
-            if $DEBUG; then sudo netstat -onatup | grep -i $SSHD >&2; fi
+            if $DEBUG; then sudo netstat -onatup | grep -i sslh >&2; fi
             ping -c 4 $IP_TOR &> /dev/null
             if [ "$(cat $TEMP | grep $IP_TOR)" = "" ]; then
                echo $IP_TOR >> $TEMP
@@ -76,7 +75,7 @@ while true; do
    sleep 20
    TEMP2=$(tempfile)
    while read IP_TOR; do 
-      if [ "$(sudo netstat -onatup | grep $SSHD | grep $IP_TOR )" = "" ]; then
+      if [ "$(sudo netstat -onatup | grep sslh | grep $IP_TOR )" = "" ]; then
          sudo route del -host $IP_TOR
          if $DEBUG; then echo sudo route del -host $IP_TOR; fi
       else

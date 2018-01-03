@@ -5,7 +5,18 @@ RESOLV="/run/resolvconf/resolv.conf"
 debug() {
   echo $1 > /dev/stderr
 }  
-
+################################################################################################################################
+nameservers() {
+   sudo rm $RESOLV
+   for i in $1; do
+      sudo bash -c 'echo nameserver '$i' >> '$RESOLV
+   done #sudo bash -c 'echo nameserver 172.16.1.9 > '$RESOLV #sudo bash -c 'echo nameserver 8.8.8.8 >> '$RESOLV
+   route -n
+   cat $RESOLV
+   ping -c 2 $(cat $RESOLV | grep nameserver | head -1 | awk '{print $2;}')
+   ping -c 2 $(cat $RESOLV | grep nameserver | tail -1 | awk '{print $2;}')
+   echo "Dir. IP.: $(dirIp2)" $(pais)
+}
 ################################################################################################################################
 pararServicios() {
    SERVICIOS="network-manager avahi-daemon teamviewerd wpa_supplicant nmbd smbd apache2 mysql rsync squid3 dhclient"
@@ -118,6 +129,8 @@ casaBiblio() {
    sudo ifconfig $WIFACE up
    if [ "$DONDE" = "9" ]; then 
       sudo eecho wpa_supplicant -B -i $WIFACE  -c /var/lib/wicd/configurations/5057a8671925 -Dwext & #/m/Mios/.../wicd/BIBLIO1 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep MiCasa)" != "" ]; then
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/MiCasa -Dwext &
    elif [ "$(sudo iwlist $WIFACE scan | grep vodafone53D2)" != "" ]; then
       RED=192.168.0
       sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/vodafone53D2 -Dwext &
@@ -131,8 +144,8 @@ casaBiblio() {
       sudo eecho wpa_supplicant -B -i $WIFACE -c /var/lib/wicd/configurations/00173f54fcc2 -Dwext &
       #sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/mio -Dwext &
    fi
-   if [ "$DONDE" = "9" ]; then configEth $WIFACE DHCP; 
-   else ipConfig $WIFACE "$RED.27" 24 "$RED.1"; ###sudo ifconfig $IFACE:1 172.16.254.7/24; 
+   if [ "$DONDE" = "9" ]; then ipConfig $WIFACE DHCP; 
+   else ipConfig $WIFACE "$RED.25" 24 "$RED.1"; ###sudo ifconfig $IFACE:1 172.16.254.7/24; 
    fi
    ULTIMA_OVPN=$(cat /home/usuario/.bash_history | grep 'sudo openvpn --config' | tail -1)
    if [ "$ULTIMA_OVPN" = "" ]; then
@@ -148,7 +161,7 @@ comun() {
    if [ "$DONDE" != "2" ]; then 
       cumples &
       [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
-      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &
+      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt 2>&1 > /dev/null &
    fi
    [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && (orage&)
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
@@ -157,9 +170,11 @@ comun() {
        echo no se inicia dropbox no está montada la unidad /m
    fi    
    mount /l
-   sleep 3
+   #sleep 3
    sudo /scripts/tap0.sh
-   wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=ubu.noip.me&myip=$(dirIp)" 2>/dev/null &
+   for host in 'ubu.noip.me' 'ubuin.ddns.net' 'ubuin.hopto.org'; do
+       wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$(dirIp)" 2>/dev/null &
+   done
    /m/Mios/prj/scripts/dnsexit.sh ubuin.linkpc.net &
    /m/Mios/prj/scripts/duckdns.sh ubuin $(realIp) &
 }
@@ -181,7 +196,7 @@ done
 #Parámetros de vpnbook
 if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="de233"; fi
 #sudo /m/Mios/prj/scripts/hwEther.sh
- sudo ls &> /dev/null
+sudo ls &> /dev/null
 sudo pararServicios &
 DONDE=$(menu Casa Ciclos ESO Wifi CasaCable CasaVpn Tic CasaWifi Biblioteca)
 sudo /m/Mios/prj/scripts/vpn.sh stop &> /dev/null
@@ -192,13 +207,14 @@ case $DONDE in
        ;;
     2) #Ciclos
        ###sudo /m/Mios/prj/scripts/redInstiCable.sh
-       ###/usr/bin/x11vnc -rfbport 5900 -reopen  -viewonly -shared  -forever -loop &
        sudo killall dhclient
        ipConfig
        sudo firewall
        comun &
        sudo /etc/init.d/epoptes start
        #/usr/bin/epoptes &
+       /usr/bin/x11vnc -rfbport 5900 -reopen -viewonly -shared  -forever -loop 2>&1 > /dev/null &
+       sleep 30
        /scripts/epoptesInsti.sh &
        $SHELL 
        exit 0
@@ -275,17 +291,6 @@ sudo -u usuario $SHELL
 
 
 ################################################################################################################################ 
-nameservers() {
-   sudo rm $RESOLV
-   for i in $1; do
-      sudo bash -c 'echo nameserver '$i' >> '$RESOLV
-   done #sudo bash -c 'echo nameserver 172.16.1.9 > '$RESOLV #sudo bash -c 'echo nameserver 8.8.8.8 >> '$RESOLV
-   route -n
-   cat $RESOLV
-   ping -c 2 $(cat $RESOLV | grep nameserver | head -1 | awk '{print $2;}')
-   ping -c 2 $(cat $RESOLV | grep nameserver | tail -1 | awk '{print $2;}')
-   echo "Dir. IP.: $(dirIp2)" $(pais)
-}
 
 
 

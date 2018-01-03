@@ -6,7 +6,8 @@ if [ "$1" = "" ];
 then
    uso
 fi   
-sed -i 's/auth-user-pass/auth-user-pass \/m\/Mios\/Personal\/openvpn\/freeVpns\/book\/pass.txt/g' $1/*.ovpn
+#sed -i 's/auth-user-pass/auth-user-pass \/m\/Mios\/Personal\/openvpn\/freeVpns\/book\/pass.txt/g' $1/*.ovpn
+sed -i 's/auth-user-pass \/m\/Mios\/Personal\/openvpn\/freeVpns\/book\/pass.txt/auth-user-pass \/home\/usuario\/freeVpns\/book\/pass.txt/g' $1/*.ovpn
 sed -i 's/dev tun0/dev tun4/g' $1/*.ovpn
 sed -i 's/dev tun1/dev tun4/g' $1/*.ovpn
 sed -i 's/dev tun2/dev tun4/g' $1/*.ovpn
