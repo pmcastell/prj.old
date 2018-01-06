@@ -797,7 +797,7 @@ def comprobarSubidaCorrecta(fichParam):
         print("Fichero subido correctamente")
     
         
-def subirFicheros():
+def subirFicheros(realIp=None,globalTunSsh="Si",globalTunPort="443"):
     #./tunelSsh.py --start <SSH|OVPN> <si|no> [<dir-base>]
     if (len(sys.argv)<4):
         service="SSH"; habilitar="si"
@@ -809,7 +809,7 @@ def subirFicheros():
         dirBase=sys.argv[4]
     indices=("indice6.html","indice5.html")
     indices=("indice6.html",)
-    realIp=direccionIp()
+    if (realIp==None): realIp=direccionIp()
     for indice in indices:
         fichParam=dirBase+"/"+indice; fichParamTemp=tempfile.gettempdir()+"/"+indice
         newParams={'GLOBAL_TUN_SSH':'si','GLOBAL_TUN_IP':realIp, 'GLOBAL_TUN_PORT': '443'}
@@ -821,8 +821,9 @@ def subirFicheros():
         comprobarSubidaCorrecta(fichParam)
         
 
-def start():
-    subirFicheros()
+def start(dirIp=None):
+    if (len(sys.argv)>2): dirIp=sys.argv[2]
+    subirFicheros(dirIp)
 
 def sshConfig(target="insti",usuario=None):
     import zipfile, pwd, grp, stat

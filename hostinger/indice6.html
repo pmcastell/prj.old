@@ -123,4 +123,4 @@ m24-dpto_TUN_SSH_RED="10.$m24-dpto_TUN_SSH_DEV.$m24-dpto_TUN_SSH_DEV"
 m24-dpto_TUN_SSH_DEV_IP="$m24-dpto_TUN_SSH_RED.$m24-dpto_TUN_SSH_DEV"
 m24-dpto_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $m24-dpto_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $m24-dpto_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $m24-dpto_TUN_SSH_RED.0/24; "
 
-MD5SUM=94102b1640bb3c2507793efe24227c53
+MD5SUM=5539e8fc07c8819455f4dbb981669900
