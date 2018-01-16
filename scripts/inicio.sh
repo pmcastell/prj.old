@@ -236,14 +236,17 @@ case $DONDE in
     7) #CsasaAp
        WIFACE=$(wifiInterface)
        sudo $SCRIPTS/ponerRandomMAC.sh $WIFACE
-       CHANNEL=$(wpaWifi -i $WIFACE)
+       INFO=$(wpaWifi -i $WIFACE)
+       RED=$(echo $INFO | awk '{print $1;}')
+       CHANNEL=$(echo $INFO | awk '{print $2;}')
        sudo $SCRIPTS/iwApd.sh $WIFACE $CHANNEL
-       RED=$(wpaWifi $WIFACE)
-       ipConfig $WIFACE "$RED.25" 24 "$RED.1"
+       wpaWifi $WIFACE
+       ipConfig $WIFACE "${RED}.25" 24 "$RED.1"
+       ifconfig $WIFACE    
        comun &
        ###sudo /home/usuario/aula/torRoute.sh $WIFACE >/dev/null &
        sudo firewall #echo cambiando dns #nameservers
-       ifconfig $WIFACE       
+        
        /usr/bin/eject -i on /dev/sr0
        sudo alive &> /dev/null &
        #deshabilitar el botón de apertura del grabador de dvd

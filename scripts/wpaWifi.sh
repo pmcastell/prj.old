@@ -14,7 +14,7 @@ sudo ifconfig $WIFACE up
 #el
 if [ "$(sudo iwlist $WIFACE scan | grep vodafone53D2)" != "" ]; then
   RED=192.168.0
-  CHANNEL=""
+  CHANNEL="N"
   SSID="vodafone53D2"
   [ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/vodafone53D2 -Dwext &
 elif [ "$(sudo iwlist $WIFACE scan | grep MOVISTAR_E360)" != "" ]; then
@@ -26,7 +26,7 @@ elif [ "$(sudo iwlist $WIFACE scan | grep MARINA24)" != "" ]; then
   SSID="MARINA24"
   [ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/MARINA24 -Dwext &
 elif [ "$(sudo iwlist $WIFACE scan | grep Orange-B215)" != "" ]; then
-  CHANNEL=""
+  CHANNEL="N"
   SSID="Orange-B215"
   [ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/Orange-B215 -Dwext &
 elif [ "$(sudo iwlist $WIFACE scan | grep JAZZTEL_FCC0)" != "" ]; then
@@ -35,7 +35,7 @@ elif [ "$(sudo iwlist $WIFACE scan | grep JAZZTEL_FCC0)" != "" ]; then
   [ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/JAZZTEL_FCC0 -Dwext &
   #[ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/mio -Dwext &
 elif [ "$(sudo iwlist $WIFACE scan | grep BIBLIO)" != "" ]; then
-  CHANNEL=""
+  CHANNEL="N"
   SSID="BIBLIO"
   [ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE  -c /m/Mios/Personal/AIRELAB/wicd/BIBLIO -Dwext & #/m/Mios/.../wicd/BIBLIO1 -Dwext &
 fi
