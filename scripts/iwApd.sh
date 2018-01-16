@@ -25,7 +25,8 @@ reinicia() {
 [ "$1" = "-r" ] && reinicia wlan200 wlan201 && exit 0
 [ "$1" = "" ] && uso
 IFACE="$1"
-[ "$2" = "" ] && IP="192.168.1.27/24" || IP="$2"
+[ "$2" = "" ] && CHANNEL=6 || CHANNEL="$2"
+###[ "$2" = "" ] && IP="192.168.1.25/24" || IP="$2"
 ###sudo ip link set dev $IFACE down
 ###crearIface $IFACE ${IFACE}0 station
 ###sudo macchanger -r ${IFACE}0
@@ -36,5 +37,5 @@ sudo macchanger -r ${IFACE}1
 ###sudo wpa_supplicant -B -i ${IFACE}0 -c /m/Mios/Personal/AIRELAB/wicd/MOVISTAR_E360 -Dwext &
 ###sudo ip route add default via "$(echo $IP | awk -F'/' '{print $1;}' | cut -d'.' -f1-3)".1
 sudo /scripts/finPuntoAcceso.sh
-sudo /scripts/puntoAcceso.sh ${IFACE}1 MiCasa Montoro65 172.16.1 35 128
+sudo /scripts/puntoAcceso.sh ${IFACE}1 MiCasa Montoro65 172.16.1 35 128 $CHANNEL
 

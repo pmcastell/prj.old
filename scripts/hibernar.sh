@@ -12,4 +12,6 @@ if [ "$1" != "" ]; then
    fi
    sudo rtcwake -m no -t $(expr $(date -d "now" +%s) + $SEGUNDOS ) 
 fi   
+sudo swapoff -a
+sudo swapon -a
 sudo pm-hibernate

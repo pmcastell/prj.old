@@ -11,10 +11,11 @@ EOF
    exit 1
 }      
 fichConf() {
+[ "$1" = "" ] && CHANNEL=6 || CHANNEL="$1"
 cat<<EOF
 #uth_algs=1
 #beacon_int=50
-channel=6
+channel=$CHANNEL
 country_code=ES
 disassoc_low_ack=1
 driver=nl80211
@@ -39,11 +40,11 @@ if [ $# -lt 4 ]; then
    zenity --forms --title="Parámetros punto Acceso Wireles" --text="Necesito la siguiente info:" --add-list "Interfaz Wifi:" --list-values "$WIFIS"  --add-entry="Nombre Red (ssid):" --add-entry="Clave" --add-entry "Dir.Red:" | sed -e "s/,//g" | sed -e "s/|/\n/g" > $TEMP
    read -d "\n" WLAN SSID CLAVE RED < $TEMP
 else 
-   WLAN=$1; SSID=$2; CLAVE=$3; RED=$4; RANGO1=$5; RANGO2=$6;
+   WLAN=$1; SSID=$2; CLAVE=$3; RED=$4; RANGO1=$5; RANGO2=$6; CHANNEL=$7
 fi
-if [ "$RANGO1" = "" ]; then RANGO1=25; fi
-if [ "$RANGO2" = "" ]; then RANGO2=50; fi 
-fichConf > $TEMP
+[ "$RANGO1" = "" ] && RANGO1=25
+[ "$RANGO2" = "" ] && RANGO2=50
+fichConf $CHANNEL> $TEMP
 sudo /usr/sbin/hostapd $TEMP  &
 #&> /dev/null &
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 RESOLV="/run/resolvconf/resolv.conf"
-SCRIPTS="/m/Mios/prj/scripts"
 
 debug() {
   echo $1 > /dev/stderr
@@ -24,7 +23,7 @@ pararServicios() {
    for s in $SERVICIOS; do
       sudo /usr/sbin/service $s stop &> /dev/null
    done
-   sudo $SCRIPTS/mata.sh wpa_supplicant &> /dev/null
+   sudo /m/Mios/prj/scripts/mata.sh wpa_supplicant &> /dev/null
 }
 ################################################################################################################################
 configEth() {
@@ -89,7 +88,7 @@ vpnConnect() {
          sudo bash -c 'echo nameserver 8.8.8.8 > '$RESOLV 
          echo DNS: $(cat $RESOLV)
          echo Descargando contraseña vpnbook':'
-         $SCRIPTS/bookPass.sh
+         /m/Mios/prj/scripts/bookPass.sh
        else
          echo La autenticación fue correcta
          cat $TEMP
@@ -113,7 +112,7 @@ vpn() {
    fi
 }   
 ################################################################################################################################
-wifiInterface() {
+casaBiblio() {
    if [ "$(interfaces | grep wlan | wc -l)" -gt 1 ]; then
       WIFACES=""
       for w in $(interfaces | grep wlan); do
@@ -124,13 +123,27 @@ wifiInterface() {
    else
       WIFACE=$(interfaces | grep wlan | tail -1)
    fi
-   echo $WIFACE
-}
-################################################################################################################################
-casaBiblio() {
-   WIFACE=$(wifiInterface)
-   sudo $SCRIPTS/ponerRandomMAC.sh $WIFACE
-   RED=$(wpaWifi $WIFACE | awk '{print $1;}')
+   sudo /m/Mios/prj/scripts/ponerRandomMAC.sh $WIFACE
+   RED=192.168.1
+   sudo mata wpa_supplicant &>/dev/null
+   sudo ifconfig $WIFACE up
+   if [ "$DONDE" = "9" ]; then 
+      sudo eecho wpa_supplicant -B -i $WIFACE  -c /var/lib/wicd/configurations/5057a8671925 -Dwext & #/m/Mios/.../wicd/BIBLIO1 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep MiCasa)" != "" ]; then
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/MiCasa -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep vodafone53D2)" != "" ]; then
+      RED=192.168.0
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/vodafone53D2 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep MOVISTAR_E360)" != "" ]; then
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/MOVISTAR_E360 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep MARINA24)" != "" ]; then
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /var/lib/wicd/configurations/f863949068f3 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep Orange-B215)" != "" ]; then
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /var/lib/wicd/configurations/1cc63c66b217 -Dwext &
+   elif [ "$(sudo iwlist $WIFACE scan | grep JAZZTEL_FCC0)" != "" ]; then
+      sudo eecho wpa_supplicant -B -i $WIFACE -c /var/lib/wicd/configurations/00173f54fcc2 -Dwext &
+      #sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/mio -Dwext &
+   fi
    if [ "$DONDE" = "9" ]; then ipConfig $WIFACE DHCP; 
    else ipConfig $WIFACE "$RED.25" 24 "$RED.1"; ###sudo ifconfig $IFACE:1 172.16.254.7/24; 
    fi
@@ -149,13 +162,6 @@ comun() {
       cumples &
       [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
       sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt 2>&1 > /dev/null &
-      $SCRIPTS/dnsexit.sh ubuin.linkpc.net &
-      REAL_IP=$(realIp)
-      $SCRIPTS/duckdns.sh ubuin $REAL_IP &
-      $SCRIPTS/duckdns.sh ceutam24 $REAL_IP 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
-      for host in 'ubu.noip.me' 'ubuin.ddns.net' 'ubuin.hopto.org'; do
-         wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$REAL_IP" 2>/dev/null &
-      done
    fi
    [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && (orage&)
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
@@ -166,6 +172,11 @@ comun() {
    mount /l
    #sleep 3
    sudo /scripts/tap0.sh
+   for host in 'ubu.noip.me' 'ubuin.ddns.net' 'ubuin.hopto.org'; do
+       wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$(dirIp)" 2>/dev/null &
+   done
+   /m/Mios/prj/scripts/dnsexit.sh ubuin.linkpc.net &
+   /m/Mios/prj/scripts/duckdns.sh ubuin $(realIp) &
 }
 
 ################################################################################################################################
@@ -178,24 +189,24 @@ comun() {
 #quitamos proxy 
 gsettings set org.gnome.system.proxy mode 'none'
 #montamos /m/Mios encriptada
-while [ ! -f $SCRIPTS/redJunta.sh ]; do
+while [ ! -f /m/Mios/prj/scripts/redJunta.sh ]; do
    sudo encfs --public /m/.Mios /m/Mios
 done
 [ "$(pgrep autokey-gtk)" = "" ] && (autokey-gtk &>/dev/null &)
 #Parámetros de vpnbook
 if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="de233"; fi
-#sudo $SCRIPTS/hwEther.sh
+#sudo /m/Mios/prj/scripts/hwEther.sh
 sudo ls &> /dev/null
 sudo pararServicios &
-DONDE=$(menu Casa Ciclos ESO Wifi CasaCable CasaVpn CasaAp CasaWifi Biblioteca Tic)
-sudo $SCRIPTS/vpn.sh stop &> /dev/null
+DONDE=$(menu Casa Ciclos ESO Wifi CasaCable CasaVpn Tic CasaWifi Biblioteca)
+sudo /m/Mios/prj/scripts/vpn.sh stop &> /dev/null
 case $DONDE in
     1) #Casa
-       sudo $SCRIPTS/redJunta.sh
+       sudo /m/Mios/prj/scripts/redJunta.sh
        sudo firewall
        ;;
     2) #Ciclos
-       ###sudo $SCRIPTS/redInstiCable.sh
+       ###sudo /m/Mios/prj/scripts/redInstiCable.sh
        sudo killall dhclient
        ipConfig
        sudo firewall
@@ -219,7 +230,7 @@ case $DONDE in
        ;;
     5) #CasaCable
        configEth $(interfaces | grep eth | head -1) 192.168.1.249 24 192.168.1.1
-       #$SCRIPTS/tunelCjb.sh &
+       #/m/Mios/prj/scripts/tunelCjb.sh &
        sudo rfkill block 0
        sudo hciconfig phy0 down
        vpn
@@ -231,43 +242,12 @@ case $DONDE in
        sudo openvpn --config $VPN_BOOK_CONF"udp25000.ovpn" &
        sleep 15
        sudo vpn 443 &
-       #sudo eecho $SCRIPTS/ukVpn.sh &
+       #sudo eecho /m/Mios/prj/scripts/ukVpn.sh &
        ;;
-    7) #CsasaAp
-       WIFACE=$(wifiInterface)
-       sudo $SCRIPTS/ponerRandomMAC.sh $WIFACE
-       CHANNEL=$(wpaWifi -i $WIFACE)
-       sudo $SCRIPTS/iwApd.sh $WIFACE $CHANNEL
-       RED=$(wpaWifi $WIFACE)
-       ipConfig $WIFACE "$RED.25" 24 "$RED.1"
-       comun &
-       ###sudo /home/usuario/aula/torRoute.sh $WIFACE >/dev/null &
-       sudo firewall #echo cambiando dns #nameservers
-       ifconfig $WIFACE       
-       /usr/bin/eject -i on /dev/sr0
-       sudo alive &> /dev/null &
-       #deshabilitar el botón de apertura del grabador de dvd
-       /usr/bin/eject -i on /dev/sr0
-       java -jar /m/jdown/JDownloader.jar &> /dev/null &
-       /usr/bin/qbittorrent &>/dev/null &
-       sudo actualiza 
-       ;;       
-    8|9) #CasaWifi o Biblioteca wifi
-       casaBiblio
-       comun &
-       #deshabilitar el botón de apertura del grabador de dvd
-       /usr/bin/eject -i on /dev/sr0
-       sudo alive &> /dev/null &
-       #deshabilitar el botón de apertura del grabador de dvd
-       /usr/bin/eject -i on /dev/sr0
-       java -jar /m/jdown/JDownloader.jar &> /dev/null &
-       /usr/bin/qbittorrent &>/dev/null &
-       sudo actualiza 
-       ;;
-    10) #Tic
+    7) #Tic
        configEth $(interfaces | grep eth | head -1) 192.168.13.111 255.255.248.0 192.168.8.1 '192.168.0.1 192.168.0.2'
        sudo route add f0 gw 192.168.8.1 ##SHELL_CJB_NET=$(digHost f0 shell.cjb.net)  ##sudo route add $SHELL_CJB_NET gw 192.168.8.1
-       $SCRIPTS/bookPass.sh #sudo openvpn --config $VPN_BOOK_CONF"tcp443.ovpn" &
+       /m/Mios/prj/scripts/bookPass.sh #sudo openvpn --config $VPN_BOOK_CONF"tcp443.ovpn" &
        vpnConnect $VPN_BOOK_RED tcp
        sleep 4
        echo Conectando a Instituto por vpn
@@ -282,18 +262,28 @@ case $DONDE in
        echo cambiando dns
        nameservers "172.16.1.9 8.8.8.8"
        ;;
-       
+    8|9) #CasaWifi o Biblioteca wifi
+       casaBiblio
+       comun &
+       #deshabilitar el botón de apertura del grabador de dvd
+       /usr/bin/eject -i on /dev/sr0
+       sudo alive &> /dev/null &
+       #deshabilitar el botón de apertura del grabador de dvd
+       /usr/bin/eject -i on /dev/sr0
+       java -jar /m/jdown/JDownloader.jar &> /dev/null &
+       /usr/bin/qbittorrent &>/dev/null &
+       sudo actualiza 
+       ;;
 esac
 TMP_DIRIP="/tmp/direccionIpReal.txt"
 while true; do
-   DIR_IP=$(realIp)
+   DIR_IP=$(dirIp)
    echo "DIR_IP: $DIR_IP"
    echo -n $DIR_IP > $TMP_DIRIP
    if [ "$(cat $TMP_DIRIP | egrep -o '([0-9]{1,3}\.){3}[0-9]{1,3}')" != "" ]; then break; fi
-   sleep 1
 done    
 sudo -u usuario $SHELL
-exit 0
+
 #######################################################################################
 ############### cuidado! no poner nada debajo, no se ejecutará ########################
 #######################################################################################
@@ -304,11 +294,11 @@ exit 0
 
 
 
-#$SCRIPTS/dynDns.sh
+#/m/Mios/prj/scripts/dynDns.sh
 
-#$SCRIPTS/dnsexit.sh ubuntu64.linkpc.net &
-#$SCRIPTS/dnsexit.sh iesinclan.linkpc.net &
-#$SCRIPTS/dnsexit.sh avatar.linkpc.net &
+#/m/Mios/prj/scripts/dnsexit.sh ubuntu64.linkpc.net &
+#/m/Mios/prj/scripts/dnsexit.sh iesinclan.linkpc.net &
+#/m/Mios/prj/scripts/dnsexit.sh avatar.linkpc.net &
 
 #/usr/bin/qbittorrent &>/dev/null &
 #java -jar /m/jdown/JDownloader.jar&>/dev/null &
@@ -336,7 +326,7 @@ exit 0
 
 
 #gksudo 'gnome-terminal -e encfs --public /m/.Mios /m/Mios' &
-#gksudo  $SCRIPTS/redJunta.sh
+#gksudo  /m/Mios/prj/scripts/redJunta.sh
 ###gksudo 'gnome-terminal -e /home/usuario/inicio.py'
 
 
