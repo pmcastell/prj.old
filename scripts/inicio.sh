@@ -246,7 +246,7 @@ case $DONDE in
        comun &
        ###sudo /home/usuario/aula/torRoute.sh $WIFACE >/dev/null &
        sudo firewall #echo cambiando dns #nameservers
-        
+       xflux -l 35 
        /usr/bin/eject -i on /dev/sr0
        sudo alive &> /dev/null &
        #deshabilitar el botón de apertura del grabador de dvd
