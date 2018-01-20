@@ -14,7 +14,7 @@ sudo ifconfig $WIFACE up
 #el
 if [ "$(sudo iwlist $WIFACE scan | grep vodafone53D2)" != "" ]; then
   RED=192.168.0
-  CHANNEL="N"
+  CHANNEL="13"
   SSID="vodafone53D2"
   [ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/vodafone53D2 -Dwext &
 elif [ "$(sudo iwlist $WIFACE scan | grep MOVISTAR_E360)" != "" ]; then
