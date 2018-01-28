@@ -28,9 +28,10 @@ function repetir() {
 }   
 function separador() {
    repetir - 100
-}      
+}     
+USERAG="Mozilla/5.0 (Windows 15; en-En; rv:58.0) Gecko/20170422 Firefox/58.0" 
 #LISTA=$(wget --no-check-certificate -O - https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
-LISTA=$(curl https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
+LISTA=$(curl --user-agent "$USERAG" https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
 separador
 echo "| $(espacios IP 15 C) | $(espacios PAIS 20 C) | $(espacios REGION 26 C) | $(espacios CIUDAD 26 C) |"
 separador
