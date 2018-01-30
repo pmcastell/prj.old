@@ -6,7 +6,7 @@ uso() {
 }   
 DOMINIO=$1
 if [ "$2" = "" ] || [ "$2" = "smtp" ]; then
-   if   [ "$DOMINIO" = "gmail.com" ]; then MAIL_SERVER="smtp.gmail.com:587"; 
+   if   [ "$DOMINIO" = "gmail.com" ]; then MAIL_SERVER="smtp.gmail.com:465"; 
    elif [ "$DOMINIO" = "yahoo.com" ] || [ "$DOMINIO" = "yahoo.es" ]; then MAIL_SERVER="smtp.mail.yahoo.com:587"; 
    elif [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ]; then MAIL_SERVER="smtp.live.com:587";
    elif [ "$DOMINIO" = "gva.es" ]; then MAIL_SERVER="smtp.gva.es:587"; 
@@ -36,4 +36,30 @@ POP3 Server (Incoming Messages) 	pop.mail.yahoo.com 	SSL 	      995
 SMTP Server (Outgoing Messages) 	smtp.gva.es 	      StartTLS 	587
 POP3 Server (Incoming Messages) 	pop3.gva.es 	      SSL 	      995
 
+"
+
+echo "Ejemplo de una sesión de smtp:
+250 STARTTLS
+ehlo iespinfo@gmx.es
+250-gmx.com Hello iespinfo@gmx.es [83.37.22.171]
+250-AUTH LOGIN PLAIN
+250 SIZE 69920427
+auth login
+334 VXNlcm5hbWU6
+aWVzcGluZm9AZ214LmVz
+334 UGFzc3dvcmQ6
+UGF0dXNhbWExNg==
+235 Authentication succeeded
+MAIL FROM: <iespinfo@gmx.es>
+250 Requested mail action okay, completed
+RCPT TO: <iespinfo@gmx.es>
+250 OK
+data
+354 Start mail input; end with <CRLF>.<CRLF>
+from: <iespinfo@gmx.es>
+to: <iespinfo@gmx.es>
+subject: PRUEBA1 
+
+Hola esta es la primera PRUEBA1
+.
 "

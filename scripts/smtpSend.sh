@@ -3,6 +3,7 @@
 DEBUG=false
 
 uso() {
+   #/scripts/smtpSend.sh iespinfo@gmx.es infosmr2@gmail.com "el libro" "te lo mando" /m/tmp/MARI/Libros/Ingles/The\ catcher\ in\ the\ rye\ -\ Jerome\ David\ Salinger.epub
    echo uso: $0 '<remitente> <dest> <subject> <texto> [<ficheros-a-adjuntar>]' >&2
    exit 1
 }   
@@ -15,11 +16,14 @@ envia() {
 }
 
 espera() {
-   COD=$1
+   COD="$@"
+   RECIBIDO=false
    while read COD2; do
+      if $DEBUG; then infor "COD: |$COD| - COD2: |$COD2|" ; fi
       COD2="${COD2:0:3}";
-      if $DEBUG; then infor COD: "|$COD|" "-" COD2: "|$COD2|" ; fi
-      if [ "$COD" = "$COD2" ]; then break; fi
+      #if [ "$COD" = "$COD2" ]; then break; fi
+      for c in $COD; do if [ "$c" == "$COD2" ]; then RECIBIDO=true; break; fi; done
+      [ "$RECIBIDO" = "true" ] && break
    done < $FIFO
    if $DEBUG; then infor Salgo de espera COD: "|$COD|" "-" COD2: "|$COD2|" ; fi
 }   
@@ -39,8 +43,9 @@ if [ "$DOMINIO" = "hotmail.com" ] || [ "$DOMINIO" = "live.com" ] || [ "$DOMINIO"
 else USUARIO=$(echo $REMITENTE | awk -F'@' '{print $1;}'); fi
 
 SMTP_SERVER="$($DIR_BASE/smtpServer.sh $DOMINIO)"
+[ "$(echo $SMTP_SERVER | grep 587)" != "" ] && START_TLS="-starttls smtp"
 PASSWORD=$($DIR_BASE/getMyPass.sh $USUARIO)
-#echo "PASS: $PASSWORD, USUARIO: $USUARIO, DIR_BASE: $DIR_BASE"
+if $DEBUG; then  infor "PASS: $PASSWORD, USUARIO: $USUARIO, DIR_BASE: $DIR_BASE"; fi
 if [ "$($DIR_BASE/esAlfa.sh $PASSWORD)" = "false" ]; then echo no se pudo obtener la clave de envío; exit 2; fi
 FIFO="/tmp/fifo-$(date +'%Y%m%d%H%M%S')"
 mkfifo $FIFO
@@ -49,7 +54,7 @@ mkfifo $FIFO
 #AUTHPLAIN=$($DIR_BASE/authPlain.sh $USUARIO $PASSWORD)
 
 if $DEBUG; then infor DIR_BASE: $DIR_BASE REMITENTE: $REMITENTE RECEPTOR: $RECEPTOR SUBJECT: $SUBJECT ; 
-                infor TEXTO: $TEXTO USUARIO: $USUARIO PASSWORD: $PASSWORD AUTHPLAIN: $AUTHPLAIN ; fi
+                infor TEXTO: $TEXTO USUARIO: $USUARIO PASSWORD: $PASSWORD AUTHPLAIN: $AUTHPLAIN START_TLS: $START_TLS; fi
 
 if [ "$(wget --timeout=10 --tries=1 -O - http://portquiz.net:$(echo $SMTP_SERVER | awk -F':' '{print $2;}') 2> /dev/null)" = "" ]; then
    PROXY_CMD="torsocks "
@@ -60,14 +65,16 @@ else
    PROXY_CMD=""; if $DEBUG; then infor sin proxy ; fi
 fi
 
-
+if $DEBUG; then infor EMPEZANDO; fi
 (
-espera 250
+espera 250 220
 envia "ehlo $USUARIO"; espera 250
 #echo "auth plain $AUTHPLAIN"; $ESPERA_CMD
 envia "auth login"; espera 334
 envia "$(echo -n $USUARIO | base64)";  espera 334
+infor "Antes de enviar la contraseña: $PASSWORD"
 envia "$(echo -n $PASSWORD | base64)"; espera 235
+infor "Después de enviar: $PASSWORD"
 envia "MAIL FROM: <$REMITENTE>"; espera 250
 envia "RCPT TO: <$RECEPTOR>"; espera 250
 envia "data"; espera 354
@@ -77,7 +84,7 @@ $DIR_BASE/cuerpoMail.sh "$@"
 
 
 envia "."; espera 250
-envia "quit"; espera 221 ) | $PROXY_CMD openssl s_client -starttls smtp -connect $SMTP_SERVER -crlf -ign_eof  &> $FIFO
+envia "quit"; espera 221 ) | $PROXY_CMD openssl s_client $START_TLS -connect $SMTP_SERVER -crlf -ign_eof  &> $FIFO
 rm $FIFO
 infor "Mensaje enviado con éxito?"
 
