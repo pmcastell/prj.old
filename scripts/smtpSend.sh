@@ -72,9 +72,9 @@ envia "ehlo $USUARIO"; espera 250
 #echo "auth plain $AUTHPLAIN"; $ESPERA_CMD
 envia "auth login"; espera 334
 envia "$(echo -n $USUARIO | base64)";  espera 334
-infor "Antes de enviar la contraseña: $PASSWORD"
+if $DEBUG; then infor "Antes de enviar la contraseña: $PASSWORD"; fi
 envia "$(echo -n $PASSWORD | base64)"; espera 235
-infor "Después de enviar: $PASSWORD"
+if $DEBUG; then infor "Después de enviar: $PASSWORD"; fi
 envia "MAIL FROM: <$REMITENTE>"; espera 250
 envia "RCPT TO: <$RECEPTOR>"; espera 250
 envia "data"; espera 354

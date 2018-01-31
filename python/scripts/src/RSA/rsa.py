@@ -51,3 +51,45 @@ def claves(p,q):
         e-=1
     print((e,n))
     print((d,n))
+
+def mkpasswd(PASS,SALT):
+    import crypt
+    print(crypt.crypt(PASS,"$6$"+SALT))
+
+def strxor(a,b):     # xor two strings of different lengths
+    if len(a) > len(b):
+        return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a[:len(b)], b)])
+    else:
+        return "".join([chr(ord(x) ^ ord(y)) for (x, y) in zip(a, b[:len(a)])])
+    
+def stradd(a,b):
+    if (len(a)>len(b)):
+        return "".join([chr((ord(x) + ord(y)) % 256) for (x,y) in zip(a[:len(b)],b)])
+    else:
+        return "".join([chr((ord(x) + ord(y)) % 256) for (x,y) in zip(a,b[:len(a)])])    
+
+
+def stradd2(a,b):
+    i=0
+    res=""
+    while(i<len(a) and i<len(b)):
+        res+=chr( ord(a[i]) ^ ord(b[i])  )
+        i+=1
+    while(i<len(a)):
+        res+=a[i]
+        i+=1
+    return res
+
+def mkpasswd2(passwd, salt):
+    #usuario:$6$yP8NymU/$rH/Bl2PnTleI07hfUqvk31.7BvAogs1dtXrU1/RktvfDG9dbf/SVh3jo3UhSf.VIrB7hh7n3zQGSNsgqOGiY5/:16498:0:99999:7:::
+    import hashlib, base64
+    if (len(salt)<len(passwd)):
+        salt+=salt[:len(passwd)-len(salt)]
+    elif (len(passwd)<len(salt)):
+        salt=salt[:len(passwd)-len(salt)]
+    print("passwd: "+passwd+" salt: "+salt)
+    pasSalt=stradd2(passwd,salt)
+    passHash=hashlib.sha512(pasSalt).digest()
+    return base64.encodestring(passHash)
+    
+    
