@@ -16,4 +16,4 @@ fi
 #get-iplayer --subtitles --proxy http://82.198.225.82:80 http://www.bbc.co.uk/iplayer/episode/b00794k1/The_Nightmare_Before_Christmas/
 
 #eecho get-iplayer --subtitles --proxy  http://$PROXY $1
-eecho get-iplayer --subtitles $1
+eecho get_iplayer --subtitles $1

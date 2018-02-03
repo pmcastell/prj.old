@@ -3,7 +3,7 @@
 
 # Fecha creación: 28 ene. 2018
 # autor: usuario
-
+from string import maketrans
 
 def primo(n,debug=False):
     import math
@@ -80,16 +80,64 @@ def stradd2(a,b):
         i+=1
     return res
 
+def base64Enc(s):
+  # the result/encoded string, the padding string, and the pad count
+  base64chars="./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
+  #base64chars="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+  r = ""; 
+  p = ""; 
+  c = len(s) % 3;
+
+  # add a right zero pad to make this string a multiple of 3 characters
+  if (c > 0):
+    while (c<3):
+      p += '='; 
+      s += "\0";
+      c+=1; 
+
+  # increment over the length of the string, three characters at a time
+  c=0
+  while(c<len(s)):
+    # we add newlines after every 76 output characters, according to the MIME specs
+    #if (c > 0 and (c / 3.0 * 4) % 76 == 0):
+    #  r += "\r\n"; 
+
+    # these three 8-bit (ASCII) characters become one 24-bit number
+    #n = (s.charCodeAt(c) << 16) + (s.charCodeAt(c+1) << 8) + s.charCodeAt(c+2);
+    n = (ord(s[c])<<16) + (ord(s[c+1])<<8) + (ord(s[c+2]));
+
+    # this 24-bit number gets separated into four 6-bit numbers
+    n = [(n >> 18) & 63, (n >> 12) & 63, (n >> 6) & 63, n & 63];
+
+    # those four 6-bit numbers are used as indices into the base64 character list
+    r += base64chars[n[0]] + base64chars[n[1]] + base64chars[n[2]] + base64chars[n[3]];
+    c+=3
+   # add the actual padding string, after removing the zero pad
+  #return r.substring(0, r.length - p.length) + p;
+  return r[0:len(r)-len(p)]+p
+
 def mkpasswd2(passwd, salt):
     #usuario:$6$yP8NymU/$rH/Bl2PnTleI07hfUqvk31.7BvAogs1dtXrU1/RktvfDG9dbf/SVh3jo3UhSf.VIrB7hh7n3zQGSNsgqOGiY5/:16498:0:99999:7:::
     import hashlib, base64
-    if (len(salt)<len(passwd)):
-        salt+=salt[:len(passwd)-len(salt)]
-    elif (len(passwd)<len(salt)):
-        salt=salt[:len(passwd)-len(salt)]
+    #if (len(salt)<len(passwd)):
+    #    salt+=salt[:len(passwd)-len(salt)]
+    #elif (len(passwd)<len(salt)):
+    #    salt=salt[:len(passwd)-len(salt)]
     print("passwd: "+passwd+" salt: "+salt)
-    pasSalt=stradd2(passwd,salt)
+    #pasSalt=stradd2(passwd,salt)
+    pasSalt=passwd+salt;
+    #pasSalt=salt+passwd;
     passHash=hashlib.sha512(pasSalt).digest()
-    return base64.encodestring(passHash)
-    
-    
+    return base64Enc(passHash)
+    #b64Orig=base64.encodestring(passHash)
+    #print("b64Orig: "+b64Orig);
+    #base64fixTable = maketrans(
+    #"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+    #"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
+    #return b64Orig.translate(base64fixTable)
+
+print(mkpasswd2("18mariecurie67","yP8NymU/"))
+r="a"
+while(len(r)<100):
+    print(base64Enc(r))
+    r+="a"
