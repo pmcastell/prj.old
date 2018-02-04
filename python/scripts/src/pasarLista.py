@@ -9,11 +9,11 @@ import datetime, os
 def getHorario():
     return {'lun': {'11:30':'SIN', '12:25':'SER', '13:20':'SER'}, 
             'mar': {'10:15':'SER', '11:30':'SER', '12:25':'APW', '13:20': 'APW'},
-            'mie': {'08:25':'SIN', '09:20':'SIN', '10:15':'SIN', '11:30': 'SER'},
-            'jue': {'08:25':'APW', '09:20':'APW', '10:15':'SER', '12:25': 'SIN', '13:20': 'SIN'},
-            'vie': {'08:25':'SER', '09:20':'SER'},
-            'sab': {'08:25':'Levantarse','21:25': 'Lavadora'},
-            'dom': {'08:25':'Levantarse'}
+            'mie': {'08:35':'SIN', '09:20':'SIN', '10:15':'SIN', '11:30': 'SER'},
+            'jue': {'08:35':'APW', '09:20':'APW', '10:15':'SER', '12:25': 'SIN', '13:20': 'SIN'},
+            'vie': {'08:35':'SER', '09:20':'SER'},
+            'sab': {'08:35':'Levantarse','21:25': 'Lavadora'},
+            'dom': {'20:00':'Levantarse'}
             }
 def getWeekDay():
     return ['lun','mar','mie','jue','vie','sab','dom'][datetime.datetime.today().weekday()]  
