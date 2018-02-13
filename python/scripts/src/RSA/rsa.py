@@ -54,7 +54,7 @@ def claves(p,q):
 
 def mkpasswd(PASS,SALT):
     import crypt
-    print(crypt.crypt(PASS,"$6$"+SALT))
+    return(crypt.crypt(PASS,"$6$"+SALT))
 
 def strxor(a,b):     # xor two strings of different lengths
     if len(a) > len(b):
@@ -136,8 +136,32 @@ def mkpasswd2(passwd, salt):
     #"./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz");
     #return b64Orig.translate(base64fixTable)
 
-print(mkpasswd2("18mariecurie67","yP8NymU/"))
-r="a"
-while(len(r)<100):
-    print(base64Enc(r))
-    r+="a"
+#print(mkpasswd2("18mariecurie67","yP8NymU/"))
+#r="a"
+#while(len(r)<100):
+#    print(base64Enc(r))
+#    r+="a"
+def combinaciones(letters,rep):
+    import itertools
+    return itertools.product(letters,repeat=rep)
+
+
+def permutaciones(letters,rep):
+    import itertools
+    return itertools.permutations(letters,rep)
+
+def misComb(letters):
+    if (type(letters)==int):
+        letters=str(letters)
+    elif (type(letters)==tuple or type(letters)==list):
+        letters="".join(letters)
+    for i in range(len(letters)):
+        comb=combinaciones(letters,i+1)
+        while(True):
+            try:
+                next=comb.next()
+            except:
+                break
+            yield "".join(next)
+        
+        

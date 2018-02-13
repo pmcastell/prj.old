@@ -2,6 +2,7 @@ eclipse.preferences.version=1
 encoding//src/BlackHat/bhpnet.py=utf-8
 encoding//src/BlackHat/ntpClient.py=utf-8
 encoding//src/BlackHat/tcpServer.py=utf-8
+encoding//src/RSA/crackPasswd.py=utf-8
 encoding//src/RSA/passwdHash.py=utf-8
 encoding//src/RSA/rsa.py=utf-8
 encoding//src/aula/tunelSsh.py=utf-8
