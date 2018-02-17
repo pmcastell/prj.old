@@ -7,32 +7,7 @@
 import sys
 
 def reemplaza(cad):
-    reemplazos={'<m>':"&lt;span style='font-weight: bold; font-style: italic;'>",
-                '</m>': "&lt;/span>",
-                '<': "&lt;"
-                }
-    initEtiq=-1
-    while (True):
-        initEtiq=cad.find("<",initEtiq+1)
-        if (initEtiq<0): break
-        if (cad[initEtiq+1]=="/"): initEtiq+=1; continue
-        finEtiq=cad.find(">",initEtiq+1)
-        if (finEtiq>=0):
-            etiqueta=cad[initEtiq+1:finEtiq]
-        if (cad.find("</"+etiqueta+">")<0):
-            cad=cad.replace("<"+etiqueta+">","&amp;lt;"+etiqueta+">")
-    ini=cad.find("<imagen>")
-    if (ini>=0):
-        fin=cad.find("</imagen>")
-        fname=cad[ini+8:fin]
-        fext=fname[fname.find(".")+1:]
-        fimg=open(fname,"rb").read().encode("base64")
-        cad=cad.replace(cad[ini:fin+9],"&lt;img src='data:image/"+fext+";base64,"+fimg+"'/>")
-        
-    for r in reemplazos.keys():
-        cad=cad.replace(r,reemplazos[r])
-    #return cad.replace("<m>","&lt;span style='font-weight: bold; font-style:italic;'>").replace("</m>","&lt;/span>").replace("<","&lt;")
-    return cad
+    return cad.replace("<m>","&lt;b>&lt;i>").replace("</m>","&lt;/i>&lt;/b>")
 
 def question(qname,quest,answers,positivo=False):
     quest=reemplaza(quest)
@@ -83,23 +58,13 @@ def cabecera(category):
         </category>
     </question>""".format(category)
 
-def restoLinea(entrada,l,etiqFin="</pre>"):
-    etiqIni=etiqFin.replace("</","<"); ponerMarca=False
-    l=l.strip()
-    if (l.find(etiqIni)>=0):
-        ponerMarca=True
-        while(l.find(etiqFin)<0):
-            l+=entrada.readline()
-    l=reemplaza(l)
-    if (ponerMarca): l+="&lt;hr/>"
-    return l
-
 def uso():
     print("Uso: {} [-p] <nombre-fichero-cuestionario-txt>".format(sys.argv[0]))
     sys.exit(1)
 
+
 entrada=None
-#entrada=open("/m/tmp/preguntas/pruebas/p2.txt","r")
+#entrada=open("/m/tmp/preguntas/pruebas/p1.txt","r")
 positivo=False
 if (entrada==None):
     if (len(sys.argv)<2): uso()
@@ -121,20 +86,26 @@ while (l):
     if (l[0]==" " or l[0]=="\t"): print("Error hay respuestas antes que preguntas");sys.exit(2)
     posEsp=l.find(" ")
     qname=l[:posEsp].strip()
-    quest=l[posEsp:]
-    quest=restoLinea(entrada,quest)
+    quest=l[posEsp:].strip()
     l=entrada.readline(); answers=[]
     while (l and (l[0]==" " or l[0]=="\t")):
-        l=restoLinea(entrada,l)
-        answers.append(l)
+        if (l.find("<pre>")>=0):
+            l=l.strip()
+            #l="&lt;hr/>"+l
+            while(l.find("</pre>")<0):
+                l+=entrada.readline()
+            l=l.replace("<pre>","&lt;pre>").replace("</pre>","&lt;/pre>")
+            l+="&lt;hr/>"
+            answers.append(l)
+        else:
+            answers.append(l.strip())
         l=entrada.readline()
     print(question(qname,quest,answers,positivo))
     
 print("</quiz>")
 
 sys.exit(0)
-
-###########################################################################################################################    
+    
 print(question("P01","En Seguridad Informática el objetivo de <m>No repudio</m>, se refiere a:",
                ["#La garantía de la participación de las partes en una comunicación",
                 "Que la información una vez enviada tiene que ser aceptada por la otra parte",

@@ -1,4 +1,8 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
+
+# Fecha creación: 4 feb. 2018
+# autor: usuario
 
 import os, sys, string
 
@@ -19,7 +23,7 @@ def seqNumber(leng=2,sep="."):
             res='0'+res
         yield res+sep
 
-def renombraRecursivo(quitar=' ',recursivo=False,reemplazar='',capitalizar=False,renumerar=False):
+def renombraRecursivo(quitar=' ',recursivo=False,reemplazar='',capitalizar=False,renumerar=False,all=False):
    number=seqNumber()
    listDir=os.listdir(os.getcwd())
    listDir.sort()
@@ -40,9 +44,9 @@ def renombraRecursivo(quitar=' ',recursivo=False,reemplazar='',capitalizar=False
             nombre=string.replace(fname,quitar,reemplazar)
       if (os.path.isdir(nombre) and recursivo):
          os.chdir(nombre)
-         renombraRecursivo(quitar,recursivo,reemplazar,capitalizar,renumerar)
+         renombraRecursivo(quitar,recursivo,reemplazar,capitalizar,renumerar,all)
          os.chdir("..")
-      else:
+      if (not os.path.isdir(nombre) or all):
          if (renumerar):
             nombre=number.next()+nombre
          if (nombre!=fname):
@@ -59,6 +63,9 @@ def uso():
    print("Uso: "+sys.argv[0]+" [-r] [-R <cadena-a-reemplazar> <reemplazo>]")
    print("-r recursivo")
    print("-q quitar <cadena-a-quitar> de los nombres de los ficheros en lugar de los espacios")
+   print("-A actuar también sobre los directorios")
+   print("-C capitalizar")
+   print("-N renumerar los ficheros 01...0n")
       
 recursivo=False
 quitar=' ' 
@@ -89,10 +96,12 @@ while i <len(sys.argv):
    elif (param=='-N'):
       renumerar=True
       print "Renumerar"
+   elif (param=="-A"):
+      all=True
    elif (param=='-h' or param=='-help' or param=='--help'):
       uso();
       exit(-1);
    i+=1
 
-renombraRecursivo(quitar,recursivo,reemplazar,capitalizar,renumerar)
+renombraRecursivo(quitar,recursivo,reemplazar,capitalizar,renumerar,all)
 
