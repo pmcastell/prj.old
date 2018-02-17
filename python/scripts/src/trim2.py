@@ -10,24 +10,44 @@ def quitaCadena(cadena, cadenaQuitar=' '):
          res+=palabra[0].upper()+palabra[1:]
    return res
 
-def renombraRecursivo(quitar=' ',recursivo='n',reemplazar=''):
-   for fname in os.listdir(os.getcwd()):
+def seqNumber(leng=2,sep="."):
+    i=0
+    while True:
+        i+=1
+        res=str(i)
+        while(len(res)<leng):
+            res='0'+res
+        yield res+sep
+
+def renombraRecursivo(quitar=' ',recursivo=False,reemplazar='',capitalizar=False,renumerar=False):
+   number=seqNumber()
+   listDir=os.listdir(os.getcwd())
+   listDir.sort()
+   for fname in listDir:
       #print fname
       nombre=fname
       if (fname.find(quitar)>=0):
          #nombre=quitaCadena(fname,quitar)
-         if (quitar==' ' and capitaliza):
-            primeraLetra=fname[0]
+         if (quitar==' ' and capitalizar):
+            index=0
+            while (fname[index]==quitar):
+                index+=1
+            primeraLetra=fname[index]
+            print("primeraLetra: "+primeraLetra)
             nombre=string.replace(string.capwords(fname,' '),quitar,reemplazar)
             nombre=primeraLetra+nombre[1:]
          else:
             nombre=string.replace(fname,quitar,reemplazar)
-         print os.getcwd()+'\\'+fname,'-->',os.getcwd()+'\\'+nombre
-         os.rename(fname,nombre)
-      if (os.path.isdir(nombre) and recursivo=='s'):
+      if (os.path.isdir(nombre) and recursivo):
          os.chdir(nombre)
-         renombraRecursivo(quitar,recursivo,reemplazar)
+         renombraRecursivo(quitar,recursivo,reemplazar,capitalizar,renumerar)
          os.chdir("..")
+      else:
+         if (renumerar):
+            nombre=number.next()+nombre
+         if (nombre!=fname):
+            print os.getcwd()+'\\'+fname,'-->',os.getcwd()+'\\'+nombre
+            os.rename(fname,nombre)
 
       #if (fname!=quitaAcentos(fname)):
       #   print os.getcwd()+'\\'+fname,'-->',os.getcwd()+'\\'+quitaAcentos(fname)
@@ -40,34 +60,39 @@ def uso():
    print("-r recursivo")
    print("-q quitar <cadena-a-quitar> de los nombres de los ficheros en lugar de los espacios")
       
-recursivo='n'
+recursivo=False
 quitar=' ' 
-reemplaza=''   
-capitaliza=0
+reemplazar=''   
+capitalizar=False
+renumerar=False
 i=0
+
 print "Opciones: "
 while i <len(sys.argv):
    param=sys.argv[i]
    if (param=='-r'):
       print "Recursivo"
-      recursivo='s'
+      recursivo=True
    elif (param=='-R'):
       i+=1;
       quitar=sys.argv[i];
       i+=1;
-      reemplaza=sys.argv[i];
-      print 'Reemplazar: '+quitar+' por '+reemplaza
+      reemplazar=sys.argv[i];
+      print 'Reemplazar: '+quitar+' por '+reemplazar
    elif (param=='-q'):
       i+=1;
       quitar=sys.argv[i];
       print "Quitar: "+quitar
    elif (param=='-C'):
-      capitaliza=1
+      capitalizar=True
       print "Capitalizar"
+   elif (param=='-N'):
+      renumerar=True
+      print "Renumerar"
    elif (param=='-h' or param=='-help' or param=='--help'):
       uso();
       exit(-1);
    i+=1
 
-renombraRecursivo(quitar,recursivo,reemplaza)
+renombraRecursivo(quitar,recursivo,reemplazar,capitalizar,renumerar)
 
