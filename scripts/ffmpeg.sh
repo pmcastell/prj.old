@@ -37,4 +37,7 @@ ffmpeg -i input.mp4 -qscale:v 4 -vf scale=1024x554 -c:a libmp3lame -q:a 2 output
 #Cambiar mp4 a webm (compatible html5), codificar en vp8 (webm permite vp8 (más antiguo) y vp9 (más nuevo):
 ffmpeg -i input.mp4 -c:v libvpx -b:v 1M -c:a libvorbis output.webm
 #aumentar volumen en ficheros mp3
-for i in $(ls *.mp3); do ffmpeg -i $i -q:a 2 -af volume=2.5 nuevo/$i;done
+mkdir ./nuevo;for i in $(ls *.mp3); do ffmpeg -i $i -q:a 2 -af volume=2.5 nuevo/$i;done
+#Extraer audio de un apelícula y aumentar el volumen
+ffmpeg -i peli.mkv -b:a 64k -af volume=3.0 -vcodec none -acodec mp3 peliAudio.mp3
+

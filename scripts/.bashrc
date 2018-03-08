@@ -136,3 +136,4 @@ alias n='ncal -M -C $(date +%Y)'
 #alias miMoodle="gksudo systemctl start apache2 mysql"
 alias wwget="wget --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' " 
 alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' "
+alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"

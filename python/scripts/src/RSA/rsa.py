@@ -3,6 +3,7 @@
 
 # Fecha creación: 28 ene. 2018
 # autor: usuario
+import sys
 from string import maketrans
 
 def primo(n,debug=False):
@@ -53,8 +54,11 @@ def claves(p,q):
     print((d,n))
 
 def mkpasswd(PASS,SALT):
+    ALG=""
+    if (SALT.find("$")<0):
+        ALG="$6$"
     import crypt
-    return(crypt.crypt(PASS,"$6$"+SALT))
+    return(crypt.crypt(PASS,ALG+SALT))
 
 def strxor(a,b):     # xor two strings of different lengths
     if len(a) > len(b):
@@ -164,4 +168,33 @@ def misComb(letters):
                 break
             yield "".join(next)
         
+def printComb(letters):
+    combs=misComb(letters)
+    while (True):
+        try:
+            print(combs.next())
+        except:
+            break
+
+
+                 
+if ( __name__ == '__main__'):
+    p1=sys.argv[1]
+    if (p1=="--primo"):
+        n=int(sys.argv[2])
+        print(primo(n))
+    elif (p1=="--inverso"):
+        e=int(sys.argv[2])
+        z=int(sys.argv[3])
+        print(inverso(e,z))
+    elif (p1=="--claves"):
+        p=int(sys.argv[2])
+        q=int(sys.argv[3])
+        claves(p,q)
+    elif (p1=="--mkpasswd"):
+        PASS=sys.argv[2]
+        SALT=sys.argv[3]
+        print(mkpasswd(PASS,SALT))
         
+        
+    

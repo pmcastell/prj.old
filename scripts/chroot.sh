@@ -8,7 +8,9 @@ EOF
 [ "$1" = "" ] && uso
 #[ "$(whoami)" != "root" ] && sudo $0 "$@" && exit $?
 . $(dirname $0)/discos.sh
-MONTAJE="/media/$USER/$1"
+[ -d "$1" ] && MONTAJE="$1" || MONTAJE="/media/$USER/$1"
+[ ! -d "$MONTAJE" ] && uso
+
 [ ! -d "$MONTAJE" ] && montarDiscoLabel $1
 if [ "$2" = "" ] || [ "$2" = "on" ]; then
    sudo mount --bind /dev $MONTAJE/dev

@@ -51,7 +51,7 @@ sudo /usr/sbin/hostapd $TEMP  &
 #if [ "$1" != "" ]; then RED="$1"; else RED="172.16.2"; fi
 #if [ "$2" != "" ]; then IFACE="$2"; else IFACE="wlan20"; fi
 sudo ifconfig $WLAN $RED.1/24 up
-sudo dnsmasq --interface="$WLAN" --bind-interfaces --dhcp-range=$RED.$RANGO1,$RED.$RANGO2,255.255.255.0,12h
+sudo dnsmasq -i "$WLAN" -z --dhcp-range=$RED.$RANGO1,$RED.$RANGO2,255.255.255.0,12h --except-interface=lo --port=0
 sudo firewall -accept $RED.0/24 &> /dev/null
 sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
 sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s $RED.0/24

@@ -7,8 +7,15 @@
 import sys
 from rsa import mkpasswd,misComb
 
+def uso():
+    print("""Uso: {} [--words letras] | fich-password
+Ejemplos: {} --words abcde (genera todas las combinaciones desde 1 a 5 caracteres de longitud con 'abcde' y las prueba como contraseñas
+          {} /tmp/passwords.txt (prueba todas las contraseñas guardadas en el fichero de texto /tmp/passwords.txt)
+    """.format(sys.argv[0],sys.argv[0],sys.argv[0]))
+    
+    sys.exit(0)
 
-
+if (sys.argv[1]=="-h" or sys.argv[1]=="--help"): uso()
 if (sys.argv[1][:2]=="-v"):
     if (sys.argv[1]=="-v"):
         paso=100

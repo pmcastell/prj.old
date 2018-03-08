@@ -148,7 +148,7 @@ comun() {
    if [ "$DONDE" != "2" ]; then 
       cumples &
       [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
-      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt 2>&1 > /dev/null &
+      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &> /dev/null &
       $SCRIPTS/dnsexit.sh ubuin.linkpc.net &
       REAL_IP=$(realIp)
       $SCRIPTS/duckdns.sh ubuin $REAL_IP &
@@ -165,7 +165,8 @@ comun() {
    fi    
    mount /l
    #sleep 3
-   sudo /scripts/tap0.sh
+   [ -f "/usr/bin/firefox" ] && sudo rm /usr/bin/firefox
+   [ "$(uname -r)" != "4.4.0-116-generic" ] && sudo /scripts/tap0.sh
 }
 
 ################################################################################################################################
@@ -196,6 +197,7 @@ case $DONDE in
        ;;
     2) #Ciclos
        ###sudo $SCRIPTS/redInstiCable.sh
+       /scripts/aula/espejo.sh on       
        sudo killall dhclient
        ipConfig
        sudo firewall
