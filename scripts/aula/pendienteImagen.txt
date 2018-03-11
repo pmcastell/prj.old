@@ -1,2 +1,0 @@
-ethtool -s eth0 wol g
-appinventor
