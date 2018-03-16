@@ -7,12 +7,14 @@ uso() {
 crearIface() {
    local IFACE="$1" NAME="$2" TYPE="$3"
    eecho sudo iw dev $IFACE interface add $NAME type $TYPE
-   if [ "$(ifconfig -a | grep $NAME)" = "" ]; then 
+   sleep 2
+   while [ "$(ifconfig -a | grep $NAME)" = "" ]; do 
       MAC=$(ip -o link | grep "${IFACE}:" | awk '{print $(NF-2);}')
       MAC_ORIG=$(ethtool -P $IFACE | awk '{print $NF;}')
       IFACE2=$(ip -o link | grep -E "($MAC|$MAC_ORIG)" | grep -v $IFACE | awk -F':' '{print $2;}')
       eecho sudo ip link set $IFACE2 name $NAME
-   fi
+      sleep 1
+   done 
 }   
 reinicia() {
     IFACES="$@"
@@ -30,7 +32,7 @@ IFACE="$1"
 ###sudo ip link set dev $IFACE down
 ###crearIface $IFACE ${IFACE}0 station
 ###sudo macchanger -r ${IFACE}0
-crearIface $IFACE ${IFACE}1 __ap
+crearIface $IFACE "${IFACE}1" __ap
 sudo macchanger -r ${IFACE}1
 ###sudo ip a add $IP dev ${IFACE}0
 ###sudo ip link set dev ${IFACE}0 up

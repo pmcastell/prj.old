@@ -48,6 +48,7 @@ ipConfig() {
    fi
    for IP in $(ip a show dev $IFACE | grep inet | awk '{print $2;}'); do sudo ip a del $IP dev $IFACE; done
    sudo ip a add $IP_ADDR dev $IFACE
+   sudo ip link set dev $IFACE up
    sudo ip route add default via $GW
    sudo sed -i '/ server/d' /etc/hosts
    sudo bash -c "echo $(echo $IP_ADDR | awk -F'/' '{print $1;}')     server >> /etc/hosts"
@@ -157,13 +158,15 @@ comun() {
          wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$REAL_IP" 2>/dev/null &
       done
    fi
+   sudo rfkill block bluetooth
+   sudo rfkill block 0
    [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && (orage&)
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
        /home/usuario/.dropbox-dist/dropboxd &
    else
        echo no se inicia dropbox no está montada la unidad /m
    fi    
-   mount /l
+   #mount /l
    #sleep 3
    [ -f "/usr/bin/firefox" ] && sudo rm /usr/bin/firefox
    [ "$(uname -r)" != "4.4.0-116-generic" ] && sudo /scripts/tap0.sh
@@ -197,7 +200,7 @@ case $DONDE in
        ;;
     2) #Ciclos
        ###sudo $SCRIPTS/redInstiCable.sh
-       /scripts/aula/espejo.sh on       
+       /scripts/aula/espejo.sh on
        sudo killall dhclient
        ipConfig
        sudo firewall
@@ -247,8 +250,7 @@ case $DONDE in
        ifconfig $WIFACE    
        comun &
        ###sudo /home/usuario/aula/torRoute.sh $WIFACE >/dev/null &
-       sudo firewall #echo cambiando dns #nameservers
-       xflux -l 35 
+       #sudo firewall #echo cambiando dns #nameservers
        /usr/bin/eject -i on /dev/sr0
        sudo alive &> /dev/null &
        #deshabilitar el botón de apertura del grabador de dvd
@@ -287,7 +289,6 @@ case $DONDE in
        echo cambiando dns
        nameservers "172.16.1.9 8.8.8.8"
        ;;
-       
 esac
 TMP_DIRIP="/tmp/direccionIpReal.txt"
 while true; do
