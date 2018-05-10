@@ -1,0 +1,9 @@
+//exec("/m/Mios/Personal/Privado/Facturas/AEAT/2017.fjcn")
+cv=3988.31*19.35/100; //nomina Agosto irpf=0
+print ("cv: "+cv);
+irpf=11.85*2; //irpf=23.7
+print("irpf: "+irpf);
+ceuta=0;
+ceuta=(3964.31*2+4088.55+5153.64)*irpf/100-202.18*2-206.84-265.93; // sep, oct, nov y dic
+print("ceuta: "+ceuta);
+cv+ceuta;

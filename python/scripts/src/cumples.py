@@ -42,7 +42,7 @@ cumples=[
       ["RAFA","24-10-1987",'S'],
 
       ["DIA DEL PADRE","19-03-2007",'S'],
-      ["DIA DE LA MADRE","01-05-2016",'S'],
+      ["DIA DE LA MADRE","06-05-2018",'S'],
 
       ["CRISTINA","24-07-2006",'S'],
 
@@ -55,7 +55,8 @@ cumples=[
       ['ubuin.noip.me','12-07-2016','C'],
       ['Dropbox Espacio tablet caduca','31-08-2016','C'],
       ['Cita Jorge Dentista Fenoll 18:30','17-01-2017','C'],
-      ['Cita Jorge Lily 13:15','16-06-2017','C']
+      ['Cita Jorge Lily 13:15','16-06-2017','C'],
+      ['Comprobar Axa no ha cobrado seguro del piso','29/07/2018','C']
    ]
 def rellena(cadena,tam):
     for i in range(1,tam-len(cadena)):

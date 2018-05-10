@@ -3,4 +3,4 @@ uso() {
    exit
 }   
 if [ "$1" = "" -o "$2" = "" -o "$3" = "" ]; then uso; fi
-sudo reaver -i $1 -c $3 -vvv -K 1 -f -b $2
+eecho sudo reaver -i $1 -c $3 -vvv -K 1 -f -b $2

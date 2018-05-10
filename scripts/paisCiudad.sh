@@ -30,8 +30,8 @@ function separador() {
    repetir - 100
 }     
 USERAG="Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0" 
-#LISTA=$(wget --user-agent "$USERAG" --no-check-certificate -O - https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
-LISTA=$(curl --user-agent "$USERAG" https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
+#LISTA=$(wget --timeout=5 --user-agent "$USERAG" --no-check-certificate -O - https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
+LISTA=$(curl --connect-timeout 5 --user-agent "$USERAG" https://www.iplocation.net/ 2>/dev/null | grep -aA1 -E '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -aE '<tr>|</tr>')
 separador
 echo "| $(espacios IP 15 C) | $(espacios PAIS 20 C) | $(espacios REGION 26 C) | $(espacios CIUDAD 26 C) |"
 separador

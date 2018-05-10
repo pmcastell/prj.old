@@ -48,7 +48,7 @@ for u in $URLS; do
       else
          echo "No existe:    $VPNGATE_URL" echo " --- "${SA[$I]}
          PAIS=$(codPais $1)
-         descarga -q --show-progress -O "/home/usuario/freeVpns/${PAIS}-$(basename $VPNGATE_URL)" "$VPNGATE_URL"
+         descarga --timeout=5 -q --show-progress -O "/home/usuario/freeVpns/${PAIS}-$(basename $VPNGATE_URL)" "$VPNGATE_URL"
       fi
    fi
    I=$(($I+1))

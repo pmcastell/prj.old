@@ -9,11 +9,12 @@ FICH_PREFS=/home/usuario/.mozilla/firefox/7f5z8yc7.default/prefs.js
 #appendSiNoEsta 'user_pref("general.platform.override", "Win32");' $FICH_PREFS
 #appendSiNoEsta 'user_pref("general.useragent.appName", "Mozilla");' $FICH_PREFS
 #appendSiNoEsta 'user_pref("general.useragent.extra.firefox", "Firefox/50.0");' $FICH_PREFS
-appendSiNoEsta 'user_pref("general.useragent.override", "Mozilla/5.0 (Windows 15; en-En; rv:58.0) Gecko/20170422 Firefox/58.0");' $FICH_PREFS
-appendSiNoEsta 'user_pref("general.userAgent.override", "Mozilla/5.0 (Windows 15; en-En; rv:58.0) Gecko/20170422 Firefox/58.0");' $FICH_PREFS
+appendSiNoEsta 'user_pref("general.useragent.override", "Mozilla/5.0 (Windows 15; en-En; rv:158.0) Gecko/20170422 Firefox/128.0");' $FICH_PREFS
+appendSiNoEsta 'user_pref("general.userAgent.override", "Mozilla/5.0 (Windows 15; en-En; rv:158.0) Gecko/20170422 Firefox/128.0");' $FICH_PREFS
 #appendSiNoEsta 'user_pref("general.useragent.vendor", "");' $FICH_PREFS
 #appendSiNoEsta 'user_pref("general.useragent.vendorSub", "");' $FICH_PREFS
-
-firefox http://systemdetails.com/browser.php $1 $2 $3 $4 $5 $6 $7 $8 $9 &>/dev/null &
+cd /home/usuario/programas/firefox-52.5.2esr/
+#./firefox file:///m/Mios/Personal/Privado/agenda.html &
+./firefox http://systemdetails.com/browser.php $1 $2 $3 $4 $5 $6 $7 $8 $9 &>/dev/null &
 
 

@@ -1,1 +1,1 @@
-mailServer.sh
+/m/Mios/prj/scripts/mailServer.sh

@@ -251,25 +251,25 @@ case $DONDE in
        comun &
        ###sudo /home/usuario/aula/torRoute.sh $WIFACE >/dev/null &
        #sudo firewall #echo cambiando dns #nameservers
-       /usr/bin/eject -i on /dev/sr0
+       sudo /usr/bin/eject -i on /dev/sr0
        sudo alive &> /dev/null &
        #deshabilitar el botón de apertura del grabador de dvd
-       /usr/bin/eject -i on /dev/sr0
+       sudo /usr/bin/eject -i on /dev/sr0
        java -jar /m/jdown/JDownloader.jar &> /dev/null &
        /usr/bin/qbittorrent &>/dev/null &
-       sudo actualiza 
+       #sudo actualiza 
        ;;       
     8|9) #CasaWifi o Biblioteca wifi
        casaBiblio
        comun &
        #deshabilitar el botón de apertura del grabador de dvd
-       /usr/bin/eject -i on /dev/sr0
+       sudo /usr/bin/eject -i on /dev/sr0
        sudo alive &> /dev/null &
        #deshabilitar el botón de apertura del grabador de dvd
-       /usr/bin/eject -i on /dev/sr0
+       sudo /usr/bin/eject -i on /dev/sr0
        java -jar /m/jdown/JDownloader.jar &> /dev/null &
        /usr/bin/qbittorrent &>/dev/null &
-       sudo actualiza 
+       #sudo actualiza 
        ;;
     10) #Tic
        configEth $(interfaces | grep eth | head -1) 192.168.13.111 255.255.248.0 192.168.8.1 '192.168.0.1 192.168.0.2'

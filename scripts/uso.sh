@@ -1,1 +1,1 @@
-/scripts/aula/uso.sh
+/m/Mios/prj/scripts/aula/uso.sh
