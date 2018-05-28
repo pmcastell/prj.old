@@ -148,7 +148,7 @@ casaBiblio() {
 comun() {
    if [ "$DONDE" != "2" ]; then 
       cumples &
-      [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
+      [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && sudo /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
       sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &> /dev/null &
       $SCRIPTS/dnsexit.sh ubuin.linkpc.net &
       REAL_IP=$(realIp)
@@ -160,7 +160,8 @@ comun() {
    fi
    sudo rfkill block bluetooth
    sudo rfkill block 0
-   [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && (orage&)
+   [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && (orage&) && (nemo-desktop&)
+   [ "$(pgre mate-panel)" != "" ] && (mate-keybinding-properties &)
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
        /home/usuario/.dropbox-dist/dropboxd &
    else
@@ -168,7 +169,8 @@ comun() {
    fi    
    #mount /l
    #sleep 3
-   [ -f "/usr/bin/firefox" ] && sudo rm /usr/bin/firefox
+   [ ! -L /usr/bin/firefox ] && [ -f /usr/bin/firefox ] && sudo rm /usr/bin/firefox && sudo ln -s /m/Mios/prj/scripts/fire.sh /usr/bin/firefox
+   #[ -f "/usr/bin/firefox" ] && sudo rm /usr/bin/firefox
    [ "$(uname -r)" != "4.4.0-116-generic" ] && sudo /scripts/tap0.sh
 }
 
