@@ -11,7 +11,7 @@ PART="$1"
 [ "$(ls $PART)" = "" ] && echo "No se encuentra la partición: $PART" && uso
 OLD_UUID=$(sudo cat /tmp/blkid | grep $PART | awk -F'UUID="' '{print $2;}' | awk -F'"' '{print $1;}')
 [ "$(which uuidgen)" = "" ] && (. /scripts/funcionesAux.sh ; UUID_CMD="uuid ") || UUID_CMD="uuidgen "
-NEW_UUID=$(uuidgen)
+NEW_UUID=$($UUID_CMD)
 eecho sudo tune2fs -O ^uninit_bg $PART
 [ $? -gt 0 ] && echo se ha producido un error && exit 2
 eecho sudo tune2fs $PART -U $NEW_UUID
