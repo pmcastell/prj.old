@@ -333,8 +333,11 @@ def obtenerFicheroRed(urls,salida=None,nombre="",tipo="asc"):
     
 def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
     if (urls==None):
-        urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
-          "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
+        #urls=["http://ganimedes.atwebpages.com/", "https://ganimedes.000webhostapp.com/","http://scratch.hol.es/","http://xyz.hit.to/",
+        #  "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
+        sitios=obtenerClavesFtp(); urls=[]
+        for k in sitios.keys():
+           urls.append(sitios[k][3])
     outfile = tempfile.mktemp()
     if (obtenerFicheroRed(urls,outfile,indice)):
         return decryptCTR(outfile,salida)
@@ -809,6 +812,7 @@ def subirFicheros(realIp=None,globalTunSsh="Si",globalTunPort="443"):
         dirBase=sys.argv[4]
     indices=("indice6.html","indice5.html")
     indices=("indice6.html",)
+    indices=("indice6.html","indicepass.html")
     if (realIp==None): realIp=direccionIp()
     for indice in indices:
         fichParam=dirBase+"/"+indice; fichParamTemp=tempfile.gettempdir()+"/"+indice
