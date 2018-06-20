@@ -98,23 +98,33 @@ def uso():
     print("Uso: {} [-p] <nombre-fichero-cuestionario-txt>".format(sys.argv[0]))
     sys.exit(1)
 
-entrada=None
-#entrada=open("/m/tmp/preguntas/pruebas/p2.txt","r")
-positivo=False
-if (entrada==None):
-    if (len(sys.argv)<2): uso()
-    if (sys.argv[1]=="-p"): 
-        positivo=True
-        entrada=open(sys.argv[2],"r")
-    else: 
-        positivo=False
-        entrada=open(sys.argv[1],"r")
-
 def pregNumb(n,tam=4):
     n=str(n)
     while(len(n)<tam):
         n='0'+n
     return "P"+n
+
+entrada=None
+#entrada=open("/m/tmp/preguntas/pruebas/p2.txt","r")
+positivo=False
+autoNamePreg=False
+if (entrada==None):
+    if (len(sys.argv)<2): uso()
+    #if (sys.argv[1]=="-p"): 
+    #    positivo=True
+    #    entrada=open(sys.argv[2],"r")
+    #else: 
+    #    positivo=False
+    #    entrada=open(sys.argv[1],"r")
+    params=list(sys.argv)
+    while(len(params)>2):
+       if (params[1]=="-p"):
+          positivo=True
+       elif (params[1]=="-n"):
+          autoNamePreg=True
+       params.remove(params[1])
+    entrada=open(params[1],"r")
+    
 
 print("""<?xml version="1.0" encoding="UTF-8"?>
 <quiz>""");
@@ -135,7 +145,9 @@ while (l):
         l=restoLinea(entrada,l)
         if (l.strip()!="" and l.strip()!="\n"): answers.append(l)
         l=entrada.readline()
-    if (qname.lower()=="<preg>"): qname=pregNumb(nPreguntas)
+    if (autoNamePreg and qname.lower()!="<preg>"): quest=qname+' '+quest
+    if (qname.lower()=="<preg>" or autoNamePreg): qname=pregNumb(nPreguntas)
+    
     print(question(qname,quest,answers,positivo))
     nPreguntas+=1
     

@@ -14,6 +14,7 @@ u964077031  ftp.ganimedes.esy.es     /public_html              http://ganimedes.
 u588702550  ftp.javi-moodle.esy.es   /public_html              http://javi-moodle.esy.es (correo6543@gmail.com)  ###
 javi-moodle files.000webhost.com     /public_html              http://javi-moodle.000webhostapp.com/ (reg65432@gmail.com)    ###
 2413052     ganimedes.atwebpages.com /ganimedes.atwebpages.com http://ganimedes.atwebpages.com/ (reg6543@gmail.com)     ###
+revista-el-ventana-ies-puertas-del-campo files.000webhost.com /public_html http://revista-el-ventana-ies-puertas-del-campo.000webhostapp.com (web@iespuertasdelcampo.es)
 ' | grep $1 | head -1 | awk '{print $'${CAMPO}';}'
 }
 

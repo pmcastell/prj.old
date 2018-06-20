@@ -146,22 +146,15 @@ casaBiblio() {
    ifconfig $WIFACE
 }
 comun() {
-   if [ "$DONDE" != "2" ]; then 
-      cumples &
-      [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && sudo /usr/bin/python /opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &
-      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &> /dev/null &
-      $SCRIPTS/dnsexit.sh ubuin.linkpc.net &
-      REAL_IP=$(realIp)
-      $SCRIPTS/duckdns.sh ubuin $REAL_IP &
-      $SCRIPTS/duckdns.sh ceutam24 $REAL_IP 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
-      for host in 'ubu.noip.me' 'ubuin.ddns.net' 'ubuin.hopto.org'; do
-         wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$REAL_IP" 2>/dev/null &
-      done
-   fi
    sudo rfkill block bluetooth
    sudo rfkill block 0
-   [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &) && (orage&) && (nemo-desktop&)
-   [ "$(pgre mate-panel)" != "" ] && (mate-keybinding-properties &)
+   #[ "$(pgrep mate-panel)" != "" ] && 
+   mate-keybinding-properties &>/dev/null &
+   mate-appearance-properties &>/dev/null &
+   sleep 1
+   killall mate-keybinding-properties
+   killall mate-appearance-properties
+   [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &>/dev/null &) && (nemo-desktop &>/dev/null &) && (/usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd &>/dev/null &) && (orage &>/dev/null &) 
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
        /home/usuario/.dropbox-dist/dropboxd &
    else
@@ -169,9 +162,25 @@ comun() {
    fi    
    #mount /l
    #sleep 3
-   [ ! -L /usr/bin/firefox ] && [ -f /usr/bin/firefox ] && sudo rm /usr/bin/firefox && sudo ln -s /m/Mios/prj/scripts/fire.sh /usr/bin/firefox
+   #[ ! -L /usr/bin/firefox ] && [ -f /usr/bin/firefox ] && sudo rm /usr/bin/firefox && sudo ln -s /m/Mios/prj/scripts/fire.sh /usr/bin/firefox
    #[ -f "/usr/bin/firefox" ] && sudo rm /usr/bin/firefox
-   [ "$(uname -r)" != "4.4.0-116-generic" ] && sudo /scripts/tap0.sh
+   sudo rm /usr/bin/firefox &> /dev/null
+   sudo ln -s /m/Mios/prj/scripts/f52.sh /usr/bin/firefox
+   #[ "$(uname -r)" != "4.4.0-116-generic" ] && 
+   sudo /scripts/tap0.sh
+   if [ "$DONDE" != "2" ]; then 
+      cumples &
+      [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && (/opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &)
+      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &> /dev/null &
+      $SCRIPTS/dnsexit.sh ubuin.linkpc.net &
+      REAL_IP=$(realIp)
+      $SCRIPTS/duckdns.sh ubuin $REAL_IP &
+      $SCRIPTS/duckdns.sh ceutam24 $REAL_IP 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
+      rm wget-log* &> /dev/null
+      for host in 'ubu.noip.me' 'ubuin.ddns.net' 'ubuin.hopto.org'; do
+         wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$REAL_IP" 2>/dev/null &
+      done
+   fi
 }
 
 ################################################################################################################################
@@ -208,10 +217,10 @@ case $DONDE in
        sudo firewall
        comun &
        sudo /etc/init.d/epoptes start
-       #/usr/bin/epoptes &
-       /usr/bin/x11vnc -rfbport 5900 -reopen -viewonly -shared  -forever -loop 2>&1 > /dev/null &
+       #/usr/bin/x11vnc -rfbport 5900 -reopen -viewonly -shared  -forever -loop 2>&1 > /dev/null &
        sleep 30
-       /scripts/epoptesInsti.sh &
+       /usr/bin/epoptes &
+       #/scripts/epoptesInsti.sh &
        $SHELL 
        exit 0
        ;;
