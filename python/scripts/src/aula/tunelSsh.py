@@ -799,7 +799,7 @@ def comprobarSubidaCorrecta(fichParam):
         print("Fichero subido correctamente")
     
         
-def subirFicheros(realIp=None,globalTunSsh="Si",globalTunPort="443"):
+def subirFicheros(realIp=None,globalTunSsh="si",globalTunPort="443"):
     #./tunelSsh.py --start <SSH|OVPN> <si|no> [<dir-base>]
     if (len(sys.argv)<4):
         service="SSH"; habilitar="si"
@@ -953,4 +953,5 @@ if ( __name__ == '__main__'):
                 wakeOnLanInsti(sys.argv[2])
                 
         else:
+            #print("hola")
             loopTunel()
