@@ -1,7 +1,7 @@
 GLOBAL_ESPERA=300
-GLOBAL_TUN_IP=88.20.11.59
+GLOBAL_TUN_IP=88.10.237.21
 GLOBAL_TUN_PORT=443
-GLOBAL_TUN_SSH=si
+GLOBAL_TUN_SSH=Si
 GLOBAL_TUN_OVP=no
 
 iesinclan_TUN_OVP=$GLOBAL_TUN_OVP
@@ -131,4 +131,4 @@ profesor_TUN_SSH_RED="10.$profesor_TUN_SSH_DEV.$profesor_TUN_SSH_DEV"
 profesor_TUN_SSH_DEV_IP="$profesor_TUN_SSH_RED.$profesor_TUN_SSH_DEV"
 profesor_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $profesor_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $profesor_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $profesor_TUN_SSH_RED.0/24; "
 
-MD5SUM=f08388fe106248f01d3f4d9a57aa8267
+MD5SUM=07e69923a182ca50a47d1b9b1e5b3cfb

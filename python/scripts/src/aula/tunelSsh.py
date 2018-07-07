@@ -4,7 +4,7 @@
 # Fecha creación: 17 jul. 2017
 # autor: usuario
 
-import base64, tempfile, time, socket, platform, subprocess, sys, os, re
+import base64, tempfile, time, socket, platform, sys, os, re
 import signal, subprocess, errno, random
 from hashlib import md5
 from Crypto.Cipher import AES
@@ -172,7 +172,7 @@ def conexionActiva(host):
     # Ping parameters as function of OS
     if (platform.system().lower()=="windows"): parameters = "-n "+str(nPings)+" -w "+str(timeout)
     else: parameters = "-c "+str(nPings)+" -W "+str(timeout)
-    cmd=['ping',parameters,host]
+    #cmd=['ping',parameters,host]
     # Pinging
     return os.system("ping " + parameters + " " + host) == 0
     #return subprocess.Popen(cmd).wait()==0
@@ -270,7 +270,7 @@ def decryptCTR(in_file="/tmp/indice6.html", out_file=None,
         out_file.write(byteArrayToStr(chunk))
     in_file.close()
     if (out_file!=sys.stdout):
-       out_file.close()
+        out_file.close()
 
 def obtenerFicheroRed2(urls,salida=None,nombre="",tipo="asc"):
     if (type(urls)==str):
@@ -337,7 +337,7 @@ def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
         #  "http://ubuin.hopto.org/","http://ganimedes.esy.es/"]
         sitios=obtenerClavesFtp(); urls=[]
         for k in sitios.keys():
-           urls.append(sitios[k][3])
+            urls.append(sitios[k][3])
     outfile = tempfile.mktemp()
     if (obtenerFicheroRed(urls,outfile,indice)):
         return decryptCTR(outfile,salida)
@@ -445,7 +445,6 @@ def commandsMata2(dev):
 
 def mata(dev):
     try:
-        import psutil
         psutilMata(dev)
     except:
         commandsMata(dev)        
@@ -495,8 +494,8 @@ def procesarParametros():
 
 
 
-def md5Lineas(file,nlineas):
-    f=open(file,"r")
+def md5Lineas(fich,nlineas):
+    f=open(fich,"r")
     lineas=bytearray()
     cont=1
     pyth3=(int(sys.version[0])>2)
@@ -591,7 +590,7 @@ def numLineas2(filename):
     f = open(filename, "r+")
     buf = mmap.mmap(f.fileno(), 0)
     lines = 0
-    readline = buf.readline
+    #readline = buf.readline
     l=buf.readline()
     penUltLinea=""
     while l:
@@ -810,8 +809,8 @@ def subirFicheros(realIp=None,globalTunSsh="Si",globalTunPort="443"):
         dirBase="/home/usuario/hostinger"
     else:
         dirBase=sys.argv[4]
-    indices=("indice6.html","indice5.html")
-    indices=("indice6.html",)
+    #indices=("indice6.html","indice5.html")
+    #indices=("indice6.html",)
     indices=("indice6.html","indicepass.html")
     if (realIp==None): realIp=direccionIp()
     for indice in indices:
@@ -832,7 +831,7 @@ def start(dirIp=None):
 def sshConfig(target="insti",usuario=None):
     import zipfile, pwd, grp, stat
     if (usuario==None): usuario=username()
-    url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/root_ssh.zip"
+    #url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/root_ssh.zip"
     dest="/"+usuario+"/.ssh/"
     if DEBUG: dest="/tmp/pr4/"
     if (not os.path.exists(dest)): os.mkdir(dest)
@@ -844,13 +843,13 @@ def sshConfig(target="insti",usuario=None):
     zipfile.ZipFile(salida).extractall(pwd=b'tunelSsh',path=dest)   
     if (target=="yellowcircle"):
         busca="Host pc1* pc2* 10.* localhost 127.0.0.1 172.18.161.* server sp sa1 sa2 st sp2 sb sm spt sh"
-        ficheroReplace(path+"config",busca,"Host localhost 127.0.0.1 172.18.163.*")
+        ficheroReplace(dest+"config",busca,"Host localhost 127.0.0.1 172.18.163.*")
     uid = pwd.getpwnam(usuario).pw_uid
     gid = grp.getgrnam(usuario).gr_gid
     os.chown(dest, uid, gid)
-    for file in os.listdir(dest):
-        os.chown(dest+file, uid, gid)
-        os.chmod(dest+file,stat.S_IRUSR | stat.S_IWUSR)
+    for fich in os.listdir(dest):
+        os.chown(dest+fich, uid, gid)
+        os.chmod(dest+fich,stat.S_IRUSR | stat.S_IWUSR)
 
 def cabeceraCrontab():
     return """# Edit this file to introduce tasks to be run by cron.
