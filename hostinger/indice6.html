@@ -131,4 +131,12 @@ profesor_TUN_SSH_RED="10.$profesor_TUN_SSH_DEV.$profesor_TUN_SSH_DEV"
 profesor_TUN_SSH_DEV_IP="$profesor_TUN_SSH_RED.$profesor_TUN_SSH_DEV"
 profesor_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $profesor_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $profesor_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $profesor_TUN_SSH_RED.0/24; "
 
+LinuxMint_TUN_SSH_DEV="37"
+LinuxMint_TUN_SSH="$GLOBAL_TUN_SSH"
+LinuxMint_TUN_SSH_IP="$GLOBAL_TUN_IP"
+LinuxMint_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
+LinuxMint_TUN_SSH_RED="10.$LinuxMint_TUN_SSH_DEV.$LinuxMint_TUN_SSH_DEV"
+LinuxMint_TUN_SSH_DEV_IP="$LinuxMint_TUN_SSH_RED.$LinuxMint_TUN_SSH_DEV"
+LinuxMint_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $LinuxMint_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $LinuxMint_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $LinuxMint_TUN_SSH_RED.0/24; "
+
 MD5SUM=5a78fa3ee87a38bc5c9dc89c0004b955
