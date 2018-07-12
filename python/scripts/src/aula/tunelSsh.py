@@ -7,11 +7,17 @@
 import base64, tempfile, time, socket, platform, sys, os, re
 import signal, subprocess, errno, random
 from hashlib import md5
-from Crypto.Cipher import AES
-from Crypto import Random
-from Crypto.Util import Counter
+#from sqlalchemy.sql.expression import false
+try:
+    from Crypto.Cipher import AES
+    from Crypto import Random
+    from Crypto.Util import Counter
+except ImportError:
+    os.system("sudo apt-get -y install python-crypto")
+    os.system("sudo yum -y install python-crypto")
 
 DEBUG=False
+TMP_DIR=tempfile.gettempdir()
 
 def debug(*mensa):
     global DEBUG
@@ -238,7 +244,7 @@ def encryptCTR(inf, outf, password="clave"+time.strftime("%Y-%m-%d"), key_length
         os.remove(outf)
         os.rename(tmpFile,outf)
 
-def decryptCTR(in_file="/tmp/indice6.html", out_file=None, 
+def decryptCTR(in_file=TMP_DIR+"/indice6.html", out_file=None, 
                password="clave"+time.strftime("%Y-%m-%d"), key_length=32,
                base64=True,padding=False):
     if (base64):
@@ -677,8 +683,8 @@ def borrarRutasSitio(sIps):
             os.system("route del -host "+dirIp)
 
 def direccionIp(real=True,getDict=False,nuevo=False):
-    if (not nuevo and real and not getDict and os.path.isfile("/tmp/direccionIpReal.txt")):
-        ip=open("/tmp/direccionIpReal.txt","r").read()
+    if (not nuevo and real and not getDict and os.path.isfile(TMP_DIR+"/direccionIpReal.txt")):
+        ip=open(TMP_DIR+"/direccionIpReal.txt","r").read()
         if (re.match("([0-9]{1,3}\.){3}[0-9]{1,3}$",ip)):
             if (ip[-1]=="\n"):
                 ip=ip[:-1]
@@ -701,14 +707,14 @@ def direccionIp(real=True,getDict=False,nuevo=False):
         else:
             return datos['ip']
         if (real and nuevo):
-            with open("/tmp/direccionIpReal.txt","w") as fDirIp:
+            with open(TMP_DIR+"/direccionIpReal.txt","w") as fDirIp:
                 fDirIp.write(datos['ip'])
     else:
         return ""
         
 def direccionIp2(real=True):
-    if (os.path.isfile("/tmp/direccionIpReal.txt")):
-        ip=open("/tmp/direccionIpReal.txt","r").read()
+    if (os.path.isfile(TMP_DIR+"/direccionIpReal.txt")):
+        ip=open(TMP_DIR+"/direccionIpReal.txt","r").read()
         if (re.match("([0-9]{1,3}\.){3}[0-9]{1,3}$",ip)):
             return ip
     import netifaces
@@ -729,7 +735,7 @@ def direccionIp2(real=True):
         while (cont<10 and err!=0):
             #err=os.system("sudo -S route del -host ipinfo.io")
             err=os.system("route del -host ipinfo.io")
-    with open("/tmp/direccionIpReal.txt","w") as fDirIp:
+    with open(TMP_DIR+"/direccionIpReal.txt","w") as fDirIp:
         fDirIp.write(datos['ip'])
     return datos['ip']
 
@@ -756,8 +762,8 @@ def obtenerClavesFtp():
     elif (os.path.isfile("/scripts/hostinger.sh")):
         fClaves="/scripts/hostinger.sh"
     else:
-        obtenerFicheroGitHub("hostinger.sh","/tmp/hostinger.sh")
-        fClaves="/tmp/hostinger.sh"
+        obtenerFicheroGitHub("hostinger.sh",TMP_DIR+"/hostinger.sh")
+        fClaves=TMP_DIR+"/hostinger.sh"
     if (fClaves==None):
         #claves=listadoDeClaves()
         pass
@@ -833,7 +839,7 @@ def sshConfig(target="insti",usuario=None):
     if (usuario==None): usuario=username()
     #url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/aula/root_ssh.zip"
     dest="/"+usuario+"/.ssh/"
-    if DEBUG: dest="/tmp/pr4/"
+    if DEBUG: dest=TMP_DIR+"/pr4/"
     if (not os.path.exists(dest)): os.mkdir(dest)
     salida=dest+"root_ssh.zip"
     #if (not obtenerFicheroRed(url,salida)):
@@ -917,18 +923,36 @@ def aptSourcesList(sources="/etc/apt/sources.list"):
             for l in lineas:
                 if (l[1]):
                     fs.write(l[0]+"\n")
-                
+def esTipoDebian(os):
+    os=os.lower()
+    debians=['debian','ubuntu','mint']
+    for s in debians:
+        if (os.find(s)>=0): return True
+    return False
+
+def esTipoRedHat(os):
+    os=os.lower()
+    redhats=['centos','redhat','suse']
+    for s in redhats:
+        if (os.find(s)>=0): return True
+    return False
 def instalarTunel():
     debeSerAdmin()
-    if (len(sys.argv)>=2):
+    if (len(sys.argv)>2):
         target=sys.argv[2]
     else:
         target="insti"
     sshConfig(target)
     ponerCrontab("*/5 * * * *     /root/tunelSsh.py &> /dev/null\n")
     #aptSourcesList()
-    #os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")     
-    os.system("apt-get update; apt-get --allow-unauthenticated -y install tor connect-proxy ssh")
+    #os.system("sudo apt-get update; sudo apt-get --allow-unauthenticated -y install tor connect-proxy vnc4server")
+    ops=platform.platform().lower()
+    if esTipoDebian(ops):
+        os.system("apt-get update; apt-get --allow-unauthenticated -y install python-crypto tor connect-proxy ssh")
+    if esTipoRedHat(ops):
+        os.system("yum -y install epel-release")
+        os.system("yum -y install tor connect-proxy ssh")
+        os.system("ln -s /usr/bin/connect-proxy /usr/bin/connect")
     #if (os.name==sysresccd): modprobe tun; emerge pycrypto; 
 
 

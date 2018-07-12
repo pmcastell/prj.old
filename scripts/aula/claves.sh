@@ -27,7 +27,8 @@ elif [ -d /datos/usuarios/profesores/fcriadon ]; then
    claveGeneral="$(claveRouterInsti)"
 elif [ -f "/m/Mios/Personal/Privado/AgendasClaves/claves.txt" ]; then
    fCLAVES="/m/Mios/Personal/Privado/AgendasClaves/claves.txt";
-   claveGeneral=$(cat /m/Mios/Personal/Privado/AgendasClaves/claveInsti.txt)
+   #claveGeneral=$(cat /m/Mios/Personal/Privado/AgendasClaves/claveInsti.txt)
+   claveGeneral="$(claveRouterInsti)"
 else
    zenity --info --text="No se encuentra el fichero de claves"
    exit 2
