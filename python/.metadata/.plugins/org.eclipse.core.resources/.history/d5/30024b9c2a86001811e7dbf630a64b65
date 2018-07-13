@@ -755,6 +755,7 @@ def obtenerFicheroGitHub(fichero,fichDest,tipo="asc",
                          url="https://raw.githubusercontent.com/javier-iesn/prj/master/scripts/"):
     return obtenerFicheroRed(url,fichDest,fichero,tipo)
 
+
 def obtenerClavesFtp():
     res={}
     if (os.path.isfile("\scripts\hostinger.sh")):

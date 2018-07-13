@@ -14,7 +14,8 @@ EOF
 claveRouterInsti() {
    ROUTER="172.18.161.1"
    ping -c 2 -W 1 $ROUTER &>/dev/null
-   echo "$(arp -n | grep -w $ROUTER | awk '{print $3;}')"
+   #echo "$(arp -n | grep -w $ROUTER | awk '{print $3;}')"
+   echo 00:a0:26:b3:b9:6d
 }
 
 if [ "$1" = "" ]; then uso; fi 

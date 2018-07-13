@@ -1,22 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
+	<section name="org.eclipse.ui.texteditor.GotoLineAction$GotoLineDialog_dialogBounds">
+		<item value="411" key="DIALOG_X_ORIGIN"/>
+		<item value="236" key="DIALOG_Y_ORIGIN"/>
+	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="os.index" key="selection"/>
-		<item value="true" key="casesensitive"/>
+		<item value="obtenerClavesFtp" key="selection"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="obtenerClavesFtp"/>
+			<item value="obtenerclavesftp"/>
+			<item value="obtenerficheroindi"/>
+			<item value="/tmp"/>
+			<item value="TMP_DIR"/>
+			<item value="hostinger"/>
 			<item value="os.index"/>
 			<item value="false"/>
-			<item value="False"/>
-			<item value="os."/>
-			<item value="try:"/>
-			<item value="globalTunSsh"/>
-			<item value="loopTun"/>
-			<item value="decryptCTR"/>
-			<item value="encryptCTR"/>
 		</list>
 		<list key="replacehistory">
 		</list>
