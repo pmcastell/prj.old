@@ -4,13 +4,15 @@ cd $CARPETA_ORIGEN
 #FICHERO=$(wget   http://devbuilds.kaspersky-labs.com/devbuilds/AVPTool/ -O - | grep -oiE 'setup.*exe' | head -1)
 #FICHERO="http://devbuilds.kaspersky-labs.com/devbuilds/AVPTool/$FICHERO"
 ###buclef wget -c --timeout=10 $FICHERO -O kvrt.exe
+URL="http://devbuilds.kaspersky-labs.com/devbuilds/KVRT/latest/full"
 FICHERO=""
 while [ "$FICHERO" = "" ];
 do
-   FICHERO=$(wget -q --timeout=10 http://devbuilds.kaspersky-labs.com/devbuilds/AVPTool/avptool11/ -O - | grep exe | tail -1 | awk -F'>' '{print $2;}' | awk -F'<' '{print $1;}')
+   #FICHERO=$(wget -q --timeout=10 http://devbuilds.kaspersky-labs.com/devbuilds/AVPTool/avptool11/ -O - | grep exe | tail -1 | awk -F'>' '{print $2;}' | awk -F'<' '{print $1;}')
+   FICHERO=$(wget -q --timeout=10   ${URL}/ -O - | grep exe | tail -1 | awk -F'>' '{print $2;}' | awk -F'<' '{print $1;}')
    sleep 1
 done   
-descarga "http://devbuilds.kaspersky-labs.com/devbuilds/AVPTool/avptool11/$FICHERO" -O kvrt.exe
+descarga "${URL}/${FICHERO}" -O kvrt.exe
 ###descarga http://dl.antivir.de/down/vdf/ivdf_fusebundle_nt_en.zip
 ###descarga http://dl1.avgate.net/down/windows/hbedv.key
 ./mcafee.sh
