@@ -14,8 +14,6 @@ resucita() {
    ping -c 4 r1
    sudo pkill --signal SIGHUP openvpn
 ####   /home/usuario/rutasSslh.sh
-   hablaf -n se ha perdido la conexión 
-   hablaf -n intentando resucitar el interfaz
    (sleep 1 && wmctrl -F -a "Conexion Perdida" -b add,above) &
    (zenity --info --title="Conexion Perdida" --text="Se ha perdido la conexión")
 }
@@ -43,6 +41,8 @@ while true; do
       echo Error haciendo ping a $DNS1
       ERRORES=$(( $ERRORES + 1 )) 
       if [ $ERRORES -gt 0 ]; then
+         hablaf -n se ha perdido la conexión 
+         hablaf -n intentando resucitar el interfaz
          resucita
          PID=$(ps ax | grep openvpn | grep -v grep | grep -v sudo | grep -v sh  | awk '{print $1;}')
          #if [ "$PID" = "" ]; then

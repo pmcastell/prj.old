@@ -25,7 +25,7 @@ main() {
     /scripts/duckdns.sh micasa6543 "" 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
     /bin/echo '##########' obtener la clave y configurar red openvpn
     /scripts/bookPass.sh
-    redOpenvpn &
+    redOpenvpn 6 &
     #dar un tiempo para que se inicie la openvpn
     /bin/sleep 5
     /bin/echo '##########' esperar conexiones tunelSsh y añadir ruta tor a través de r1
