@@ -1,0 +1,8 @@
+polkit.addRule(polkit.Result function(action, subject) {
+  if (action.id.startsWith("org.freedesktop.udisks") &&
+	subject.local && subject.active && 
+	(subject.isInGroup ("sudo") || subject.isInGroup ("disk"))) {
+    return polkit.Result.YES;
+  }
+});
+
