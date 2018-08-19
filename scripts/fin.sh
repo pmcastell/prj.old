@@ -39,7 +39,9 @@ while true; do
    echo "sudo fuser: $(sudo fuser /m/Mios 2> /dev/null)"
    CONT=$(($CONT + 1))
 done
-sudo sync
+rm -rf /home/usuario/.cache
+#mirar /home/usuario/.local
+#mirar /home/usuario/.config
 read -p '¿Cerramos?' var
 if [ "$1" = "" ]; then
    gnome-session-quit

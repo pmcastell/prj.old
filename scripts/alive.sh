@@ -1,5 +1,11 @@
 #!/bin/bash
 
+notifica() {
+   hablaf -n se ha perdido la conexión 
+   hablaf -n intentando resucitar el interfaz
+   (sleep 1 && wmctrl -F -a "Conexion Perdida" -b add,above) &
+   (zenity --info --title="Conexion Perdida" --text="Se ha perdido la conexión")
+}
 resucita() {
    while true; do
       eecho sudo pkill --signal SIGHUP wpa_supplicant
@@ -14,10 +20,6 @@ resucita() {
    ping -c 4 r1
    sudo pkill --signal SIGHUP openvpn
 ####   /home/usuario/rutasSslh.sh
-   hablaf -n se ha perdido la conexión 
-   hablaf -n intentando resucitar el interfaz
-   (sleep 1 && wmctrl -F -a "Conexion Perdida" -b add,above) &
-   (zenity --info --title="Conexion Perdida" --text="Se ha perdido la conexión")
 }
 
 ERRORES=0
@@ -30,14 +32,12 @@ while true; do
    #INTERFAZ=$(interfaces | grep -i eth | head -1)
    INTERFAZ=$(netstat -rn | grep -iE '(^0.0.0.0|default)' | tail -1 | awk '{ print $NF; }')
    [ "$INTERFAZ" = "" ] && INTERFAZ="wlan20"
-   eecho arping -I $INTERFAZ -c 4 $GATEWAY
-   [ $? -gt 0 ] && resucita
-   eecho ping -c 4 $GATEWAY
+   arping -I $INTERFAZ -c 4 $GATEWAY || resucita
+   ping -c 4 $GATEWAY || resucita
    #DNS1=squid
    #ping -c 4 $DNS1
    #ping -c 4 80.58.0.33
-   [ $? -gt 0 ] && resucita
-   [ "$(dirIp 5)" = "" ] && [ "$(dirIp2 5)" = "" ] && resucita
+   [ "$(dirIp 15)" = "" ] && [ "$(dirIp2 15)" = "" ] && resucita && notifica
    continue
    if [ $? -gt 0 ]; then
       echo Error haciendo ping a $DNS1

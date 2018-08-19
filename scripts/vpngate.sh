@@ -34,13 +34,15 @@ echo ""
 echo "-------------------------------------------------------------------------------------------------------------------------"
 I=0   
 for u in $URLS; do 
-   VPN_FILE=$(echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
+   VPN_FILE=$(echo -n https://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
    echo VPN_FILE: $VPN_FILE
    #echo -n http://www.vpngate.net/en/$u | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g'; echo " --- "${SA[$I]}
    OVPN_URL=$(curl "$VPN_FILE" 2>/dev/null | xmllint --html --xpath "//a/@href[contains(.,'.ovpn') and (contains(.,'udp') or contains(.,'tcp'))]" - | sed -e 's/href="/\n/g' | tail -1 | sed -e 's/\&amp;/\&/g' | sed -e 's/"//g')
    #curl "http://www.vpngate.net/${OVPN_FILE}" 2> /dev/null >
+   echo "OVPN_URL: $OVPN_URL"
    OVPN_IP=$(echo $OVPN_URL | grep -Eo '([0-9]{1,3}\.){3}[0-9]{1,3}' | awk '{print $1;}' | head -1)
    echo "OVPN_IP: $OVPN_IP"
+   echo --------------------------------------------------------
    if [ "$OVPN_IP" != "" ]; then
       VPNGATE_URL="http://www.vpngate.net/${OVPN_URL}"
       if [ "$(ls -l /home/usuario/freeVpns/ | grep $OVPN_IP)" != "" ]; then
@@ -48,6 +50,7 @@ for u in $URLS; do
       else
          echo "No existe:    $VPNGATE_URL" echo " --- "${SA[$I]}
          PAIS=$(codPais $1)
+         echo "descargando: $VPNGATE_URL"
          descarga --timeout=5 -q --show-progress -O "/home/usuario/freeVpns/${PAIS}-$(basename $VPNGATE_URL)" "$VPNGATE_URL"
       fi
    fi
