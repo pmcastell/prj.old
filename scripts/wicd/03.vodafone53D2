@@ -1,0 +1,14 @@
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+       ssid="vodafone53D2"
+       scan_ssid=1
+       proto=WPA RSN
+       key_mgmt=WPA-PSK
+       pairwise=CCMP TKIP
+       group=CCMP TKIP
+       #psk="MeinHause58"
+       psk=a75d70cac3009f78442223723468b21bebec0ba9090fe918f16ebd137261b5eb
+       #!RED=192.168.0
+       #!CHANNEL=13
+}

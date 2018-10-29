@@ -1,0 +1,26 @@
+while [ ! -f /m/Mios/prj/scripts/redJunta.sh ];
+do
+    sudo encfs --public /m/.Mios /m/Mios
+done
+cumples &
+if [ -d /m/Mios/Instituto ];
+then
+    #dropbox start -i
+    /home/usuario/.dropbox-dist/dropboxd &
+else
+    echo no se inicia dropbox no está montada la unidad /m
+fi    
+sleep 5
+sudo actualiza &
+/m/Mios/prj/scripts/dynDns.sh
+/m/Mios/prj/scripts/dnsexit.sh ubuntu.linkpc.net
+#/usr/bin/qbittorrent &
+#java -jar /m/jdown/JDownloader.jar &
+#mata xflux
+#xflux -l 40 &
+gedit /m/Mios/Personal/Privado/PENDIENTE.txt &
+#sudo -u usuario gnome-terminal &
+#ssh fjcn@shell.cjb.net
+#sudo alive &
+$SHELL
+

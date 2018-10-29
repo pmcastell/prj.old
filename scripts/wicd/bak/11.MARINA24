@@ -1,0 +1,13 @@
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+       ssid="MARINA24"
+       scan_ssid=1
+       proto=WPA RSN
+       key_mgmt=WPA-PSK
+       pairwise=CCMP TKIP
+       group=CCMP TKIP
+       psk=3fe57a5af01e134f8ed83e2ea8f2c83cb27d37cbc44bd1342d127ff86b8cce8c
+       #!RED=192.168.1
+       #!CHANNEL=8
+}

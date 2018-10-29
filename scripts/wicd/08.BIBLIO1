@@ -1,0 +1,13 @@
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+       ssid="BIBLIO1"
+       scan_ssid=1
+       proto=WPA RSN
+       key_mgmt=WPA-PSK
+       pairwise=CCMP TKIP
+       group=CCMP TKIP
+       psk=cd9ce008c3b10ccd9f74a394aa5008cd3203e885e36e71838a8abaafd443de40
+       #!RED=192.168.1
+       #!CHANNEL=N
+}

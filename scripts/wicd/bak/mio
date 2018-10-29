@@ -1,0 +1,19 @@
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+       ssid="JAZZTEL_FCC0"
+       scan_ssid=1
+       proto=WPA RSN
+       key_mgmt=WPA-PSK
+       pairwise=CCMP TKIP
+       group=CCMP TKIP
+       #psk="Ac4d3m14M3rcur10"
+       ###Orange-92AE
+       #psk="65722A35"
+       ###WLAN_3D30
+       psk="KXVYQDC9ULJF52771OK7"
+       ###vodafone56F8
+       #psk="BIUW1LHSHQAQTV"
+       ###MOVISTAR_B970
+       #psk="p3339z337rpuAu73t3tt"
+}

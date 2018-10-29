@@ -1,0 +1,13 @@
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+       ssid="WLAN24P"
+       scan_ssid=1
+       proto=WPA RSN
+       key_mgmt=WPA-PSK
+       pairwise=CCMP TKIP
+       group=CCMP TKIP
+       psk="=hcdTuox"
+       #!RED=172.124.117
+       #!CHANNEL=N
+}

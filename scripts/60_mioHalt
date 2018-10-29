@@ -1,0 +1,10 @@
+#/etc/grub.d/50_mio
+echo '
+
+menuentry "Halt" {
+   halt
+}
+
+
+
+'

@@ -1,0 +1,13 @@
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+       ssid="JAZZTEL_FCC0"
+       scan_ssid=1
+       proto=WPA RSN
+       key_mgmt=WPA-PSK
+       pairwise=CCMP TKIP
+       group=CCMP TKIP
+       psk=3e03c550a54485775f8c28d722f980bc0fa47c6272f5545fc819fa2c51af32d5
+       #!RED=192.168.1
+       #!CHANNEL=6
+}
