@@ -34,6 +34,8 @@ while true; do
    [ "$INTERFAZ" = "" ] && INTERFAZ="wlan20"
    arping -I $INTERFAZ -c 4 $GATEWAY || resucita
    ping -c 4 $GATEWAY || resucita
+   sudo route add -host g2 gw $GATEWAY
+   ping -c 4 g2 || rescuta
    #DNS1=squid
    #ping -c 4 $DNS1
    #ping -c 4 80.58.0.33

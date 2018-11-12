@@ -1,8 +1,20 @@
 #!/bin/bash
 
 RESOLV="/run/resolvconf/resolv.conf"
-SCRIPTS="/m/Mios/prj/scripts"
-
+if [ "$(basename $(dirname $0))" = "scripts" ]; then
+   SCRIPTS="$(dirname $0)"
+elif [ -e /scripts ]; then
+   SCRIPTS="/scripts"
+elif [ -e $HOME/Dropbox/Instituto/prj/scripts ]; then
+   SCRIPTS="$HOME/Dropbox/Instituto/prj/scripts"
+elif [ -e /m/Mios/prj/scripts ]; then
+   SCRIPTS="/m/Mios/prj/scripts"
+elif [ -e /m/Mios/Instituto/prj/scripts ]; then
+   SCRIPTS="/m/Mios/Instituto/prj/scripts"
+else
+   echo "No encuentro la carpeta scripts"
+   exit 2
+fi            
 debug() {
   echo $1 > /dev/stderr
 }  
@@ -22,7 +34,8 @@ nameservers() {
 pararServicios() {
    SERVICIOS="network-manager avahi-daemon teamviewerd wpa_supplicant nmbd smbd apache2 mysql rsync squid3 dhclient"
    for s in $SERVICIOS; do
-      sudo /usr/sbin/service $s stop &> /dev/null
+      #sudo /usr/sbin/service $s stop &> /dev/null
+      sudo /bin/systemctl stop $SERVICIOS &> /dev/null
    done
    sudo $SCRIPTS/mata.sh wpa_supplicant &> /dev/null
 }
@@ -43,13 +56,14 @@ ipConfig() {
       #MASK=$3; DNS="$5"
    else
       IFACE="$(ip a | grep -E '^[0-9]+' | grep -v "lo:" | awk -F':' '{print $2;}' | grep -v tap | head -1)"
-      [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && IP_ADDR="172.124.117.100/16"  || IP_ADDR="172.124.117.99/16" 
+      [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && IP_ADDR="172.124.117.100/16"  || IP_ADDR="172.124.117.99/16"
+      [ "$(ip a | grep '20:cf:30:90:dc:18')" != "" ] && IP_ADDR="172.124.116.100/16"  
       GW="172.124.1.10"
    fi
-   for IP in $(ip a show dev $IFACE | grep inet | awk '{print $2;}'); do sudo ip a del $IP dev $IFACE; done
-   sudo ip a add $IP_ADDR dev $IFACE
-   sudo ip link set dev $IFACE up
-   sudo ip route add default via $GW
+   for IP in $(ip a show dev $IFACE | grep inet | awk '{print $2;}'); do eecho sudo ip a del $IP dev $IFACE; done
+   sudo eecho ip a add $IP_ADDR dev $IFACE
+   sudo eecho ip link set dev $IFACE up
+   sudo eecho ip route add default via $GW
    sudo sed -i '/ server/d' /etc/hosts
    sudo bash -c "echo $(echo $IP_ADDR | awk -F'/' '{print $1;}')     server >> /etc/hosts"
 }
@@ -149,14 +163,15 @@ comun() {
    sudo rfkill block bluetooth
    sudo rfkill block 0
    #[ "$(pgrep mate-panel)" != "" ] && 
-   mate-keybinding-properties &>/dev/null &
-   mate-appearance-properties &>/dev/null &
-   sleep 1
-   killall mate-keybinding-properties
-   killall mate-appearance-properties
+###   mate-keybinding-properties &>/dev/null &
+###   mate-appearance-properties &>/dev/null &
+###   sleep 1
+###   killall mate-keybinding-properties
+###   killall mate-appearance-properties
    [ "$(ps aux | grep -i icewm | grep -v grep)" != "" ] && (mate-volume-control-applet &>/dev/null &) && (nemo-desktop &>/dev/null &) && (/usr/lib/x86_64-linux-gnu/xfce4/notifyd/xfce4-notifyd &>/dev/null &) && (orage &>/dev/null &) 
    if [ -f /m/Mios/Instituto/JefeDep.7z ]; then #eecho dropbox start -i
-       /home/usuario/.dropbox-dist/dropboxd &
+       /home/usuario/.dropbox-dist/dropboxd &>/dev/null &
+       /usr/bin/megasync &> /dev/null &
    else
        echo no se inicia dropbox no está montada la unidad /m
    fi    
@@ -164,22 +179,23 @@ comun() {
    #sleep 3
    #[ ! -L /usr/bin/firefox ] && [ -f /usr/bin/firefox ] && sudo rm /usr/bin/firefox && sudo ln -s /m/Mios/prj/scripts/fire.sh /usr/bin/firefox
    #[ -f "/usr/bin/firefox" ] && sudo rm /usr/bin/firefox
-   sudo rm /usr/bin/firefox &> /dev/null
-   sudo ln -s /m/Mios/prj/scripts/f52.sh /usr/bin/firefox
+###   sudo rm /usr/bin/firefox &> /dev/null
+###   sudo ln -s /m/Mios/prj/scripts/f52.sh /usr/bin/firefox
    #[ "$(uname -r)" != "4.4.0-116-generic" ] && 
    sudo /scripts/tap0.sh
    if [ "$DONDE" != "2" ]; then 
       cumples &
-      [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && (/opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &)
-      sudo -u usuario gedit /m/Mios/Personal/Privado/PENDIENTE.txt &> /dev/null &
+###      [ "$(ps aux | grep 'indicator-brightness' | grep -v grep)" = "" ] && (/opt/extras.ubuntu.com/indicator-brightness/indicator-brightness &)
+      #sudo -u usuario 
+      gedit /m/Mios/Personal/Privado/PENDIENTE.txt &> /dev/null &
       $SCRIPTS/dnsexit.sh ubuin.linkpc.net &
       REAL_IP=$(realIp)
       $SCRIPTS/duckdns.sh ubuin $REAL_IP &
-      $SCRIPTS/duckdns.sh ceutam24 $REAL_IP 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
-      rm wget-log* &> /dev/null
+      #$SCRIPTS/duckdns.sh ceuta6543 $REAL_IP 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
       for host in 'ubu.noip.me' 'ubuin.ddns.net' 'ubuin.hopto.org'; do
          wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$REAL_IP" 2>/dev/null &
       done
+      rm wget-log* &> /dev/null
    fi
 }
 
@@ -191,17 +207,17 @@ comun() {
 #apagamos bluetooth ##sudo hciconfig hci0 down
 #sudo rfkill block bluetooth
 #quitamos proxy 
-gsettings set org.gnome.system.proxy mode 'none'
+/usr/bin/gsettings set org.gnome.system.proxy mode 'none'
 #montamos /m/Mios encriptada
-while [ ! -f $SCRIPTS/redJunta.sh ]; do
-   sudo encfs --public /m/.Mios /m/Mios
-done
+###while [ ! -f $SCRIPTS/redJunta.sh ]; do
+###   sudo encfs --public /m/.Mios /m/Mios
+###done
 [ "$(pgrep autokey-gtk)" = "" ] && (autokey-gtk &>/dev/null &)
 #Parámetros de vpnbook
-if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="de233"; fi
+if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="ca222"; fi
 #sudo $SCRIPTS/hwEther.sh
 sudo ls &> /dev/null
-sudo pararServicios &
+pararServicios &
 DONDE=$(menu Casa Ciclos ESO Wifi CasaCable CasaVpn CasaAp CasaWifi Biblioteca Tic)
 sudo $SCRIPTS/vpn.sh stop &> /dev/null
 case $DONDE in
@@ -211,14 +227,20 @@ case $DONDE in
        ;;
     2) #Ciclos
        ###sudo $SCRIPTS/redInstiCable.sh
-       /scripts/aula/espejo.sh on
+       /scripts/aula/espejo.sh off on
        sudo killall dhclient
        ipConfig
        sudo firewall
        comun &
+       . $SCRIPTS/epoptesCerts.sh
+       mkdir /tmp/epoptes
+       ###[ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && epoptesServCiclo2ServerCrt > /tmp/epoptes/server.crt && epoptesServCiclo2ServerKey > /tmp/epoptes/server.key
+       [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && touch /tmp/epoptes/server.crt && epoptesServCiclo2ServerKey > /tmp/epoptes/server.key
+       [ "$(ip a | grep '20:cf:30:90:dc:18')" != "" ] && epoptesServCiclo1ServerCrt > /tmp/epoptes/server.crt && epoptesServCiclo1ServerKey > /tmp/epoptes/server.key
+       [ -e /tmp/epoptes/server.key ] && sudo mv /tmp/epoptes/* /etc/epoptes && sudo chmod 600 /etc/epoptes/server.key && sudo chown root:root -R /etc/epoptes
        sudo /etc/init.d/epoptes start
        #/usr/bin/x11vnc -rfbport 5900 -reopen -viewonly -shared  -forever -loop 2>&1 > /dev/null &
-       sleep 30
+       sleep 5
        /usr/bin/epoptes &
        #/scripts/epoptesInsti.sh &
        $SHELL 
@@ -255,7 +277,7 @@ case $DONDE in
        INFO=$(wpaWifi -i $WIFACE)
        RED=$(echo $INFO | awk '{print $1;}')
        CHANNEL=$(echo $INFO | awk '{print $2;}')
-       sudo $SCRIPTS/iwApd.sh $WIFACE $CHANNEL
+       sudo $SCRIPTS/iwApd.sh $WIFACE $CHANNEL "UbuPort" "172.18.1"
        wpaWifi $WIFACE
        ipConfig $WIFACE "${RED}.25" 24 "$RED.1"
        ifconfig $WIFACE    
@@ -266,7 +288,7 @@ case $DONDE in
        sudo alive &> /dev/null &
        #deshabilitar el botón de apertura del grabador de dvd
        sudo /usr/bin/eject -i on /dev/sr0
-       java -jar /m/jdown/JDownloader.jar &> /dev/null &
+       java -jar /home/usuario/programas/JDownloader/JDownloader.jar &> /dev/null &
        /usr/bin/qbittorrent &>/dev/null &
        #sudo actualiza 
        ;;       

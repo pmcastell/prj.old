@@ -345,7 +345,7 @@ def obtenerFicheroIndice(urls=None,salida=None,indice="indice6.html"):
         for k in sitios.keys():
             urls.append(sitios[k][3])
     outfile = tempfile.mktemp()
-    print(urls)
+    #print(urls)
     if (obtenerFicheroRed(urls,outfile,indice)):
         return decryptCTR(outfile,salida)
     else:

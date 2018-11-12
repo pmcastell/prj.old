@@ -6,49 +6,38 @@ uso() {
 infoWifi() {
    echo "$RED $CHANNEL $SSID"
 }  
-   
 [ "$1" = "-i" ] && INFO="true" && shift   
 [ "$1" = "" ] && uso || WIFACE="$1"
 [ "$2" = "" ] && RED=192.168.1 || RED="$2"
-#if [ "$(sudo iwlist $WIFACE scan | grep MiCasa)" != "" ]; then
-#  RED=172.16.1
-#  [ "$INFO" != "true" ] && sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/MiCasa -Dwext &
-#el
+SCRIPTS="$(dirname $0)"
 sudo ip link set dev $WIFACE up
-if [ "$(sudo iwlist $WIFACE scan | grep vodafone53D2)" != "" ]; then
-  RED=192.168.0
-  CHANNEL="13"
-  SSID="vodafone53D2"
-elif [ "$(sudo iwlist $WIFACE scan | grep MiCasa)" != "" ]; then
-  RED=172.16.1
-  CHANNEL="6"
-  SSID="MiCasa"
-elif [ "$(sudo iwlist $WIFACE scan | grep MOVISTAR_E360)" != "" ]; then
-  CHANNEL="6"
-  SSID="MOVISTAR_E360"
-elif [ "$(sudo iwlist $WIFACE scan | grep MARINA24)" != "" ]; then
-  CHANNEL="8"
-  SSID="MARINA24"
-elif [ "$(sudo iwlist $WIFACE scan | grep BPCEUTA)" != "" ]; then
-  CHANNEL="1"
-  SSID="BPCEUTA"
-elif [ "$(sudo iwlist $WIFACE scan | grep Orange-B215)" != "" ]; then
-  CHANNEL="N"
-  SSID="Orange-B215"
-elif [ "$(sudo iwlist $WIFACE scan | grep JAZZTEL_FCC0)" != "" ]; then
-  CHANNEL="6"
-  SSID="JAZZTEL_FCC0"
-elif [ "$(sudo iwlist $WIFACE scan | grep BIBLIO)" != "" ]; then
-  CHANNEL="N"
-  SSID="BIBLIO"
-fi
+HOSTAPD_CNF="$(ps aux | grep -i hostapd | grep -v grep | tail -1 | awk '{print $NF;}')"
+[ "$HOSTAPD_CNF" != "" ] && HOSTAPD_SSID="$(sudo cat $HOSTAPD_CNF | grep ssid | awk -F'=' '{print $2;}')"
+#[ "$(uname -a | grep -o raspberry)" = "raspberry" ] && [ "$(iwconfig 2>&1 | grep -i 'Mode:Master')" != "" ] && RASP=true || RASP=false
+for((I=0;I<10;I++)); do
+    #echo "Valor de I: $I"
+    SSIDS=$(sudo iwlist $WIFACE scan | grep SSID)
+    for FCONFIG in $(ls ${SCRIPTS}/wicd/[0-9][0-9]*); do
+        #echo "FCONFIG: $FCONFIG"
+        SSID=$(basename $FCONFIG | awk -F'.' '{print $2;}' | awk -F'-' '{print $1;}')
+        [ "$SSID" = "$HOSTAPD_SSID" ] && continue 
+        RED="$(cat $FCONFIG | grep '#!RED=' | awk -F'#!RED=' '{print $2;}')"
+        CHANNEL="$(cat $FCONFIG | grep '#!CHANNEL=' | awk -F'#!CHANNEL=' '{print $2;}')"
+        [ "$(echo $SSIDS | grep ${SSID})" != "" ] && break
+    done
+    #I=$(( $I + 1 ))
+    #echo "Valor de I: $I"
+    [ "$(echo $SSIDS | grep $SSID)" != "" ] && break
+done 
 infoWifi
 [ "$INFO" = "true" ] && exit 0
 
 sudo mata wpa_supplicant &>/dev/null
 sudo ifconfig $WIFACE up
 ([ "$SSID" = "BPCEUTA" ] || [ "$SSID" = "" ] ) && ( wicd-gtk &>/dev/null &) && exit 0
-sudo eecho wpa_supplicant -B -i $WIFACE -c /m/Mios/Personal/AIRELAB/wicd/${SSID} -Dwext &
+sudo eecho wpa_supplicant -B -i $WIFACE -c ${FCONFIG} -Dwext &
+sudo ip a add ${RED}.25/24 dev $WIFACE
+sudo ip route add default via ${RED}.1
 exit 0
 
 

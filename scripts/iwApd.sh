@@ -6,6 +6,7 @@ uso() {
 
 crearIface() {
    local IFACE="$1" NAME="$2" TYPE="$3"
+   eecho sudo iw dev $NAME interface del &> /dev/null
    eecho sudo iw dev $IFACE interface add $NAME type $TYPE
    sleep 2
    while [ "$(ifconfig -a | grep $NAME)" = "" ]; do 
@@ -28,6 +29,8 @@ reinicia() {
 [ "$1" = "" ] && uso
 IFACE="$1"
 [ "$2" = "" ] && CHANNEL=6 || CHANNEL="$2"
+[ "$3" = "" ] && SSID="MiCasa" || SSID="$3"
+[ "$4" = "" ] && DNSMASQ_RED="172.16.1" || DNSMASQ_RED="$4"
 ###[ "$2" = "" ] && IP="192.168.1.25/24" || IP="$2"
 ###sudo ip link set dev $IFACE down
 ###crearIface $IFACE ${IFACE}0 station
@@ -39,5 +42,7 @@ sudo macchanger -r ${IFACE}1
 ###sudo wpa_supplicant -B -i ${IFACE}0 -c /m/Mios/Personal/AIRELAB/wicd/MOVISTAR_E360 -Dwext &
 ###sudo ip route add default via "$(echo $IP | awk -F'/' '{print $1;}' | cut -d'.' -f1-3)".1
 sudo /scripts/finPuntoAcceso.sh
-sudo /scripts/puntoAcceso.sh ${IFACE}1 MiCasa Montoro65 172.16.1 35 128 $CHANNEL
+sudo /scripts/puntoAcceso.sh ${IFACE}1 ${SSID} Montoro65 ${DNSMASQ_RED} 35 128 $CHANNEL
+
+
 

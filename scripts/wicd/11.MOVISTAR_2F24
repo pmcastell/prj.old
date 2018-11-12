@@ -1,0 +1,13 @@
+ap_scan=1
+ctrl_interface=/var/run/wpa_supplicant
+network={
+       ssid="MOVISTAR_2F24"
+       scan_ssid=1
+       proto=WPA RSN
+       key_mgmt=WPA-PSK
+       pairwise=CCMP TKIP
+       group=CCMP TKIP
+       psk="pxYuuTUKt4jAaCD4hQ7X"
+       #!RED=192.168.1
+       #!CHANNEL=N
+}
