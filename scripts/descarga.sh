@@ -6,5 +6,5 @@ if [ "$1" = "" ]; then
 fi   
 ls -l /tmtmt/kdkdkdkd &> /dev/null
 while [ $? -gt 0 ]; do 
-   wget --no-check-certificate -c --timeout=10 "$@"
+   wget --no-check-certificate -c --timeout=10 -q --show-progress "$@"
 done
