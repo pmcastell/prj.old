@@ -234,11 +234,12 @@ case $DONDE in
        comun &
        . $SCRIPTS/epoptesCerts.sh
        mkdir /tmp/epoptes
+       sudo systemctl stop epoptes
        ###[ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && epoptesServCiclo2ServerCrt > /tmp/epoptes/server.crt && epoptesServCiclo2ServerKey > /tmp/epoptes/server.key
        [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && touch /tmp/epoptes/server.crt && epoptesServCiclo2ServerKey > /tmp/epoptes/server.key
        [ "$(ip a | grep '20:cf:30:90:dc:18')" != "" ] && epoptesServCiclo1ServerCrt > /tmp/epoptes/server.crt && epoptesServCiclo1ServerKey > /tmp/epoptes/server.key
        [ -e /tmp/epoptes/server.key ] && sudo mv /tmp/epoptes/* /etc/epoptes && sudo chmod 600 /etc/epoptes/server.key && sudo chown root:root -R /etc/epoptes
-       sudo /etc/init.d/epoptes start
+       sudo systemctl start epoptes
        #/usr/bin/x11vnc -rfbport 5900 -reopen -viewonly -shared  -forever -loop 2>&1 > /dev/null &
        sleep 5
        /usr/bin/epoptes &

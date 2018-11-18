@@ -1,6 +1,4 @@
 #!/bin/bash
-SCRIPTS=$(dirname $0) 
-
 codPais() {
    PAIS="$1";shift
    while [ "$1" != "" ]; do  
@@ -14,7 +12,8 @@ codPais() {
       fi
    done < $SCRIPTS/codigosPaises.txt
 }  
-
+ 
+SCRIPTS=$(dirname $0) 
 . $SCRIPTS/uso.sh
 [ "$1" = "" ] && uso "Uso: $0 <pais>\nCarga en firefox los urls si los hubiera del país de vpngate"
 TEMP="/tmp/vpngate_tmp.txt"
@@ -52,6 +51,7 @@ for u in $URLS; do
       else
          echo "No existe:    $VPNGATE_URL" echo " --- "${SA[$I]}
          PAIS=$(codPais $1)
+         echo $PAIS
          echo "descargando: $VPNGATE_URL"
          descarga --timeout=5 -q --show-progress -O "$HOME/freeVpns/${PAIS}-$(basename $VPNGATE_URL)" "$VPNGATE_URL"
       fi
@@ -67,3 +67,7 @@ exit 0
 http://www.vpngate.net/en/do_openvpn.aspx?fqdn=vpn120776072.opengw.net&ip=82.9.237.65&tcp=1318&udp=1862&sid=1494772568895&hid=927181
 http://www.vpngate.net/en/"do_openvpn.aspx?fqdn=vpn120776072.opengw.net&amp;ip=82.9.237.65&amp;tcp=1318&amp;udp=1862&amp;sid=1494772568895&amp;hid=927181"
 http://www.vpngate.net/en/do_openvpn.aspxfqdn=vpn120776072.opengw.net&amp;ip=82.9.237.65&amp;tcp=1318&amp;udp=1862&amp;sid=1494772568895&amp;hid=927181
+
+
+
+

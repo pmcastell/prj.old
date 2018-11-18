@@ -25,6 +25,15 @@ echo $LOOP
 sudo losetup -o 1048576  $LOOP /media/usuario/BACKUPS/MIOS/DiscosDuros/SSD-Sandisk-Ubu17.10.gz 
 sudo fsck -fv $LOOP
 sudo mount $LOOP /SSD
+sudo mount --bind /dev /SSD/dev 
+sudo mount --bind /dev/pts /SSD/dev/pts 
+sudo mount --bind /proc /SSD/proc 
+sudo mount --bind /sys /SSD/sys 
+
 read -p "Pulsa intro para desmontar"
+sudo umount /SSD/dev/pts 
+sudo umount /SSD/dev 
+sudo umount /SSD/proc 
+sudo umount /SSD/sys 
 sudo umount /SSD
 sudo losetup -d $LOOP
