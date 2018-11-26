@@ -1,3 +1,4 @@
+#!/bin/bash
 
 CARPETA_ORIGEN=/home/usuario/multi-dvd
 cd $CARPETA_ORIGEN
@@ -12,7 +13,8 @@ do
    FICHERO=$(wget -q --timeout=10   ${URL}/ -O - | grep exe | tail -1 | awk -F'>' '{print $2;}' | awk -F'<' '{print $1;}')
    sleep 1
 done   
-descarga "${URL}/${FICHERO}" -O kvrt.exe
+descarga "${URL}/${FICHERO}" 
+#-O kvrt.exe
 ###descarga http://dl.antivir.de/down/vdf/ivdf_fusebundle_nt_en.zip
 ###descarga http://dl1.avgate.net/down/windows/hbedv.key
 ./mcafee.sh

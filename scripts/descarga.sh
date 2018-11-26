@@ -10,4 +10,5 @@ ls -l /tmtmt/kdkdkdkd &> /dev/null
 while [ $? -gt 0 ]; do 
 #   wget --no-check-certificate -c --timeout=10 -q --show-progress "$@"
    $DOWNLOADER "$@"
+   [ "$(echo $DOWNLOADER | grep -i axel)" != "" ] && break
 done

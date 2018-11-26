@@ -11,10 +11,11 @@ URL="http://www.speech.cs.cmu.edu/cmu_arctic/packed/"
 #cmu_us_${voice}_arctic-0.95-release.tar.bz2
 URL="http://festvox.org/packed/festival/2.4/voices/"
 URL="http://www.speech.cs.cmu.edu/cmu_arctic/packed/"
-cmu_us_awb_arctic-0.90-release.tar.bz2	
+#cmu_us_awb_arctic-0.90-release.tar.bz2	
 #for VOICE in aup awb bdl clb fem gka jmk ksp rms rxr slt; do
-for VOICE in awb bdl clb jmk ksp rms slt; do
-  descarga "$URL/festvox_cmu_us_${VOICE}_cg.tar.gz"
+VOICES=$(wget -O - $URL 2>/dev/null | egrep cmu_us.*bz2 | egrep -o '<a href.*</a>' | egrep -o '".*"' | sed -e 's/"//g' | tail -7)
+for VOICE in $VOICES; do
+  descarga "$URL/$VOICE"
 done
 exit
 #Unpack
