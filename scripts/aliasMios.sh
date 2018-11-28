@@ -12,4 +12,7 @@ alias hn="h -n "
 alias hfn="hf -n "
 alias hin="hi -n  "
 alias fir="firefox --private-window "
-
+alias delor="gsettings set org.gnome.desktop.interface gtk-theme 'DeLorean-Inspired' "
+alias matea="gsettings set org.gnome.desktop.interface gtk-theme 'MATEmbiance-Flat-Dark' "
+alias arc="gsettings set org.gnome.desktop.interface gtk-theme 'Arc-Darker' "
+alias alt+f2="xdotool key Alt+F3 "

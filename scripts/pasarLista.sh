@@ -1,12 +1,16 @@
-#!/bin/bash
+#!/bin/bash -i
 main() {
     #[ "$1" != "ciclo1" ] && [ "$1" != "ciclo2"] && uso
     [ "$1" != "ciclo1" ] && [ "$1" != "ciclo2" ] && uso
-    #alu${1} | while read a; do hf -n $a; echo $a; read -rsn1; done
-    TEMP=$(tempfile)
-    alu${1} > $TEMP
-    hf -n -l $TEMP
-    rm $TEMP
+    [ "$2" = "" ] && HABLA="hf -n " || HABLA="h -n "
+    alu${1} | while read a; do
+        RESP="R"
+        while [ "$RESP" = "R" ] || [ "$RESP" = "r" ]; do echo $a; $HABLA $a; read -rsn1 RESP </dev/tty; done
+    done
+    #TEMP=$(tempfile)
+    #alu${1} > $TEMP
+    #hf -n -l $TEMP
+    #rm $TEMP
 }
 uso() {
     echo uso: $0 '<ciclo1 | ciclo2>'
@@ -14,23 +18,23 @@ uso() {
     exit 1
 }
 aluciclo1() {
-echo "MustafaAbdelatif Ahmed
+echo "Mustafa Abdelatif Ahmed
 Carlos Bermejo del Valle
 Rául Botella Chaves
 José Manuel Chenard Gaona
 Marina Contreras Oliva
 Abderrahman Damoun Laarbi
 Abdeslam El Kadouri Ahmed
-Jonathan  Gómez Bouselham 
-Jorge Guiérrez Moreno
+Yonathan  Gómez Bouselham 
+Jorge Gutiérrez Moreno
 Rafael Hernández Cano
 Fernando Luzón Orduña
 Carlos Maldonado Navas
 Sául Lecabel Martón Bermúdez
 Yarell Jesús Martón Bermúdez
-Ali Mekki Abdelkader
+Alí Mekki Abdelkader
 Inmaculada Menjíbar Jíménez
-Brahim Mohamed Fadel
+Brajím Mohamed Fadel
 Omar Yannati Mohamed Mohamed
 Naufel Mohamed Mojtar
 Mohamed Mustafa Mohamed
