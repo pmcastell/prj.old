@@ -14,7 +14,7 @@ done < $TEMP2
 
 #echo $TEMAS && read
 #TEMA=$(zenity --forms --title="Seleccionar Tema" --text="Temas:" --add-list "Temas Disponibles:" --list-values "$TEMAS" --width=1024 --height=300 --add-entry="    f        o        o        ")
-TEMA=$(zenity --list --column "Seccionar Tema" --height 400 --width 1024 $TEMAS)
+TEMA=$(zenity --list --column "Seccionar Tema" --height 400 --width 300 $TEMAS)
 TEMA="$(echo $TEMA | awk '{print $1;}')"
 echo $TEMA
 [ "$TEMA" != "" ] && gsettings set org.gnome.desktop.interface gtk-theme \'$TEMA\'

@@ -16,3 +16,5 @@ alias delor="gsettings set org.gnome.desktop.interface gtk-theme 'DeLorean-Inspi
 alias matea="gsettings set org.gnome.desktop.interface gtk-theme 'MATEmbiance-Flat-Dark' "
 alias arc="gsettings set org.gnome.desktop.interface gtk-theme 'Arc-Darker' "
 alias alt+f2="xdotool key Alt+F3 "
+alias ejon="sudo /usr/bin/eject -i on /dev/sr0 "
+alias ejoff="sudo /usr/bin/eject -i off /dev/sr0 "
