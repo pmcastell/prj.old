@@ -178,11 +178,11 @@ pararServicios() {
    done
    sudo $SCRIPTS/mata.sh wpa_supplicant &> /dev/null
 }
-###########################################################################################
+#############/////##############################################################################
 configEth() {
     if [ "$2" = "DHCP" ]; then (sudo dhclient $1 &); return; fi
     IFACE=$1; IP=$2; MASK=$3; GW=$4; DNS="$5"
-    if [ "$DNS" = "" ]; then DNS="8.8.8.8 8.8.4.4"; fi
+    if [ "$DNS" = "" ]; then DNS="8.8.8.8 8.8.4.4/"; fi
     sudo eecho ifconfig $IFACE $IP/$MASK up
     sudo eecho route add default gw $GW
     nameservers "$DNS"
@@ -195,8 +195,9 @@ ipConfig() {
       #MASK=$3; DNS="$5"
    else
       IFACE="$(ip a | grep -E '^[0-9]+' | grep -v "lo:" | awk -F':' '{print $2;}' | grep -v tap | head -1)"
-      [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && IP_ADDR="172.124.117.100/16"  || IP_ADDR="172.124.117.99/16"
-      [ "$(ip a | grep '20:cf:30:90:dc:18')" != "" ] && IP_ADDR="172.124.116.100/16"  
+      IP_ADDR="172.124.117.99/16"
+      [ "$(ip a | grep '1c:1b:0d')" != "" ] && IP_ADDR="172.124.117.100/16"
+      ([ "$(ip a | grep '20:cf:30:90:dc:18')" != "" ] || [ "$(ip a | grep 'f4:6d:04')" != "" ] || [ "$(ip a | grep '48:5b:39:f7:5f:33')" != "" ] ) && IP_ADDR="172.124.116.100/16"  
       GW="172.124.1.10"
    fi
    for IP in $(ip a show dev $IFACE | grep inet | awk '{print $2;}'); do eecho sudo ip a del $IP dev $IFACE; done

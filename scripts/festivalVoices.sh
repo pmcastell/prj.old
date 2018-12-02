@@ -23,6 +23,9 @@ for f in $(ls *.bz2); do
    tar xvf $f
 done   
 #Install
-sudo mkdir -p /usr/share/festival/voices/us
-sudo mv lib/voices/us/* /usr/share/festival/voices/us/
-sudo mv lib/hts.scm /usr/share/festival/hts.scm
+#sudo mkdir -p /usr/share/festival/voices/us
+#sudo mv lib/voices/us/* /usr/share/festival/voices/us/
+#sudo mv lib/hts.scm /usr/share/festival/hts.scm
+for d in $(ls * | egrep -v bz2$); do
+    mv $d /usr/share/festival/voices/us/${d}_clunits
+done    
