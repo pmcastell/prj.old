@@ -11,20 +11,16 @@ echo INTERFAZ: $INTERFAZ
 echo IP: $IP
 echo ROUTER: $ROUTER
 echo RED: $RED
-if [ "$RED" = "192" -a "$ROUTER" = "192.168.0.1" ];
-then
-    if [ "$ftp_proxy" != "" ];
-    then
+if [ "$RED" = "192" -a "$ROUTER" = "192.168.0.1" ]; then
+    if [ "$ftp_proxy" != "" ];     then
        unset ftp_proxy 
     fi
     ####sudo route add -host ftp.nai.com dev tun0
     sudo route add -host ftp.nai.com gw 192.168.8.1
-    
 fi    
 
 ###por la junta
-while [ $TAM_FICHERO -le 1000000 ];
-do
+while [ $TAM_FICHERO -le 1000000 ]; do 
    ###if [ -f $FICH_TEMP ]; then eecho rm $FICH_TEMP; fi
    ###echo $WGET_COMMAND  -S -O - $URL/ '2>&1 | grep -i tar | tee' $FICH_TEMP
    #$WGET_COMMAND  -S -O - $URL/ 2>&1 | grep -i tar | tee $FICH_TEMP
@@ -40,8 +36,7 @@ do
 done   
 
 ###por la junta
-if [ "$RED" = "192" -a "$ROUTER" = "192.168.0.1" ];
-then
+if [ "$RED" = "192" -a "$ROUTER" = "192.168.0.1" ]; then
     #export ftp_proxy="http://proxy.spidernet.it:8080"
     #export ftp_proxy="http://78.47.214.156:8080" ## proxy alemán libre
     #export ftp_proxy="http://squid:3128"
@@ -58,19 +53,18 @@ echo http_proxy: $http_proxy
 echo ftp_proxy : $ftp_proxy
 
 echo while [ $TAM_FICHERO -gt $TAM_NUEVO ]; 
-while [ $TAM_FICHERO -gt $TAM_NUEVO ]; 
-do 
-   if [ "$ROUTER" = "192.168.0.1" ];
-   then
+while [ $TAM_FICHERO -gt $TAM_NUEVO ]; do 
+   if [ "$ROUTER" = "192.168.0.1" ];    then
       echo curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --limit-rate 60000 --max-time 300 --keepalive-time 5 --continue - --max-filesize $TAM_FICHERO
       ###curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --limit-rate 60000 --max-time 300 --keepalive-time 15 --continue - --max-filesize $TAM_FICHERO
       curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --max-time 300 --keepalive-time 15 --continue - --max-filesize $TAM_FICHERO
    else
-      echo curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --max-time 300 --keepalive-time 5 --continue - --max-filesize $TAM_FICHERO
-      curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --max-time 300 --keepalive-time 5 --continue - --max-filesize $TAM_FICHERO
+      #echo curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --max-time 300 --keepalive-time 5 --continue - --max-filesize $TAM_FICHERO
+      #curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --max-time 300 --keepalive-time 5 --continue - --max-filesize $TAM_FICHERO
+      echo "Descargando: $URL/$NOMBRE"
+      descarga "$URL/$NOMBRE"
    fi
-   if [ -f $NOMBRE ];
-   then
+   if [ -f $NOMBRE ];    then
       TAM_NUEVO=$(ls -l $NOMBRE | gawk '{ print $5; }');
    fi
    echo Descargado: $TAM_NUEVO;

@@ -301,6 +301,7 @@ casaBiblio() {
 }
 ###########################################################################################
 comun() {
+   mkdir /tmp/win10Pr
    sudo rfkill block bluetooth
    sudo rfkill block 0
    #[ "$(pgrep mate-panel)" != "" ] && 

@@ -7,4 +7,5 @@ voices=($(ls /usr/share/festival/voices/* | grep -v ':' | egrep -v '^$'))
 
 
 [ "$1" != "" ] && DEFAULT="$1" || DEFAULT="2"
-(echo "(voice_${voices[$DEFAULT]})" ; echo "(SayText \"$(xsel)\")" )| festival --pipe
+TEXTO=$(echo "$(xsel)" | iconv -f utf-8 -t iso-8859-1)
+(echo "(voice_${voices[$DEFAULT]})" ; echo "(SayText \"$TEXTO\")" )| festival --pipe
