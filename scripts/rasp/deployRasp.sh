@@ -8,7 +8,7 @@ uso() {
 
 [ "$1" = "" ] && uso
 [ "$1" = "ALL" ] && DEST="ceuta6543 micasa6543" || DEST="${1}6543"
-SCRIPTS="puntoAcceso.sh wpaWifi.sh duckdns.sh bookPass.sh aula/torRoute.sh firewall.sh actualiza.sh"
+SCRIPTS="puntoAcceso.sh wpaWifi.sh duckdns.sh bookPass.sh aula/torRoute.sh actualiza.sh"
 
 for d in $DEST; do
    for script in $SCRIPTS; do 

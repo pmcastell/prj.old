@@ -1,5 +1,5 @@
 #!/bin/bash
-#if [ "$(whoami)" != "root" ]; then gksudo $0: exit ; fi
+
 [ "$1" = "" ] && MAQUINA=$(zenity --entry --title="Dime que máquina arranco" 2>/dev/null) || MAQUINA="$1"
 [ "$MAQUINA" = "" ] && zenity --info --text="Necesito saber que máquina arrancar" 2>/dev/null && exit 1
 if [ "${MAQUINA}" = "win7" ] && [ ! -f /l/virtualbox-enc/$MAQUINA/${MAQUINA}.vbox ]; then
@@ -7,6 +7,7 @@ if [ "${MAQUINA}" = "win7" ] && [ ! -f /l/virtualbox-enc/$MAQUINA/${MAQUINA}.vbo
    PASS=$(/scripts/getMyPass.sh encfs)
    echo $USUPASS | sudo -S bash -c "echo $PASS | encfs -S --public /l/.virtualbox.enc /l/virtualbox-enc"
 fi  
+[ "$MAQUINA" ="win10Pr"] && [ "$(ip route | grep 10.10.10.10)" = "" ] && sudo ip route add 10.10.10.10/32 via 10.10.10.100
 vboxmanage startvm $MAQUINA --type headless &
 #Esto es por que a veces el firewall hacía cosas "raras" y no llegaba el ping a la tarjeta virtual
 for((i=1;i<30;i++)); do
@@ -18,6 +19,8 @@ done
 vncviewer $MAQUINA &
 
 exit 0
+
+#if [ "$(whoami)" != "root" ]; then gksudo $0: exit ; fi
 #script antiguo:
 
 

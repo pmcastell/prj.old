@@ -54,7 +54,7 @@ echo ftp_proxy : $ftp_proxy
 
 echo while [ $TAM_FICHERO -gt $TAM_NUEVO ]; 
 while [ $TAM_FICHERO -gt $TAM_NUEVO ]; do 
-   if [ "$ROUTER" = "192.168.0.1" ];    then
+   if [ "$ROUTER" = "jdjdj192.168.0.1" ];    then
       echo curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --limit-rate 60000 --max-time 300 --keepalive-time 5 --continue - --max-filesize $TAM_FICHERO
       ###curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --limit-rate 60000 --max-time 300 --keepalive-time 15 --continue - --max-filesize $TAM_FICHERO
       curl "$URL/$NOMBRE" -o $NOMBRE --speed-time 10 --speed-limit 1000 --max-time 300 --keepalive-time 15 --continue - --max-filesize $TAM_FICHERO

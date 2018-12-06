@@ -5,10 +5,10 @@ BASE_DIR=$(dirname $0)
 [ -e $BASE_DIR/scriptsCeuta/funcionesAula.sh ] && . $BASE_DIR/scriptsCeuta/funcionesAula.sh
     #[ "$1" != "ciclo1" ] && [ "$1" != "ciclo2"] && uso
     [ "$1" != "ciclo1" ] && [ "$1" != "ciclo2" ] && uso
-    [ "$2" = "" ] && HABLA="hf -n " || HABLA="h -n "
+    [ "$2" = "" ] && HABLA="a gtts es " || HABLA="h -n "
     alu${1} | while read a; do
         RESP="R"
-        while [ "$RESP" = "R" ] || [ "$RESP" = "r" ]; do echo $a; $HABLA $a; read -rsn1 RESP </dev/tty; done
+        while [ "$RESP" = "R" ] || [ "$RESP" = "r" ]; do echo $a; $HABLA "$a"; read -rsn1 RESP </dev/tty; done
     done
     #TEMP=$(tempfile)
     #alu${1} > $TEMP
