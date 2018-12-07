@@ -6,9 +6,11 @@ if [ "$1" = "" ]; then
 fi   
 [ "$(which axel)" = "" ] && sudo apt -y install axel &> /dev/null
 [ "$(which axel)" = "" ] && DOWNLOADER="wget --no-check-certificate -c --timeout=10 -q --show-progress  " || DOWNLOADER="axel -a -k -n 15  "
+[ "$1" = "wget" ] && shift && DOWNLOADER="wget --no-check-certificate -c --timeout=10 -q --show-progress  "
 ls -l /tmtmt/kdkdkdkd &> /dev/null
-while [ $? -gt 0 ]; do 
+while true; do 
 #   wget --no-check-certificate -c --timeout=10 -q --show-progress "$@"
    $DOWNLOADER "$@"
+   [ $? -eq 0 ] && break
    [ "$(echo $DOWNLOADER | grep -i axel)" != "" ] && break
 done
