@@ -9,6 +9,7 @@ else
     sudo ip tuntap add dev tap0 mode tap
 fi    
 sudo ip link set dev tap0 up
-sudo ip address add 10.10.10.100/24 dev tap0
-sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.10.10.0/24
+sudo ip address add 10.10.10.100/26 dev tap0
+dnsmasq -i tap0 -z --dhcp-range=10.10.10.200,10.10.10.240,255.255.255.0,12h --except-interface=lo
+#sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.10.10.0/24
 #sudo ip route add 10.10.10.96/27 dev tap0

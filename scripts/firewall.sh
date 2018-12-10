@@ -6,7 +6,8 @@ main() {
     MASQUERADE=$(param -masquerade $@)
     ACCEPT=$(listaAccept "$@")
     DROP="172.124.0.0/16 192.168.0.0/16 172.16.0.0/16 $DROP"
-    MASQUERADE="10.10.10.0/24 172.16.1.0/24 172.18.1.0/24 $MASQUERADE"
+    #MASQUERADE="10.10.10.0/24 172.16.1.0/24 172.18.1.0/24 $MASQUERADE"
+    MASQUERADE="172.16.1.0/24 172.18.1.0/24 $MASQUERADE"
 
     for a in $ACCEPT; do sudo iptables -A INPUT -j ACCEPT -s $a; done
     for a in $DROP; do sudo iptables -A INPUT -j DROP -s $a; done
@@ -16,14 +17,13 @@ main() {
     echo 1 >  /proc/sys/net/ipv4/ip_forward 
     sudo iptables -nL
     sudo iptables -t nat -nL
-
     echo "ACCEPT: $ACCEPT"
 }
 
 listaAccept() {
     ACCEPT=$(param -accept $@)
     #INSTI="$(cat /etc/hosts | grep 172.124 | grep i | awk '{print $1}')"
-    ACCEPT="10.10.10.0/24 192.168.1.1 192.168.1.25 192.168.1.27 192.168.0.1 192.168.0.253 172.16.1.0/24 172.16.254.0/24 172.124.116.0/24 172.124.117.0/24 172.124.0.0/24 172.124.1.0/24 $ACCEPT $INSTI "
+    ACCEPT="10.10.10.0/24 192.168.1.1 192.168.1.25 192.168.1.27 192.168.0.1 192.168.0.25 192.168.0.253 172.16.1.0/24 172.16.254.0/24 172.124.116.0/24 172.124.117.0/24 172.124.0.0/24 172.124.1.0/24 $ACCEPT $INSTI "
     echo "$ACCEPT"
 }
 main "$@"

@@ -14,7 +14,7 @@ main() {
     IFCON=wlan1; IFCON_IP=192.168.1.27/24; DEFAULT_GW=192.168.1.1
     #/usr/bin/macchanger -r $IFAP
     /usr/bin/macchanger -r $IFCON
-    /scripts/puntoAcceso.sh $IFAP MiCasa Montoro65 172.16.1 133 235 &
+    /scripts/puntoAcceso.sh $IFAP MiCasa "$(/bin/echo TW9udG9ybzY1|base64 -d)" 172.16.1 133 235 &
     #/sbin/ip a add $IFCON_IP dev $IFCON
     #/sbin/ip link set dev $IFCON up
     #/sbin/ip route add default via $DEFAULT_GW

@@ -6,7 +6,7 @@
 
 import base64, tempfile, time, socket, platform, sys, os, re
 import signal, subprocess, errno, random
-from hashlib import md5
+from hashlib import md5, sha256
 #from sqlalchemy.sql.expression import false
 try:
     from Crypto.Cipher import AES
@@ -194,7 +194,8 @@ def derive_key_and_iv(password, salt, key_length, iv_length):
     while len(d) < key_length + iv_length:
         #print("Tipo d_i: "+str(type(d_i))+" Tipo password: "+str(type(password))+" Tipo salt: "+str(type(salt)))
         #break
-        d_i = md5(d_i + password + salt).digest()
+        #d_i = md5(d_i + password + salt).digest()
+        d_i = sha256(d_i + password + salt).digest()
         d += d_i
     return d[:key_length], d[key_length:key_length+iv_length]
 

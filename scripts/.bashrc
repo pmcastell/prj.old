@@ -98,42 +98,4 @@ fi
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
-CHHOME=/home/usuario/programas/ch6.3.0
-PATH=/home/usuario/programas/ch6.3.0/bin:$PATH
-MANPATH=$MANPATH:/home/usuario/programas/ch6.3.0/docs/man
-export IPLAYER_OUTDIR="/home/usuario/Escritorio/Varios/bbc"
-[[ -f "/home/usuario/.config/autopackage/paths-bash" ]] && . "/home/usuario/.config/autopackage/paths-bash"
-alias hi='hablai -n '
-alias h='habla -n '
-alias hf='hablaf -n '
-
-export XAUTHORITY=/home/usuario/.Xauthority
-unset http_proxy
-unset ftp_proxy
-unset socks_proxy
-unset https_proxy
-alias sshh='sshpass -p $(/scripts/aula/claves.sh $(eval echo $SSHUSER)) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y '
-export BASE_DIR="."
-alias sa1='export SSHUSER="franav"; sshh $SSHUSER@sa1'
-#alias sa1='sshpass -p $(/scripts/aula/claves.sh franav) ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -Y franav@sa1'
-alias sa2='export SSHUSER="franav"; sshh $SSHUSER@sa2'
-alias sb='export SSHUSER="franav"; sshh $SSHUSER@sb'
-alias spt='export SSHUSER="lliurex"; sshh $SSHUSER@spt'
-alias sm='export SSHUSER="lliurexsm"; sshh lliurex@sm'
-alias sh='export SSHUSER="lliurex"; sshh $SSHUSER@sh'
-alias sp='export SSHUSER="fcriadon"; sshh $SSHUSER@sp'
-alias sn='export SSHUSER="franav"; sshh $SSHUSER@sn'
-alias ltsp21='export SSHUSER="ltspadmin"; sshh $SSHUSER@ltsp21'
-alias ltsp22='export SSHUSER="ltspadmin"; sshh $SSHUSER@ltsp22'
-alias ltsp23='export SSHUSER="ltspadmin"; sshh $SSHUSER@ltsp23'
-alias scf='sshpass -p $(/scripts/aula/claves.sh franav) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-alias scfp='sshpass -p $(/scripts/aula/claves.sh fcriadon) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-alias scl='sshpass -p $(/scripts/aula/claves.sh ltspadmin) scp -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-complete -W "ganimedes inkscape limpress lcalc lwriter scratch javi-moodle" -o bashdefault -o default 'hostinger'
-alias nem="nemo --no-desktop "
-#PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
-alias n='ncal -M -C $(date +%Y)'
-#alias miMoodle="gksudo systemctl start apache2 mysql"
-alias wwget="wget --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' " 
-alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' "
-alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"
+. /scripts/aliasMios.sh

@@ -7,4 +7,6 @@ uso() {
 if [ "$1" = "-k" ]; then shift; KEY=$1; shift; else KEY="clave$(date -u +'%Y-%m-%d')"; fi
 if [ "$1" = "" ]; then IN=/dev/stdin; else IN=$1; fi
 if [ "$2" = "" ]; then OUT=/dev/stdout; else OUT=$2; fi
+#ahora openssl utiliza por defecto -md sha256
+#openssl enc -e -aes-256-ctr -md md5 -k $KEY -in $IN | base64 > $OUT
 openssl enc -e -aes-256-ctr -k $KEY -in $IN | base64 > $OUT
