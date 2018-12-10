@@ -331,10 +331,10 @@ comun() {
       #sudo -u usuario 
       gedit /m/Mios/Personal/Privado/PENDIENTE.txt &> /dev/null &
       $SCRIPTS/dnsexit.sh ubuin.linkpc.net &
-      REAL_IP=$(realIp)
+      REAL_IP=$(a pir realIp)
       $SCRIPTS/duckdns.sh ubuin $REAL_IP &
       #$SCRIPTS/duckdns.sh ceuta6543 $REAL_IP 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
-      for host in 'ubu.noip.me' 'ubuin.ddns.net' 'ubuin.hopto.org'; do
+      for host in 'ubuin.ddns.net' 'ubuin.hopto.org'; do
          wget -O - "https://reg6543:basura68@dynupdate.no-ip.com/nic/update?hostname=$host&myip=$REAL_IP" 2>/dev/null &
       done
       rm wget-log* &> /dev/null
