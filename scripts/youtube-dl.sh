@@ -7,5 +7,7 @@ if [ "$2" != "" ]; then
    fi
 else ITEMS=""; fi
 #ITEMS=$(echo $ITEMS | sed "s/-/\\\-/g")
+#youtube-dl --write-srt --sub-lang es,en --sub-format srt -f bestvideo+bestaudio https://www.youtube.com/watch?v=Zh3Yz3PiXZw&feature=youtu.be
+#--write-auto-sub
 echo youtube-dl -f bestaudio $ITEMS --extract-audio --audio-format mp3 --output "%(autonumber)s%(title)s.%(ext)s" \'$1\'
 youtube-dl -f bestaudio $ITEMS --extract-audio --audio-format mp3 --output '%(autonumber)s%(title)s.%(ext)s' $1

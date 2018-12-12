@@ -44,7 +44,7 @@ alias n='ncal -M -b $(date +%Y) '
 alias wwget="wget --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' " 
 alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' "
 alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"
-
+alias vser="/scripts/vbrun SER200 "
 #alias miMoodle="gksudo systemctl start apache2 mysql"
 #PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 #CHHOME=/home/usuario/programas/ch6.3.0

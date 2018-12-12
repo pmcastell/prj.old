@@ -8,12 +8,13 @@ VBOXVM="$(vboxmanage list vms | grep $MAQUINA | awk '{print $1;}' | tr -d '\"')"
 vboxmanage startvm $MAQUINA --type headless &
 #Esto es por que a veces el firewall hacía cosas "raras" y no llegaba el ping a la tarjeta virtual
 for((i=1;i<30;i++)); do
-   [ "$(nmap ${MAQUINA} | grep 5900 | grep open)" != "" ] && break
+   [ "$(nmap ${MAQUINA} -p 5900 | grep open)" != "" ] && break
    #ping -c 2 ${MAQUINA}
    #[ $? -eq 0 ] && break
    sleep 1
 done
-vncviewer $MAQUINA &
+PORT="$(nmap -p 5900-5920 ser200 | grep open | egrep -o '^[0-9]{4}')"
+vncviewer $MAQUINA:$PORT &
 
 exit 0
 
