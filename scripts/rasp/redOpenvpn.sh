@@ -37,6 +37,5 @@ redOpenvpn() {
         rm $TMP
         /scripts/bookPass.sh
     done
-
 }
 
