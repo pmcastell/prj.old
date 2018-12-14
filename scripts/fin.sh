@@ -21,6 +21,7 @@ fi
 #echo cerrando conexiones vpn-ssh
 #/home/usuario/aula/start.sh SSH no
 ####desmontaEncfs "/l/virtualbox-enc"
+/scripts/para
 FICHERO=$(ls -l /l/Mios-7z/ | grep "$(date | awk '{ print $2" "$3;}')")
 if [ "$FICHERO" = "" ]; then
     read -p 'No has hecho copia /l/Mios-7z.... ¿Quieres hacerla?'  resp
