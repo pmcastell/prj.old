@@ -6,20 +6,23 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="obtenerClavesFtp" key="selection"/>
+		<item value="obtenerFicheroGitHub" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="obtenerficherogithub"/>
+			<item value="sshconfig"/>
+			<item value="install"/>
+			<item value="MD5("/>
+			<item value="md5("/>
+			<item value="iv"/>
 			<item value="obtenerClavesFtp"/>
 			<item value="obtenerclavesftp"/>
 			<item value="obtenerficheroindi"/>
 			<item value="/tmp"/>
 			<item value="TMP_DIR"/>
-			<item value="hostinger"/>
-			<item value="os.index"/>
-			<item value="false"/>
 		</list>
 		<list key="replacehistory">
 		</list>

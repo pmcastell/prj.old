@@ -1,2 +1,6 @@
 eclipse.preferences.version=1
+occurrenceHighlighting=false
+occurrenceIndicationInVerticalRuler=true
 overviewRuler_migration=migrated_3.1
+pydevOccurrenceIndicationColor=173,127,168
+pydevOccurrenceIndicationInVerticalRuler=true
