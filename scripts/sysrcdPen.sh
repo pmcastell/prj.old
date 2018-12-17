@@ -48,6 +48,7 @@ descargaSysrcd() {
     ISO="/tmp/$(echo $URL | egrep -o 'systemrescuecd-.*iso')"
     [ "$(which axel)" = "" ] && sudo apt -y install axel &> /dev/null
     [ "$(which axel)" = "" ] && DOWNLOADER="wget --no-check-certificate -c --timeout=10 -q --show-progress -O $ISO " || DOWNLOADER="axel -k -n 15 --output=$ISO "
+    #DOWNLOADER="wget --no-check-certificate -c --timeout=10 -q --show-progress -O $ISO "
     #rm -rf /tmp/* &> /dev/null
     while [ "$MD5SUM" != "$MD5ISO" ]; do
         $DOWNLOADER $URL 1>&2
