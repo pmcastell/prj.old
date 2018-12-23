@@ -1,5 +1,6 @@
 #!/bin/bash
 . /scripts/scriptsCeuta/funcionesAula.sh
+. /scripts/aula/srvOn.sh
 fd() { 
     for d in $(sudo fdisk -l 2>&1 | grep sd | grep -o /dev/sd. | uniq); do sudo fdisk -l $d; echo "------"; done
 }    

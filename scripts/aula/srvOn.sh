@@ -1,4 +1,5 @@
 #!/bin/bash
+
 main() {
     if [ "$1" = "" ]; then uso; fi
     while [ "$1" != "" ]; do
@@ -17,7 +18,6 @@ main() {
         shift
     done
 }    
-
 uso() {
    echo uso: $0 '<servidor-a-despertar>'
    echo Servidores disponibles: 
@@ -36,16 +36,6 @@ uso() {
          ALL \(TODOS\)"
    exit 1
 }
-todas() {
-    MACS="$(macsConocidas | awk '{print $2;}')"
-    IFACES="$(_ifaces)"
-    for MAC in $MACS; do 
-        for IFACE in $IFACES; do
-            echo sudo etherwake -i $IFACE $MAC;
-            sudo etherwake -i $IFACE $MAC;
-        done
-   done
-} 
 macsConocidas() {
     __macsConocidas() {
           echo "srvSalaProfes   00:24:01:ee:22:59
@@ -59,8 +49,8 @@ DEPMAT2         44:8a:5b:c2:77:fc
 PT1             44:8a:5b:c2:71:e6 
 Salaprofes2     00:0f:ea:40:57:3f 
 DeptSociales1   8c:89:a5:2e:88:ba
-paula1          00:19:99:88:6a:f8
-paula2          00:24:01:ed:30:c1
+paula1          20:cf:30:90:dc:18
+paula2          1c:1b:0d:0d:2d:71
 dpto            20:cf:30:90:dc:5b" 
     }
     if   [ "$1" = "" ];   then  __macsConocidas
@@ -79,4 +69,13 @@ _ifaces() {
 ###if [ "$MAC" != "" ]; then echo sudo etherwake -i eth1 $MAC; sudo etherwake -i eth1 $MAC;
 ###else echo Error servidor no encontrado; fi
 
-
+###todas() {
+###    MACS="$(macsConocidas | awk '{print $2;}')"
+###    IFACES="$(_ifaces)"
+###    for MAC in $MACS; do 
+###        for IFACE in $IFACES; do
+###            echo sudo etherwake -i $IFACE $MAC;
+###            sudo etherwake -i $IFACE $MAC;
+###        done
+###   done
+###} 
