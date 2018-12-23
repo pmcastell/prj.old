@@ -1,4 +1,4 @@
-FICH_TEMP=/tmp/tmp.tmp.tmp
+TEMP=$(tempfile)
 TAM_FICHERO=0
 WGET_COMMAND="wget --proxy-user=usuario --proxy-password=usuario "
 URL="ftp://ftp.nai.com/pub/datfiles/english"
@@ -21,12 +21,12 @@ fi
 
 ###por la junta
 while [ $TAM_FICHERO -le 1000000 ]; do 
-   ###if [ -f $FICH_TEMP ]; then eecho rm $FICH_TEMP; fi
-   ###echo $WGET_COMMAND  -S -O - $URL/ '2>&1 | grep -i tar | tee' $FICH_TEMP
-   #$WGET_COMMAND  -S -O - $URL/ 2>&1 | grep -i tar | tee $FICH_TEMP
-   ###TEMP=$($WGET_COMMAND  -S -O - $URL/ 2>&1 | grep -i tar | tee $FICH_TEMP)
+   ###if [ -f $TEMP ]; then eecho rm $TEMP; fi
+   ###echo $WGET_COMMAND  -S -O - $URL/ '2>&1 | grep -i tar | tee' $TEMP
+   #$WGET_COMMAND  -S -O - $URL/ 2>&1 | grep -i tar | tee $TEMP
+   ###TEMP=$($WGET_COMMAND  -S -O - $URL/ 2>&1 | grep -i tar | tee $TEMP)
    
-   ###NOMBRE=$(cat $FICH_TEMP | grep -Eo "avvdat.*tar" | tail -1)
+   ###NOMBRE=$(cat $TEMP | grep -Eo "avvdat.*tar" | tail -1)
    ###TAM_FICHERO=$(echo $TEMP | grep -Eo "([0-9]{7,9}|[0-9]{2,3}(\.[0-9]{3}){2})" | gawk -F'.' '{print $1$2$3; }' | head -1) 
    echo Obteniendo tam. de fichero: $NOMBRE
    INFO=$(wget ftp://ftp.nai.com:21/pub/datfiles/english/ -S --spider 2>&1 | grep tar | tail -1)
@@ -70,7 +70,7 @@ while [ $TAM_FICHERO -gt $TAM_NUEVO ]; do
    echo Descargado: $TAM_NUEVO;
    sleep 1
 done
-#rm $FICH_TEMP
+#rm $TEMP
 
 
 

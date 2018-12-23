@@ -37,7 +37,10 @@ espera_parada_mysql() {
 }   
 
 echo "UPDATE mysql.user SET Password=PASSWORD('$1') WHERE User='root'; " > /tmp/mysql.init
+#lo siguiente es para evitar que mysql sólo permita acceder como root de la base de datos al root del sistema operativo
+echo "UPDATE mysql.user SET plugin='mysql_native_password' WHERE User='root';" >> /tmp/mysql.init
 echo "FLUSH PRIVILEGES;" >> /tmp/mysql.init
+
 espera_parada_mysql
 sudo mysqld_safe --init-file=/tmp/mysql.init &
 sleep 2

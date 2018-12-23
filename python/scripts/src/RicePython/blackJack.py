@@ -42,7 +42,7 @@ class Card:
             self.rank = None
             self.facedUp=None
             self.pos=None
-            print "Invalid card: ", suit, rank
+            print("Invalid card: ", suit, rank)
 
     def __str__(self):
         return self.suit + self.rank
@@ -116,7 +116,7 @@ class Hand:
         if (card_index>=0 and card_index<len(self.cards)):
             self.cards[card_index].set_facedUp(facedUp)
         else:
-            print "Error card",card_index,"doen's exist in this hand"
+            print("Error card",card_index,"doen's exist in this hand")
             
     def draw(self, canvas, pos):
         pos=list(pos) # make a copy of pos not to modify original

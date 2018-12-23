@@ -32,7 +32,7 @@ class planet:
                 if (self.MAX_POS==1000000):
                     if (abs(self.x-self.positions[0][0])<=2 and abs(self.y-self.positions[0][0])<=2):
                         self.MAX_POS=len(self.positions)
-                        print self.color,self.MAX_POS
+                        print(self.color,self.MAX_POS)
                 if (len(self.positions)>self.MAX_POS):
                     self.positions.pop(0)
     def transform(self,point):

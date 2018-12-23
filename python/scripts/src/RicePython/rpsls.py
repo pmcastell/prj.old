@@ -27,7 +27,7 @@ def number_to_name(number):
     elif (number==4):
         return "scissors"
     else:
-        print "Error number is not in valid range [0,4]"
+        print("Error number is not in valid range [0,4]")
 
     
 def name_to_number(name):
@@ -45,7 +45,7 @@ def name_to_number(name):
     elif (name=="scissors"):
         return 4
     else:
-        print "Error name is not one valid name of rspls"
+        print("Error name is not one valid name of rspls")
 
 def rpsls(name): 
     # fill in your code below
@@ -67,11 +67,11 @@ def rpsls(name):
         
     # convert comp_number to name using number_to_name
     comp_name=number_to_name(comp_number)
-    # print results
-    print
-    print "Player chooses "+name
-    print "Computer chooses "+comp_name
-    print winner
+    # print(results
+    print()
+    print("Player chooses "+name)
+    print("Computer chooses "+comp_name)
+    print(winner)
     
 # test your code
 rpsls("rock")

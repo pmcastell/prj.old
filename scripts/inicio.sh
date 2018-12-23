@@ -347,7 +347,7 @@ startEpoptes() {
     sudo systemctl stop epoptes
     [ "$(ip a | grep '1c:1b:0d:0d:2d:71')" != "" ] && touch /tmp/epoptes/server.crt && epoptesServCiclo2ServerKey > /tmp/epoptes/server.key
     [ "$(ip a | grep '20:cf:30:90:dc:18')" != "" ] && epoptesServCiclo1ServerCrt > /tmp/epoptes/server.crt && epoptesServCiclo1ServerKey > /tmp/epoptes/server.key
-    [ -e /tmp/epoptes/server.key ] && sudo mv /tmp/epoptes/* /etc/epoptes && sudo chmod 600 /etc/epoptes/server.key && sudo chown root:root -R /etc/epoptes
+    [ -e /tmp/epoptes/server.key ] && sudo mv /tmp/epoptes/* /etc/epoptes/ && sudo chmod 600 /etc/epoptes/server.key && sudo chown root:root -R /etc/epoptes
     sudo systemctl start epoptes
 }    
 ###########################################################################################   

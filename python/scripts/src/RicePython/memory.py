@@ -15,7 +15,10 @@ number_of_moves=0
 # helper function to initialize globals
 def init():
     global cards, exposed, cards_per_row, state, last_pair, number_of_moves
-    cards=range(number_of_pairs); cards+=cards
+    cards=[]
+    for i in range(number_of_pairs):
+        cards.append(i); cards.append(i)
+    ###cards=range(number_of_pairs); cards+=cards
     random.shuffle(cards)
     exposed=[False for i in range(len(cards))]
     cards_per_row=int(math.sqrt(len(cards)))*2

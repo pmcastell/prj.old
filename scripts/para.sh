@@ -1,6 +1,5 @@
 OS=$(uname)
-if [ "$OS" = "FreeBSD" ];
-then
+if [ "$OS" = "FreeBSD" ]; then
    sudo /usr/local/etc/rc.d/samba stop
    sudo /usr/local/etc/rc.d/cupsd stop
    sudo /usr/local/etc/rc.d/apache22 stop
@@ -11,6 +10,12 @@ then
    sudo /usr/local/etc/rc.d/avahi-daemon stop
    vino-preferences
 else
+   SERVICES="smbd cups apache2 ssh mysql rsync squid avahi-daemon dhclient"
+   CMD="sudo systemctl stop "
+   for s in $SERVICES; do 
+      $CMD $s
+   done
+   exit 0      
    sudo /etc/init.d/smbd stop
    sudo stop smbd
    sudo stop nmbd
