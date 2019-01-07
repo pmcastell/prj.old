@@ -27,6 +27,7 @@ alias ejoff="sudo /usr/bin/eject -i off /dev/sr0 "
 alias hs="history | grep -i "
 alias gtts="/home/usuario/programas/simple-google-tts/simple_google_tts "
 alias gttss="/home/usuario/programas/simple-google-tts/simple_google_tts es  "
+alias ff="fdisk -l | grep 'Disco /dev/sd' -A 15 | less "
 
 export IPLAYER_OUTDIR="/home/usuario/Escritorio/Varios/bbc"
 alias hi='hablai -n '
@@ -46,6 +47,10 @@ alias wwget="wget --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/2
 alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' "
 alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"
 alias vser="/scripts/vbrun SER200 "
+alias dfh="df -h | grep -v loop "
+
+
+
 #alias miMoodle="gksudo systemctl start apache2 mysql"
 #PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
 #CHHOME=/home/usuario/programas/ch6.3.0

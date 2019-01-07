@@ -102,9 +102,13 @@ mensaje() {
 casaAp() {
     WIFACE=$(wifiInterface)
     sudo $SCRIPTS/ponerRandomMAC.sh $WIFACE
-    INFO=$(wpaWifi -i $WIFACE)
-    RED=$(echo $INFO | awk '{print $1;}')
-    CHANNEL=$(echo $INFO | awk '{print $2;}')
+    INFO="$(sudo wpaWifi -i $WIFACE)"; RED="$(echo $INFO | awk '{print $1;}')"; 
+    ESSID="$(echo $INFO | awk '{print $3;}')"; CHANNEL=""
+###    CHANNEL=$(echo $INFO | awk '{print $2;}')
+    while true; do 
+        CHANNEL="$(sudo iwlist wlan0 scan essid MiCasa 2>/dev/null | grep -B 4 $ESSID | head -1 | awk -F':' '{print $2;}')"
+        [ "$CHANNEL" != "" ] && break
+    done
     sudo $SCRIPTS/iwApd.sh $WIFACE $CHANNEL "UbuPort" "172.18.1"
     wpaWifi $WIFACE
     ipConfig $WIFACE "${RED}.25" 24 "$RED.1"
@@ -351,9 +355,7 @@ startEpoptes() {
     sudo systemctl start epoptes
 }    
 ###########################################################################################   
-main "$@"
-exit 0
-
+(return 2>/dev/null) || main "$@"
 
 #######################################################################################
 ############### cuidado! no poner nada debajo, no se ejecutará ########################

@@ -1,5 +1,5 @@
 GLOBAL_ESPERA=300
-GLOBAL_TUN_IP=85.136.243.1
+GLOBAL_TUN_IP=95.123.83.166
 GLOBAL_TUN_PORT=443
 GLOBAL_TUN_SSH=si
 GLOBAL_TUN_OVP=no
@@ -163,4 +163,12 @@ raspberry_TUN_SSH_RED="10.$raspberry_TUN_SSH_DEV.$raspberry_TUN_SSH_DEV"
 raspberry_TUN_SSH_DEV_IP="$raspberry_TUN_SSH_RED.$raspberry_TUN_SSH_DEV"
 raspberry_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $raspberry_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $raspberry_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $raspberry_TUN_SSH_RED.0/24; "
 
-MD5SUM=1d02c36b4acade16e1ebab97d1bf1d61
+micasa6543_TUN_SSH_DEV="41"
+micasa6543_TUN_SSH="$GLOBAL_TUN_SSH"
+micasa6543_TUN_SSH_IP="$GLOBAL_TUN_IP"
+micasa6543_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
+micasa6543_TUN_SSH_RED="10.$micasa6543_TUN_SSH_DEV.$micasa6543_TUN_SSH_DEV"
+micasa6543_TUN_SSH_DEV_IP="$micasa6543_TUN_SSH_RED.$micasa6543_TUN_SSH_DEV"
+micasa6543_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $micasa6543_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $micasa6543_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $micasa6543_TUN_SSH_RED.0/24; "
+
+MD5SUM=15a2393a72e61659c82da1cb6c944a06

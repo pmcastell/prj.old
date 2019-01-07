@@ -22,10 +22,13 @@ resucita() {
         sleep 1
     done
 }    
+LOCK="/tmp/$(basename $0).lock"
+[ -f $LOCK ] && exit
+touch $LOCK
 G2="8.8.4.4"
 INTERFAZ="$1"
 IP="$2"
-GATEWAY="$3"
+[ "$3" = "" ] && GATEWAY="192.168.1.1" || GATEWAY="$3"
 while true; do 
     [ "$GATEWAY" = "" ] && GATEWAY=$(netstat -rn | grep -iE '(default|^0.0.0.0)' | tail -1 | awk '{ print $2;}' | grep -v 0.0.0.0 )
     [ "$GATEWAY" = "" ] && GATEWAY=192.168.1.1
@@ -38,10 +41,14 @@ while true; do
     ping -c 4 $G2
     [ $? -gt 0 ] && resucita $INTERFAZ $IP $GATEWAY
     sleep 10
-    [ "$(pgrep openvpn)" = "" ] && (redOpenvpn &)
-    [ "$(dirIp 4)" = "" ] && [ "$(dirIp2 4)" = "" ] && (redOpenvpn &)
-    [ "$(dirIp)" = "$(realIp)" ] && (redOpenvpn &)
-    DIR_ACT="$(dig ceuta6543.duckdns.org | grep -v '^;' | grep A | awk '{print $NF;}')"
-    [ "$DIR_ACT" != "$(realIp)" ] && /scripts/duckdns.sh ceuta6543 "" 3a115b52-3c62-42ac-93b4-47ed6ea18423 &
+    ([ -e /root/noVpn ] ) || 
+    ([ "$(pgrep openvpn)" = "" ] && (redOpenvpn &) ) ||
+    ([ "$(dirIp 4)" = "" ] && [ "$(dirIp2 4)" = "" ] && (redOpenvpn &) ) ||
+    ([ "$(dirIp)" = "$(realIp)" ] && (redOpenvpn &) )
+    [ "$(ip a | grep b8:27:eb:65:d2:ca)" != "" ] && HNAME="micasa6543"
+    [ "$(ip a | grep b8:27:eb:10:ee:38)" != "" ] && HNAME="ceuta6543"
+    DIR_ACT="$(dig ${HNAME}.duckdns.org | grep -v '^;' | grep A | awk '{print $NF;}')"
+    [ "$DIR_ACT" != "$(realIp)" ] && /scripts/duckdns.sh ${HNAME} "" 3a115b52-3c62-42ac-93b4-47ed6ea18423 
     sleep 10
 done    
+rm $LOCK

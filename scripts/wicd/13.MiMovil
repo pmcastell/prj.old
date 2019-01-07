@@ -1,13 +1,11 @@
 ap_scan=1
 ctrl_interface=/var/run/wpa_supplicant
 network={
-       ssid="MiCasa"
+       ssid="MiMovil"
        scan_ssid=1
        proto=WPA RSN
        key_mgmt=WPA-PSK
        pairwise=CCMP TKIP
        group=CCMP TKIP
-       psk=294d3965c322932573d73533140eb57d50bcbd4bde0c05d333804af80d3e32c2
-       #!RED=172.16.1
-       #!CHANNEL=N
+       psk=d52739a49ba4013ece79353ed0223d3ccf68dfb8983c4c0ba31eaa69ee56a99b
 }

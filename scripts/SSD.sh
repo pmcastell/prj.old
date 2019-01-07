@@ -22,7 +22,7 @@ LOOP=$(losetup -l | awk -F'/dev/loop' '{print $2;}' | awk '{print $1;}' | sort -
 LOOP=$(( $LOOP + 1 ))
 LOOP="/dev/loop${LOOP}"
 echo $LOOP
-sudo losetup -o 1048576  $LOOP /media/usuario/BACKUPS/MIOS/DiscosDuros/SSD-Sandisk-Ubu17.10.gz 
+sudo losetup -o $(( 2048 * 512 ))  $LOOP /media/usuario/BACKUPS/MIOS/DiscosDuros/SSD-Sandisk-Ubu17.10.gz 
 sudo fsck -fv $LOOP
 sudo mount $LOOP /SSD
 sudo mount --bind /dev /SSD/dev 

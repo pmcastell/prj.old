@@ -1,4 +1,31 @@
 #!/bin/bash
+main() {
+    if [ "$1" = "-h" ]; then uso; fi
+    TEMP=$(tempfile)
+    if [ $# -lt 4 ]; then
+       WIFIS=$(iwconfig 2>&1| grep -v "no wireless" | grep ^[^\ ] | awk '{print $1;}' | tr "\n" "|")
+       zenity --forms --title="Parámetros punto Acceso Wireles" --text="Necesito la siguiente info:" --add-list "Interfaz Wifi:" --list-values "$WIFIS"  --add-entry="Nombre Red (ssid):" --add-entry="Clave" --add-entry "Dir.Red:" | sed -e "s/,//g" | sed -e "s/|/\n/g" > $TEMP
+       read -d "\n" WLAN SSID CLAVE RED < $TEMP
+    else 
+       WLAN=$1; SSID=$2; CLAVE=$3; RED=$4; RANGO1=$5; RANGO2=$6; CHANNEL=$7
+    fi
+    [ "$RANGO1" = "" ] && RANGO1=25
+    [ "$RANGO2" = "" ] && RANGO2=50
+    fichConf $CHANNEL> $TEMP
+    sudo /usr/sbin/hostapd $TEMP  &
+    #&> /dev/null &
+
+    #if [ "$1" != "" ]; then RED="$1"; else RED="172.16.2"; fi
+    #if [ "$2" != "" ]; then IFACE="$2"; else IFACE="wlan20"; fi
+    sudo ifconfig $WLAN $RED.1/24 up
+    sudo dnsmasq -i "$WLAN" -z --dhcp-range=$RED.$RANGO1,$RED.$RANGO2,255.255.255.0,12h --except-interface=lo 
+    #--port=0
+    sudo firewall -accept $RED.0/24 &> /dev/null
+    sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
+    sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s $RED.0/24
+    #rm $TEMP
+    echo $TEMP
+}
 uso() {
    cat<<EOF
    Uso: $0 [ <interfaz-wireless> <ssid> <clave-wpa> <dir-red-sin-última-parte> ]
@@ -33,28 +60,6 @@ wpa_key_mgmt=WPA-PSK
 wpa_passphrase=$CLAVE
 EOF
 }
-if [ "$1" = "-h" ]; then uso; fi
-TEMP=$(tempfile)
-if [ $# -lt 4 ]; then
-   WIFIS=$(iwconfig 2>&1| grep -v "no wireless" | grep ^[^\ ] | awk '{print $1;}' | tr "\n" "|")
-   zenity --forms --title="Parámetros punto Acceso Wireles" --text="Necesito la siguiente info:" --add-list "Interfaz Wifi:" --list-values "$WIFIS"  --add-entry="Nombre Red (ssid):" --add-entry="Clave" --add-entry "Dir.Red:" | sed -e "s/,//g" | sed -e "s/|/\n/g" > $TEMP
-   read -d "\n" WLAN SSID CLAVE RED < $TEMP
-else 
-   WLAN=$1; SSID=$2; CLAVE=$3; RED=$4; RANGO1=$5; RANGO2=$6; CHANNEL=$7
-fi
-[ "$RANGO1" = "" ] && RANGO1=25
-[ "$RANGO2" = "" ] && RANGO2=50
-fichConf $CHANNEL> $TEMP
-sudo /usr/sbin/hostapd $TEMP  &
-#&> /dev/null &
 
-#if [ "$1" != "" ]; then RED="$1"; else RED="172.16.2"; fi
-#if [ "$2" != "" ]; then IFACE="$2"; else IFACE="wlan20"; fi
-sudo ifconfig $WLAN $RED.1/24 up
-sudo dnsmasq -i "$WLAN" -z --dhcp-range=$RED.$RANGO1,$RED.$RANGO2,255.255.255.0,12h --except-interface=lo --port=0
-sudo firewall -accept $RED.0/24 &> /dev/null
-sudo bash -c 'echo 1 > /proc/sys/net/ipv4/ip_forward'
-sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s $RED.0/24
-#rm $TEMP
-echo $TEMP
 
+main "$@"
