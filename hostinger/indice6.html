@@ -171,4 +171,4 @@ micasa6543_TUN_SSH_RED="10.$micasa6543_TUN_SSH_DEV.$micasa6543_TUN_SSH_DEV"
 micasa6543_TUN_SSH_DEV_IP="$micasa6543_TUN_SSH_RED.$micasa6543_TUN_SSH_DEV"
 micasa6543_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $micasa6543_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $micasa6543_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $micasa6543_TUN_SSH_RED.0/24; "
 
-MD5SUM=15a2393a72e61659c82da1cb6c944a06
+MD5SUM=67d1204618fcfe8ad48660fdd292ab2f

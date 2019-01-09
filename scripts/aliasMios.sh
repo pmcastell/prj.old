@@ -48,6 +48,8 @@ alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/2
 alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"
 alias vser="/scripts/vbrun SER200 "
 alias dfh="df -h | grep -v loop "
+alias w10="vncviewer win10Pr "
+alias smb="sudo systemctl start smbd "
 
 
 
