@@ -5,17 +5,11 @@ uso() {
    exit 1
 }
 info() {
-   echo "TEXTO: $TEXTO"
-   echo "SALIDA: $SALIDA"
-   echo "EXT: $EXT"
-   echo "VOZ: $VOZ"
-   echo "TEXT2WAVE: $TEXT2WAVE"
-   echo "TEMP: $TEMP"
+   echo "TEXTO: $TEXTO"; echo "SALIDA: $SALIDA"; echo "EXT: $EXT"
+   echo "VOZ: $VOZ"; echo "TEXT2WAVE: $TEXT2WAVE"; echo "TEMP: $TEMP"
 }   
-if [ "$1" = "" -o "$2" = "" ]; then uso; fi  
-TEXTO="$1"
-SALIDA="$2"
-EXT=$(echo $SALIDA | awk -F'.' '{print $2;}')
+([ "$1" = "" ] || [ "$2" = "" ]) && uso 
+TEXTO="$1"; SALIDA="$2"; EXT=$(echo $SALIDA | awk -F'.' '{print $2;}')
 [ "$EXT" != "wav" ] && [ "$EXT" != "mp3" ] && uso
 [ "$3" = "" ] && VOZ="(voice_JuntaDeAndalucia_es_sf_diphone)" || VOZ="(voice_${3})"
 TEMP=$(tempfile)

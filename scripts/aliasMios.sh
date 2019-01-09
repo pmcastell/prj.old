@@ -2,7 +2,7 @@
 . /scripts/scriptsCeuta/funcionesAula.sh
 . /scripts/aula/srvOn.sh
 fd() { 
-    for d in $(sudo fdisk -l 2>&1 | grep sd | grep -o /dev/sd. | uniq); do sudo fdisk -l $d; echo "------"; done
+    for d in $(sudo fdisk -l $1 2>&1 | grep sd | grep -o /dev/sd. | uniq); do sudo fdisk -l $d; echo "------"; done
 }    
 alias pi="ssh -p 443 usuario@172.16.1.1 "
 alias pir="ssh -p 443 root@172.16.1.1 "
@@ -27,7 +27,7 @@ alias ejoff="sudo /usr/bin/eject -i off /dev/sr0 "
 alias hs="history | grep -i "
 alias gtts="/home/usuario/programas/simple-google-tts/simple_google_tts "
 alias gttss="/home/usuario/programas/simple-google-tts/simple_google_tts es  "
-alias ff="fdisk -l | grep 'Disco /dev/sd' -A 15 | less "
+#alias ff="fdisk -l | grep 'Disco /dev/sd' -A 15 | less "
 
 export IPLAYER_OUTDIR="/home/usuario/Escritorio/Varios/bbc"
 alias hi='hablai -n '
@@ -47,10 +47,11 @@ alias wwget="wget --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/2
 alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' "
 alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"
 alias vser="/scripts/vbrun SER200 "
+alias vw10="/scripts/vbrun win10Pr "
 alias dfh="df -h | grep -v loop "
 alias w10="vncviewer win10Pr "
 alias smb="sudo systemctl start smbd "
-
+alias miMoo="sudo systemctl start apache2 mysql && (firefox -private -new-tab http://server/moodle &>/dev/null &)"
 
 
 #alias miMoodle="gksudo systemctl start apache2 mysql"

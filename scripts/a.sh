@@ -1,4 +1,4 @@
-#!/bin/bash -i
+#!/bin/bash 
 
 #shopt -s expand_aliases
 #cat aliasMios.sh | sed -e 's/alias/export/g')
@@ -11,8 +11,13 @@
 #CMD=$(alias | grep $1 | head -1 | awk -F"='" '{print $2;}' |awk -F"'" '{print $1;}')
 #shift
 #while [ "$1" != "" ]; do PARAMS="$PARAMS $1"; shift; done
-eval $@
+###eval "$@"
+# > /tmp/prueba.txt
 #echo $CMD "$PARAMS"
 #$CMD "$PARAMS"
 #PARAMS="$1"; shift
 #eval $CMD $PARAMS "\"$@\""
+. /scripts/aliasMios.sh
+CMD=$(alias $@ | awk -F'=' '{print $2;}' | sed -e "s/'\\\'//g" )
+CMD=${CMD:1:-1}
+(eval $CMD)&
