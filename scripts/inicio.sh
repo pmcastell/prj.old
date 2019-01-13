@@ -6,7 +6,7 @@ main() {
     #quitamos proxy 
     /usr/bin/gsettings set org.gnome.system.proxy mode 'none'
     setVars #establecer la variable RESOLV y SCRIPTS
-    [ "$(pgrep autokey-gtk)" = "" ] && (autokey-gtk &>/dev/null &)
+    #[ "$(pgrep autokey-gtk)" = "" ] && (autokey-gtk &>/dev/null &)
     #Parámetros de vpnbook
     if [ "$1" != "" ]; then VPN_BOOK_RED=$1; else VPN_BOOK_RED="ca222"; fi
     #sudo $SCRIPTS/hwEther.sh
@@ -109,7 +109,7 @@ casaAp() {
         CHANNEL="$(sudo iwlist wlan0 scan essid MiCasa 2>/dev/null | grep -B 4 $ESSID | head -1 | awk -F':' '{print $2;}')"
         [ "$CHANNEL" != "" ] && break
     done
-    sudo $SCRIPTS/iwApd.sh $WIFACE $CHANNEL "UbuPort" "172.18.1"
+####    sudo $SCRIPTS/iwApd.sh $WIFACE $CHANNEL "UbuPort" "172.18.1"
     wpaWifi $WIFACE
     ipConfig $WIFACE "${RED}.25" 24 "$RED.1"
     ifconfig $WIFACE    

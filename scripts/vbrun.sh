@@ -1,22 +1,30 @@
 #!/bin/bash
 
-[ "$1" = "" ] && MAQUINA=$(zenity --entry --title="Dime que máquina arranco" 2>/dev/null) || MAQUINA="$1"
-[ "$MAQUINA" = "" ] && zenity --info --text="Necesito saber que máquina arrancar" 2>/dev/null && exit 1
-VBOXVM="$(vboxmanage list vms | grep $MAQUINA | awk '{print $1;}' | tr -d '\"')"
-[ "$VBOXVM" != "$MAQUINA" ] && zenity --info --text="No encuentro la VM: $MAQUINA" && exit 2
-#echo "VBOXVM: $VBOXVM; MAQUINA: $MAQUINA" && echo "hola" && read
-vboxmanage startvm $MAQUINA --type headless &
-#Esto es por que a veces el firewall hacía cosas "raras" y no llegaba el ping a la tarjeta virtual
-for((i=1;i<30;i++)); do
-   [ "$(nmap ${MAQUINA} -p 5900 | grep open)" != "" ] && break
-   #ping -c 2 ${MAQUINA}
-   #[ $? -eq 0 ] && break
-   sleep 1
-done
-PORT="$(nmap -p 5900-5920 ser200 | grep open | egrep -o '^[0-9]{4}')"
-vncviewer $MAQUINA:$PORT &
+main() {
+    [ "$1" = "" ] && MAQUINA=$(zenity --entry --title="Dime que máquina arranco" 2>/dev/null) || MAQUINA="$1"
+    [ "$MAQUINA" = "" ] && zenity --info --text="Necesito saber que máquina arrancar" 2>/dev/null && exit 1
+    VBOXVM="$(vboxmanage list vms | grep $MAQUINA | awk '{print $1;}' | tr -d '\"')"
+    [ "$VBOXVM" != "$MAQUINA" ] && zenity --info --text="No encuentro la VM: $MAQUINA" && exit 2
+    [ "$1" = "win10Pr" ] && (ps aux | grep vmrun | grep -q win10Pr) && zenity --info --text "La máquina ya está en uso con vmware" && exit 1
+    [ "$1" = "win10Pr" ] && sudo sed -i 's/10.10.10.10 win10Pr/10.10.10.110 win10Pr/g' /etc/hosts
+    #echo "VBOXVM: $VBOXVM; MAQUINA: $MAQUINA" && echo "hola" && read
+    vboxmanage startvm $MAQUINA --type headless &
+    vncConnect $MAQUINA
+}
+vncConnect() {
+    MAQUINA="$1"
+    #Esto es por que a veces el firewall hacía cosas "raras" y no llegaba el ping a la tarjeta virtual
+    for((i=1;i<40;i++)); do
+       [ "$(nmap ${MAQUINA} -p 5900-5920 | grep open)" != "" ] && break
+       #ping -c 2 ${MAQUINA}
+       #[ $? -eq 0 ] && break
+       sleep 1
+    done
+    PORT="$(nmap -p 5900-5920 ${MAQUINA} | grep open | egrep -o '^[0-9]{4}')"
+    vncviewer $MAQUINA:$PORT &
+}
+(return 2>/dev/null) || main "$@"
 
-exit 0
 
 #if [ "$(whoami)" != "root" ]; then gksudo $0: exit ; fi
 #script antiguo:

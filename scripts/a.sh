@@ -18,6 +18,7 @@
 #PARAMS="$1"; shift
 #eval $CMD $PARAMS "\"$@\""
 . /scripts/aliasMios.sh
-CMD=$(alias $@ | awk -F'=' '{print $2;}' | sed -e "s/'\\\'//g" )
+CMD=$(alias $1 | awk -F'=' '{print $2;}' | sed -e "s/'\\\'//g" )
 CMD=${CMD:1:-1}
-(eval $CMD)&
+shift
+(eval $CMD $@)&

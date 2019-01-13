@@ -47,11 +47,19 @@ alias wwget="wget --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/2
 alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' "
 alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"
 alias vser="/scripts/vbrun SER200 "
-alias vw10="/scripts/vbrun win10Pr "
+alias vbw10="/scripts/vbrun win10Pr "
+alias vmw10="/scripts/vmr win10Pr "
+### /l/VMS/vmware/win10Pr/Windows\ 10\ x64.vmx nogui"
 alias dfh="df -h | grep -v loop "
-alias w10="vncviewer win10Pr "
+###alias w10="vncviewer win10Pr &"
+alias w10="source /scripts/vbrun.sh && vncConnect win10Pr &"
 alias smb="sudo systemctl start smbd "
 alias miMoo="sudo systemctl start apache2 mysql && (firefox -private -new-tab http://server/moodle &>/dev/null &)"
+alias prox="ssh -D 10.10.10.100:9999 -N usuario@localhost &"
+alias python="ipython "
+alias rprox="ssh -L 10.10.10.100:3128:172.16.1.1:3128 -N usuario@localhost &"
+
+
 
 
 #alias miMoodle="gksudo systemctl start apache2 mysql"

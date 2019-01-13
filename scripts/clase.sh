@@ -1,13 +1,11 @@
 mataClase() {
     PID=$(ps aux | grep -i x11vnc | grep 5900 | grep -v grep | awk '{print $2;}' | head -1)
-    while [ "$PID" != "" ];
-    do
+    while [ "$PID" != "" ]; do
         kill -TERM $PID
         PID=$(ps aux | grep -i x11vnc | grep 5900 | grep -v grep | awk '{print $2;}' | head -1)
     done
 }    
-if [ "$1" = "stop" ];
-then
+if [ "$1" = "stop" ]; then
     mataClase
     sudo firewall
 else    
@@ -17,6 +15,7 @@ else
     echo '3) SMR2'
     echo '4) Otros (sólo activa x11vnc no el firewall)'
     read clase
+    clase="$(menu DAM1 DAM2 SMR2)"
     case $clase in
         1) sudo firewall DAM1
         ;;
