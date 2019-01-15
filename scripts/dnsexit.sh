@@ -14,7 +14,8 @@ HOST=$1
 IP_ULTIMA=$(dig $HOST | grep -E "^$HOST" | grep IN | grep A | awk '{print $NF;}')
 if [ "$2" != "" ]; then IP_ACTUAL=$2; else IP_ACTUAL=$(realIp); fi
 if [ "$IP_ACTUAL" != "$IP_ULTIMA" ]; then
-   eecho wget "http://update.dnsexit.com/RemoteUpdate.sv?login=$LOGIN&password=$PASSWORD&host=$HOST&myip=$IP_ACTUAL" -O /tmp/dnsexit.inf 2> /dev/null
+###   eecho wget "http://update.dnsexit.com/RemoteUpdate.sv?login=$LOGIN&password=$PASSWORD&host=$HOST&myip=$IP_ACTUAL" -O /tmp/dnsexit.inf &> /dev/null
+   curl "http://update.dnsexit.com/RemoteUpdate.sv?login=$LOGIN&password=$PASSWORD&host=$HOST&myip=$IP_ACTUAL" -o /tmp/dnsexit.inf &> /dev/null
    cat /tmp/dnsexit.inf
    echo ----------------------
 else

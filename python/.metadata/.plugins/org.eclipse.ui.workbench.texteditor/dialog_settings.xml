@@ -6,23 +6,24 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="obtenerFicheroGitHub" key="selection"/>
+		<item value="try:" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
-			<item value="obtenerficherogithub"/>
+			<item value="try:"/>
+			<item value="randint("/>
+			<item value="RANDINT"/>
+			<item value="TUN_SSH"/>
+			<item value="procesarParametros"/>
+			<item value="procesarparametros"/>
+			<item value="looptunel"/>
+			<item value="obtenerparametros"/>
+			<item value="loopTunel"/>
+			<item value="start("/>
+			<item value="sshConfig"/>
 			<item value="sshconfig"/>
-			<item value="install"/>
-			<item value="MD5("/>
-			<item value="md5("/>
-			<item value="iv"/>
-			<item value="obtenerClavesFtp"/>
-			<item value="obtenerclavesftp"/>
-			<item value="obtenerficheroindi"/>
-			<item value="/tmp"/>
-			<item value="TMP_DIR"/>
 		</list>
 		<list key="replacehistory">
 		</list>

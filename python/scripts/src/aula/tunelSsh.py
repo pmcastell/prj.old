@@ -464,12 +464,39 @@ def mata(dev):
     except:
         commandsMata(dev)        
 
-def procesarParametros():
+def repasarParametros(param):
+    if (param['TUN_SSH_DEV']==""):
+        param['TUN_SSH_DEV']=str(random.randint(70,100));
+        param['TUN_SSH_DEV_IP']=param['TUN_SSH_DEV_IP'].replace("...",".")
+        RED=param['TUN_SSH_DEV_IP']+param['TUN_SSH_DEV']+"."+param['TUN_SSH_DEV']
+        param['TUN_SSH_DEV_IP']=RED+"."+param['TUN_SSH_DEV']
+        param['TUN_SSH_DEV_GW']=RED+".1"
+        
+    if (re.match(r'([0-9]{1,3}\.){3}[0-9]{1,3}',param['TUN_SSH_IP'])==None):
+        print("Error. No se ha podido obtener la dirección del servidor.")
+        print(param); sys.exit(10);
+    try:
+        PORT=int(param['TUN_SSH_PORT'])
+        if (PORT<0 or PORT>65535):
+            print("Error el puerto "+str(PORT)+" no es válido.")
+            print(param)
+            sys.exit(10)
+    except:
+        print("Puerto no válido: "+param['TUN_SSH_PORT'])
+        sys.exit(10)
+    print(param)
+    sys.exit(1)
+    
+        
+        
+              
+
+def procesarParametros(h=None):
     from collections import OrderedDict
     tmpFile=tempfile.mktemp()
     obtenerFicheroIndice(salida=tmpFile)
     fp=open(tmpFile,"r")
-    h=hostname()
+    if (h==None): h=hostname()
     if DEBUG: h="aula1srv"
     res=OrderedDict()
     for p in fp:
@@ -503,6 +530,8 @@ def procesarParametros():
         parametros['TUN_SSH_DEV_IP']=res[h+"_TUN_SSH_DEV_IP"]
         parametros['TUN_SSH_DEV_GW']=res[h+"_TUN_SSH_RED"]+".1"
         parametros['TUN_SSH_CMD']=res[h+"_TUN_SSH_CMD"]
+        repasarParametros(parametros)
+        print("holita")
     except:
         pass
     return parametros
@@ -544,7 +573,7 @@ def tunelSSH(param):
     cmds.append("ip link set tun"+DEV+" up")
     cmds.append("/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24 &> /dev/null")
     cmds.append("/sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s 10."+DEV+"."+DEV+".0/24")
-    for j in range(10):
+    for _ in range(10):
         for i in range(len(cmds)):
             print(cmds[i])
             if not DEBUG: os.system(cmds[i])
@@ -574,7 +603,10 @@ def loopTunel():
     while (horaComienzo==time.strftime("%H")):
         if (not conexionEstablecida):
             parametros=procesarParametros()
+            if parametros=={} or not 'TUN_SSH' in parametros.keys(): parametros=procesarParametros("generico")
             debug("Parametros:",parametros)
+        if ('TUN_SSH_DEV' in parametros.keys() and parametros['TUN_SSH_DEV']==''):
+            parametros['TUN_SSH_DEV']=str(random.randint(70,100))
         conexionEstablecida=False
         if (len(parametros)>0 and 'TUN_SSH' in parametros.keys() and parametros['TUN_SSH']=="si"):
             if (conexionActiva(parametros['TUN_SSH_DEV_GW'])):
@@ -703,7 +735,7 @@ def direccionIp(real=True,getDict=False,nuevo=False):
         sIps=cambiarRutaSitio(servicioIp)
         
     datos={}
-    for i in range(10):
+    for _ in range(10):
         resp=obtenerFicheroRed("http://"+servicioIp)
         if (resp):
             datos=eval(resp)
@@ -945,6 +977,7 @@ def esTipoRedHat(os):
     for s in redhats:
         if (os.find(s)>=0): return True
     return False
+
 def instalarTunel():
     debeSerAdmin()
     if (len(sys.argv)>2):

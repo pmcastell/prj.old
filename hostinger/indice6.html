@@ -1,5 +1,5 @@
 GLOBAL_ESPERA=300
-GLOBAL_TUN_IP=95.123.83.166
+GLOBAL_TUN_IP=95.121.44.136
 GLOBAL_TUN_PORT=443
 GLOBAL_TUN_SSH=si
 GLOBAL_TUN_OVP=no
@@ -91,13 +91,13 @@ Free10_TUN_SSH_IP=$GLOBAL_TUN_IP
 Free10_TUN_SSH_PORT=$GLOBAL_TUN_PORT
 Free10_TUN_SSH_DEV=29
 
-ubuntu_TUN_SSH_DEV="88"
-ubuntu_TUN_SSH="$GLOBAL_TUN_SSH"
-ubuntu_TUN_SSH_IP="$GLOBAL_TUN_IP"
-ubuntu_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
-ubuntu_TUN_SSH_RED="10.$ubuntu_TUN_SSH_DEV.$ubuntu_TUN_SSH_DEV"
-ubuntu_TUN_SSH_DEV_IP="$ubuntu_TUN_SSH_RED.$ubuntu_TUN_SSH_DEV"
-ubuntu_TUN_SSH_CMD="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $ubuntu_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $ubuntu_TUN_SSH_RED.0/24; "
+ubunto_TUN_SSH_DEV="88"
+ubunto_TUN_SSH="$GLOBAL_TUN_SSH"
+ubunto_TUN_SSH_IP="$GLOBAL_TUN_IP"
+ubunto_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
+ubunto_TUN_SSH_RED="10.$ubunto_TUN_SSH_DEV.$ubunto_TUN_SSH_DEV"
+ubunto_TUN_SSH_DEV_IP="$ubunto_TUN_SSH_RED.$ubunto_TUN_SSH_DEV"
+ubunto_TUN_SSH_CMD="/sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $ubunto_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $ubunto_TUN_SSH_RED.0/24; "
 
 sysresccd_TUN_SSH_DEV="6"
 sysresccd_TUN_SSH="$GLOBAL_TUN_SSH"
@@ -158,7 +158,7 @@ CentOS7_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $CentOS7_TUN_SSH_DEV
 raspberry_TUN_SSH_DEV="40"
 raspberry_TUN_SSH="$GLOBAL_TUN_SSH"
 raspberry_TUN_SSH_IP="$GLOBAL_TUN_IP"
-raspberry_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
+raspberry_TUN_SSH_PORT="$GLOBAL_TUN_PORT"random.randint(1,100)
 raspberry_TUN_SSH_RED="10.$raspberry_TUN_SSH_DEV.$raspberry_TUN_SSH_DEV"
 raspberry_TUN_SSH_DEV_IP="$raspberry_TUN_SSH_RED.$raspberry_TUN_SSH_DEV"
 raspberry_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $raspberry_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $raspberry_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $raspberry_TUN_SSH_RED.0/24; "
@@ -171,4 +171,13 @@ micasa6543_TUN_SSH_RED="10.$micasa6543_TUN_SSH_DEV.$micasa6543_TUN_SSH_DEV"
 micasa6543_TUN_SSH_DEV_IP="$micasa6543_TUN_SSH_RED.$micasa6543_TUN_SSH_DEV"
 micasa6543_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $micasa6543_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $micasa6543_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $micasa6543_TUN_SSH_RED.0/24; "
 
-MD5SUM=67d1204618fcfe8ad48660fdd292ab2f
+generico_TUN_SSH_DEV=""
+generico_TUN_SSH="$GLOBAL_TUN_SSH"
+generico_TUN_SSH_IP="$GLOBAL_TUN_IP"
+generico_TUN_SSH_PORT="$GLOBAL_TUN_PORT"
+generico_TUN_SSH_RED="10.$generico_TUN_SSH_DEV.$generico_TUN_SSH_DEV"
+generico_TUN_SSH_DEV_IP="$generico_TUN_SSH_RED.$generico_TUN_SSH_DEV"
+generico_TUN_SSH_CMD="/sbin/route add -net 172.124.0.0/16 gw $generico_TUN_SSH_DEV_IP; /sbin/iptables -t nat -D POSTROUTING -j MASQUERADE -s $generico_TUN_SSH_RED.0/24 &> /dev/null; /sbin/iptables -t nat -A POSTROUTING -j MASQUERADE -s $generico_TUN_SSH_RED.0/24; "
+
+
+MD5SUM=c0b6bc91b1242e800e819c1381772fd6
