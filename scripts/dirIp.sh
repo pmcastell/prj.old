@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 URL="http://checkip.dyndns.org"
 URL="http://www.vermiip.es"
