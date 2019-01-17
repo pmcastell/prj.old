@@ -1,4 +1,5 @@
 #!/bin/bash
+
 URL="http://checkip.dyndns.org"
 URL="http://www.vermiip.es"
 [ "$1" != "" ] && TIMEOUT="--timeout $1"
