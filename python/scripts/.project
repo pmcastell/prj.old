@@ -14,11 +14,4 @@
 	<natures>
 		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
-	<linkedResources>
-		<link>
-			<name>src/trim.py</name>
-			<type>1</type>
-			<location>/mnt/m/Mios/utils/trim.py</location>
-		</link>
-	</linkedResources>
 </projectDescription>

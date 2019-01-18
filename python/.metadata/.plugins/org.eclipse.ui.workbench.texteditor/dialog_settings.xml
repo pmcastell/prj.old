@@ -6,24 +6,20 @@
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="false" key="isRegEx"/>
-		<item value="try:" key="selection"/>
+		<item value="" key="selection"/>
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="true" key="wrap"/>
 		<item value="false" key="wholeword"/>
 		<list key="findhistory">
+			<item value="all"/>
+			<item value="capitalizar"/>
+			<item value="Capitalizar"/>
+			<item value="todo"/>
 			<item value="try:"/>
 			<item value="randint("/>
 			<item value="RANDINT"/>
 			<item value="TUN_SSH"/>
-			<item value="procesarParametros"/>
-			<item value="procesarparametros"/>
-			<item value="looptunel"/>
-			<item value="obtenerparametros"/>
-			<item value="loopTunel"/>
-			<item value="start("/>
-			<item value="sshConfig"/>
-			<item value="sshconfig"/>
 		</list>
 		<list key="replacehistory">
 		</list>

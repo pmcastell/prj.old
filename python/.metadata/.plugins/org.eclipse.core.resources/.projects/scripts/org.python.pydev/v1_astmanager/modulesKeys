@@ -29,6 +29,7 @@ aula.bak.opensslEncryptDecrypt|/home/usuario/MEGAsync/Mios/Instituto/prj/python/
 aula.bak.pruebas|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/aula/bak/pruebas.py
 aula.bak.tunelSsh2|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/aula/bak/tunelSsh2.py
 aula.tunelSsh|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/aula/tunelSsh.py
+bak.trim|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/bak/trim.py
 capitalize|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/capitalize.py
 combinaciones|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/combinaciones.py
 cumples|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/cumples.py
@@ -54,7 +55,6 @@ pasarLista|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/pasarLis
 prueba|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/prueba.py
 rae|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/rae.py
 trim|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/trim.py
-trim2|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/trim2.py
 tunelSsh|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/tunelSsh.py
 txt2MoodleXml|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/txt2MoodleXml.py
 wlanxxxx|/home/usuario/MEGAsync/Mios/Instituto/prj/python/scripts/src/wlanxxxx.py
