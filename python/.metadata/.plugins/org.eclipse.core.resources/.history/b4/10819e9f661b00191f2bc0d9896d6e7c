@@ -115,7 +115,7 @@ while (i<len(sys.argv)):
         os.chdir(arch)
     elif (os.path.isfile(arch)):
         renombrarFichero(arch, quitar, reemplazar, capitalizar, renumerar, seqNumber())
-        if (i>=len(sys.argv)): sys.exit(0)
+        if (i>=len(sys.argv):sys.exit(0)
     i+=1
 renombraRecursivo(quitar,recursivo,reemplazar,capitalizar,renumerar,todo)
 
