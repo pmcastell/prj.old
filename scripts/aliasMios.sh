@@ -59,9 +59,11 @@ alias miMoo="sudo systemctl start apache2 mysql && (firefox -private -new-tab ht
 alias prox="ssh -D 10.10.10.100:9999 -N usuario@localhost &"
 alias python="ipython "
 alias rprox="ssh -L 10.10.10.100:3128:172.16.1.1:3128 -N usuario@localhost &"
-
-
-
+alias gci="google-chrome --incognito "
+alias gc="google-chrome "
+alias wprox="ssh -L 0.0.0.0:3128:51.38.71.101:8080 -N usuario@localhost "
+alias kv="kvm -machine q35 -soundhw hda -vga vmware -k es -boot menu=on -localtime "
+alias kvd="kvm -machine q35 -soundhw hda -vga vmware -k es -boot menu=on -localtime -boot d -cdrom "
 
 #alias miMoodle="gksudo systemctl start apache2 mysql"
 #PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"
