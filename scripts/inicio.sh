@@ -149,7 +149,7 @@ setVars() {
 Instituto() {
     #Ciclos
     ###sudo $SCRIPTS/redInstiCable.sh
-    /scripts/aula/espejo.sh off on
+    /scripts/aula/espejo.sh off
     sudo killall dhclient
     ipConfig
     sudo firewall
