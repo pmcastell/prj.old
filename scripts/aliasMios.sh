@@ -1,6 +1,6 @@
 #!/bin/bash
 . /scripts/scriptsCeuta/funcionesAula.sh
-. /scripts/aula/srvOn.sh
+. /scripts/srvOn.sh
 fd() { 
     for d in $(sudo fdisk -l $1 2>&1 | grep sd | grep -o /dev/sd. | uniq); do sudo fdisk -l $d; echo "------"; done
 }    
@@ -64,6 +64,37 @@ alias gc="google-chrome "
 alias wprox="ssh -L 0.0.0.0:3128:51.38.71.101:8080 -N usuario@localhost "
 alias kv="kvm -machine q35 -soundhw hda -vga vmware -k es -boot menu=on -localtime "
 alias kvd="kvm -machine q35 -soundhw hda -vga vmware -k es -boot menu=on -localtime -boot d -cdrom "
+alias yt="youtube-dl --write-srt --sub-lang es,en --sub-format srt -f bestvideo+bestaudio "
+alias srcd="kv -m 1024 -boot d -cdrom /l/ImagenesCdDvd/systemrescuecd-x86-5.3.2.iso "
+alias nat="(echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward) && sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.10.10.0/24 "
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #alias miMoodle="gksudo systemctl start apache2 mysql"
 #PROMPT_COMMAND="history -n; history -w; history -c; history -r; $PROMPT_COMMAND"

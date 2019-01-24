@@ -5,3 +5,4 @@ sudo ip address add 10.18.18.100/24 dev tap0
 sudo ip link set dev tap0 up
 sudo ip link set tap0 a 00:00:42:47:bf:28
 sudo ip tuntap add mode tap tap55
+sudo ip link delete tap0
