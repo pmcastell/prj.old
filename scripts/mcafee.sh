@@ -5,7 +5,7 @@ URL="ftp://ftp.nai.com/pub/datfiles/english"
 ###por la junta
 INTERFAZ=$(route -n | grep -iE '^0.0.0.0|default' | awk '{print $NF;}' | tail -1 )
 ROUTER=$(route -n | grep -iE '^0.0.0.0|default' | awk '{ print $2;}'| tail -1)
-IP=$(ifconfig $INTERFAZ | grep -i inet | awk '{print $2;}' | awk -F':' '{print $2;}'| head -1)
+IP=$(ip a show dev wlan0 | grep inet | egrep -o '([0-9]{1,3}\.){3}[0-9]{1,3}')
 RED=$(echo $IP | awk -F'.' '{print $1}')
 echo INTERFAZ: $INTERFAZ
 echo IP: $IP
@@ -29,7 +29,7 @@ while [ $TAM_FICHERO -le 1000000 ]; do
    ###NOMBRE=$(cat $TEMP | grep -Eo "avvdat.*tar" | tail -1)
    ###TAM_FICHERO=$(echo $TEMP | grep -Eo "([0-9]{7,9}|[0-9]{2,3}(\.[0-9]{3}){2})" | gawk -F'.' '{print $1$2$3; }' | head -1) 
    echo Obteniendo tam. de fichero: $NOMBRE
-   INFO=$(wget ftp://ftp.nai.com:21/pub/datfiles/english/ -S --spider 2>&1 | grep tar | tail -1)
+   INFO=$(curl ftp://ftp.nai.com:21/pub/datfiles/english/ 2> /dev/null | grep tar | tail -1)
    NOMBRE=$(echo $INFO | awk '{ print $NF;}')
    TAM_FICHERO=$(echo $INFO | awk '{ print $5;}')
    sleep 1;

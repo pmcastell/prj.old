@@ -3,7 +3,7 @@ main() {
     uso $1
     [ "$1" = "-p" ] && shift && PROXY="$1" && shift || PROXY="$(getProxy)"
     while [ "$1" != "" ]; do
-        eecho get_iplayer --subtitles --proxy  $PROXY $1
+        eecho get_iplayer --subtitles $PROXY $1
         shift
     done
 }    
@@ -23,8 +23,11 @@ getProxy() {
 ###   #PROXY=http://81.145.129.116:3128
 ###   PROXY=80.194.50.123:8080
 ###   PROXY=178.62.193.19:3128
-###   PROXY=51.38.71.101:8080
-    echo "http://62.254.14.227:61399"
+PROXY="http://62.254.14.227:61399"
+PROXY="http://51.38.71.101:8080"
+PROXY="http://5.148.128.44:80"
+    echo "--proxy $PROXY"
+    #echo ""
 }    
 
 (return 2>/dev/null) || main "$@"

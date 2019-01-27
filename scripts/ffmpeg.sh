@@ -46,3 +46,5 @@ ffmpeg -i 106.1.mp4       -b:v 240k -r 7.563059 -acodec mp3 -b:a 32k -af volume=
 #crear un vídeo a partir de una imagen y un fichero de audio
 #https://stackoverflow.com/questions/13824045/join-images-and-audio-to-result-video
 ffmpeg -i /tmp/universo.jpg -i TheLuckyNumber.mp3 -r 5 -acodec copy TheLuckyNumber.mp4
+# retrasar o adelantar subtítulos
+ffmpeg -itsoffset 44 -i Aquaman2018-English.srt Aquaman2018-English.en.srt

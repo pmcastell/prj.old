@@ -43,7 +43,7 @@ alias nem="nemo --no-desktop "
 
 alias n='ncal -M -b $(date +%Y) '
 
-alias wwget="wget --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' " 
+alias wwget="wget --show-progress --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' " 
 alias ccurl="curl --user-agent 'Mozilla/5.0 (Windows 10; en-En; rv:57.0) Gecko/20170422 Firefox/57.0' "
 alias ser="/scripts/kvnet.sh -m 1024 -hda /home/usuario/VirtualBox\ VMs/SER200/SERDisk.vmdk"
 alias vbser="/scripts/vbrun SER200 "
@@ -64,10 +64,10 @@ alias gc="google-chrome "
 alias wprox="ssh -L 0.0.0.0:3128:51.38.71.101:8080 -N usuario@localhost "
 alias kv="kvm -machine q35 -soundhw hda -vga vmware -k es -boot menu=on -localtime "
 alias kvd="kvm -machine q35 -soundhw hda -vga vmware -k es -boot menu=on -localtime -boot d -cdrom "
-alias yt="youtube-dl --write-srt --sub-lang es,en --sub-format srt -f bestvideo+bestaudio "
+alias yt="/usr/local/bin/youtube-dl --write-srt --sub-lang es,en --sub-format srt -f bestvideo+bestaudio "
 alias srcd="kv -m 1024 -boot d -cdrom /l/ImagenesCdDvd/systemrescuecd-x86-5.3.2.iso "
 alias nat="(echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward) && sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.10.10.0/24 "
-
+alias grepIp=" egrep -o '([0-9]{1,3}\.){3}[0-9]{1,3}' "
 
 
 
