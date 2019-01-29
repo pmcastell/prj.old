@@ -76,7 +76,7 @@ espera() {
    done < $FIFO
    if $DEBUG; then infor Salgo de espera COD: "|$COD|" "-" COD2: "|$COD2|" ; fi
 }   
-
+(return 2>/dev/null) || main "$@"
 
 ###exit 0
 

@@ -1,6 +1,7 @@
 #!/bin/bash
-. /scripts/scriptsCeuta/funcionesAula.sh
+#. /scripts/scriptsCeuta/funcionesAula.sh
 . /scripts/srvOn.sh
+. /scripts/scriptsCeuta/encenderAula.sh
 fd() { 
     for d in $(sudo fdisk -l $1 2>&1 | grep sd | grep -o /dev/sd. | uniq); do sudo fdisk -l $d; echo "------"; done
 }    
@@ -68,7 +69,7 @@ alias yt="/usr/local/bin/youtube-dl --write-srt --sub-lang es,en --sub-format sr
 alias srcd="kv -m 1024 -boot d -cdrom /l/ImagenesCdDvd/systemrescuecd-x86-5.3.2.iso "
 alias nat="(echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward) && sudo iptables -t nat -A POSTROUTING -j MASQUERADE -s 10.10.10.0/24 "
 alias grepIp=" egrep -o '([0-9]{1,3}\.){3}[0-9]{1,3}' "
-
+alias mojave="/scripts/vmr Mojave "
 
 
 

@@ -1,5 +1,5 @@
 #!/bin/bash
-DEBUG=true
+DEBUG=false
 main() {
     [ "$1" = "" ] && echo Uso: $0 '<nombre-usuario-para-entrar-en-grub>' && exit || USUARIO="$1"
     export DEST=""; export SUDO=""
@@ -7,9 +7,10 @@ main() {
     [ "$DEBUG" != "true" ] &&  DEST="/etc/grub.d" && SUDO="sudo"
     scriptHalt | $SUDO tee $DEST/60_mioHalt
     scriptGrubPass $USUARIO $(passPbkdf2 $USUARIO) | $SUDO tee $DEST/50_grubPass
-    [ -e $DEST/10_linux ] && [ ! -e $DEST/10_linux.original ] && $SUDO mv $DEST/10_linux $DEST/10_linux.original
+    [ -e $DEST/10_linux ] && [ ! -e $DEST/bak/10_linux.original ] && $SUDO mkdir $DEST/bak && $SUDO mv $DEST/10_linux $DEST/bak/10_linux.original
     script10Linux | base64 -d | $SUDO tee $DEST/10_linux &>/dev/null
     $SUDO chmod a+x $DEST/60_mioHalt $DEST/50_grubPass $DEST/10_linux
+    $SUDO update-grub2
 }    
 
 
