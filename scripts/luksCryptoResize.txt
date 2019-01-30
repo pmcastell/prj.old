@@ -1,0 +1,72 @@
+After fiddling around for a long time, and failing multiple times (thank god for backups) I was able to resize it. Here goes my guide.
+
+This assumes you have a partition table like mine: sda1 is swap and around 250MB, sda2 is a container with sda5 (our crypt volume) and a lot of free space in front of sda2, like so
+
+|sda1|sda2 (sda5)|free space|
+
+Boot to a LiveCD of your favourite distro. Run gparted and shrink your sda1 partition by around 20MB. This is because fdisk requires a buffer of unallocated space between the start of sda2 and sda5, dunno why. While you're at it increase the size of sda2 as far as it can go, all the way to the right. You should end up with
+
+|sda1|free space|sda2 (sda5)|
+
+Go ahead and launch fdisk
+
+sudo fdisk /dev/sda
+
+press p to print out the current partition scheme. Write down where sda5 starts.
+
+press d to delete first sda5 then sda2. Scary.
+
+Now press n to create a new volume. Press e to select type extended and number it 2. The defaults for start and end should be ok.
+
+Now create a new partition, type is Linux (should be default) and number it 5. The start value should be the same as the one you wrote down for sda5 before, the end value is the default one (as far as it can go).
+
+Press p again to be sure that everything is OK and press w to write your changes to disk.
+
+Reboot into your live CD again.
+
+If you open up gparted you should now have
+
+|sda1|sda2 (free space) (sda5)|
+
+Follow these steps:
+
+Decrypt your file system.
+
+sudo cryptsetup luksOpen /dev/sda5 crypt1
+
+Get the live CD to recognize (activate) your LVM.
+
+sudo vgscan --mknodes
+sudo vgchange -ay
+
+Resize the Crypt.
+
+sudo cryptsetup resize crypt1
+
+Resize the (LVM) Physical Volume.
+
+sudo pvresize /dev/mapper/crypt1
+
+Resize your root (LVM) Logical Volume.
+
+Unlock the (LVM) Physical Volume.
+
+ sudo pvchange -x y /dev/mapper/crypt1
+
+Resize the (LVM) Physical Volume.
+
+ sudo lvresize -l +100%FREE /dev/ubuntu-vg/root
+
+Re-lock the physical volume.
+
+ sudo pvchange -x n /dev/mapper/crypt1
+
+Resize the filesystem.
+
+sudo e2fsck -f /dev/mapper/ubuntu--vg-root
+sudo resize2fs -p /dev/mapper/ubuntu--vg-root
+
+Now you should be OK to reboot and if everything went well you should have a bigger encrypted partition.
+
+Note: This method has the downside of robbing you of around 20MB of swap. If the swap resize isn't done, fdisk won't let you write sda5 in the required position (which may lead to corruption, I suspect). This caveat is necessary until someone explains exactly what fdisk is doing behind the scenes and if there is any way to get it to do our bidding.
+
